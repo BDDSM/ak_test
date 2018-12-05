@@ -1526,7 +1526,8 @@
 					|						,Fl.Usercode
 					|					FROM [Frontol].[dbo].[FrontolLog] FL (nolock) 
 					|					
-					|					where FL.Datetime >= ''' + CONVERT(nchar, @opendate, 126) + ''' and FL.Datetime <= ''' + CONVERT(nchar, @closedate, 126) + '''
+					//|					where FL.Datetime >= ''' + CONVERT(nchar, @opendate, 126) + ''' and FL.Datetime <= ''' + CONVERT(nchar, @closedate, 126) + '''
+					|					where FL.Datetime >= ''' + CONVERT(nchar, DATEADD(DAY,1, @opendate), 126) + ''' and FL.Datetime <= ''' + CONVERT(nchar, DATEADD(DAY,1, @closedate), 126) + '''
 					|						and Fl.CATEG <> ''V'' '
 					|
 					|create table #ls (DateTime datetime, Action nvarchar(500), CashID int, Id bigint, USERCODE bigint) 
