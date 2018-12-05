@@ -1,0 +1,477 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/ikar"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/ikar"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<element name="country"
+			type="tns:Country"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="region"
+			type="tns:Region"/>
+	<element name="district"
+			type="tns:District"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="countryList"
+			type="tns:CountryList"/>
+	<element name="regionList"
+			type="tns:RegionList"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="districtList"
+			type="tns:DistrictList"/>
+	<element name="localityList"
+			type="tns:LocalityList"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="streetList"
+			type="tns:StreetList"/>
+	<element name="countryGuid"
+			type="bs:UUID"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="regionGuid"
+			type="bs:UUID"/>
+	<element name="districtGuid"
+			type="bs:UUID"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="localityGuid"
+			type="bs:UUID"/>
+	<complexType name="Country">
+		<annotation>
+			<documentation>Тип, описывающий страну.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название страны.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="fullName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Полное название страны, если имеется.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="englishName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Английское название страны.
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="code"
+							type="tns:Code"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Двухбуквенный код страны, соответствующий
+                                стандарту ISO 3166-1.
+                                В качестве кода используются буквы
+                                латинского алфавита.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="code3"
+							type="tns:Code3"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Трехбуквенный код страны, соответсвующий
+                                стандарту ISO 3166-1.
+                                В качестве кода используются буквы
+                                латинского алфавита.
+                            </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="FederalDistrict">
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="fullName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Полное название (содержить "федеральный
+                                округ").
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="shortName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Короткое название (без "федеральный округ").
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="abbreviation"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Аббревиатура.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="AddressObjectView">
+		<annotation>
+			<documentation>Обертка для адресных объектов различного уровня
+                (начиная с регионов страны, заканчивая улицами населенных пунктов)
+            </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название объекта (не содержит название типа
+                                объекта).
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="englishName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Английское название объекта.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="view"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Представление объекта (обычно это название +
+                                название типа объекта).
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="regionCode"
+							type="default:string"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Код региона. Например, 33 - Владимирский регион
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="type"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название типа адресного объекта (например,
+                                область, район или город).
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="countryGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Глобальный идентификатор страны, к которой
+                                относится данный объект.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="hasStreets"
+							type="xs:boolean"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Флаг, указывающий наличие улиц.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Region">
+		<annotation>
+			<documentation>Тип региона страны (обычно первый уровень в
+                адресной структуре).
+            </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:AddressObjectView"/>
+		</complexContent>
+	</complexType>
+	<complexType name="District">
+		<annotation>
+			<documentation>Тип района региона (обычно второй уровень в
+                адресной структуре).
+            </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:AddressObjectView">
+				<sequence>
+					<element name="regionGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Глобальный идентификатор рениона, к которому
+                                относится данный район.
+                            </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Locality">
+		<annotation>
+			<documentation>Тип населенного пункта (город, поселок, деревня и прочие).</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:AddressObjectView">
+				<sequence>
+					<element name="regionGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Глобальный идентификатор рениона, к которому
+                                относится данный населенный пункт.
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="districtGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Глобальный идентификатор района, к которому
+                                относится данный населенный пункт.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="cityGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Глобальный идентификатор города, к которому
+                                относится данный населенный пункт.
+                            </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Street">
+		<annotation>
+			<documentation>Тип улицы.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:AddressObjectView">
+				<sequence>
+					<element name="localityGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Глобальный идентификатор насленного пункта, к которому
+                                относится данная улица.
+                            </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="Address">
+		<default:sequence>
+			<default:element name="country"
+					type="tns:Country"
+					minOccurs="1"
+					maxOccurs="1"/>
+			<default:element name="federalDistrict"
+					type="tns:FederalDistrict"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="region"
+					type="tns:Region"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="district"
+					type="tns:District"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="locality"
+					type="tns:Locality"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="subLocality"
+					type="tns:Locality"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="street"
+					type="tns:Street"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="house"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="building"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="room"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="postIndex"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="postBox"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="addressView"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+			<default:element name="enAddressView"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="1"/>
+		</default:sequence>
+	</default:complexType>
+	<complexType name="CountryList">
+		<annotation>
+			<documentation>Тип-обертка для списка стран.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="country"
+							type="tns:Country"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="RegionList">
+		<default:annotation>
+			<default:documentation>Тип-обертка для списка регионов.
+            </default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:EntityList">
+				<default:sequence>
+					<default:element name="region"
+							type="tns:Region"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<complexType name="DistrictList">
+		<annotation>
+			<documentation>Тип-обертка для списка районов.
+            </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="district"
+							type="tns:District"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="LocalityList">
+		<default:annotation>
+			<default:documentation>Тип-обертка для списка населенных пунктов.
+            </default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:EntityList">
+				<default:sequence>
+					<default:element name="locality"
+							type="tns:Locality"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<complexType name="StreetList">
+		<annotation>
+			<documentation>Тип-обертка для списка улиц.
+            </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="street"
+							type="tns:Street"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="Code">
+		<annotation>
+			<documentation>Тип, описывающий двухсимвольный код страны.
+            </documentation>
+		</annotation>
+		<restriction base="xs:string">
+			<maxLength value="2"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="Code3">
+		<annotation>
+			<documentation>Тип, описывающий трехсимвольный код страны.
+            </documentation>
+		</annotation>
+		<restriction base="xs:string">
+			<maxLength value="3"/>
+		</restriction>
+	</simpleType>
+</schema>

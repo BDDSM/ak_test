@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoTime>CurrentOrLast</AutoTime>
+	<UsePostingMode>Auto</UsePostingMode>
+	<RepostOnWrite>true</RepostOnWrite>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ДатаНомер" id="38">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата номер</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата номер</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ДатаНомерРасширеннаяПодсказка" id="71"/>
+			<ChildItems>
+				<InputField name="Номер" id="1">
+					<DataPath>Объект.Number</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="НомерКонтекстноеМеню" id="2"/>
+					<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="72"/>
+				</InputField>
+				<InputField name="Дата" id="3">
+					<DataPath>Объект.Date</DataPath>
+					<TitleLocation>None</TitleLocation>
+					<EditMode>EnterOnInput</EditMode>
+					<Format>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ДФ='к"-й квартал"'</v8:content>
+						</v8:item>
+					</Format>
+					<EditFormat>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ДЛФ=D</v8:content>
+						</v8:item>
+					</EditFormat>
+					<ContextMenu name="ДатаКонтекстноеМеню" id="4"/>
+					<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="73"/>
+					<Events>
+						<Event name="OnChange">ДатаПриИзменении</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Организация" id="5">
+			<DataPath>Объект.Организация</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ОрганизацияКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="74"/>
+		</InputField>
+		<InputField name="ТипРозничнойТочки" id="47">
+			<DataPath>Объект.ТипРозничнойТочки</DataPath>
+			<ContextMenu name="ТипРозничнойТочкиКонтекстноеМеню" id="48"/>
+			<ExtendedTooltip name="ТипРозничнойТочкиРасширеннаяПодсказка" id="75"/>
+		</InputField>
+		<InputField name="КоличествоДнейМеждуИнкассациями" id="49">
+			<DataPath>Объект.КоличествоДнейМеждуИнкассациями</DataPath>
+			<ContextMenu name="КоличествоДнейМеждуИнкассациямиКонтекстноеМеню" id="50"/>
+			<ExtendedTooltip name="КоличествоДнейМеждуИнкассациямиРасширеннаяПодсказка" id="76"/>
+			<Events>
+				<Event name="OnChange">КоличествоДнейМеждуИнкассациямиПриИзменении</Event>
+			</Events>
+		</InputField>
+		<Table name="РасчетЛимитов" id="7">
+			<Representation>List</Representation>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.РасчетЛимитов</DataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="РасчетЛимитовКонтекстноеМеню" id="8"/>
+			<AutoCommandBar name="РасчетЛимитовКоманднаяПанель" id="9">
+				<ChildItems>
+					<ButtonGroup name="РасчетЛимитовГруппа1" id="59">
+						<ExtendedTooltip name="РасчетЛимитовГруппа1РасширеннаяПодсказка" id="77"/>
+						<ChildItems>
+							<Popup name="РасчетЛимитовГруппа2" id="60">
+								<Title>
+									<v8:item>
+										<v8:lang>ru</v8:lang>
+										<v8:content>Выгрузка</v8:content>
+									</v8:item>
+								</Title>
+								<ExtendedTooltip name="РасчетЛимитовГруппа2РасширеннаяПодсказка" id="78"/>
+								<ChildItems>
+									<Button name="РасчетЛимитовПометитьВыгрузку" id="61">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.ПометитьВыгрузку</CommandName>
+										<ExtendedTooltip name="РасчетЛимитовПометитьВыгрузкуРасширеннаяПодсказка" id="79"/>
+									</Button>
+									<Button name="РасчетЛимитовСнятьВыгрузку" id="62">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.СнятьВыгрузку</CommandName>
+										<ExtendedTooltip name="РасчетЛимитовСнятьВыгрузкуРасширеннаяПодсказка" id="80"/>
+									</Button>
+								</ChildItems>
+							</Popup>
+							<Popup name="РасчетЛимитовГруппа3" id="63">
+								<Title>
+									<v8:item>
+										<v8:lang>ru</v8:lang>
+										<v8:content>Печать</v8:content>
+									</v8:item>
+								</Title>
+								<ExtendedTooltip name="РасчетЛимитовГруппа3РасширеннаяПодсказка" id="81"/>
+								<ChildItems>
+									<Button name="РасчетЛимитовПометитьПечать" id="64">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.ПометитьПечать</CommandName>
+										<ExtendedTooltip name="РасчетЛимитовПометитьПечатьРасширеннаяПодсказка" id="82"/>
+									</Button>
+									<Button name="РасчетЛимитовСнятьПечать" id="65">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.СнятьПечать</CommandName>
+										<ExtendedTooltip name="РасчетЛимитовСнятьПечатьРасширеннаяПодсказка" id="83"/>
+									</Button>
+								</ChildItems>
+							</Popup>
+						</ChildItems>
+					</ButtonGroup>
+					<Button name="РасчетЛимитовЗаполнить" id="43">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.Заполнить</CommandName>
+						<ExtendedTooltip name="РасчетЛимитовЗаполнитьРасширеннаяПодсказка" id="84"/>
+					</Button>
+					<Button name="РасчетЛимитовЗаполнитТолькоНовымиТочками" id="58">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.ЗаполнитТолькоНовымиТочками</CommandName>
+						<ExtendedTooltip name="РасчетЛимитовЗаполнитТолькоНовымиТочкамиРасширеннаяПодсказка" id="85"/>
+					</Button>
+					<Button name="РасчетЛимитовЗаполнитьЗначениемИзШапки" id="57">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.ЗаполнитьЗначениемИзШапки</CommandName>
+						<ExtendedTooltip name="РасчетЛимитовЗаполнитьЗначениемИзШапкиРасширеннаяПодсказка" id="86"/>
+					</Button>
+				</ChildItems>
+			</AutoCommandBar>
+			<ExtendedTooltip name="РасчетЛимитовРасширеннаяПодсказка" id="87"/>
+			<SearchStringAddition name="РасчетЛимитовСтрокаПоиска" id="88">
+				<AdditionSource>
+					<Item>РасчетЛимитов</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="РасчетЛимитовСтрокаПоискаКонтекстноеМеню" id="89"/>
+				<ExtendedTooltip name="РасчетЛимитовСтрокаПоискаРасширеннаяПодсказка" id="90"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="РасчетЛимитовСостояниеПросмотра" id="91">
+				<AdditionSource>
+					<Item>РасчетЛимитов</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="РасчетЛимитовСостояниеПросмотраКонтекстноеМеню" id="92"/>
+				<ExtendedTooltip name="РасчетЛимитовСостояниеПросмотраРасширеннаяПодсказка" id="93"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="РасчетЛимитовУправлениеПоиском" id="94">
+				<AdditionSource>
+					<Item>РасчетЛимитов</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="РасчетЛимитовУправлениеПоискомКонтекстноеМеню" id="95"/>
+				<ExtendedTooltip name="РасчетЛимитовУправлениеПоискомРасширеннаяПодсказка" id="96"/>
+			</SearchControlAddition>
+			<ChildItems>
+				<LabelField name="РасчетЛимитовНомерСтроки" id="10">
+					<DataPath>Объект.РасчетЛимитов.LineNumber</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="РасчетЛимитовНомерСтрокиКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="РасчетЛимитовНомерСтрокиРасширеннаяПодсказка" id="97"/>
+				</LabelField>
+				<ColumnGroup name="РасчетЛимитовГруппа4" id="70">
+					<ExtendedTooltip name="РасчетЛимитовГруппа4РасширеннаяПодсказка" id="98"/>
+					<ChildItems>
+						<CheckBoxField name="РасчетЛимитовВыгружатьВБухгалтерию" id="68">
+							<DataPath>Объект.РасчетЛимитов.ВыгружатьВБухгалтерию</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Выгружать</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="РасчетЛимитовВыгружатьВБухгалтериюКонтекстноеМеню" id="69"/>
+							<ExtendedTooltip name="РасчетЛимитовВыгружатьВБухгалтериюРасширеннаяПодсказка" id="99"/>
+						</CheckBoxField>
+						<CheckBoxField name="РасчетЛимитовПечатать" id="66">
+							<DataPath>Объект.РасчетЛимитов.Печатать</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="РасчетЛимитовПечататьКонтекстноеМеню" id="67"/>
+							<ExtendedTooltip name="РасчетЛимитовПечататьРасширеннаяПодсказка" id="100"/>
+						</CheckBoxField>
+					</ChildItems>
+				</ColumnGroup>
+				<CheckBoxField name="РасчетЛимитовВГруппеРазвития" id="34">
+					<DataPath>Объект.РасчетЛимитов.ВГруппеРазвития</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>г.р.</v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="РасчетЛимитовВГруппеРазвитияКонтекстноеМеню" id="35"/>
+					<ExtendedTooltip name="РасчетЛимитовВГруппеРазвитияРасширеннаяПодсказка" id="101"/>
+					<Events>
+						<Event name="OnChange">РасчетЛимитовВГруппеРазвитияПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<InputField name="РасчетЛимитовПереходИзГруппыРазвития" id="51">
+					<DataPath>Объект.РасчетЛимитов.ПереходИзГруппыРазвития</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Переход из г.р.</v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="РасчетЛимитовПереходИзГруппыРазвитияКонтекстноеМеню" id="52"/>
+					<ExtendedTooltip name="РасчетЛимитовПереходИзГруппыРазвитияРасширеннаяПодсказка" id="102"/>
+				</InputField>
+				<InputField name="РасчетЛимитовПодразделение" id="12">
+					<DataPath>Объект.РасчетЛимитов.Подразделение</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="РасчетЛимитовПодразделениеКонтекстноеМеню" id="13"/>
+					<ExtendedTooltip name="РасчетЛимитовПодразделениеРасширеннаяПодсказка" id="103"/>
+				</InputField>
+				<InputField name="РасчетЛимитовДатаПриказа" id="36">
+					<DataPath>Объект.РасчетЛимитов.ДатаПриказа</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="РасчетЛимитовДатаПриказаКонтекстноеМеню" id="37"/>
+					<ExtendedTooltip name="РасчетЛимитовДатаПриказаРасширеннаяПодсказка" id="104"/>
+				</InputField>
+				<InputField name="РасчетЛимитовДатаПервогоОтчета" id="14">
+					<DataPath>Объект.РасчетЛимитов.ДатаПервогоОтчета</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата 1-го отч.</v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="РасчетЛимитовДатаПервогоОтчетаКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="РасчетЛимитовДатаПервогоОтчетаРасширеннаяПодсказка" id="105"/>
+				</InputField>
+				<ColumnGroup name="ГруппаЗаМесяц" id="32">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>За месяц:</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа за месяц</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Group>Horizontal</Group>
+					<ShowInHeader>true</ShowInHeader>
+					<HeaderDataPath>СтрокаМесяц</HeaderDataPath>
+					<ExtendedTooltip name="ГруппаЗаМесяцРасширеннаяПодсказка" id="106"/>
+					<ChildItems>
+						<InputField name="РасчетЛимитовОтработаноЗаМесяц" id="16">
+							<DataPath>Объект.РасчетЛимитов.ОтработаноЗаМесяц</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Отработано дней</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовОтработаноЗаМесяцКонтекстноеМеню" id="17"/>
+							<ExtendedTooltip name="РасчетЛимитовОтработаноЗаМесяцРасширеннаяПодсказка" id="107"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовОтработаноЗаМесяцПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовНаличныеЗаМесяц" id="20">
+							<DataPath>Объект.РасчетЛимитов.НаличныеЗаМесяц</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Наличные</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовНаличныеЗаМесяцКонтекстноеМеню" id="21"/>
+							<ExtendedTooltip name="РасчетЛимитовНаличныеЗаМесяцРасширеннаяПодсказка" id="108"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовНаличныеЗаМесяцПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовСреднийОборотЗаМесяц" id="24">
+							<DataPath>Объект.РасчетЛимитов.СреднийОборотЗаМесяц</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Средний оборот</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовСреднийОборотЗаМесяцКонтекстноеМеню" id="25"/>
+							<ExtendedTooltip name="РасчетЛимитовСреднийОборотЗаМесяцРасширеннаяПодсказка" id="109"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовСреднийОборотЗаМесяцПриИзменении</Event>
+							</Events>
+						</InputField>
+					</ChildItems>
+				</ColumnGroup>
+				<ColumnGroup name="ГруппаЗаКвартал" id="33">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>За квартал:</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа за квартал</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Group>Horizontal</Group>
+					<ShowInHeader>true</ShowInHeader>
+					<HeaderDataPath>СтрокаКвартал</HeaderDataPath>
+					<ExtendedTooltip name="ГруппаЗаКварталРасширеннаяПодсказка" id="110"/>
+					<ChildItems>
+						<InputField name="РасчетЛимитовОтработаноЗаКвартал" id="18">
+							<DataPath>Объект.РасчетЛимитов.ОтработаноЗаКвартал</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Отработано дней</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовОтработаноЗаКварталКонтекстноеМеню" id="19"/>
+							<ExtendedTooltip name="РасчетЛимитовОтработаноЗаКварталРасширеннаяПодсказка" id="111"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовОтработаноЗаКварталПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовНаличныеЗаКвартал" id="22">
+							<DataPath>Объект.РасчетЛимитов.НаличныеЗаКвартал</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Наличные</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовНаличныеЗаКварталКонтекстноеМеню" id="23"/>
+							<ExtendedTooltip name="РасчетЛимитовНаличныеЗаКварталРасширеннаяПодсказка" id="112"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовНаличныеЗаКварталПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовСреднийОборотЗаКвартал" id="26">
+							<DataPath>Объект.РасчетЛимитов.СреднийОборотЗаКвартал</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Средний оборот</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовСреднийОборотЗаКварталКонтекстноеМеню" id="27"/>
+							<ExtendedTooltip name="РасчетЛимитовСреднийОборотЗаКварталРасширеннаяПодсказка" id="113"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовСреднийОборотЗаКварталПриИзменении</Event>
+							</Events>
+						</InputField>
+					</ChildItems>
+				</ColumnGroup>
+				<ColumnGroup name="ГруппаЛимит" id="44">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Лимит</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа лимит</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Group>Horizontal</Group>
+					<ShowInHeader>true</ShowInHeader>
+					<ExtendedTooltip name="ГруппаЛимитРасширеннаяПодсказка" id="114"/>
+					<ChildItems>
+						<InputField name="РасчетЛимитовКоличествоДнейМеждуИнкассациями1" id="55">
+							<DataPath>Объект.РасчетЛимитов.КоличествоДнейМеждуИнкассациями</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Кол. дней между инк.</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="РасчетЛимитовКоличествоДнейМеждуИнкассациями1КонтекстноеМеню" id="56"/>
+							<ExtendedTooltip name="РасчетЛимитовКоличествоДнейМеждуИнкассациями1РасширеннаяПодсказка" id="115"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовКоличествоДнейМеждуИнкассациями1ПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовЛимитЗаМесяц" id="28">
+							<DataPath>Объект.РасчетЛимитов.ЛимитЗаМесяц</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>За месяц</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовЛимитЗаМесяцКонтекстноеМеню" id="29"/>
+							<ExtendedTooltip name="РасчетЛимитовЛимитЗаМесяцРасширеннаяПодсказка" id="116"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовЛимитЗаМесяцПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовЛимитЗаКвартал" id="30">
+							<DataPath>Объект.РасчетЛимитов.ЛимитЗаКвартал</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>За квартал</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовЛимитЗаКварталКонтекстноеМеню" id="31"/>
+							<ExtendedTooltip name="РасчетЛимитовЛимитЗаКварталРасширеннаяПодсказка" id="117"/>
+							<Events>
+								<Event name="OnChange">РасчетЛимитовЛимитЗаКварталПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="РасчетЛимитовЛимитИтоговый" id="45">
+							<DataPath>Объект.РасчетЛимитов.ЛимитИтоговый</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Итоговый</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<Width>1</Width>
+							<ContextMenu name="РасчетЛимитовЛимитИтоговыйКонтекстноеМеню" id="46"/>
+							<ExtendedTooltip name="РасчетЛимитовЛимитИтоговыйРасширеннаяПодсказка" id="118"/>
+						</InputField>
+					</ChildItems>
+				</ColumnGroup>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DocumentObject.УстановкаЛимитовКассы</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+			<UseAlways>
+				<Field>Объект.RegisterRecords</Field>
+			</UseAlways>
+		</Attribute>
+		<Attribute name="ДатаСтарая" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата старая</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:dateTime</v8:Type>
+				<v8:DateQualifiers>
+					<v8:DateFractions>Date</v8:DateFractions>
+				</v8:DateQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ЛимитГруппыРазвития" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Лимит группы развития</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СтрокаМесяц" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Строка месяц</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СтрокаКвартал" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Строка квартал</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Заполнить" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ДействиеЗаполнить</Action>
+		</Command>
+		<Command name="ЗаполнитьЗначениемИзШапки" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить значением (Кол. дней) из шапки</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить значением из шапки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьЗначениемИзШапки</Action>
+		</Command>
+		<Command name="ЗаполнитТолькоНовымиТочками" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнит только новыми точками</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнит только новыми точками</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитТолькоНовымиТочками</Action>
+		</Command>
+		<Command name="ПометитьПечать" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Пометить печать</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Пометить печать</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.CheckAll</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>ПометитьПечать</Action>
+		</Command>
+		<Command name="СнятьПечать" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Снять печать</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Снять печать</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.UncheckAll</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>СнятьПечать</Action>
+		</Command>
+		<Command name="ПометитьВыгрузку" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Пометить выгрузку</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Пометить выгрузку</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.CheckAll</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>ПометитьВыгрузку</Action>
+		</Command>
+		<Command name="СнятьВыгрузку" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Снять выгрузку</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Снять выгрузку</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.UncheckAll</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>СнятьВыгрузку</Action>
+		</Command>
+	</Commands>
+</Form>

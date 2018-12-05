@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПоступления</dataPath>
+			<field>ДатаПоступления</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номенклатура</dataPath>
+			<field>Номенклатура</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОтчетТехнолога</dataPath>
+			<field>ОтчетТехнолога</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Технолог</dataPath>
+			<field>Технолог</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Характеристика</dataPath>
+			<field>Характеристика</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Процент</dataPath>
+			<field>Процент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВсегоТоваров</dataPath>
+			<field>ВсегоТоваров</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПроизводства</dataPath>
+			<field>ДатаПроизводства</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(ПриходныйОрдерСкладТовары.Ссылка.Дата, ЧАС, -&amp;СдвигНачалаСмены), ДЕНЬ) КАК ДатаНачалаСмены,
+	СпрНоменклатура.Ссылка КАК Номенклатура,
+	СпрХарактеристикиНоменклатуры.Ссылка КАК Характеристика,
+	МАКСИМУМ(ПриходныйОрдерСкладТовары.Ссылка.ДатаВремяЗаездаМашины) КАК ДатаПоступления,
+	ПриходныйОрдерСкладТовары.ДатаПроизводства
+ПОМЕСТИТЬ ВТ_Товары
+ИЗ
+	Документ.ПриходныйОрдерСклад.Товары КАК ПриходныйОрдерСкладТовары
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Справочник.ХарактеристикиНоменклатуры КАК СпрХарактеристикиНоменклатуры
+		ПО ПриходныйОрдерСкладТовары.Характеристика = СпрХарактеристикиНоменклатуры.Ссылка
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Справочник.Номенклатура КАК СпрНоменклатура
+		ПО ПриходныйОрдерСкладТовары.Номенклатура = СпрНоменклатура.Ссылка
+ГДЕ
+	ПриходныйОрдерСкладТовары.Ссылка.Дата &gt;= ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(&amp;ДатаНачала, ДЕНЬ), ЧАС, &amp;СдвигНачалаСмены)
+	И ПриходныйОрдерСкладТовары.Ссылка.Дата &lt; ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ), ЧАС, 24 + &amp;СдвигНачалаСмены)
+	И ПриходныйОрдерСкладТовары.Ссылка.Проведен
+	И ПриходныйОрдерСкладТовары.Количество &gt; 0
+	И ПриходныйОрдерСкладТовары.Характеристика.Ссылка ЕСТЬ НЕ NULL 
+	И ПриходныйОрдерСкладТовары.Ссылка.Склад.Владелец = &amp;Склад
+
+СГРУППИРОВАТЬ ПО
+	НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(ПриходныйОрдерСкладТовары.Ссылка.Дата, ЧАС, -&amp;СдвигНачалаСмены), ДЕНЬ),
+	СпрНоменклатура.Ссылка,
+	СпрХарактеристикиНоменклатуры.Ссылка,
+	ПриходныйОрдерСкладТовары.ДатаПроизводства
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	КОЛИЧЕСТВО(ВТ_Товары.Характеристика) КАК ВсегоТоваров
+ПОМЕСТИТЬ ВТ_ТоварыИтого
+ИЗ
+	ВТ_Товары КАК ВТ_Товары
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(МП_ОтчетТехнолога.Дата, ЧАС, -&amp;СдвигНачалаСмены), ДЕНЬ) КАК ДатаНачалаСмены,
+	МП_ОтчетТехнолога.Номенклатура,
+	МП_ОтчетТехнолога.ХарактеристикаНоменклатуры,
+	МАКСИМУМ(ВЫБОР
+			КОГДА МП_ОтчетТехнолога.Склад = &amp;Склад
+				ТОГДА МП_ОтчетТехнолога.Ссылка
+		КОНЕЦ) КАК ОтчетТехнолога
+ПОМЕСТИТЬ ВТ_Отчеты
+ИЗ
+	Документ.МП_ОтчетТехнолога КАК МП_ОтчетТехнолога
+ГДЕ
+	МП_ОтчетТехнолога.Дата &gt;= ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(&amp;ДатаНачала, ДЕНЬ), ЧАС, &amp;СдвигНачалаСмены)
+	И МП_ОтчетТехнолога.Дата &lt; ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ), ЧАС, 24 + &amp;СдвигНачалаСмены)
+	И НЕ МП_ОтчетТехнолога.ПометкаУдаления
+	И МП_ОтчетТехнолога.ВидПроверяемойОперации = ЗНАЧЕНИЕ(Перечисление.ВидыОперацийПроверяемыхТехнологом.Поставка)
+
+СГРУППИРОВАТЬ ПО
+	НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(МП_ОтчетТехнолога.Дата, ЧАС, -&amp;СдвигНачалаСмены), ДЕНЬ),
+	МП_ОтчетТехнолога.Номенклатура,
+	МП_ОтчетТехнолога.ХарактеристикаНоменклатуры
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_Товары.Номенклатура,
+	ВТ_Товары.Характеристика,
+	ВТ_Товары.ДатаПоступления,
+	ВТ_Отчеты.ОтчетТехнолога,
+	ВТ_Отчеты.ОтчетТехнолога.Технолог КАК Технолог,
+	0 КАК Процент,
+	ВТ_ТоварыИтого.ВсегоТоваров,
+	ВТ_Товары.ДатаПроизводства
+ИЗ
+	ВТ_Товары КАК ВТ_Товары
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТ_Отчеты КАК ВТ_Отчеты
+		ПО ВТ_Товары.Номенклатура = ВТ_Отчеты.Номенклатура
+			И ВТ_Товары.Характеристика = ВТ_Отчеты.ХарактеристикаНоменклатуры
+			И ВТ_Товары.ДатаНачалаСмены = ВТ_Отчеты.ДатаНачалаСмены,
+	ВТ_ТоварыИтого КАК ВТ_ТоварыИтого</query>
+	</dataSet>
+	<totalField>
+		<dataPath>ОтчетТехнолога</dataPath>
+		<expression>Количество(ОтчетТехнолога)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Процент</dataPath>
+		<expression>Выбор когда Максимум(ВсегоТоваров) = 0 Тогда 0 Иначе 100*Количество(ОтчетТехнолога)/Максимум(ВсегоТоваров) Конец</expression>
+		<group>Номенклатура</group>
+		<group>Технолог</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>Характеристика</dataPath>
+		<expression>Количество(Характеристика)</expression>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>ДатаПроизводства</dataPath>
+		<expression>Количество(ДатаПроизводства)</expression>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<parameter>
+		<name>Склад</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Склад</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>СтандартныйПериод</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;СтандартныйПериод.ДатаНачала</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;СтандартныйПериод.ДатаОкончания</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>СдвигНачалаСмены</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Сдвиг начала смены</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:decimal</v8:Type>
+			<v8:NumberQualifiers>
+				<v8:Digits>2</v8:Digits>
+				<v8:FractionDigits>0</v8:FractionDigits>
+				<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+			</v8:NumberQualifiers>
+		</valueType>
+		<value xsi:type="xs:decimal">6</value>
+		<useRestriction>true</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Технолог</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Характеристика</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПроизводства</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОтчетТехнолога</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Процент</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Склад</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>4ca8d668-122a-4116-8a31-c608ce45199b</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>СтандартныйПериод</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>a5fedd71-8ca6-419d-9a51-2f0d6180b09b</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаОкончания</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfThisDay</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>f9c6ee4c-cf6f-4e26-b74f-96f0ce467aa1</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Технолог</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Процент</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter/>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Формат</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>ЧДЦ=2</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Технолог</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

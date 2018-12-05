@@ -1,0 +1,533 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:ent="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+		xmlns:pro="http://api.vetrf.ru/schema/cdm/argus/production"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/argus/production/ws-definitions"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/argus/production/ws-definitions"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/argus/production"
+			schemaLocation="file://9.xsd"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+			schemaLocation="file://4.xsd"/>
+	<element name="getProductByGuidRequest">
+		<annotation>
+			<documentation>Запрос на получения продукции по глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Глобальный идентификатор, по которому проводится поиск записи.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getProductByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения продукции по
+                глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:product"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденная по глобальному идентификатору запись продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение записи продукции по идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор записи, по которому проводится поиск.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи продукции по идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:product"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденая по идентификатору запись продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductByTypeListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения списка активных записей продукции.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="pro:productType"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор типа продукта, по которому будет осуществлен поиск.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductByTypeListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка активных записей продукции.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:productList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей продукции.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей продукции.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей продукции.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:productList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей типов продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getSubProductByGuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения вида продукции по глобальному идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор,
+                            по которому проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getSubProductByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения вида продукции по глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:subProduct"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденный по глобальному идентификатору запись вида продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getSubProductByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение записи вида продукции по
+                идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор записи, по которому проводится
+                            поиск.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getSubProductByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи видов продукции
+                по идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:subProduct"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденая по идентификатору запись вида продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getSubProductByProductListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения списка активных записей видов
+                продукции.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="pro:productGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор продукта, по которому будет осуществлен поиск.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getSubProductByProductListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка активных записей
+                видов продукции.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:subProductList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей видов продукции.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getSubProductChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей
+                видов продукции.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getSubProductChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей видов продукции.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:subProductList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей видов продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductItemByGuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения наименований продукции по глобальному идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор, по которому проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductItemByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения наименований продукции по
+                глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:productItem"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденная по глобальному идентификатору запись наименований продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductItemByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение записи наименований продукции по идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор записи, по которому проводится поиск.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductItemByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи наименований продукции по идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:productItem"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденая по идентификатору запись наименований продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductItemListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения списка активных записей наименований продукции.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="pro:subProductGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор вида продуктции, по которому будет осуществлен поиск.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ent:enterpriseGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор предприятия производителя.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductItemListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка активных записей наименований продукции.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:productItemList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей наименований продукции.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getProductItemChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей наименований продукции.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ent:enterpriseGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор предприятия производителя.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getProductItemChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей наименований продукции.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="pro:productItemList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей типов наименований продукции.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

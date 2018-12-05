@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<CommandBarLocation>None</CommandBarLocation>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="ChoiceProcessing">ОбработкаВыбора</Event>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="Группа2" id="86">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа2РасширеннаяПодсказка" id="87"/>
+			<ChildItems>
+				<InputField name="ДатаРаспределения" id="1">
+					<DataPath>Объект.ДатаРаспределения</DataPath>
+					<HorizontalAlign>Left</HorizontalAlign>
+					<ContextMenu name="ДатаРаспределенияКонтекстноеМеню" id="2"/>
+					<ExtendedTooltip name="ДатаРаспределенияРасширеннаяПодсказка" id="45"/>
+				</InputField>
+				<InputField name="НомерРаспределения" id="88">
+					<DataPath>Объект.НомерРаспределения</DataPath>
+					<ContextMenu name="НомерРаспределенияКонтекстноеМеню" id="89"/>
+					<ExtendedTooltip name="НомерРаспределенияРасширеннаяПодсказка" id="90"/>
+					<Events>
+						<Event name="OnChange">НомерРаспределенияПриИзменении</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Организация" id="83">
+			<DataPath>Объект.Организация</DataPath>
+			<ContextMenu name="ОрганизацияКонтекстноеМеню" id="84"/>
+			<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="85"/>
+		</InputField>
+		<InputField name="СтруктурноеПодразделение" id="38">
+			<DataPath>Объект.СтруктурноеПодразделение</DataPath>
+			<ContextMenu name="СтруктурноеПодразделениеКонтекстноеМеню" id="39"/>
+			<ExtendedTooltip name="СтруктурноеПодразделениеРасширеннаяПодсказка" id="46"/>
+		</InputField>
+		<InputField name="Склад" id="3">
+			<DataPath>Объект.Склад</DataPath>
+			<ChoiceParameterLinks>
+				<xr:Link>
+					<xr:Name>Отбор.Организация</xr:Name>
+					<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+					<xr:ValueChange>Clear</xr:ValueChange>
+				</xr:Link>
+			</ChoiceParameterLinks>
+			<ContextMenu name="СкладКонтекстноеМеню" id="4"/>
+			<ExtendedTooltip name="СкладРасширеннаяПодсказка" id="47"/>
+			<Events>
+				<Event name="StartChoice">СкладНачалоВыбора</Event>
+			</Events>
+		</InputField>
+		<UsualGroup name="ГруппаБезМаршрута" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа без маршрута</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа без маршрута</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Vertical</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаБезМаршрутаРасширеннаяПодсказка" id="62"/>
+			<ChildItems>
+				<LabelDecoration name="Декорация1" id="23">
+					<TextColor>style:SpecialTextColor</TextColor>
+					<Font ref="sys:DefaultGUIFont" bold="true" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
+					<Title formatted="false">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Следующие позиции были загружены, но не привязаны к маршрутам. Настройте маршруты и повторите загрузку.</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="Декорация1КонтекстноеМеню" id="24"/>
+					<ExtendedTooltip name="Декорация1РасширеннаяПодсказка" id="63"/>
+				</LabelDecoration>
+				<LabelDecoration name="Декорация2" id="36">
+					<Title formatted="false">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Справочник "Маршруты"</v8:content>
+						</v8:item>
+					</Title>
+					<Hyperlink>true</Hyperlink>
+					<ContextMenu name="Декорация2КонтекстноеМеню" id="37"/>
+					<ExtendedTooltip name="Декорация2РасширеннаяПодсказка" id="64"/>
+					<Events>
+						<Event name="Click">Декорация2Нажатие</Event>
+					</Events>
+				</LabelDecoration>
+				<Table name="ТаблицаБезМаршрута" id="25">
+					<Representation>List</Representation>
+					<ChangeRowSet>false</ChangeRowSet>
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>ТаблицаБезМаршрута</DataPath>
+					<CommandSet>
+						<ExcludedCommand>Copy</ExcludedCommand>
+						<ExcludedCommand>Delete</ExcludedCommand>
+						<ExcludedCommand>EndEdit</ExcludedCommand>
+						<ExcludedCommand>Add</ExcludedCommand>
+						<ExcludedCommand>Change</ExcludedCommand>
+					</CommandSet>
+					<SearchStringLocation>None</SearchStringLocation>
+					<ViewStatusLocation>None</ViewStatusLocation>
+					<SearchControlLocation>None</SearchControlLocation>
+					<RowFilter xsi:nil="true"/>
+					<ContextMenu name="ТаблицаБезМаршрутаКонтекстноеМеню" id="26"/>
+					<AutoCommandBar name="ТаблицаБезМаршрутаКоманднаяПанель" id="27"/>
+					<ExtendedTooltip name="ТаблицаБезМаршрутаРасширеннаяПодсказка" id="65"/>
+					<SearchStringAddition name="ТаблицаБезМаршрутаСтрокаПоиска" id="66">
+						<AdditionSource>
+							<Item>ТаблицаБезМаршрута</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаБезМаршрутаСтрокаПоискаКонтекстноеМеню" id="67"/>
+						<ExtendedTooltip name="ТаблицаБезМаршрутаСтрокаПоискаРасширеннаяПодсказка" id="68"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="ТаблицаБезМаршрутаСостояниеПросмотра" id="69">
+						<AdditionSource>
+							<Item>ТаблицаБезМаршрута</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаБезМаршрутаСостояниеПросмотраКонтекстноеМеню" id="70"/>
+						<ExtendedTooltip name="ТаблицаБезМаршрутаСостояниеПросмотраРасширеннаяПодсказка" id="71"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="ТаблицаБезМаршрутаУправлениеПоиском" id="72">
+						<AdditionSource>
+							<Item>ТаблицаБезМаршрута</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаБезМаршрутаУправлениеПоискомКонтекстноеМеню" id="73"/>
+						<ExtendedTooltip name="ТаблицаБезМаршрутаУправлениеПоискомРасширеннаяПодсказка" id="74"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<InputField name="ТаблицаБезМаршрутаСклад" id="40">
+							<DataPath>ТаблицаБезМаршрута.Склад</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаБезМаршрутаСкладКонтекстноеМеню" id="41"/>
+							<ExtendedTooltip name="ТаблицаБезМаршрутаСкладРасширеннаяПодсказка" id="75"/>
+						</InputField>
+						<InputField name="ТаблицаБезМаршрутаТорговаяТочка" id="28">
+							<DataPath>ТаблицаБезМаршрута.ТорговаяТочка</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаБезМаршрутаТорговаяТочкаКонтекстноеМеню" id="29"/>
+							<ExtendedTooltip name="ТаблицаБезМаршрутаТорговаяТочкаРасширеннаяПодсказка" id="76"/>
+						</InputField>
+						<InputField name="ТаблицаБезМаршрутаНоменклатура" id="30">
+							<DataPath>ТаблицаБезМаршрута.Номенклатура</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаБезМаршрутаНоменклатураКонтекстноеМеню" id="31"/>
+							<ExtendedTooltip name="ТаблицаБезМаршрутаНоменклатураРасширеннаяПодсказка" id="77"/>
+						</InputField>
+						<InputField name="ТаблицаБезМаршрутаХарактеристика" id="32">
+							<DataPath>ТаблицаБезМаршрута.Характеристика</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаБезМаршрутаХарактеристикаКонтекстноеМеню" id="33"/>
+							<ExtendedTooltip name="ТаблицаБезМаршрутаХарактеристикаРасширеннаяПодсказка" id="78"/>
+						</InputField>
+						<InputField name="ТаблицаБезМаршрутаКоличество" id="34">
+							<DataPath>ТаблицаБезМаршрута.Количество</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаБезМаршрутаКоличествоКонтекстноеМеню" id="35"/>
+							<ExtendedTooltip name="ТаблицаБезМаршрутаКоличествоРасширеннаяПодсказка" id="79"/>
+						</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="Группа1" id="6">
+			<HorizontalStretch>true</HorizontalStretch>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="80"/>
+			<ChildItems>
+				<Button name="СоздатьДокументыПоРаспределениюГруппыУРЗ" id="43">
+					<Type>UsualButton</Type>
+					<CommandName>Form.Command.СоздатьДокументыПоРаспределениюГруппыУРЗ</CommandName>
+					<ExtendedTooltip name="СоздатьДокументыПоРаспределениюГруппыУРЗРасширеннаяПодсказка" id="81"/>
+				</Button>
+				<Button name="СоздатьДокументыПоЗонамОтгрузки" id="44">
+					<Type>UsualButton</Type>
+					<CommandName>Form.Command.СоздатьДокументыПоЗонамОтгрузки</CommandName>
+					<ExtendedTooltip name="СоздатьДокументыПоЗонамОтгрузкиРасширеннаяПодсказка" id="82"/>
+				</Button>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.ЗагрузитьРаспределение1</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="ТаблицаБезМаршрута" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Таблица без маршрута</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Edit>
+				<xr:Common>false</xr:Common>
+			</Edit>
+			<Columns>
+				<Column name="ТорговаяТочка" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Торговая точка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Номенклатура" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номенклатура</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.Номенклатура</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Характеристика" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Характеристика</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.ХарактеристикиНоменклатуры</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Количество" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Количество</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>15</v8:Digits>
+							<v8:FractionDigits>3</v8:FractionDigits>
+							<v8:AllowedSign>Any</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="Склад" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Склад</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.Склады</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ОперацияАпдекс" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Операция апдекс</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.APDEX_КлючевыеОперации</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="УИДРаспределения" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>УИД распределения</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>36</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИдентификаторЗадания" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Идентификатор задания</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:UUID</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="АдресХранилища" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Адрес хранилища</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="СоздатьДокументыПоРаспределениюГруппыУРЗ" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы по распределению (группы УРЗ)</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы по распределению</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.GenerateReport</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>СоздатьДокументыПоРаспределениюГруппыУРЗ</Action>
+			<Representation>TextPicture</Representation>
+		</Command>
+		<Command name="СоздатьДокументыПоЗонамОтгрузки" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы по зонам отгрузки</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы по зонам отгрузки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СоздатьДокументыПоЗонамОтгрузки</Action>
+		</Command>
+	</Commands>
+	<Parameters>
+		<Parameter name="ДатаРаспределения">
+			<Type>
+				<v8:Type>xs:dateTime</v8:Type>
+				<v8:DateQualifiers>
+					<v8:DateFractions>Date</v8:DateFractions>
+				</v8:DateQualifiers>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="Организация">
+			<Type>
+				<v8:Type>cfg:CatalogRef.Организации</v8:Type>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="СтруктурноеПодразделение">
+			<Type>
+				<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="Склад">
+			<Type>
+				<v8:Type>cfg:CatalogRef.Склады</v8:Type>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="УИДРаспределения">
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>36</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+	</Parameters>
+</Form>

@@ -1,0 +1,763 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<GroupList>Дерево</GroupList>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Popup name="ПодменюПечать" id="20">
+				<Title>
+					<v8:item>
+						<v8:lang>ru</v8:lang>
+						<v8:content>Печать</v8:content>
+					</v8:item>
+				</Title>
+				<ToolTip>
+					<v8:item>
+						<v8:lang>ru</v8:lang>
+						<v8:content>Подменю печать</v8:content>
+					</v8:item>
+				</ToolTip>
+				<ExtendedTooltip name="ПодменюПечатьРасширеннаяПодсказка" id="50"/>
+				<ChildItems>
+					<Button name="ФормаПечатьБейджев" id="21">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.ПечатьБейджев</CommandName>
+						<ExtendedTooltip name="ФормаПечатьБейджевРасширеннаяПодсказка" id="51"/>
+					</Button>
+					<Button name="ФормаПечатьБейджейПродавцов" id="48">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.ПечатьБейджейПродавцов</CommandName>
+						<ExtendedTooltip name="ФормаПечатьБейджейПродавцовРасширеннаяПодсказка" id="52"/>
+					</Button>
+				</ChildItems>
+			</Popup>
+			<Button name="ФормаСинхронизироватьСЗУП" id="22">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.СинхронизироватьСЗУП</CommandName>
+				<ExtendedTooltip name="ФормаСинхронизироватьСЗУПРасширеннаяПодсказка" id="53"/>
+			</Button>
+			<Button name="ФормаДобавитьВнештатника" id="39">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.ДобавитьВнештатника</CommandName>
+				<ExtendedTooltip name="ФормаДобавитьВнештатникаРасширеннаяПодсказка" id="54"/>
+			</Button>
+			<Button name="ФормаИзменитьВыделенные" id="46">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.ИзменитьВыделенные</CommandName>
+				<ExtendedTooltip name="ФормаИзменитьВыделенныеРасширеннаяПодсказка" id="55"/>
+			</Button>
+			<Button name="ФормаДублиСотрудников" id="47">
+				<Type>CommandBarButton</Type>
+				<OnlyInAllActions>false</OnlyInAllActions>
+				<CommandName>Form.Command.ДублиСотрудников</CommandName>
+				<ExtendedTooltip name="ФормаДублиСотрудниковРасширеннаяПодсказка" id="56"/>
+			</Button>
+			<Button name="ФормаЗагрузитьЛицевыеСчета" id="49">
+				<Type>CommandBarButton</Type>
+				<OnlyInAllActions>false</OnlyInAllActions>
+				<CommandName>Form.Command.ЗагрузитьЛицевыеСчета</CommandName>
+				<ExtendedTooltip name="ФормаЗагрузитьЛицевыеСчетаРасширеннаяПодсказка" id="57"/>
+			</Button>
+			<Button name="ФормаСтажёры" id="96">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.Стажёры</CommandName>
+				<ExtendedTooltip name="ФормаСтажёрыРасширеннаяПодсказка" id="97"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ДеревоИСписок" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дерево и список</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ДеревоИСписокРасширеннаяПодсказка" id="58"/>
+			<ChildItems>
+				<Table name="Дерево" id="2">
+					<Representation>Tree</Representation>
+					<CommandBarLocation>None</CommandBarLocation>
+					<Width>25</Width>
+					<InitialTreeView>ExpandTopLevel</InitialTreeView>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>Дерево</DataPath>
+					<RowPictureDataPath>Дерево.DefaultPicture</RowPictureDataPath>
+					<SearchStringLocation>None</SearchStringLocation>
+					<ViewStatusLocation>None</ViewStatusLocation>
+					<SearchControlLocation>None</SearchControlLocation>
+					<AutoRefresh>false</AutoRefresh>
+					<AutoRefreshPeriod>60</AutoRefreshPeriod>
+					<Period>
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</Period>
+					<ChoiceFoldersAndItems>Folders</ChoiceFoldersAndItems>
+					<RestoreCurrentRow>false</RestoreCurrentRow>
+					<TopLevelParent xsi:nil="true"/>
+					<ShowRoot>true</ShowRoot>
+					<AllowRootChoice>false</AllowRootChoice>
+					<UpdateOnDataChange>Auto</UpdateOnDataChange>
+					<ContextMenu name="ДеревоКонтекстноеМеню" id="3"/>
+					<AutoCommandBar name="ДеревоКоманднаяПанель" id="4">
+						<Autofill>false</Autofill>
+					</AutoCommandBar>
+					<ExtendedTooltip name="ДеревоРасширеннаяПодсказка" id="59"/>
+					<SearchStringAddition name="ДеревоСтрокаПоиска" id="60">
+						<AdditionSource>
+							<Item>Дерево</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ДеревоСтрокаПоискаКонтекстноеМеню" id="61"/>
+						<ExtendedTooltip name="ДеревоСтрокаПоискаРасширеннаяПодсказка" id="62"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="ДеревоСостояниеПросмотра" id="63">
+						<AdditionSource>
+							<Item>Дерево</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ДеревоСостояниеПросмотраКонтекстноеМеню" id="64"/>
+						<ExtendedTooltip name="ДеревоСостояниеПросмотраРасширеннаяПодсказка" id="65"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="ДеревоУправлениеПоиском" id="66">
+						<AdditionSource>
+							<Item>Дерево</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="ДеревоУправлениеПоискомКонтекстноеМеню" id="67"/>
+						<ExtendedTooltip name="ДеревоУправлениеПоискомРасширеннаяПодсказка" id="68"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<LabelField name="ДеревоНаименование" id="5">
+							<DataPath>Дерево.Description</DataPath>
+							<ContextMenu name="ДеревоНаименованиеКонтекстноеМеню" id="6"/>
+							<ExtendedTooltip name="ДеревоНаименованиеРасширеннаяПодсказка" id="69"/>
+						</LabelField>
+					</ChildItems>
+				</Table>
+				<Table name="Список" id="7">
+					<CommandBarLocation>None</CommandBarLocation>
+					<DefaultItem>true</DefaultItem>
+					<UseAlternationRowColor>true</UseAlternationRowColor>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>Список</DataPath>
+					<RowPictureDataPath>Список.DefaultPicture</RowPictureDataPath>
+					<SearchStringLocation>None</SearchStringLocation>
+					<ViewStatusLocation>None</ViewStatusLocation>
+					<SearchControlLocation>None</SearchControlLocation>
+					<AutoRefresh>false</AutoRefresh>
+					<AutoRefreshPeriod>60</AutoRefreshPeriod>
+					<Period>
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</Period>
+					<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+					<RestoreCurrentRow>false</RestoreCurrentRow>
+					<TopLevelParent xsi:nil="true"/>
+					<ShowRoot>false</ShowRoot>
+					<AllowRootChoice>false</AllowRootChoice>
+					<UpdateOnDataChange>Auto</UpdateOnDataChange>
+					<ContextMenu name="СписокКонтекстноеМеню" id="8"/>
+					<AutoCommandBar name="СписокКоманднаяПанель" id="9">
+						<Autofill>false</Autofill>
+					</AutoCommandBar>
+					<ExtendedTooltip name="СписокРасширеннаяПодсказка" id="70"/>
+					<SearchStringAddition name="СписокСтрокаПоиска" id="71">
+						<AdditionSource>
+							<Item>Список</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="СписокСтрокаПоискаКонтекстноеМеню" id="72"/>
+						<ExtendedTooltip name="СписокСтрокаПоискаРасширеннаяПодсказка" id="73"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="СписокСостояниеПросмотра" id="74">
+						<AdditionSource>
+							<Item>Список</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="СписокСостояниеПросмотраКонтекстноеМеню" id="75"/>
+						<ExtendedTooltip name="СписокСостояниеПросмотраРасширеннаяПодсказка" id="76"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="СписокУправлениеПоиском" id="77">
+						<AdditionSource>
+							<Item>Список</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="СписокУправлениеПоискомКонтекстноеМеню" id="78"/>
+						<ExtendedTooltip name="СписокУправлениеПоискомРасширеннаяПодсказка" id="79"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<LabelField name="Код" id="12">
+							<DataPath>Список.Code</DataPath>
+							<ContextMenu name="КодКонтекстноеМеню" id="13"/>
+							<ExtendedTooltip name="КодРасширеннаяПодсказка" id="80"/>
+						</LabelField>
+						<LabelField name="Наименование" id="10">
+							<DataPath>Список.Description</DataPath>
+							<DefaultItem>true</DefaultItem>
+							<ContextMenu name="НаименованиеКонтекстноеМеню" id="11"/>
+							<ExtendedTooltip name="НаименованиеРасширеннаяПодсказка" id="81"/>
+						</LabelField>
+						<LabelField name="ДатаРождения" id="18">
+							<DataPath>Список.ДатаРождения</DataPath>
+							<ContextMenu name="ДатаРожденияКонтекстноеМеню" id="19"/>
+							<ExtendedTooltip name="ДатаРожденияРасширеннаяПодсказка" id="82"/>
+						</LabelField>
+						<LabelField name="ОсновнойБанковскийСчет" id="14">
+							<DataPath>Список.ОсновнойБанковскийСчет</DataPath>
+							<ContextMenu name="ОсновнойБанковскийСчетКонтекстноеМеню" id="15"/>
+							<ExtendedTooltip name="ОсновнойБанковскийСчетРасширеннаяПодсказка" id="83"/>
+						</LabelField>
+						<LabelField name="ИНН" id="16">
+							<DataPath>Список.ИНН</DataPath>
+							<ContextMenu name="ИННКонтекстноеМеню" id="17"/>
+							<ExtendedTooltip name="ИННРасширеннаяПодсказка" id="84"/>
+						</LabelField>
+						<CheckBoxField name="Активный" id="29">
+							<DataPath>Список.Активный</DataPath>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="АктивныйКонтекстноеМеню" id="30"/>
+							<ExtendedTooltip name="АктивныйРасширеннаяПодсказка" id="85"/>
+						</CheckBoxField>
+						<LabelField name="Должность" id="31">
+							<DataPath>Список.Должность</DataPath>
+							<Width>25</Width>
+							<ContextMenu name="ДолжностьКонтекстноеМеню" id="32"/>
+							<ExtendedTooltip name="ДолжностьРасширеннаяПодсказка" id="86"/>
+						</LabelField>
+						<LabelField name="ДатаНачалаРаботы" id="33">
+							<DataPath>Список.ДатаНачалаРаботы</DataPath>
+							<ContextMenu name="ДатаНачалаРаботыКонтекстноеМеню" id="34"/>
+							<ExtendedTooltip name="ДатаНачалаРаботыРасширеннаяПодсказка" id="87"/>
+						</LabelField>
+						<LabelField name="ДатаНачалаРаботыОснПродавцом" id="35">
+							<DataPath>Список.ДатаНачалаРаботыОснПродавцом</DataPath>
+							<ContextMenu name="ДатаНачалаРаботыОснПродавцомКонтекстноеМеню" id="36"/>
+							<ExtendedTooltip name="ДатаНачалаРаботыОснПродавцомРасширеннаяПодсказка" id="88"/>
+						</LabelField>
+						<LabelField name="ДатаПервогоВыходаНаТТ" id="23">
+							<DataPath>Список.ДатаПервогоВыходаНаТТ</DataPath>
+							<ContextMenu name="ДатаПервогоВыходаНаТТКонтекстноеМеню" id="24"/>
+							<ExtendedTooltip name="ДатаПервогоВыходаНаТТРасширеннаяПодсказка" id="89"/>
+						</LabelField>
+						<LabelField name="ДатаПоследнегоЗарегестрированногоВыходаНаТТ" id="25">
+							<DataPath>Список.ДатаПоследнегоЗарегестрированногоВыходаНаТТ</DataPath>
+							<ContextMenu name="ДатаПоследнегоЗарегестрированногоВыходаНаТТКонтекстноеМеню" id="26"/>
+							<ExtendedTooltip name="ДатаПоследнегоЗарегестрированногоВыходаНаТТРасширеннаяПодсказка" id="90"/>
+						</LabelField>
+						<LabelField name="ГруппаГрафика" id="27">
+							<DataPath>Список.ГруппаГрафика</DataPath>
+							<ContextMenu name="ГруппаГрафикаКонтекстноеМеню" id="28"/>
+							<ExtendedTooltip name="ГруппаГрафикаРасширеннаяПодсказка" id="91"/>
+						</LabelField>
+						<LabelField name="ДатаОкончанияДействияАнализовПоМедКнижке" id="37">
+							<DataPath>Список.ДатаОкончанияДействияАнализовПоМедКнижке</DataPath>
+							<ContextMenu name="ДатаОкончанияДействияАнализовПоМедКнижкеКонтекстноеМеню" id="38"/>
+							<ExtendedTooltip name="ДатаОкончанияДействияАнализовПоМедКнижкеРасширеннаяПодсказка" id="92"/>
+						</LabelField>
+						<LabelField name="Почта" id="40">
+							<DataPath>Список.Почта</DataPath>
+							<ContextMenu name="ПочтаКонтекстноеМеню" id="41"/>
+							<ExtendedTooltip name="ПочтаРасширеннаяПодсказка" id="93"/>
+						</LabelField>
+						<LabelField name="ТелефонСлужебный" id="42">
+							<DataPath>Список.ТелефонСлужебный</DataPath>
+							<ContextMenu name="ТелефонСлужебныйКонтекстноеМеню" id="43"/>
+							<ExtendedTooltip name="ТелефонСлужебныйРасширеннаяПодсказка" id="94"/>
+						</LabelField>
+						<CheckBoxField name="СсылкаПометкаУдаления" id="44">
+							<DataPath>Список.Ref.DeletionMark</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>ПометкаУдаления</v8:content>
+								</v8:item>
+							</Title>
+							<TitleLocation>None</TitleLocation>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="СсылкаПометкаУдаленияКонтекстноеМеню" id="45"/>
+							<ExtendedTooltip name="СсылкаПометкаУдаленияРасширеннаяПодсказка" id="95"/>
+						</CheckBoxField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Дерево" id="2">
+			<Type>
+				<v8:Type>cfg:DynamicList</v8:Type>
+			</Type>
+			<Settings xsi:type="DynamicList">
+				<ManualQuery>false</ManualQuery>
+				<DynamicDataRead>true</DynamicDataRead>
+				<MainTable>Catalog.ФизическиеЛица</MainTable>
+				<ListSettings>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ЭтоГруппа</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>dfcece9d-5077-440b-b6b3-45a5cb4538eb</dcsset:userSettingID>
+					</dcsset:filter>
+					<dcsset:order>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>88619765-ccb3-46c6-ac52-38e9c992ebd4</dcsset:userSettingID>
+					</dcsset:order>
+					<dcsset:conditionalAppearance>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>b75fecce-942b-4aed-abc9-e6a02e460fb3</dcsset:userSettingID>
+					</dcsset:conditionalAppearance>
+				</ListSettings>
+			</Settings>
+		</Attribute>
+		<Attribute name="Список" id="1">
+			<Type>
+				<v8:Type>cfg:DynamicList</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<UseAlways>
+				<Field>Список.Ref</Field>
+			</UseAlways>
+			<Settings xsi:type="DynamicList">
+				<ManualQuery>true</ManualQuery>
+				<DynamicDataRead>true</DynamicDataRead>
+				<QueryText>ВЫБРАТЬ
+	СправочникФизическиеЛица.Ссылка,
+	СправочникФизическиеЛица.ЭтоГруппа,
+	СправочникФизическиеЛица.Код,
+	СправочникФизическиеЛица.Наименование,
+	СправочникФизическиеЛица.Пол,
+	СправочникФизическиеЛица.ДатаРождения,
+	СправочникФизическиеЛица.ОсновнойБанковскийСчет,
+	СправочникФизическиеЛица.НаименованиеПолное,
+	СправочникФизическиеЛица.ИНН,
+	СправочникФизическиеЛица.Активный,
+	СправочникФизическиеЛица.Стажер,
+	СправочникФизическиеЛица.Должность,
+	ЕСТЬNULL(ТабельРаботы.ПериодМин, ДАТАВРЕМЯ(1, 1, 1)) КАК ДатаПервогоВыходаНаТТ,
+	ЕСТЬNULL(ТабельРаботы.ПериодМакс, ДАТАВРЕМЯ(1, 1, 1)) КАК ДатаПоследнегоЗарегестрированногоВыходаНаТТ,
+	ЕСТЬNULL(ТабельРаботы.Группа, НЕОПРЕДЕЛЕНО) КАК ГруппаГрафика,
+	СправочникФизическиеЛица.ДатаНачалаРаботы,
+	СправочникФизическиеЛица.ДатаНачалаРаботыОснПродавцом,
+	СправочникФизическиеЛица.ДатаОкончанияДействияАнализовПоМедКнижке,
+	Почты.Почта,
+	Телефоны.ТелефонСлужебный,
+	СправочникФизическиеЛица.ПринадлежитСкладу
+ИЗ
+	Справочник.ФизическиеЛица КАК СправочникФизическиеЛица
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ТабельРаботыСотрудников.Сотрудник КАК Сотрудник,
+			МАКСИМУМ(ТабельРаботыСотрудников.Группа) КАК Группа,
+			МИНИМУМ(ТабельРаботыСотрудников.ПериодМин) КАК ПериодМин,
+			МАКСИМУМ(ТабельРаботыСотрудников.ПериодМакс) КАК ПериодМакс
+		ИЗ
+			(ВЫБРАТЬ
+				ТабельРаботыСотрудников.Сотрудник КАК Сотрудник,
+				МАКСИМУМ(ТабельРаботыСотрудников.ПериодМакс) КАК ПериодМакс
+			ИЗ
+				(ВЫБРАТЬ
+					ТабельРаботыПродавцов.Сотрудник КАК Сотрудник,
+					ТабельРаботыПродавцов.Группа КАК Группа,
+					МИНИМУМ(ТабельРаботыПродавцов.Период) КАК ПериодМин,
+					МАКСИМУМ(ТабельРаботыПродавцов.Период) КАК ПериодМакс
+				ИЗ
+					РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцов
+				ГДЕ
+					ТабельРаботыПродавцов.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+					И НЕ ТабельРаботыПродавцов.ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И ТабельРаботыПродавцов.Период &lt;= &amp;ТекДата
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыПродавцов.Сотрудник,
+					ТабельРаботыПродавцов.Группа
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыПродавцов.Сотрудник,
+					НЕОПРЕДЕЛЕНО,
+					ДАТАВРЕМЯ(1, 1, 1),
+					МАКСИМУМ(ТабельРаботыПродавцов.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцов
+				ГДЕ
+					ТабельРаботыПродавцов.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.Уволен)
+					И РАЗНОСТЬДАТ(ТабельРаботыПродавцов.Период, &amp;ТекДата, МЕСЯЦ) &gt;= 2
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыПродавцов.Сотрудник
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыКассиров.Сотрудник,
+					ТабельРаботыКассиров.Группа,
+					МИНИМУМ(ТабельРаботыКассиров.Период),
+					МАКСИМУМ(ТабельРаботыКассиров.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыКассиров КАК ТабельРаботыКассиров
+				ГДЕ
+					ТабельРаботыКассиров.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+					И НЕ ТабельРаботыКассиров.ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И ТабельРаботыКассиров.Период &lt;= &amp;ТекДата
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыКассиров.Сотрудник,
+					ТабельРаботыКассиров.Группа
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыКассиров.Сотрудник,
+					НЕОПРЕДЕЛЕНО,
+					ДАТАВРЕМЯ(1, 1, 1),
+					МАКСИМУМ(ТабельРаботыКассиров.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыКассиров КАК ТабельРаботыКассиров
+				ГДЕ
+					ТабельРаботыКассиров.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.Уволен)
+					И РАЗНОСТЬДАТ(ТабельРаботыКассиров.Период, &amp;ТекДата, МЕСЯЦ) &gt;= 2
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыКассиров.Сотрудник
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыГрузчиков.Сотрудник,
+					ТабельРаботыГрузчиков.Группа,
+					МИНИМУМ(ТабельРаботыГрузчиков.Период),
+					МАКСИМУМ(ТабельРаботыГрузчиков.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыГрузчиков КАК ТабельРаботыГрузчиков
+				ГДЕ
+					ТабельРаботыГрузчиков.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+					И НЕ ТабельРаботыГрузчиков.ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И ТабельРаботыГрузчиков.Период &lt;= &amp;ТекДата
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыГрузчиков.Сотрудник,
+					ТабельРаботыГрузчиков.Группа
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыГрузчиков.Сотрудник,
+					НЕОПРЕДЕЛЕНО,
+					ДАТАВРЕМЯ(1, 1, 1),
+					МАКСИМУМ(ТабельРаботыГрузчиков.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыГрузчиков КАК ТабельРаботыГрузчиков
+				ГДЕ
+					ТабельРаботыГрузчиков.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.Уволен)
+					И РАЗНОСТЬДАТ(ТабельРаботыГрузчиков.Период, &amp;ТекДата, МЕСЯЦ) &gt;= 2
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыГрузчиков.Сотрудник) КАК ТабельРаботыСотрудников
+			
+			СГРУППИРОВАТЬ ПО
+				ТабельРаботыСотрудников.Сотрудник) КАК ТабельРаботыСотрудниковМаксимум
+				ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+					ТабельРаботыПродавцов.Сотрудник КАК Сотрудник,
+					ТабельРаботыПродавцов.Группа КАК Группа,
+					МИНИМУМ(ТабельРаботыПродавцов.Период) КАК ПериодМин,
+					МАКСИМУМ(ТабельРаботыПродавцов.Период) КАК ПериодМакс
+				ИЗ
+					РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцов
+				ГДЕ
+					ТабельРаботыПродавцов.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+					И НЕ ТабельРаботыПродавцов.ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И ТабельРаботыПродавцов.Период &lt;= &amp;ТекДата
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыПродавцов.Сотрудник,
+					ТабельРаботыПродавцов.Группа
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыПродавцов.Сотрудник,
+					НЕОПРЕДЕЛЕНО,
+					ДАТАВРЕМЯ(1, 1, 1),
+					МАКСИМУМ(ТабельРаботыПродавцов.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцов
+				ГДЕ
+					ТабельРаботыПродавцов.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.Уволен)
+					И РАЗНОСТЬДАТ(ТабельРаботыПродавцов.Период, &amp;ТекДата, МЕСЯЦ) &gt;= 2
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыПродавцов.Сотрудник
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыКассиров.Сотрудник,
+					ТабельРаботыКассиров.Группа,
+					МИНИМУМ(ТабельРаботыКассиров.Период),
+					МАКСИМУМ(ТабельРаботыКассиров.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыКассиров КАК ТабельРаботыКассиров
+				ГДЕ
+					ТабельРаботыКассиров.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+					И НЕ ТабельРаботыКассиров.ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И ТабельРаботыКассиров.Период &lt;= &amp;ТекДата
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыКассиров.Сотрудник,
+					ТабельРаботыКассиров.Группа
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыКассиров.Сотрудник,
+					НЕОПРЕДЕЛЕНО,
+					ДАТАВРЕМЯ(1, 1, 1),
+					МАКСИМУМ(ТабельРаботыКассиров.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыКассиров КАК ТабельРаботыКассиров
+				ГДЕ
+					ТабельРаботыКассиров.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.Уволен)
+					И РАЗНОСТЬДАТ(ТабельРаботыКассиров.Период, &amp;ТекДата, МЕСЯЦ) &gt;= 2
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыКассиров.Сотрудник
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыГрузчиков.Сотрудник,
+					ТабельРаботыГрузчиков.Группа,
+					МИНИМУМ(ТабельРаботыГрузчиков.Период),
+					МАКСИМУМ(ТабельРаботыГрузчиков.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыГрузчиков КАК ТабельРаботыГрузчиков
+				ГДЕ
+					ТабельРаботыГрузчиков.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+					И НЕ ТабельРаботыГрузчиков.ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И ТабельРаботыГрузчиков.Период &lt;= &amp;ТекДата
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыГрузчиков.Сотрудник,
+					ТабельРаботыГрузчиков.Группа
+				
+				ОБЪЕДИНИТЬ ВСЕ
+				
+				ВЫБРАТЬ
+					ТабельРаботыГрузчиков.Сотрудник,
+					НЕОПРЕДЕЛЕНО,
+					ДАТАВРЕМЯ(1, 1, 1),
+					МАКСИМУМ(ТабельРаботыГрузчиков.Период)
+				ИЗ
+					РегистрСведений.ТабельРаботыГрузчиков КАК ТабельРаботыГрузчиков
+				ГДЕ
+					ТабельРаботыГрузчиков.Отсутствие = ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.Уволен)
+					И РАЗНОСТЬДАТ(ТабельРаботыГрузчиков.Период, &amp;ТекДата, МЕСЯЦ) &gt;= 2
+				
+				СГРУППИРОВАТЬ ПО
+					ТабельРаботыГрузчиков.Сотрудник) КАК ТабельРаботыСотрудников
+				ПО ТабельРаботыСотрудниковМаксимум.ПериодМакс = ТабельРаботыСотрудников.ПериодМакс
+					И ТабельРаботыСотрудниковМаксимум.Сотрудник = ТабельРаботыСотрудников.Сотрудник
+		
+		СГРУППИРОВАТЬ ПО
+			ТабельРаботыСотрудников.Сотрудник) КАК ТабельРаботы
+		ПО СправочникФизическиеЛица.Ссылка = ТабельРаботы.Сотрудник
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			КонтактнаяИнформация.Объект КАК Объект,
+			КонтактнаяИнформация.Представление КАК ТелефонСлужебный
+		ИЗ
+			РегистрСведений.КонтактнаяИнформация КАК КонтактнаяИнформация
+		ГДЕ
+			КонтактнаяИнформация.Объект ССЫЛКА Справочник.ФизическиеЛица
+			И КонтактнаяИнформация.Вид = ЗНАЧЕНИЕ(Справочник.ВидыКонтактнойИнформации.ТелефонСлужебный)) КАК Телефоны
+		ПО СправочникФизическиеЛица.Ссылка = Телефоны.Объект
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			КонтактнаяИнформация.Объект КАК Объект,
+			КонтактнаяИнформация.Представление КАК Почта
+		ИЗ
+			РегистрСведений.КонтактнаяИнформация КАК КонтактнаяИнформация
+		ГДЕ
+			КонтактнаяИнформация.Объект ССЫЛКА Справочник.ФизическиеЛица
+			И КонтактнаяИнформация.Вид = ЗНАЧЕНИЕ(Справочник.ВидыКонтактнойИнформации.EmailФизЛица)) КАК Почты
+		ПО СправочникФизическиеЛица.Ссылка = Почты.Объект</QueryText>
+				<MainTable>Catalog.ФизическиеЛица</MainTable>
+				<ListSettings>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ПринадлежитСкладу</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>dfcece9d-5077-440b-b6b3-45a5cb4538eb</dcsset:userSettingID>
+					</dcsset:filter>
+					<dcsset:order>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>88619765-ccb3-46c6-ac52-38e9c992ebd4</dcsset:userSettingID>
+					</dcsset:order>
+					<dcsset:conditionalAppearance>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>b75fecce-942b-4aed-abc9-e6a02e460fb3</dcsset:userSettingID>
+					</dcsset:conditionalAppearance>
+				</ListSettings>
+			</Settings>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="ПечатьБейджев" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Печать бейджей</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Печать бейджев</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Print</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>ПечатьБейджев</Action>
+			<Representation>TextPicture</Representation>
+		</Command>
+		<Command name="СинхронизироватьСЗУП" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Синхронизировать с ЗУП</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Синхронизировать с ЗУП</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СинхронизироватьСЗУП</Action>
+		</Command>
+		<Command name="ДобавитьВнештатника" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить внештатника</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить внештатника</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ДобавитьВнештатника</Action>
+		</Command>
+		<Command name="ИзменитьВыделенные" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Изменить выделенные...</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Изменить выделенные объекты</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ИзменитьВыделенные</Action>
+		</Command>
+		<Command name="ДублиСотрудников" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дубли сотрудников</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дубли сотрудников</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ДублиСотрудников</Action>
+		</Command>
+		<Command name="ПечатьБейджейПродавцов" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Печать бейджей продавцов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Печать бейджей продавцов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Print</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>ПечатьБейджейПродавцов</Action>
+		</Command>
+		<Command name="ЗагрузитьЛицевыеСчета" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузить лицевые счета из ЗУПа</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузить лицевые счета</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗагрузитьЛицевыеСчета</Action>
+		</Command>
+		<Command name="Стажёры" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Стажёры</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Стажёры</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Стажёры</Action>
+		</Command>
+	</Commands>
+	<CommandInterface>
+		<CommandBar>
+			<Item>
+				<Command>DataProcessor.ПечатьБейджейПродавцов.Command.ПечатьБейджей</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+		</CommandBar>
+	</CommandInterface>
+</Form>

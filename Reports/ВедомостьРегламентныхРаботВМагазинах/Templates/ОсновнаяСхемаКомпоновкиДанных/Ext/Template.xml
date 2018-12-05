@@ -1,0 +1,869 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Структурная единица</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЦФО</dataPath>
+			<field>ЦФО</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Услуга</dataPath>
+			<field>Услуга</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>АналогичныхКонтрагентов</dataPath>
+			<field>АналогичныхКонтрагентов</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Дата</dataPath>
+			<field>Дата</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Исполнитель</dataPath>
+			<field>Исполнитель</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Комментарий</dataPath>
+			<field>Комментарий</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НеВыполнено</dataPath>
+			<field>НеВыполнено</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Выполнено</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:boolean</v8:Type>
+			</valueType>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПредставлениеПериода</dataPath>
+			<field>ПредставлениеПериода</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сумма</dataPath>
+			<field>Сумма</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачала</dataPath>
+			<field>ДатаНачала</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОкончания</dataPath>
+			<field>ДатаОкончания</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Стоимость</dataPath>
+			<field>Стоимость</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Внеплановая</dataPath>
+			<field>Внеплановая</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Выполнено</dataPath>
+			<field>Выполнено</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТелефонПомощника</dataPath>
+			<field>ТелефонПомощника</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Телефон помощника</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПочтаПомощника</dataPath>
+			<field>ПочтаПомощника</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Почта помощника</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПомощникУправляющего</dataPath>
+			<field>ПомощникУправляющего</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Помощник управляющего</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	СтруктурныеЕдиницы.Ссылка
+ПОМЕСТИТЬ ВТ_ОткрытыеТТ
+ИЗ
+	Справочник.СтруктурныеЕдиницы КАК СтруктурныеЕдиницы
+ГДЕ
+	СтруктурныеЕдиницы.СтатусТорговойТочки = ЗНАЧЕНИЕ(Перечисление.СтатусыТорговыхТочек.Открыт)
+	И СтруктурныеЕдиницы.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	Номенклатура.Ссылка
+ПОМЕСТИТЬ ВТ_ОбязательныеРегРаботы
+ИЗ
+	Справочник.Номенклатура КАК Номенклатура
+ГДЕ
+	НЕ Номенклатура.ЭтоГруппа
+	И Номенклатура.Родитель.Код = "000621370"
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЕСТЬNULL(ВТ_ОткрытыеТТ.Ссылка, ВложенныйЗапрос.ТорговаяТочка) КАК ТорговаяТочка,
+	ВложенныйЗапрос.Контрагент,
+	ВложенныйЗапрос.Услуга КАК Услуга,
+	ВложенныйЗапрос.ПредставлениеПериода,
+	ВложенныйЗапрос.Дата,
+	ВложенныйЗапрос.Сумма,
+	ВложенныйЗапрос.НеВыполнено,
+	ВложенныйЗапрос.Исполнитель,
+	ВложенныйЗапрос.Комментарий,
+	ВложенныйЗапрос.Внеплановая
+ПОМЕСТИТЬ ВТ_Сводная
+ИЗ
+	(ВЫБРАТЬ
+		ЖурналРегламентныхРаботВМагазинах.Контрагент КАК Контрагент,
+		ЖурналРегламентныхРаботВМагазинах.Услуга КАК Услуга,
+		ЖурналРегламентныхРаботВМагазинах.ПредставлениеПериода КАК ПредставлениеПериода,
+		ЖурналРегламентныхРаботВМагазинах.Дата КАК Дата,
+		ЖурналРегламентныхРаботВМагазинах.Сумма КАК Сумма,
+		ЖурналРегламентныхРаботВМагазинах.НеВыполнено КАК НеВыполнено,
+		ЖурналРегламентныхРаботВМагазинах.Исполнитель КАК Исполнитель,
+		ЖурналРегламентныхРаботВМагазинах.Комментарий КАК Комментарий,
+		ЖурналРегламентныхРаботВМагазинах.ТорговаяТочка КАК ТорговаяТочка,
+		ЛОЖЬ КАК Внеплановая
+	ИЗ
+		РегистрСведений.ЖурналРегламентныхРаботВМагазинах КАК ЖурналРегламентныхРаботВМагазинах
+			ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТ_ОбязательныеРегРаботы КАК ВТ_ОбязательныеРегРаботы
+			ПО ЖурналРегламентныхРаботВМагазинах.Услуга = ВТ_ОбязательныеРегРаботы.Ссылка
+	ГДЕ
+		НЕ ЖурналРегламентныхРаботВМагазинах.ДатаНачалаПериода &gt; &amp;ДатаОкончания
+		И НЕ ЖурналРегламентныхРаботВМагазинах.ДатаОкончанияПериода &lt; &amp;ДатаНачала
+	
+	ОБЪЕДИНИТЬ ВСЕ
+	
+	ВЫБРАТЬ
+		ЖурналРегламентныхРаботВМагазинах.Контрагент,
+		ЖурналРегламентныхРаботВМагазинах.Услуга,
+		ЖурналРегламентныхРаботВМагазинах.ПредставлениеПериода,
+		ЖурналРегламентныхРаботВМагазинах.Дата,
+		ЖурналРегламентныхРаботВМагазинах.Сумма,
+		ЖурналРегламентныхРаботВМагазинах.НеВыполнено,
+		ЖурналРегламентныхРаботВМагазинах.Исполнитель,
+		ЖурналРегламентныхРаботВМагазинах.Комментарий,
+		ЖурналРегламентныхРаботВМагазинах.ТорговаяТочка,
+		ИСТИНА
+	ИЗ
+		РегистрСведений.ЖурналРегламентныхРаботВМагазинах КАК ЖурналРегламентныхРаботВМагазинах
+	ГДЕ
+		НЕ ЖурналРегламентныхРаботВМагазинах.ДатаНачалаПериода &gt; &amp;ДатаОкончания
+		И НЕ ЖурналРегламентныхРаботВМагазинах.ДатаОкончанияПериода &lt; &amp;ДатаНачала
+		И ЖурналРегламентныхРаботВМагазинах.ВнеплановаяРабота) КАК ВложенныйЗапрос
+		ПОЛНОЕ СОЕДИНЕНИЕ ВТ_ОткрытыеТТ КАК ВТ_ОткрытыеТТ
+		ПО ВложенныйЗапрос.ТорговаяТочка = ВТ_ОткрытыеТТ.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_Сводная.ТорговаяТочка,
+	ВТ_Сводная.Контрагент,
+	ВТ_Сводная.ПредставлениеПериода,
+	ВТ_Сводная.Дата,
+	ВТ_Сводная.Сумма,
+	ВТ_Сводная.НеВыполнено,
+	ВТ_Сводная.Исполнитель,
+	ВТ_Сводная.Комментарий,
+	ВТ_Сводная.Услуга,
+	ВТ_Сводная.Внеплановая
+ПОМЕСТИТЬ ВТ_СводнаяИтог
+ИЗ
+	ВТ_Сводная КАК ВТ_Сводная
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВложенныйЗапрос.ТорговаяТочка,
+	ВТ_ОбязательныеРегРаботы.Ссылка КАК Услуга
+ПОМЕСТИТЬ ВТ_ТТсОбязательныиУслугами
+ИЗ
+	(ВЫБРАТЬ РАЗЛИЧНЫЕ
+		ВТ_СводнаяИтог.ТорговаяТочка КАК ТорговаяТочка
+	ИЗ
+		ВТ_СводнаяИтог КАК ВТ_СводнаяИтог) КАК ВложенныйЗапрос
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТ_ОбязательныеРегРаботы КАК ВТ_ОбязательныеРегРаботы
+		ПО (ИСТИНА)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗЛИЧНЫЕ
+	ЕСТЬNULL(ВТ_ТТсОбязательныиУслугами.ТорговаяТочка, ВложенныйЗапрос.ТорговаяТочка) КАК ТорговаяТочка,
+	ЕСТЬNULL(ВТ_ТТсОбязательныиУслугами.Услуга, ВложенныйЗапрос.Услуга) КАК Услуга
+ПОМЕСТИТЬ ВТ_ВыполненныеРаботыВТТ
+ИЗ
+	(ВЫБРАТЬ РАЗЛИЧНЫЕ
+		ВТ_СводнаяИтог.ТорговаяТочка КАК ТорговаяТочка,
+		ВТ_СводнаяИтог.Услуга КАК Услуга
+	ИЗ
+		ВТ_СводнаяИтог КАК ВТ_СводнаяИтог
+	ГДЕ
+		НЕ ВТ_СводнаяИтог.Услуга ЕСТЬ NULL) КАК ВложенныйЗапрос
+		ПОЛНОЕ СОЕДИНЕНИЕ ВТ_ТТсОбязательныиУслугами КАК ВТ_ТТсОбязательныиУслугами
+		ПО ВложенныйЗапрос.Услуга = ВТ_ТТсОбязательныиУслугами.Услуга
+			И ВложенныйЗапрос.ТорговаяТочка = ВТ_ТТсОбязательныиУслугами.ТорговаяТочка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_ВыполненныеРаботыВТТ.ТорговаяТочка,
+	ВТ_ВыполненныеРаботыВТТ.Услуга,
+	ВТ_СводнаяИтог.Контрагент,
+	ВТ_СводнаяИтог.ПредставлениеПериода,
+	ВТ_СводнаяИтог.Дата,
+	ВТ_СводнаяИтог.Сумма,
+	ВТ_СводнаяИтог.НеВыполнено,
+	ВТ_СводнаяИтог.Исполнитель,
+	ВТ_СводнаяИтог.Комментарий,
+	ВТ_СводнаяИтог.Внеплановая
+ПОМЕСТИТЬ ВТ_Итог
+ИЗ
+	ВТ_ВыполненныеРаботыВТТ КАК ВТ_ВыполненныеРаботыВТТ
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТ_СводнаяИтог КАК ВТ_СводнаяИтог
+		ПО ВТ_ВыполненныеРаботыВТТ.ТорговаяТочка = ВТ_СводнаяИтог.ТорговаяТочка
+			И ВТ_ВыполненныеРаботыВТТ.Услуга = ВТ_СводнаяИтог.Услуга
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_Итог.ТорговаяТочка,
+	ВТ_Итог.Услуга,
+	ВЫБОР
+		КОГДА ВТ_Итог.Контрагент ЕСТЬ NULL
+			ТОГДА ЗНАЧЕНИЕ(справочник.контрагенты.пустаяссылка)
+		ИНАЧЕ ВТ_Итог.Контрагент
+	КОНЕЦ КАК Контрагент,
+	ВТ_Итог.ПредставлениеПериода,
+	ВТ_Итог.Дата,
+	ВТ_Итог.Сумма,
+	ВТ_Итог.НеВыполнено,
+	ВТ_Итог.Исполнитель,
+	ВТ_Итог.Комментарий,
+	ЦФОСтруктурныхЕдиницСрезПоследних.ЦФО,
+	ЦФОСтруктурныхЕдиницСрезПоследних.Организация,
+	ВТ_Итог.Внеплановая
+ПОМЕСТИТЬ ВТ_ДляГруппировок
+ИЗ
+	ВТ_Итог КАК ВТ_Итог
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних КАК ЦФОСтруктурныхЕдиницСрезПоследних
+		ПО ВТ_Итог.ТорговаяТочка = ЦФОСтруктурныхЕдиницСрезПоследних.СтруктурнаяЕдиница
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ВТ_ДляГруппировок.Контрагент) КАК АналогичныхКонтрагентов,
+	ВТ_ДляГруппировок.ТорговаяТочка,
+	ВТ_ДляГруппировок.Услуга,
+	ВТ_ДляГруппировок.ЦФО,
+	ВТ_ДляГруппировок.Организация
+ПОМЕСТИТЬ ВТ_АналогичнеКонтрагенты
+ИЗ
+	ВТ_ДляГруппировок КАК ВТ_ДляГруппировок
+
+СГРУППИРОВАТЬ ПО
+	ВТ_ДляГруппировок.ТорговаяТочка,
+	ВТ_ДляГруппировок.Услуга,
+	ВТ_ДляГруппировок.ЦФО,
+	ВТ_ДляГруппировок.Организация
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_ДляГруппировок.ТорговаяТочка,
+	ВТ_ДляГруппировок.Услуга,
+	ВТ_ДляГруппировок.Контрагент,
+	ВТ_ДляГруппировок.ПредставлениеПериода,
+	ВТ_ДляГруппировок.Дата,
+	ВТ_ДляГруппировок.Сумма,
+	ВЫБОР
+		КОГДА ВТ_ДляГруппировок.Дата = ДАТАВРЕМЯ(1, 1, 1)
+				ИЛИ ВТ_ДляГруппировок.Дата ЕСТЬ NULL
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК НеВыполнено,
+	ВТ_ДляГруппировок.Исполнитель,
+	ВТ_ДляГруппировок.Комментарий,
+	ВТ_ДляГруппировок.ЦФО,
+	ВТ_ДляГруппировок.Организация,
+	ВТ_АналогичнеКонтрагенты.АналогичныхКонтрагентов,
+	ВТ_ДляГруппировок.Внеплановая
+ПОМЕСТИТЬ ВТ_БезДоговоров
+ИЗ
+	ВТ_ДляГруппировок КАК ВТ_ДляГруппировок
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТ_АналогичнеКонтрагенты КАК ВТ_АналогичнеКонтрагенты
+		ПО ВТ_ДляГруппировок.ТорговаяТочка = ВТ_АналогичнеКонтрагенты.ТорговаяТочка
+			И ВТ_ДляГруппировок.Услуга = ВТ_АналогичнеКонтрагенты.Услуга
+			И ВТ_ДляГруппировок.ЦФО = ВТ_АналогичнеКонтрагенты.ЦФО
+			И ВТ_ДляГруппировок.Организация = ВТ_АналогичнеКонтрагенты.Организация
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	СоответствиеОбъектРольСрезПоследних.Объект КАК Объект,
+	МАКСИМУМ(РолиПользователейСоставРоли.Сотрудник) КАК Сотрудник,
+	МАКСИМУМ(ВЫРАЗИТЬ(КонтактнаяИнформацияПочта.Представление КАК СТРОКА(100))) КАК Почта,
+	МАКСИМУМ(ВЫРАЗИТЬ(КонтактнаяИнформацияТелефон.Представление КАК СТРОКА(100))) КАК Телефон
+ПОМЕСТИТЬ ПомощникиУправляющих
+ИЗ
+	Справочник.РолиПользователей.СоставРоли КАК РолиПользователейСоставРоли
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних(&amp;ДатаОкончания, ) КАК СоответствиеОбъектРольСрезПоследних
+		ПО РолиПользователейСоставРоли.Ссылка = СоответствиеОбъектРольСрезПоследних.РольПользователя
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.КонтактнаяИнформация КАК КонтактнаяИнформацияПочта
+		ПО РолиПользователейСоставРоли.Сотрудник = КонтактнаяИнформацияПочта.Объект
+			И (КонтактнаяИнформацияПочта.Тип = ЗНАЧЕНИЕ(Перечисление.ТипыКонтактнойИнформации.АдресЭлектроннойПочты))
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.КонтактнаяИнформация КАК КонтактнаяИнформацияТелефон
+		ПО РолиПользователейСоставРоли.Сотрудник = КонтактнаяИнформацияТелефон.Объект
+			И (КонтактнаяИнформацияТелефон.Тип = ЗНАЧЕНИЕ(Перечисление.ТипыКонтактнойИнформации.Телефон))
+ГДЕ
+	СоответствиеОбъектРольСрезПоследних.ТипРоли = ЗНАЧЕНИЕ(ПланВидовХарактеристик.ТипыРолейПользователя.ПомощникТерриториальногоУправляющего)
+
+СГРУППИРОВАТЬ ПО
+	СоответствиеОбъектРольСрезПоследних.Объект
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_БезДоговоров.ТорговаяТочка,
+	ВТ_БезДоговоров.Услуга,
+	ВТ_БезДоговоров.Контрагент,
+	ВТ_БезДоговоров.ПредставлениеПериода,
+	ВТ_БезДоговоров.Дата,
+	ВТ_БезДоговоров.Сумма,
+	ВЫБОР
+		КОГДА АК_УсловияРегламентныхРаботСрезПоследних.НеТребуетРегистрацииВыполнения
+			ТОГДА ИСТИНА
+		ИНАЧЕ ВТ_БезДоговоров.НеВыполнено
+	КОНЕЦ КАК НеВыполнено,
+	ВТ_БезДоговоров.Исполнитель,
+	ВТ_БезДоговоров.Комментарий,
+	ВТ_БезДоговоров.ЦФО,
+	ВТ_БезДоговоров.Организация,
+	ВТ_БезДоговоров.АналогичныхКонтрагентов,
+	АК_УсловияРегламентныхРаботСрезПоследних.ДоговорКонтрагента,
+	ЕСТЬNULL(АК_УсловияРегламентныхРаботСрезПоследних.Стоимость, ВТ_БезДоговоров.Сумма) КАК Стоимость,
+	АК_УсловияРегламентныхРаботСрезПоследних.ДатаНачала,
+	АК_УсловияРегламентныхРаботСрезПоследних.ДатаОкончания,
+	ВТ_БезДоговоров.Внеплановая,
+	ПомощникиУправляющих.Сотрудник КАК ПомощникУправляющего,
+	ПомощникиУправляющих.Почта КАК ПочтаПомощника,
+	ПомощникиУправляющих.Телефон КАК ТелефонПомощника
+ИЗ
+	ВТ_БезДоговоров КАК ВТ_БезДоговоров
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.АК_УсловияРегламентныхРабот.СрезПоследних(&amp;ДатаОкончания, ) КАК АК_УсловияРегламентныхРаботСрезПоследних
+		ПО ВТ_БезДоговоров.Услуга = АК_УсловияРегламентныхРаботСрезПоследних.Услуга
+			И ВТ_БезДоговоров.Контрагент = АК_УсловияРегламентныхРаботСрезПоследних.Контрагент
+			И ВТ_БезДоговоров.ТорговаяТочка = АК_УсловияРегламентныхРаботСрезПоследних.СтруктурнаяЕдиница
+		ЛЕВОЕ СОЕДИНЕНИЕ ПомощникиУправляющих КАК ПомощникиУправляющих
+		ПО ВТ_БезДоговоров.ТорговаяТочка = ПомощникиУправляющих.Объект
+ГДЕ
+	(НЕ АК_УсловияРегламентныхРаботСрезПоследних.Статус = ЗНАЧЕНИЕ(перечисление.АК_ВидыОперацийИзменениеУсловийОбслуживаний.Завершение)
+			ИЛИ АК_УсловияРегламентныхРаботСрезПоследних.Статус ЕСТЬ NULL)
+{ГДЕ
+	(ВЫБОР
+			КОГДА АК_УсловияРегламентныхРаботСрезПоследних.НеТребуетРегистрацииВыполнения
+				ТОГДА ИСТИНА
+			ИНАЧЕ ВТ_БезДоговоров.НеВыполнено
+		КОНЕЦ) КАК Выполнено}</query>
+	</dataSet>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодПлан.ДатаНачала</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодПлан.ДатаОкончания</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>ПериодПлан</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период (план)</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПредставлениеПериода</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Услуга</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Контрагент</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Дата</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НеВыполнено</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Исполнитель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Комментарий</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>АналогичныхКонтрагентов</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДоговорКонтрагента</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаНачала</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаОкончания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Стоимость</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>Внеплановая</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>0ec30209-da5b-4dc9-bda2-1cad758f3d5d</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Структурная единица</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Дата</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>0001-01-01T00:00:00</v8:date>
+					</dcsset:right>
+					<dcsset:userSettingID>32dd1d4d-28e8-4045-b6fa-7db221045a6d</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Услуга</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:string">00000000-0000-0000-0000-000000000000</dcsset:right>
+					<dcsset:userSettingID>128e9493-e212-475c-a628-609d24567283</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Контрагент</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:string">00000000-0000-0000-0000-000000000000</dcsset:right>
+					<dcsset:userSettingID>4a734a73-85fb-4a35-8fae-05f84fadb4d3</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Организация</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:string">00000000-0000-0000-0000-000000000000</dcsset:right>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Внеплановая</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					<dcsset:userSettingID>44a34df0-86cf-4d02-a100-34fa91e23066</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Выполнено</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					<dcsset:userSettingID>bd8814e9-127b-4f2a-97d7-a0cd4c5b4f58</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ПомощникУправляющего</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>292c92cb-fc64-4313-8e0c-a8d702da596b</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодПлан</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">ThisMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>6a354017-728b-496f-92c6-b0ac1b8de084</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ТорговаяТочка.id_TT</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Услуга.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Контрагент.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Контрагент</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Контрагент</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string">00000000-0000-0000-0000-000000000000</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#F5FFB5</dcscor:value>
+						</dcscor:item>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Не заполнен</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Дата</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Исполнитель</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Комментарий</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Контрагент</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>НеВыполнено</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ПредставлениеПериода</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ТорговаяТочка</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Услуга</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Сумма</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка.СтатусТорговойТочки</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string">Закрыт</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#FF3434</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Услуга</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Контрагент</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">АналогичныхКонтрагентов</dcsset:left>
+							<dcsset:comparisonType>Greater</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">1</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#FF1414</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Услуга</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ПредставлениеПериода</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Стоимость</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Дата</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Контрагент</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ДатаНачала</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ДатаОкончания</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Сумма</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ДоговорКонтрагента</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>НеВыполнено</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Исполнитель</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Комментарий</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Внеплановая</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#51FFFF</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Ведомость регламентных работ в магазинах</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ЦФО</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Организация</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ТорговаяТочка</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПомощникУправляющего</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПочтаПомощника</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ТелефонПомощника</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item xsi:type="dcsset:StructureItemGroup">
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

@@ -1,0 +1,47 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://api.vetrf.ru/schema/cdm/argus/common">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/common" name="purpose" type="d2p1:Purpose"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/common" name="purposeList" type="d2p1:PurposeList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/common" name="unit" type="d2p1:Unit"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/common" name="unitList" type="d2p1:UnitList"/>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="DocumentNature" base="d2p1:String255" variety="Atomic">
+		<enumeration>ELECTRONIC</enumeration>
+		<enumeration>PAPER</enumeration>
+	</valueType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Document" base="d2p1:GenericEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="form" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueSeries" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueNumber" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueDate" type="xs:date" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="PackingForm" base="d2p1:GenericEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType name="PackingFormList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="packingForm" type="d3p1:PackingForm" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Purpose" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="forSubstandard" type="xs:boolean" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="PurposeList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="purpose" type="d3p1:Purpose" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Unit" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="fullName" type="d2p1:String255" lowerBound="0"/>
+		<property name="commonUnitGuid" type="d2p1:UUID" lowerBound="0"/>
+		<property name="factor" type="xs:integer" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="UnitList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="unit" type="d3p1:Unit" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="User" base="d2p1:GenericEntity">
+		<property name="fio" type="d2p1:String255" lowerBound="0"/>
+		<property name="post" type="d2p1:String255" lowerBound="0"/>
+		<property name="phone" type="d2p1:String255" lowerBound="0"/>
+		<property name="email" type="d2p1:String255" lowerBound="0"/>
+		<property name="login" type="xs:NCName" lowerBound="0"/>
+	</objectType>
+</package>

@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Расчетчик</dataPath>
+			<field>Расчетчик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сумма</dataPath>
+			<field>Сумма</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма по старой формуле</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ставка</dataPath>
+			<field>Ставка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НормаВдень</dataPath>
+			<field>НормаВдень</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтавкаСверхНормы</dataPath>
+			<field>СтавкаСверхНормы</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочкаid_TT</dataPath>
+			<field>ТорговаяТочкаid_TT</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЛистов</dataPath>
+			<field>КоличествоЛистов</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Дней</dataPath>
+			<field>Дней</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛистУчета.Расчетчик,
+	ЛистУчета.ТорговаяТочка,
+	ЛистУчета.Ссылка КАК Ссылка,
+	МАКСИМУМ(ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Период, ДАТАВРЕМЯ(1, 1, 1))) КАК ДатаСтавки
+ПОМЕСТИТЬ ВТОсновная
+ИЗ
+	Документ.ЛистУчета КАК ЛистУчета
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СтавкиЗаОбработкуЛистовУчета КАК СтавкиЗаОбработкуЛистовУчета
+		ПО (СтавкиЗаОбработкуЛистовУчета.ТипСтруктурнойЕдиницы = ЛистУчета.ТорговаяТочка.ТипСтруктурнойЕдиницы)
+			И (НЕ СтавкиЗаОбработкуЛистовУчета.Период &gt; НАЧАЛОПЕРИОДА(ЛистУчета.Дата, МЕСЯЦ))
+ГДЕ
+	ЛистУчета.Дата МЕЖДУ &amp;ДатаНачала И КОНЕЦПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ)
+	И ЛистУчета.Обработан
+
+СГРУППИРОВАТЬ ПО
+	ЛистУчета.Расчетчик,
+	ЛистУчета.ТорговаяТочка,
+	ЛистУчета.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТОсновная.Расчетчик,
+	ВТОсновная.ТорговаяТочка,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Ставка, 25) = 0
+			ТОГДА 25
+		ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Ставка, 25)
+	КОНЕЦ КАК Ставка,
+	КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ВТОсновная.Ссылка) КАК КоличествоЛистов,
+	СУММА(ВЫБОР
+			КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Ставка, 25) = 0
+				ТОГДА 25
+			ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Ставка, 25)
+		КОНЕЦ) КАК Сумма,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.НормаВДень, 60) = 0
+			ТОГДА 60
+		ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.НормаВДень, 60)
+	КОНЕЦ КАК НормаВдень,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.СтавкаСверхНормы, 27) = 0
+			ТОГДА 27
+		ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.СтавкаСверхНормы, 27)
+	КОНЕЦ КАК СтавкаСверхНормы,
+	ВТОсновная.ТорговаяТочка.id_TT,
+	ОтработанныеДниРасчетчиковОтработано.Дней
+ИЗ
+	ВТОсновная КАК ВТОсновная
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СтавкиЗаОбработкуЛистовУчета КАК СтавкиЗаОбработкуЛистовУчета
+		ПО (СтавкиЗаОбработкуЛистовУчета.ТипСтруктурнойЕдиницы = ВТОсновная.ТорговаяТочка.ТипСтруктурнойЕдиницы)
+			И (СтавкиЗаОбработкуЛистовУчета.Период = ВТОсновная.ДатаСтавки)
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ОтработанныеДниРасчетчиков.Отработано КАК ОтработанныеДниРасчетчиковОтработано
+		ПО ВТОсновная.Расчетчик = ОтработанныеДниРасчетчиковОтработано.Расчетчик
+			И (НАЧАЛОПЕРИОДА(ВТОсновная.Ссылка.Дата, МЕСЯЦ) = НАЧАЛОПЕРИОДА(ОтработанныеДниРасчетчиковОтработано.Ссылка.Дата, МЕСЯЦ))
+			И (ОтработанныеДниРасчетчиковОтработано.Ссылка.Проведен)
+
+СГРУППИРОВАТЬ ПО
+	ВТОсновная.Расчетчик,
+	ВТОсновная.ТорговаяТочка,
+	ВТОсновная.ТорговаяТочка.id_TT,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.НормаВДень, 60) = 0
+			ТОГДА 60
+		ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.НормаВДень, 60)
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.СтавкаСверхНормы, 27) = 0
+			ТОГДА 27
+		ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.СтавкаСверхНормы, 27)
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Ставка, 25) = 0
+			ТОГДА 25
+		ИНАЧЕ ЕСТЬNULL(СтавкиЗаОбработкуЛистовУчета.Ставка, 25)
+	КОНЕЦ,
+	ОтработанныеДниРасчетчиковОтработано.Дней
+;
+
+////////////////////////////////////////////////////////////////////////////////
+УНИЧТОЖИТЬ ВТОсновная</query>
+	</dataSet>
+	<calculatedField>
+		<dataPath>СуммаЗаработка</dataPath>
+		<expression>""</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Сумма заработка</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>ЗаработокПоНорме</dataPath>
+		<expression>Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень Тогда Сумма(КоличествоЛистов)*Ставка Иначе НормаВДень*Ставка Конец</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Заработок по норме</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>ЗаработокСверхНормы</dataPath>
+		<expression>Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень Тогда 0 Иначе (Сумма(КоличествоЛистов)-НормаВДень)*СтавкаСверхНормы Конец</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Заработок сверх нормы</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<totalField>
+		<dataPath>Сумма</dataPath>
+		<expression>Сумма(Сумма)</expression>
+		<group>Расчетчик</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>СуммаЗаработка</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень*Дней Тогда Сумма(КоличествоЛистов)*Ставка Иначе НормаВДень*Ставка*Дней Конец","Расчетчик"))+Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень*Дней Тогда 0 Иначе (Сумма(КоличествоЛистов)-НормаВДень*Дней)*СтавкаСверхНормы Конец","Расчетчик"))</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ЗаработокПоНорме</dataPath>
+		<expression>Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень*Дней Тогда Сумма(КоличествоЛистов)*Ставка Иначе НормаВДень*Дней*Ставка Конец</expression>
+		<group>Расчетчик</group>
+	</totalField>
+	<totalField>
+		<dataPath>ЗаработокСверхНормы</dataPath>
+		<expression>Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень*Дней Тогда 0 Иначе (Сумма(КоличествоЛистов)-НормаВДень*Дней)*СтавкаСверхНормы Конец</expression>
+		<group>Расчетчик</group>
+	</totalField>
+	<totalField>
+		<dataPath>ЗаработокПоНорме</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень*Дней Тогда Сумма(КоличествоЛистов)*Ставка Иначе НормаВДень*Ставка*Дней Конец","Расчетчик"))</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ЗаработокСверхНормы</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(КоличествоЛистов)&lt;=НормаВДень*Дней Тогда 0 Иначе (Сумма(КоличествоЛистов)-НормаВДень*Дней)*СтавкаСверхНормы Конец","Расчетчик"))</expression>
+	</totalField>
+	<totalField>
+		<dataPath>КоличествоЛистов</dataPath>
+		<expression>Сумма(КоличествоЛистов)</expression>
+	</totalField>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаНачала</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаОкончания</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>ПериодОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Расчетчик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоЛистов</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Ставка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтавкаСверхНормы</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НормаВдень</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>Сумма</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemFolder">
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Новая формула</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЗаработокПоНорме</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЗаработокСверхНормы</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>СуммаЗаработка</dcsset:field>
+					</dcsset:item>
+					<dcsset:placement>Auto</dcsset:placement>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Расчетчик</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>4cc1abf7-942d-4c5c-9c31-a73e1c476dec</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>bb849009-ac53-4591-862b-0b364dd96143</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Ставка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>2014-03-01T00:00:00</v8:startDate>
+						<v8:endDate>2014-03-31T23:59:59</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>e2a0e29f-d047-4e1e-83ae-35cd391be450</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Зарплата расчетчиков</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Расчетчик</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Дней</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>НормаВдень</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Ставка</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>СтавкаСверхНормы</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

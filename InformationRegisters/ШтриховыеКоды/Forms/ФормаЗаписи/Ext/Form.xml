@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<CommandSet>
+		<ExcludedCommand>No</ExcludedCommand>
+		<ExcludedCommand>CustomizeForm</ExcludedCommand>
+		<ExcludedCommand>Reread</ExcludedCommand>
+		<ExcludedCommand>SaveValues</ExcludedCommand>
+		<ExcludedCommand>Close</ExcludedCommand>
+		<ExcludedCommand>Help</ExcludedCommand>
+		<ExcludedCommand>Abort</ExcludedCommand>
+		<ExcludedCommand>Retry</ExcludedCommand>
+		<ExcludedCommand>Yes</ExcludedCommand>
+		<ExcludedCommand>Cancel</ExcludedCommand>
+		<ExcludedCommand>Copy</ExcludedCommand>
+		<ExcludedCommand>RestoreValues</ExcludedCommand>
+		<ExcludedCommand>Delete</ExcludedCommand>
+		<ExcludedCommand>Ignore</ExcludedCommand>
+		<ExcludedCommand>OK</ExcludedCommand>
+		<ExcludedCommand>Write</ExcludedCommand>
+	</CommandSet>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="BeforeWrite">ПередЗаписью</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+		<Event name="BeforeWriteAtServer">ПередЗаписьюНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="Номенклатура" id="1">
+			<DataPath>Запись.Номенклатура</DataPath>
+			<ContextMenu name="НоменклатураКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="НоменклатураРасширеннаяПодсказка" id="17"/>
+		</InputField>
+		<InputField name="ХарактеристикаПартия" id="5">
+			<DataPath>Запись.Характеристика</DataPath>
+			<OpenButton>true</OpenButton>
+			<ChoiceParameterLinks>
+				<xr:Link>
+					<xr:Name>Отбор.Владелец</xr:Name>
+					<xr:DataPath xsi:type="xs:string">Запись.Номенклатура</xr:DataPath>
+					<xr:ValueChange>Clear</xr:ValueChange>
+				</xr:Link>
+			</ChoiceParameterLinks>
+			<ContextMenu name="ХарактеристикаПартияКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="ХарактеристикаПартияРасширеннаяПодсказка" id="18"/>
+			<Events>
+				<Event name="StartListChoice">ХарактеристикаПартияНачалоВыбораИзСписка</Event>
+			</Events>
+		</InputField>
+		<InputField name="ЕдиницаИзмерения" id="3">
+			<DataPath>Запись.ЕдиницаИзмерения</DataPath>
+			<ContextMenu name="ЕдиницаИзмеренияКонтекстноеМеню" id="4"/>
+			<ExtendedTooltip name="ЕдиницаИзмеренияРасширеннаяПодсказка" id="19"/>
+		</InputField>
+		<UsualGroup name="Группа1" id="10">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="20"/>
+			<ChildItems>
+				<InputField name="ШтрихКод" id="7">
+					<DataPath>Запись.ШтрихКод</DataPath>
+					<ContextMenu name="ШтрихКодКонтекстноеМеню" id="8"/>
+					<ExtendedTooltip name="ШтрихКодРасширеннаяПодсказка" id="21"/>
+				</InputField>
+				<Button name="ГенерироватьШтрихКод" id="9">
+					<Type>UsualButton</Type>
+					<CommandName>Form.Command.ГенерироватьШтрихКод</CommandName>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Генерировать</v8:content>
+						</v8:item>
+					</Title>
+					<ExtendedTooltip name="ГенерироватьШтрихКодРасширеннаяПодсказка" id="22"/>
+				</Button>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="Группа2" id="13">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа2РасширеннаяПодсказка" id="23"/>
+			<ChildItems>
+				<InputField name="ЛожныйШтрихКод" id="11">
+					<DataPath>Запись.ЛожныйШтрихКод</DataPath>
+					<ContextMenu name="ЛожныйШтрихКодКонтекстноеМеню" id="12"/>
+					<ExtendedTooltip name="ЛожныйШтрихКодРасширеннаяПодсказка" id="24"/>
+				</InputField>
+				<Button name="ЗаполнитьКС" id="14">
+					<Type>UsualButton</Type>
+					<CommandName>Form.Command.ЗаполнитьКС</CommandName>
+					<ExtendedTooltip name="ЗаполнитьКСРасширеннаяПодсказка" id="25"/>
+				</Button>
+			</ChildItems>
+		</UsualGroup>
+		<CheckBoxField name="ВыведенИзМагазинов" id="15">
+			<DataPath>Запись.ВыведенИзМагазинов</DataPath>
+			<CheckBoxType>Auto</CheckBoxType>
+			<ContextMenu name="ВыведенИзМагазиновКонтекстноеМеню" id="16"/>
+			<ExtendedTooltip name="ВыведенИзМагазиновРасширеннаяПодсказка" id="26"/>
+		</CheckBoxField>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Запись" id="1">
+			<Type>
+				<v8:Type>cfg:InformationRegisterRecordManager.ШтриховыеКоды</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="ГенерироватьШтрихКод" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Генерировать штрих код</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Генерировать штрих код</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ГенерироватьШтрихКод</Action>
+		</Command>
+		<Command name="ЗаполнитьКС" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить КС</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить КС</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьКС</Action>
+		</Command>
+	</Commands>
+</Form>

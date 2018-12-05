@@ -1,0 +1,230 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://api.vetrf.ru/schema/cdm/mercury/vet-document">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/ikar"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/argus/common"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/argus/shipment"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/argus/production"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="confirmedDateInterval" type="d2p1:DateInterval"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="stockEntry" type="d2p1:StockEntry"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="stockEntryList" type="d2p1:StockEntryList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetDocument" type="d2p1:VetDocument"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetDocumentList" type="d2p1:VetDocumentList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetDocumentStatus" type="d2p1:VetDocumentStatus"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetDocumentType" type="d2p1:VetDocumentType"/>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="AnimalSpentPeriod" base="d2p1:String255" variety="Atomic">
+		<enumeration>FROM_BIRTH</enumeration>
+		<enumeration>NOT_LESS_SIX_MONTHS</enumeration>
+		<enumeration>IN_MONTHS</enumeration>
+		<enumeration>ZERO</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="DeliveryDecision" base="d2p1:String255" variety="Atomic">
+		<enumeration>ACCEPT_ALL</enumeration>
+		<enumeration>PARTIALLY</enumeration>
+		<enumeration>RETURN_ALL</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="DeliveryInspectionResult" base="d2p1:String255" variety="Atomic">
+		<enumeration>CORRESPONDS</enumeration>
+		<enumeration>MISMATCH</enumeration>
+		<enumeration>UNSUPERVISED</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="ProductMarkingClass" base="d2p1:String255" variety="Atomic">
+		<enumeration>UNDEFINED</enumeration>
+		<enumeration>BN</enumeration>
+		<enumeration>SSCC</enumeration>
+	</valueType>
+	<valueType name="StockEntryBlankFilter" base="xs:string" variety="Atomic">
+		<enumeration>ALL</enumeration>
+		<enumeration>BLANK</enumeration>
+		<enumeration>NOT_BLANK</enumeration>
+	</valueType>
+	<valueType name="StockEntryNumber" base="xs:string" variety="Atomic">
+		<pattern>\d+</pattern>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="VetDocumentForm" base="d2p1:String255" variety="Atomic">
+		<enumeration>CERTCU1</enumeration>
+		<enumeration>LIC1</enumeration>
+		<enumeration>CERTCU2</enumeration>
+		<enumeration>LIC2</enumeration>
+		<enumeration>CERTCU3</enumeration>
+		<enumeration>LIC3</enumeration>
+		<enumeration>NOTE4</enumeration>
+		<enumeration>CERT5I</enumeration>
+		<enumeration>CERT61</enumeration>
+		<enumeration>CERT62</enumeration>
+		<enumeration>CERT63</enumeration>
+		<enumeration>PRODUCTIVE</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="VetDocumentStatus" base="d2p1:String255" variety="Atomic">
+		<enumeration>CREATED</enumeration>
+		<enumeration>CONFIRMED</enumeration>
+		<enumeration>WITHDRAWN</enumeration>
+		<enumeration>UTILIZED</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="VetDocumentType" base="d2p1:String255" variety="Atomic">
+		<enumeration>TRANSPORT</enumeration>
+		<enumeration>PRODUCTIVE</enumeration>
+		<enumeration>RETURNABLE</enumeration>
+		<enumeration>INCOMING</enumeration>
+		<enumeration>OUTGOING</enumeration>
+	</valueType>
+	<valueType name="WithdrawReason" base="xs:string" variety="Atomic"/>
+	<objectType name="Batch">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productType" type="d3p1:ProductType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="product" type="d3p1:Product" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="subProduct" type="d3p1:SubProduct" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productItem" type="d3p1:ProductItem" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="volume" type="d3p1:Decimal" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="unit" type="d3p1:Unit" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="packingList" type="d3p1:PackingFormList" lowerBound="0"/>
+		<property name="packingAmount" type="xs:int" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="dateOfProduction" type="d3p1:GoodsDate" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="expiryDate" type="d3p1:GoodsDate" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="productionOperationId" type="d3p1:Identifier" lowerBound="0"/>
+		<property name="perishable" type="xs:boolean" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="countryOfOrigin" type="d3p1:Country" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="producerList" type="d3p1:ProducerList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="productMarkingList" type="d3p1:ProductMarkingList" lowerBound="0"/>
+		<property name="lowGradeCargo" type="xs:boolean" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="owner" type="d3p1:BusinessEntity" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="Consignment" base="d2p1:Batch">
+		<property name="id" type="xs:ID" lowerBound="0" form="Attribute"/>
+		<property name="partOf" type="xs:IDREF" lowerBound="0" form="Attribute"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="productName" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="productCode" type="d3p1:String255" lowerBound="0"/>
+		<property name="sourceStockEntry" type="d2p1:StockEntry" lowerBound="0"/>
+	</objectType>
+	<objectType name="ConsignmentDocumentList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="waybill" type="d3p1:Waybill"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetCertificate" type="d3p1:VetDocument" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Delivery" base="d2p1:GenericEntity">
+		<property name="deliveryDate" type="xs:dateTime" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="consignor" type="d3p1:BusinessMember" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="consignee" type="d3p1:BusinessMember" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="consignment" type="d3p1:Consignment" lowerBound="0" upperBound="-1"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="accompanyingForms" type="d3p1:ConsignmentDocumentList" lowerBound="0"/>
+	</objectType>
+	<objectType name="DeliveryFactList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="vetCertificatePresence" type="d3p1:DocumentNature"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="docInspection" type="d3p1:DeliveryInspection"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetInspection" type="d3p1:DeliveryInspection"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="decision" type="d3p1:DeliveryDecision"/>
+	</objectType>
+	<objectType name="DeliveryInspection">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="responsible" type="d3p1:User"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="result" type="d3p1:DeliveryInspectionResult"/>
+		<property name="info" type="xs:string" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="DiscrepancyReason" base="d2p1:GenericEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType name="DiscrepancyReport">
+		<property name="for" type="xs:IDREF" lowerBound="0" form="Attribute"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="issueSeries" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="issueNumber" type="d3p1:String255" lowerBound="0"/>
+		<property name="issueDate" type="xs:date" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="reason" type="d3p1:DiscrepancyReason" lowerBound="0"/>
+		<property name="description" type="xs:string" lowerBound="0"/>
+	</objectType>
+	<objectType name="GoodsDate">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="firstDate" type="d3p1:ComplexDate" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="secondDate" type="d3p1:ComplexDate" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="informalDate" type="d3p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType name="MergeStockEntriesOperation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="type" type="d3p1:RegisterModificationType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="sourceStockEntry" type="d3p1:StockEntry" upperBound="-1"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="batch" type="d3p1:Batch" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType name="ProductMarking">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="class" type="d3p1:ProductMarkingClass" lowerBound="0" fixed="false" default="UNDEFINED" form="Attribute"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="__content" type="d3p1:String255" form="Text"/>
+	</objectType>
+	<objectType name="ProductMarkingList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="productMarking" type="d3p1:ProductMarking" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType name="ProductionOperation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="operationId" type="d3p1:Identifier" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="rawBatch" type="d3p1:RawBatch" lowerBound="0" upperBound="-1"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="productiveBatch" type="d3p1:ProductiveBatch" lowerBound="0" upperBound="-1"/>
+		<property name="finalizeOperation" type="xs:boolean" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="ProductiveBatch" base="d2p1:Batch">
+		<property name="id" type="xs:ID" lowerBound="0" form="Attribute"/>
+	</objectType>
+	<objectType name="RawBatch">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="sourceStockEntry" type="d3p1:StockEntry" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="volume" type="d3p1:Decimal" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="unit" type="d3p1:Unit" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="packingList" type="d3p1:PackingFormList" lowerBound="0"/>
+		<property name="packingAmount" type="xs:int" lowerBound="0"/>
+	</objectType>
+	<objectType name="StockDiscrepancy">
+		<property name="id" type="xs:ID" lowerBound="0" form="Attribute"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="affectedList" type="d3p1:StockEntryList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="resultingList" type="d3p1:StockEntryList" lowerBound="0"/>
+		<property name="reason" type="xs:string" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="StockEntry" base="d2p1:GenericVersioningEntity">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="entryNumber" type="d3p1:StockEntryNumber" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="batch" type="d3p1:Batch" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetDocument" type="d3p1:VetDocument" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="StockEntryList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="stockEntry" type="d3p1:StockEntry" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="StockEntrySearchPattern" base="d2p1:StockEntry">
+		<property name="blankFilter" type="d2p1:StockEntryBlankFilter" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="VetDocument" base="d2p1:GenericEntity">
+		<property name="for" type="xs:IDREF" lowerBound="0" form="Attribute"/>
+		<property name="issueSeries" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueNumber" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueDate" type="xs:date" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="form" type="d3p1:VetDocumentForm" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="type" type="d3p1:VetDocumentType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="status" type="d3p1:VetDocumentStatus" lowerBound="0"/>
+		<property name="finalized" type="xs:boolean" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="consignor" type="d3p1:BusinessMember" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="consignee" type="d3p1:BusinessMember" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="batch" type="d3p1:Batch" lowerBound="0"/>
+		<property name="productName" type="d2p1:String255" lowerBound="0"/>
+		<property name="productCode" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="purpose" type="d3p1:Purpose" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="broker" type="d3p1:BusinessEntity" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="transportInfo" type="d3p1:TransportInfo" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="transportStorageType" type="d3p1:TransportationStorageType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="cargoReloadingPointList" type="d3p1:ShipmentRoute" lowerBound="0"/>
+		<property name="waybillSeries" type="d2p1:String255" lowerBound="0"/>
+		<property name="waybillNumber" type="d2p1:String255" lowerBound="0"/>
+		<property name="waybillDate" type="xs:date" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="waybillType" type="d3p1:WaybillType" lowerBound="0"/>
+		<property name="cargoInspected" type="xs:boolean" lowerBound="0"/>
+		<property name="cargoExpertized" type="xs:boolean" lowerBound="0"/>
+		<property name="expertiseInfo" type="d2p1:Text" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="confirmedBy" type="d3p1:User" lowerBound="0"/>
+		<property name="confirmedDate" type="xs:dateTime" lowerBound="0"/>
+		<property name="locationProsperity" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="animalSpentPeriod" type="d3p1:AnimalSpentPeriod" lowerBound="0"/>
+		<property name="monthsSpent" type="d2p1:String255" lowerBound="0"/>
+		<property name="quarantinePlace" type="d2p1:String255" lowerBound="0"/>
+		<property name="quarantineDays" type="xs:int" lowerBound="0"/>
+		<property name="immunizationInfo" type="d2p1:String255" lowerBound="0"/>
+		<property name="precedingVetDocuments" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="importPermit" type="d3p1:Document" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="transferPermit" type="d3p1:Document" lowerBound="0"/>
+		<property name="specialMarks" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="withdrawedBy" type="d3p1:User" lowerBound="0"/>
+		<property name="withdrawDate" type="xs:dateTime" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="withdrawReason" type="d3p1:WithdrawReason" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/common" name="utilizedBy" type="d3p1:User" lowerBound="0"/>
+		<property name="utilizeDate" type="xs:dateTime" lowerBound="0"/>
+		<property name="finalizeDate" type="xs:dateTime" lowerBound="0"/>
+		<property name="lastUpdateDate" type="xs:dateTime" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="VetDocumentList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/mercury/vet-document" name="vetDocument" type="d3p1:VetDocument" lowerBound="0" upperBound="-1"/>
+	</objectType>
+</package>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/"
+		xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/application/service"
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsd1="http://api.vetrf.ru/schema/cdm/base/ws-definitions"
+		xmlns:xsd2="http://api.vetrf.ru/schema/cdm/application"
+		xmlns:xsd3="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:xsd4="http://api.vetrf.ru/schema/cdm/application/ws-definitions"
+		xmlns:xsd5="0"
+		name="ApplicationManagementService"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/application/service">
+	<types>
+		<xs:schema xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/"
+				xmlns:WL5G3N1="http://api.vetrf.ru/schema/cdm/application/ws-definitions"
+				xmlns:WL5G3N2="http://api.vetrf.ru/schema/cdm/base/ws-definitions"
+				xmlns:WL5G3N3="http://api.vetrf.ru/schema/cdm/application/service"
+				xmlns:WL5G3N4="http://schemas.xmlsoap.org/wsdl/soap/"
+				xmlns:bsdef="http://api.vetrf.ru/schema/cdm/base/ws-definitions"
+				xmlns:def="http://api.vetrf.ru/schema/cdm/application/ws-definitions"
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				xmlns:tns="0"
+				xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+				xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				targetNamespace="0">
+			<xs:import namespace="http://api.vetrf.ru/schema/cdm/application/ws-definitions"
+					schemaLocation="file://1.xsd"/>
+			<xs:import namespace="http://api.vetrf.ru/schema/cdm/base/ws-definitions"
+					schemaLocation="file://4.xsd"/>
+		</xs:schema>
+	</types>
+	<message name="SubmitApplicationRequest">
+		<part name="request"
+				element="xsd4:submitApplicationRequest"/>
+	</message>
+	<message name="SubmitApplicationResponse">
+		<part name="response"
+				element="xsd4:submitApplicationResponse"/>
+	</message>
+	<message name="ReceiveApplicationResultRequest">
+		<part name="request"
+				element="xsd4:receiveApplicationResultRequest"/>
+	</message>
+	<message name="ReceiveApplicationResultResponse">
+		<part name="response"
+				element="xsd4:receiveApplicationResultResponse"/>
+	</message>
+	<message name="ApplicationNotFoundFault">
+		<part name="fault"
+				element="xsd1:entityNotFoundFault"/>
+	</message>
+	<message name="InternalServiceFault">
+		<part name="fault"
+				element="xsd1:internalServiceFault"/>
+	</message>
+	<message name="IncorrectRequestFault">
+		<part name="fault"
+				element="xsd1:incorrectRequestFault"/>
+	</message>
+	<message name="AccessDeniedFault">
+		<part name="fault"
+				element="xsd1:accessDeniedFault"/>
+	</message>
+	<message name="UnsupportedApplicationDataTypeFault">
+		<part name="fault"
+				element="xsd4:unsupportedApplicationDataTypeFault"/>
+	</message>
+	<message name="UnknownServiceIdFault">
+		<part name="fault"
+				element="xsd4:unknownServiceIdFault"/>
+	</message>
+	<portType name="ApplicationManagementServicePortType">
+		<operation name="submitApplicationRequest">
+			<input name="submitApplicationRequestRequest"
+					message="tns:SubmitApplicationRequest"/>
+			<output name="submitApplicationRequestResponse"
+					message="tns:SubmitApplicationResponse"/>
+			<fault name="unsupportedApplicationDataTypeFault"
+					message="tns:UnsupportedApplicationDataTypeFault"/>
+			<fault name="unknownServiceIdFault"
+					message="tns:UnknownServiceIdFault"/>
+			<fault name="internalServiceFault"
+					message="tns:InternalServiceFault"/>
+			<fault name="incorrectRequestFault"
+					message="tns:IncorrectRequestFault"/>
+			<fault name="accessDeniedFault"
+					message="tns:AccessDeniedFault"/>
+		</operation>
+		<operation name="receiveApplicationResult">
+			<input name="receiveApplicationResultRequest"
+					message="tns:ReceiveApplicationResultRequest"/>
+			<output name="receiveApplicationResultResponse"
+					message="tns:ReceiveApplicationResultResponse"/>
+			<fault name="applicationNotFoundFault"
+					message="tns:ApplicationNotFoundFault"/>
+			<fault name="internalServiceFault"
+					message="tns:InternalServiceFault"/>
+			<fault name="incorrectRequestFault"
+					message="tns:IncorrectRequestFault"/>
+			<fault name="accessDeniedFault"
+					message="tns:AccessDeniedFault"/>
+		</operation>
+	</portType>
+	<binding name="ApplicationManagementServiceBinding"
+			type="tns:ApplicationManagementServicePortType">
+		<soapbind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="submitApplicationRequest">
+			<soapbind:operation style="document"
+					soapAction="submitApplicationRequest"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+			<fault name="unsupportedApplicationDataTypeFault">
+				<soapbind:fault name="unsupportedApplicationDataTypeFault"
+						use="literal"/>
+			</fault>
+			<fault name="unknownServiceIdFault">
+				<soapbind:fault name="unknownServiceIdFault"
+						use="literal"/>
+			</fault>
+			<fault name="internalServiceFault">
+				<soapbind:fault name="internalServiceFault"
+						use="literal"/>
+			</fault>
+			<fault name="incorrectRequestFault">
+				<soapbind:fault name="incorrectRequestFault"
+						use="literal"/>
+			</fault>
+			<fault name="accessDeniedFault">
+				<soapbind:fault name="accessDeniedFault"
+						use="literal"/>
+			</fault>
+		</operation>
+		<operation name="receiveApplicationResult">
+			<soapbind:operation style="document"
+					soapAction="receiveApplicationResult"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+			<fault name="applicationNotFoundFault">
+				<soapbind:fault name="applicationNotFoundFault"
+						use="literal"/>
+			</fault>
+			<fault name="internalServiceFault">
+				<soapbind:fault name="internalServiceFault"
+						use="literal"/>
+			</fault>
+			<fault name="incorrectRequestFault">
+				<soapbind:fault name="incorrectRequestFault"
+						use="literal"/>
+			</fault>
+			<fault name="accessDeniedFault">
+				<soapbind:fault name="accessDeniedFault"
+						use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="ApplicationManagementServiceBindingQSService">
+		<port name="ApplicationManagementServiceBindingQSPort"
+				binding="tns:ApplicationManagementServiceBinding">
+			<soapbind:address location="https://api.vetrf.ru/platform/services/ApplicationManagementService"/>
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,163 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:be="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/cerberus/business-entity/ws-definitions"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/cerberus/business-entity/ws-definitions"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+			schemaLocation="file://4.xsd"/>
+	<element name="getBusinessEntityByGuidRequest">
+		<annotation>
+			<documentation>Запрос на получение записи ХС по глобальному идентификатору.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Глобальный идентификатор, по которому проводится поиск записи.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getBusinessEntityByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи ХС по глобальному идентификатору.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="be:businessEntity"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Запись ХС.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getBusinessEntityByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение записи ХС по идентфикатору.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор, по которому производится поиск записи.</default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getBusinessEntityByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи ХС по идентификатору.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="be:businessEntity"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Запись ХС.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getBusinessEntityListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка ХС.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="be:businessEntity"
+						minOccurs="0"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Параметр фильтрации ХС.</default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getBusinessEntityListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка ХС.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="be:businessEntityList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список ХС.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getBusinessEntityChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей ХС.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.</default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getBusinessEntityChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей ХС.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="be:businessEntityList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей ХС.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Выручка</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РасходныйОрдер</dataPath>
+			<field>РасходныйОрдер</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Форма</dataPath>
+			<field>Форма</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВремяВыходаВРейсДата</dataPath>
+			<field>ВремяВыходаВРейсДата</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Время выхода</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МаршрутНаименование</dataPath>
+			<field>МаршрутНаименование</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Маршрут</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Маршрут</dataPath>
+			<field>Маршрут</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтруктурнаяЕдиница</dataPath>
+			<field>СтруктурнаяЕдиница</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Структурная единица</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДокументДата</dataPath>
+			<field>ДокументДата</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Получатель</dataPath>
+			<field>Получатель</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Получатель</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МаршрутНомерПоВремениВыезда</dataPath>
+			<field>МаршрутНомерПоВремениВыезда</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Маршрут номер по времени выезда</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЕстьВетСвидетельство</dataPath>
+			<field>ЕстьВетСвидетельство</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Есть вет свидетельство</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут,
+	МаршрутныйЛистРасходныеОрдера.Документ.Получатель КАК СтруктурнаяЕдиница,
+	МаршрутныйЛистТорговыеТочки.ПоставкаВСетках КАК КолвоСетокВПоставке,
+	ВЫБОР
+		КОГДА МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.ПланируемоеВремяВыездаПоМаршруту ССЫЛКА Справочник.ВремяВыездаПоМаршруту
+			ТОГДА МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.ПланируемоеВремяВыездаПоМаршруту.ВремяВыезда
+		ИНАЧЕ МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.ПланируемоеВремяВыездаПоМаршруту
+	КОНЕЦ КАК ВремяВыходаВРейсДата,
+	МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.ПланируемоеВремяВыездаПоМаршруту КАК ВремяВыходаВРейс,
+	МаршрутныйЛистРасходныеОрдера.Ссылка.ДатаЗавершенияПогрузки КАК ФактическоеВремяВыхода,
+	МаршрутныйЛистРасходныеОрдера.Документ.Комментарий КАК Примечание,
+	МаршрутныйЛистРасходныеОрдера.Документ,
+	МаршрутныйЛистРасходныеОрдера.Документ.Сборщик КАК Сборщик,
+	МаршрутныйЛистРасходныеОрдера.Документ.Склад.Владелец,
+	МаршрутныйЛистРасходныеОрдера.Документ.Склад,
+	ЕСТЬNULL(НомераМаршрутовСрезПоследних.Номер, МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.Наименование) КАК МаршрутНаименование,
+	ЕСТЬNULL(НомераМаршрутовСрезПоследних.НомерПоВремениВыезда, МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.НомерПоВремениВыезда) КАК МаршрутНомерПоВремениВыезда
+ПОМЕСТИТЬ вт
+ИЗ
+	Документ.МаршрутныйЛист.РасходныеОрдера КАК МаршрутныйЛистРасходныеОрдера
+		ЛЕВОЕ СОЕДИНЕНИЕ Справочник.Маршруты.ТорговыеТочки КАК МаршрутныйЛистТорговыеТочки
+		ПО МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут = МаршрутныйЛистТорговыеТочки.Ссылка
+			И МаршрутныйЛистРасходныеОрдера.Документ.Получатель = МаршрутныйЛистТорговыеТочки.СтруктурнаяЕдиница
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.НомераМаршрутов.СрезПоследних(&amp;КонецПериода, ) КАК НомераМаршрутовСрезПоследних
+		ПО МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут = НомераМаршрутовСрезПоследних.Маршрут
+ГДЕ
+	МаршрутныйЛистРасходныеОрдера.Ссылка.ПометкаУдаления = ЛОЖЬ
+	И МаршрутныйЛистРасходныеОрдера.Ссылка.Дата МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И МаршрутныйЛистРасходныеОрдера.Документ.Статус &lt;&gt; ЗНАЧЕНИЕ(Перечисление.СтатусыРасходныхОрдеров.Отменен)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	РасходныйОрдерСклад.Ссылка КАК РасходныйОрдер,
+	РасходныйОрдерСклад.Ссылка.Получатель.Наименование КАК Получатель,
+	ВЫБОР
+		КОГДА РасходныйОрдерСклад.Ссылка.Получатель.Регион.Код = 77
+			ТОГДА "Форма 4"
+		ИНАЧЕ "Форма 2"
+	КОНЕЦ КАК Форма,
+	вт.ВремяВыходаВРейсДата,
+	вт.МаршрутНаименование,
+	вт.Маршрут КАК Маршрут,
+	вт.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница,
+	вт.Документ.Дата,
+	вт.МаршрутНомерПоВремениВыезда,
+	РасходныйОрдерСклад.Номенклатура
+ПОМЕСТИТЬ втИтог
+ИЗ
+	Документ.РасходныйОрдерСклад.Товары КАК РасходныйОрдерСклад
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ вт КАК вт
+		ПО РасходныйОрдерСклад.Ссылка.Склад = вт.ДокументСклад
+			И РасходныйОрдерСклад.Ссылка.Получатель = вт.СтруктурнаяЕдиница
+			И РасходныйОрдерСклад.Ссылка = вт.Документ
+ГДЕ
+	РасходныйОрдерСклад.Ссылка.Проведен
+	И РасходныйОрдерСклад.Ссылка.ВидОперации = ЗНАЧЕНИЕ(Перечисление.ВидыОперацийРасходСкладскойУчет.ОтгрузкаВТорговуюТочку)
+	И РасходныйОрдерСклад.Номенклатура.ТребуетсяВетеринарныйСертификат
+	И РасходныйОрдерСклад.Ссылка.Дата МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И (РасходныйОрдерСклад.Ссылка.Склад.Владелец = &amp;Склад
+			ИЛИ &amp;Склад = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяССылка)
+			ИЛИ &amp;Склад = НЕОПРЕДЕЛЕНО)
+	И (РасходныйОрдерСклад.Ссылка.Склад = &amp;ВиртуальныйСклад
+			ИЛИ &amp;ВиртуальныйСклад = ЗНАЧЕНИЕ(Справочник.Склады.ПустаяССылка)
+			ИЛИ &amp;ВиртуальныйСклад = НЕОПРЕДЕЛЕНО)
+
+СГРУППИРОВАТЬ ПО
+	РасходныйОрдерСклад.Ссылка,
+	ВЫБОР
+		КОГДА РасходныйОрдерСклад.Ссылка.Получатель.Регион.Код = 77
+			ТОГДА "Форма 4"
+		ИНАЧЕ "Форма 2"
+	КОНЕЦ,
+	вт.ВремяВыходаВРейсДата,
+	вт.МаршрутНаименование,
+	вт.Маршрут,
+	вт.СтруктурнаяЕдиница,
+	вт.Документ.Дата,
+	РасходныйОрдерСклад.Ссылка.Получатель.Наименование,
+	вт.МаршрутНомерПоВремениВыезда,
+	РасходныйОрдерСклад.Номенклатура
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втИтог.РасходныйОрдер,
+	втИтог.Получатель,
+	втИтог.Форма,
+	втИтог.ВремяВыходаВРейсДата,
+	втИтог.МаршрутНаименование,
+	втИтог.Маршрут,
+	втИтог.СтруктурнаяЕдиница,
+	втИтог.ДокументДата,
+	втИтог.МаршрутНомерПоВремениВыезда,
+	МИНИМУМ(ВЫБОР
+			КОГДА НЕ ВетСвидетельстваПоступлений.Номенклатура ЕСТЬ NULL
+				ТОГДА ИСТИНА
+			ИНАЧЕ ЛОЖЬ
+		КОНЕЦ) КАК ЕстьВетСвидетельство
+ИЗ
+	втИтог КАК втИтог
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ВетСвидетельстваПоступлений КАК ВетСвидетельстваПоступлений
+		ПО (втИтог.РасходныйОрдер = (ВЫРАЗИТЬ(ВетСвидетельстваПоступлений.ДокПоступления КАК Документ.РасходныйОрдерСклад)))
+			И втИтог.Номенклатура = ВетСвидетельстваПоступлений.Номенклатура
+			И (ВетСвидетельстваПоступлений.UUID_ВСД &lt;&gt; "")
+
+СГРУППИРОВАТЬ ПО
+	втИтог.РасходныйОрдер,
+	втИтог.Получатель,
+	втИтог.Форма,
+	втИтог.ВремяВыходаВРейсДата,
+	втИтог.МаршрутНаименование,
+	втИтог.Маршрут,
+	втИтог.СтруктурнаяЕдиница,
+	втИтог.ДокументДата,
+	втИтог.МаршрутНомерПоВремениВыезда</query>
+	</dataSet>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<expression>КонецПериода(&amp;КонецПериода,"День")</expression>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Склад</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Склад</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ВиртуальныйСклад</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Виртуальный склад</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.Склады</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+		<inputParameters>
+			<dcscor:item>
+				<dcscor:parameter>СвязиПараметровВыбора</dcscor:parameter>
+				<dcscor:value xsi:type="dcscor:ChoiceParameterLinks">
+					<dcscor:item>
+						<dcscor:choiceParameter>Отбор.Владелец</dcscor:choiceParameter>
+						<dcscor:value>ПараметрыДанных.Склад</dcscor:value>
+						<dcscor:mode xmlns:d7p1="http://v8.1c.ru/8.1/data/enterprise" xsi:type="d7p1:LinkedValueChangeMode">Clear</dcscor:mode>
+					</dcscor:item>
+				</dcscor:value>
+			</dcscor:item>
+		</inputParameters>
+		<use>Always</use>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Форма</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Получатель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>РасходныйОрдер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЕстьВетСвидетельство</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">ЕстьВетСвидетельство</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					<dcsset:userSettingID>420ecea0-389f-47b1-8a7d-468ed7c9fcbf</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>НачалоПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>cb342724-8a78-4d8b-a94b-54cb97ff8445</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="xs:string">НачалоПериода</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>КонецПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>671b4970-273d-482f-9a8b-0a868568dbbb</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="xs:string">КонецПериода</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Склад</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>62c7046d-9ef8-4b51-9177-1dbb3f53a247</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="xs:string">Склад</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ВиртуальныйСклад</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>1e9c92db-14bb-47ea-b5b8-7c78b7115a08</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection/>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ЕстьВетСвидетельство</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:use>false</dcscor:use>
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">style:SpecialTextColor</dcscor:value>
+						</dcscor:item>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветТекста</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">web:Blue</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>РасположениеРеквизитов</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionAttributesPlacement">Separately</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>РасположениеРесурсов</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionResourcesPlacement">Vertically</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ГоризонтальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВертикальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">End</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьПараметрыДанных</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">DontOutput</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьОтбор</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">DontOutput</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Форма</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>ВремяВыходаВРейсДата</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>МаршрутНомерПоВремениВыезда</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>МаршрутНаименование</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Получатель</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:field>ВремяВыходаВРейсДата</dcsset:field>
+							<dcsset:orderType>Asc</dcsset:orderType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:field>МаршрутНомерПоВремениВыезда</dcsset:field>
+							<dcsset:orderType>Asc</dcsset:orderType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:field>МаршрутНаименование</dcsset:field>
+							<dcsset:orderType>Asc</dcsset:orderType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:field>Получатель</dcsset:field>
+							<dcsset:orderType>Asc</dcsset:orderType>
+						</dcsset:item>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>РасходныйОрдер</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ЕстьВетСвидетельство</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemField">
+								<dcsset:field>РасходныйОрдер</dcsset:field>
+								<dcsset:orderType>Asc</dcsset:orderType>
+							</dcsset:item>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>РасходныйОрдер</dcsset:field>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>ЕстьВетСвидетельство</dcsset:field>
+							</dcsset:item>
+						</dcsset:selection>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

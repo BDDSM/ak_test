@@ -1,0 +1,104 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/ikar"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="businessEntity" type="d2p1:BusinessEntity"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="businessEntityList" type="d2p1:BusinessEntityList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterprise" type="d2p1:Enterprise"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterpriseGroup" type="d2p1:EnterpriseGroup"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="enterpriseGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterpriseList" type="d2p1:EnterpriseList"/>
+	<valueType name="BEModificationReason" base="xs:string" variety="Atomic"/>
+	<valueType name="BusinessEntityType" base="xs:integer" variety="Atomic">
+		<enumeration>1</enumeration>
+		<enumeration>2</enumeration>
+		<enumeration>3</enumeration>
+	</valueType>
+	<valueType name="ENTModificationReason" base="xs:string" variety="Atomic"/>
+	<valueType name="EnterpriseGroup" base="xs:integer" variety="Atomic">
+		<enumeration>0</enumeration>
+		<enumeration>1</enumeration>
+		<enumeration>2</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="EnterpriseRole" base="d2p1:String255" variety="Atomic">
+		<enumeration>UNKNOWN</enumeration>
+		<enumeration>PRODUCER</enumeration>
+		<enumeration>SLAUGHTER_HOUSE</enumeration>
+		<enumeration>CUTTING_PLANT</enumeration>
+		<enumeration>COLD_STORE</enumeration>
+		<enumeration>PACKAGING_PLANT</enumeration>
+	</valueType>
+	<valueType name="EnterpriseType" base="xs:integer" variety="Atomic"/>
+	<objectType name="ActivityLocation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterprise" type="d3p1:Enterprise"/>
+	</objectType>
+	<objectType name="BEActivityLocationsModificationOperation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="type" type="d3p1:RegisterModificationType"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="businessEntity" type="d3p1:BusinessEntity"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterpriseList" type="d3p1:EnterpriseList" lowerBound="0"/>
+	</objectType>
+	<objectType name="BEModificationOperation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="type" type="d3p1:RegisterModificationType"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="affectedList" type="d3p1:BusinessEntityList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="resultingList" type="d3p1:BusinessEntityList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="reason" type="d3p1:BEModificationReason" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="BusinessEntity" base="d2p1:GenericVersioningEntity">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="type" type="d3p1:BusinessEntityType" lowerBound="0"/>
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="incorporationForm" type="d3p1:IncorporationForm" lowerBound="0"/>
+		<property name="fullName" type="d2p1:String255" lowerBound="0"/>
+		<property name="fio" type="d2p1:String255" lowerBound="0"/>
+		<property name="passport" type="d2p1:String255" lowerBound="0"/>
+		<property name="inn" type="d2p1:String255" lowerBound="0"/>
+		<property name="kpp" type="d2p1:String255" lowerBound="0"/>
+		<property name="ogrn" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="juridicalAddress" type="d3p1:Address" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="activityLocation" type="d3p1:ActivityLocation" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="BusinessEntityList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="businessEntity" type="d3p1:BusinessEntity" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType name="BusinessMember">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="businessEntity" type="d3p1:BusinessEntity"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterprise" type="d3p1:Enterprise"/>
+	</objectType>
+	<objectType name="ENTModificationOperation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="type" type="d3p1:RegisterModificationType"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="affectedList" type="d3p1:EnterpriseList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="resultingList" type="d3p1:EnterpriseList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="reason" type="d3p1:ENTModificationReason" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Enterprise" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="englishName" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="type" type="d3p1:EnterpriseType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="numberList" type="d3p1:EnterpriseNumberList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="address" type="d3p1:Address" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="activityList" type="d3p1:EnterpriseActivityList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="owner" type="d3p1:BusinessEntity" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="EnterpriseActivity" base="d2p1:GenericEntity">
+		<property name="name" type="d2p1:Text" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="EnterpriseActivityList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="activity" type="d3p1:EnterpriseActivity" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="EnterpriseList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterprise" type="d3p1:Enterprise" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType name="EnterpriseNumberList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="enterpriseNumber" type="d3p1:String255" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="IncorporationForm" base="d2p1:GenericEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="code" type="d2p1:String255" lowerBound="0"/>
+		<property name="shortName" type="d2p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType name="Producer">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterprise" type="d3p1:Enterprise"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="role" type="d3p1:EnterpriseRole" lowerBound="0"/>
+	</objectType>
+	<objectType name="ProducerList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="producer" type="d3p1:Producer" lowerBound="0" upperBound="-1"/>
+	</objectType>
+</package>

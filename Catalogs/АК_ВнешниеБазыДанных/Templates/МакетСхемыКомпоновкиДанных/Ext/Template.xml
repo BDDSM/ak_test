@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Запрос</name>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	Номенклатура.Ссылка
+ИЗ
+	Справочник.Номенклатура КАК Номенклатура
+{ХАРАКТЕРИСТИКИ
+	ТИП(Справочник.Номенклатура)
+	ВИДЫХАРАКТЕРИСТИК ПланВидовХарактеристик.СвойстваОбъектов
+	ПОЛЕКЛЮЧА Ссылка
+	ПОЛЕИМЕНИ Представление
+	ПОЛЕТИПАЗНАЧЕНИЯ ТипЗначения
+	ЗНАЧЕНИЯХАРАКТЕРИСТИК (ВЫБРАТЬ РАЗЛИЧНЫЕ
+			Номенклатура.Ссылка КАК Номенклатура,
+			СвойстваОбъектов.Ссылка КАК Свойство,
+			ВЫБОР
+				КОГДА ЗначенияСвойствОбъектов.Значение ЕСТЬ NULL 
+					ТОГДА ВЫБОР
+							КОГДА ТИПЗНАЧЕНИЯ(ТЗ_ЗначенияДляОпределенияТипов.Значение) = ТИПЗНАЧЕНИЯ(ЛОЖЬ)
+								ТОГДА ЛОЖЬ
+							КОГДА ТИПЗНАЧЕНИЯ(ТЗ_ЗначенияДляОпределенияТипов.Значение) = ТИПЗНАЧЕНИЯ(0)
+								ТОГДА 0
+							КОГДА ТИПЗНАЧЕНИЯ(ТЗ_ЗначенияДляОпределенияТипов.Значение) = ТИПЗНАЧЕНИЯ("")
+								ТОГДА ""
+							КОГДА ТИПЗНАЧЕНИЯ(ТЗ_ЗначенияДляОпределенияТипов.Значение) = ТИПЗНАЧЕНИЯ(ДАТАВРЕМЯ(1, 1, 1))
+								ТОГДА ДАТАВРЕМЯ(1, 1, 1)
+							КОГДА ТИПЗНАЧЕНИЯ(ТЗ_ЗначенияДляОпределенияТипов.Значение) = ТИПЗНАЧЕНИЯ(ЗНАЧЕНИЕ(Справочник.значенияСвойствОбъектов.ПустаяСсылка))
+								ТОГДА ЗНАЧЕНИЕ(Справочник.значенияСвойствОбъектов.ПустаяСсылка)
+						КОНЕЦ
+				ИНАЧЕ ЗначенияСвойствОбъектов.Значение
+			КОНЕЦ КАК Значение
+		ИЗ
+			Справочник.Номенклатура КАК Номенклатура
+				ВНУТРЕННЕЕ СОЕДИНЕНИЕ ПланВидовХарактеристик.СвойстваОбъектов КАК СвойстваОбъектов
+				ПО (СвойстваОбъектов.НазначениеСвойства = ЗНАЧЕНИЕ(ПланВидовХарактеристик.НазначенияСвойствКатегорийОбъектов.Справочник_Номенклатура))
+				ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЗначенияСвойствОбъектов КАК ЗначенияСвойствОбъектов
+				ПО (СвойстваОбъектов.Ссылка = ЗначенияСвойствОбъектов.Свойство)
+					И Номенклатура.Ссылка = ЗначенияСвойствОбъектов.Объект
+				ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ РАЗЛИЧНЫЕ
+					ЗначенияСвойствОбъектов.Свойство КАК Свойство,
+					МАКСИМУМ(ЗначенияСвойствОбъектов.Значение) КАК Значение
+				ИЗ
+					РегистрСведений.ЗначенияСвойствОбъектов КАК ЗначенияСвойствОбъектов
+				
+				СГРУППИРОВАТЬ ПО
+					ЗначенияСвойствОбъектов.Свойство) КАК ТЗ_ЗначенияДляОпределенияТипов
+				ПО (СвойстваОбъектов.Ссылка = ТЗ_ЗначенияДляОпределенияТипов.Свойство))
+	ПОЛЕОБЪЕКТА Номенклатура
+	ПОЛЕВИДА Свойство
+	ПОЛЕЗНАЧЕНИЯ Значение }</query>
+		<autoFillFields>false</autoFillFields>
+	</dataSet>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows"/>
+	</settingsVariant>
+</DataCompositionSchema>

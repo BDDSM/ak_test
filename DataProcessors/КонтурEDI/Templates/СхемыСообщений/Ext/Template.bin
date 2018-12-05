@@ -1,0 +1,978 @@
+﻿<xs:schema xmlns:tns="http://edi.kontur.ru/1c/ediXml/v01_4b" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://edi.kontur.ru/1c/ediXml/v01_4b" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:element name="eDIMessage" type="tns:eDIMessageType"/>
+  <xs:element name="TimeOffsetTestFor1C">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="DateTime" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ContactPersonInfoType">
+    <xs:choice>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="phone" type="xs:string" minOccurs="0"/>
+      <xs:element name="fax" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="DocumentIdentificatorType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:string"/>
+    <xs:attribute name="date" type="xs:date"/>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:simpleType name="MoneyType">
+    <xs:restriction base="xs:decimal"/>
+  </xs:simpleType>
+  <xs:complexType name="OriginInvoicIdenfiticator">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:string"/>
+    <xs:attribute name="date" type="xs:date"/>
+    <xs:attribute name="revisionNumber" type="xs:string"/>
+    <xs:attribute name="revisionDate" type="xs:date"/>
+    <xs:attribute name="ediInvoicId" type="xs:string"/>
+    <xs:attribute name="diadocInvoicId" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="PriceQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="unitOfMeasure" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ShelfLifeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="unit" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="alcoLotType">
+    <xs:choice>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="codeOfEgais" type="xs:string" minOccurs="0"/>
+      <xs:element name="lotNumberEgais" type="xs:string" minOccurs="0"/>
+      <xs:element name="volume" type="tns:volumeType" minOccurs="0"/>
+      <xs:element name="volumeOfUnitInLiter" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="manufacturer" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="foreignManufacturer" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="licenseSeller" type="tns:licenseSellerType" minOccurs="0"/>
+      <xs:element name="certificate" type="tns:certificateType" minOccurs="0"/>
+      <xs:element name="typeOfAlco" type="xs:string" minOccurs="0"/>
+      <xs:element name="signOfAlco" type="xs:string" minOccurs="0"/>
+      <xs:element name="bottlingDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="countryOfOriginISOCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="customsDeclarationNumber" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="blanketOrderIdentificator">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:string" use="required"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="certificateType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:string"/>
+    <xs:attribute name="startdate" type="xs:date"/>
+    <xs:attribute name="enddate" type="xs:date"/>
+    <xs:attribute name="issuerOf" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="contactInfoType">
+    <xs:choice>
+      <xs:element name="CEO" type="tns:ContactPersonInfoType" minOccurs="0"/>
+      <xs:element name="accountant" type="tns:ContactPersonInfoType" minOccurs="0"/>
+      <xs:element name="salesManager" type="tns:ContactPersonInfoType" minOccurs="0"/>
+      <xs:element name="orderContact" type="tns:ContactPersonInfoType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="contractor">
+    <xs:choice>
+      <xs:element name="gln" type="xs:string" minOccurs="0"/>
+      <xs:element name="organization" type="tns:organization" minOccurs="0"/>
+      <xs:element name="additionalIdentificator" type="xs:string" minOccurs="0"/>
+      <xs:element name="selfEmployed" type="tns:selfEmployed" minOccurs="0"/>
+      <xs:element name="foreignOrganization" type="tns:foreignOrganization" minOccurs="0"/>
+      <xs:element name="additionalInfo" type="tns:contractorAdditionalInfoType" minOccurs="0"/>
+      <xs:element name="russianAddress" type="tns:russianAddressType" minOccurs="0"/>
+      <xs:element name="contactInfo" type="tns:contactInfoType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="contractorAdditionalInfoType">
+    <xs:choice>
+      <xs:element name="phone" type="xs:string" minOccurs="0"/>
+      <xs:element name="bankAccountNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="correspondentAccountNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="bankName" type="xs:string" minOccurs="0"/>
+      <xs:element name="BIK" type="xs:string" minOccurs="0"/>
+      <xs:element name="nameOfCEO" type="xs:string" minOccurs="0"/>
+      <xs:element name="nameOfAccountant" type="xs:string" minOccurs="0"/>
+      <xs:element name="nameOfSales" type="xs:string" minOccurs="0"/>
+      <xs:element name="orderContact" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="deliveryInfoType">
+    <xs:choice>
+      <xs:element name="waybill" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+      <xs:element name="customsDeclaration" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+      <xs:element name="estimatedDeliveryDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="requestedDeliveryDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="shippingDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="receptionDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="deliveryDate" type="xs:string" minOccurs="0"/>
+      <xs:element name="availabilityDate" type="xs:string" minOccurs="0"/>
+      <xs:element name="actualDeliveryDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="exportDateTimeFromSupplier" type="xs:string" minOccurs="0"/>
+      <xs:element name="shipFrom" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="shipTo" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="ultimateCustomer" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="warehouseKeeper" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="despatchParty" type="tns:contractor" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="carrier" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="transportation" type="tns:transportationType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="transportBy" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="doc_ALCRPT">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="receivingIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="invoiceIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="transportation" type="tns:transportationType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_COINVOIC">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="factoringEncription" type="xs:string" minOccurs="0"/>
+          <xs:element name="originInvoic" type="tns:OriginInvoicIdenfiticator" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="receivingAdviceIdentificatorInBuyerSystem" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="orderResponse" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="receivingIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="revisionNumber" type="xs:string"/>
+        <xs:attribute name="revisionDate" type="xs:date"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_DESADV">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="orderResponse" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="invoiceIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="egaisRegistrationIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="egaisFixationIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="packages" type="tns:packagesType" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:element name="invoiceDeliveryType" type="xs:string" minOccurs="0"/>
+          <xs:element name="invoiceDeliveryMoment" type="xs:string" minOccurs="0"/>
+          <xs:element name="orderReason" type="xs:string" minOccurs="0"/>
+          <xs:element name="paymentTerms" type="xs:string" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_INVOIC">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originInvoic" type="tns:OriginInvoicIdenfiticator" minOccurs="0"/>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="orderResponse" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="revisionedInvoic" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="receivingAdviceIdentificatorInBuyerSystem" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="receivingIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="factoringEncription" type="xs:string" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="revisionNumber" type="xs:string"/>
+        <xs:attribute name="revisionDate" type="xs:date"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_INVRPT">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="inventoryDate" type="xs:string" minOccurs="0"/>
+          <xs:element name="inventoryPeriod" type="tns:periodType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="inventoryReporter" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_ORDERS">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="promotionDealNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="proposalOrdersIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="comment" type="xs:string" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:attribute name="revisionNumber" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_ORDRSP">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="packages" type="tns:packagesType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_PORDERS">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="promotionDealNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="comment" type="xs:string" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_PRICECATALOGUE">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="comment" type="xs:string" minOccurs="0"/>
+          <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+          <xs:element name="endDate" type="xs:date" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="identifierInPriceChain" type="tns:identifierInPriceChainType" minOccurs="0"/>
+          <xs:element name="salesRegion" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="number" type="xs:string"/>
+                <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:anyAttribute namespace="##any" processContents="lax"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="lineItems" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="currencyISOCode" type="xs:string" minOccurs="0"/>
+                <xs:element name="lineItem" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:choice>
+                      <xs:element name="gtin" type="xs:string" minOccurs="0"/>
+                      <xs:element name="internalBuyerCode" type="xs:string" minOccurs="0"/>
+                      <xs:element name="internalSupplierCode" type="xs:string" minOccurs="0"/>
+                      <xs:element name="typeOfUnit" type="xs:string" minOccurs="0"/>
+                      <xs:element name="description" type="xs:string" minOccurs="0"/>
+                      <xs:element name="descriptionVariant" type="xs:string" minOccurs="0"/>
+                      <xs:element name="descriptionColor" type="xs:string" minOccurs="0"/>
+                      <xs:element name="descriptionSize" type="xs:string" minOccurs="0"/>
+                      <xs:element name="brandName" type="xs:string" minOccurs="0"/>
+                      <xs:element name="physicalDimensions" type="tns:physicalDimensionsType" minOccurs="0"/>
+                      <xs:element name="onePlaceQuantity" type="tns:quantityType" minOccurs="0"/>
+                      <xs:element name="priceQuantity" type="tns:PriceQuantityType" minOccurs="0"/>
+                      <xs:element name="incrementalOrderQuantity" type="tns:quantityType" minOccurs="0"/>
+                      <xs:element name="countryOfOriginISOCode" type="xs:string" minOccurs="0"/>
+                      <xs:element name="customsDeclarationNumber" type="xs:string" minOccurs="0"/>
+                      <xs:element name="shelfLife" type="tns:ShelfLifeType" minOccurs="0"/>
+                      <xs:element name="promotionPeriod" type="xs:string" minOccurs="0"/>
+                      <xs:element name="exciseDuty" type="tns:PriceQuantityType" minOccurs="0"/>
+                      <xs:element name="vATRate" type="xs:string" minOccurs="0"/>
+                      <xs:element name="netPrice" type="tns:PriceQuantityType" minOccurs="0"/>
+                      <xs:element name="netPriceWithVAT" type="tns:PriceQuantityType" minOccurs="0"/>
+                      <xs:element name="packageMarking" minOccurs="0"/>
+                      <xs:element name="packageType" minOccurs="0"/>
+                      <xs:element name="manufacturer" type="tns:contractor" minOccurs="0"/>
+                      <xs:element name="comment" type="xs:string" minOccurs="0"/>
+                      <xs:element name="productCategory" type="xs:string" minOccurs="0"/>
+                      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:choice>
+                    <xs:attribute name="status" type="xs:string"/>
+                    <xs:anyAttribute namespace="##any" processContents="lax"/>
+                  </xs:complexType>
+                </xs:element>
+                <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:anyAttribute namespace="##any" processContents="lax"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_RECADV">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="blanketOrderIdentificator" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="receivingAdviceIdentificatorInBuyerSystem" type="tns:blanketOrderIdentificator" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_RETANN">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="receivingIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="invoiceIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="comment" type="xs:string" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_RETDES">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_RETINS">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="deliveryNoteIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="returnDeliveryNoteIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="returnInvoiceIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="announcementForReturns" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="physicalOrLogicalState" type="tns:physicalOrLogicalStateType" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_RETREC">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="invoicee" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="deliveryInfo" type="tns:deliveryInfoType" minOccurs="0"/>
+          <xs:element name="lineItems" type="tns:lineItemsType" minOccurs="0"/>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="doc_SLSRPT">
+    <xs:complexContent>
+      <xs:extension base="tns:DocumentIdentificatorType">
+        <xs:choice>
+          <xs:element name="seller" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="buyer" type="tns:contractor" minOccurs="0"/>
+          <xs:element name="salesPeriod" type="tns:periodType" minOccurs="0"/>
+          <xs:element name="contractIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+          <xs:element name="currencyISOCode" type="xs:string" minOccurs="0"/>
+          <xs:element name="salesInLocations" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="salesInLocation" type="tns:salesInLocationType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:anyAttribute namespace="##any" processContents="lax"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eDIMessageType" mixed="true">
+    <xs:choice>
+      <xs:element name="interchangeHeader" type="tns:interchangeHeaderType" minOccurs="0"/>
+      <xs:element name="order" type="tns:doc_ORDERS" minOccurs="0"/>
+      <xs:element name="orderResponse" type="tns:doc_ORDRSP" minOccurs="0"/>
+      <xs:element name="despatchAdvice" type="tns:doc_DESADV" minOccurs="0"/>
+      <xs:element name="receivingAdvice" type="tns:doc_RECADV" minOccurs="0"/>
+      <xs:element name="invoice" type="tns:doc_INVOIC" minOccurs="0"/>
+      <xs:element name="statusReport" type="tns:statusReport" minOccurs="0"/>
+      <xs:element name="announcementForReturns" type="tns:doc_RETANN" minOccurs="0"/>
+      <xs:element name="instructionsForReturns" type="tns:doc_RETINS" minOccurs="0"/>
+      <xs:element name="alcoholReport" type="tns:doc_ALCRPT" minOccurs="0"/>
+      <xs:element name="correctiveInvoice" type="tns:doc_COINVOIC" minOccurs="0"/>
+      <xs:element name="proposalOrder" type="tns:doc_PORDERS" minOccurs="0"/>
+      <xs:element name="priceCatalogue" type="tns:doc_PRICECATALOGUE" minOccurs="0"/>
+      <xs:element name="returnDespatchAdvice" type="tns:doc_RETDES" minOccurs="0"/>
+      <xs:element name="returnReceivingAdvice" type="tns:doc_RETREC" minOccurs="0"/>
+      <xs:element name="salesDataReport" type="tns:doc_SLSRPT" minOccurs="0"/>
+      <xs:element name="inventoryReport" type="tns:doc_INVRPT" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="foreignOrganization">
+    <xs:choice>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="tin" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="countryCode" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="fullName">
+    <xs:choice>
+      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="middleName" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="identifierInPriceChainType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:string" use="required"/>
+    <xs:attribute name="date" type="xs:date" use="required"/>
+    <xs:attribute name="previousNumber" type="xs:string" use="required"/>
+    <xs:attribute name="previousDate" type="xs:date" use="required"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="interchangeHeaderType">
+    <xs:choice>
+      <xs:element name="sender" type="xs:string" minOccurs="0"/>
+      <xs:element name="recipient" type="xs:string" minOccurs="0"/>
+      <xs:element name="documentType" type="xs:string" minOccurs="0"/>
+      <xs:element name="data1C" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="version" type="xs:string"/>
+          <xs:attribute name="name" type="xs:string"/>
+          <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="isTest" type="xs:string" minOccurs="0"/>
+      <xs:element name="creationDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="creationDateTimeBySender" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="inventoryDetailsType">
+    <xs:choice>
+      <xs:element name="openingStock" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="closingStock" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="salesQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="actualStock" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="orderedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="deliveredQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="receivedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="netPrice" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netPriceWithVAT" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="locationOfGoods" type="tns:contractor" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="licenseSellerType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="seriesNumber" type="xs:string"/>
+    <xs:attribute name="startdate" type="xs:date"/>
+    <xs:attribute name="enddate" type="xs:date"/>
+    <xs:attribute name="issuerOf" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="declarationType">
+    <xs:choice>
+      <xs:element name="number" type="xs:string"/>
+      <xs:element name="startDate" type="xs:date"/>
+      <xs:element name="endDate" type="xs:date"/>
+      <xs:element name="holder" type="xs:string"/>
+      <xs:element name="issuerOf" type="xs:string"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="lineItemType" mixed="true">
+    <xs:choice>
+      <xs:element name="gtin" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="internalBuyerCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="internalSupplierCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="lot" type="tns:alcoLotType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="orderedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="confirmedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="requestedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="despatchedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="acceptedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="returnQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="onePlaceQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="manufactoringDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="bottlingDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="expireDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="freshnessDate" type="xs:date" minOccurs="0"/>
+      <xs:element name="toBeReturnedQuantity" type="tns:toBeReturnedQuantityType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="overshippedQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="notDeliveredQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="netPrice" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netAmount" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amount" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netPriceWithVAT" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="vATAmount" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="vATRate" type="xs:string" minOccurs="0"/>
+      <xs:element name="quantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="volume" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="typeOfUnit" type="xs:string" minOccurs="0"/>
+      <xs:element name="countryOfOriginISOCode" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="customsDeclarationNumber" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="comment" type="xs:string" minOccurs="0"/>
+      <xs:element name="quantityBefore" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="quantityAfter" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="quantityIncrease" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="quantityDecrease" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="netPriceBefore" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netPriceAfter" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netPriceIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netPriceDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netAmountBefore" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netAmountAfter" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netAmountIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="netAmountDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amountBefore" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amountAfter" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amountIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amountDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="vatRateBefore" type="xs:string" minOccurs="0"/>
+      <xs:element name="vatRateAfter" type="xs:string" minOccurs="0"/>
+      <xs:element name="vatAmountBefore" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="vatAmountAfter" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="vatAmountIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="vatAmountDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="codeOfEgais" type="xs:string" minOccurs="0"/>
+      <xs:element name="packageLevel" type="xs:int" minOccurs="0"/>
+      <xs:element name="ultimateCustomer" minOccurs="0">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="gln" type="xs:string"/>
+            <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:all>
+          <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="exciseDuty" type="xs:string" minOccurs="0"/>
+      <xs:element name="packages" minOccurs="0">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="packageForItem" type="tns:packageForItemType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="dimensions" type="xs:string" minOccurs="0"/>
+      <xs:element name="flowType" type="xs:string" minOccurs="0"/>
+      <xs:element name="veterinaryCertificateMercuryId" type="xs:string" minOccurs="0"/>
+      <xs:element name="manufacturersPrice" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="manufacturersPriceWithVAT" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amountAtManufacturersPrice" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="amountAtManufacturersPriceWithVAT" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="salesQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="inventoryDetails" type="tns:inventoryDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="descriptionVariant" type="xs:string" minOccurs="0"/>
+      <xs:element name="descriptionColor" type="xs:string" minOccurs="0"/>
+      <xs:element name="descriptionSize" type="xs:string" minOccurs="0"/>
+      <xs:element name="brandName" type="xs:string" minOccurs="0"/>
+      <xs:element name="physicalDimensions" type="tns:physicalDimensionsType" minOccurs="0"/>
+      <xs:element name="priceQuantity" type="tns:PriceQuantityType" minOccurs="0"/>
+      <xs:element name="incrementalOrderQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="shelfLife" type="tns:ShelfLifeType" minOccurs="0"/>
+      <xs:element name="promotionPeriod" type="xs:string" minOccurs="0"/>
+      <xs:element name="packageMarking" minOccurs="0"/>
+      <xs:element name="packageType" minOccurs="0"/>
+      <xs:element name="manufacturer" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="manufacturingSite" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="productCategory" type="xs:string" minOccurs="0"/>
+      <xs:element name="requestedDeliveryDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="physicalOrLogicalState" type="tns:physicalOrLogicalStateType" minOccurs="0"/>
+      <xs:element name="InternalBuyerGroupCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="offeredReturnQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="confirmedReturnQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="originOrder" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+      <xs:element name="deliveryNoteIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+      <xs:element name="despatchIdentificator" type="tns:DocumentIdentificatorType" minOccurs="0"/>
+      <xs:element name="foreignTradeCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="classificationOfOKP" type="xs:string" minOccurs="0"/>
+      <xs:element name="MNN" type="xs:string" minOccurs="0"/>
+      <xs:element name="storageConditions" type="xs:string" minOccurs="0"/>
+      <xs:element name="remainingShelfLife" type="xs:string" minOccurs="0"/>
+      <xs:element name="registeredPrice" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="landedPrice" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="priceProtocol" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="markupInPercent" type="xs:string" minOccurs="0"/>
+      <xs:element name="markupInValue" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="declaration" type="tns:declarationType" minOccurs="0"/>
+      <xs:element name="priceCataloguePrice" type="xs:decimal" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="status" type="xs:string"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="lineItemsType">
+    <xs:choice>
+      <xs:element name="currencyISOCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="lineItem" type="tns:lineItemType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="totalAmount" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalVATAmount" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalSumExcludingTaxes" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalAmountForIV" type="tns:sumForDocumentType" minOccurs="0"/>
+      <xs:element name="totalSumExcludingTaxesForIV" type="tns:sumForDocumentType" minOccurs="0"/>
+      <xs:element name="totalVATAmountForIV" type="tns:sumForDocumentType" minOccurs="0"/>
+      <xs:element name="totalAmountForDQ" type="tns:sumForDocumentType" minOccurs="0"/>
+      <xs:element name="totalSumExcludingTaxesForDQ" type="tns:sumForDocumentType" minOccurs="0"/>
+      <xs:element name="totalVATAmountForDQ" type="tns:sumForDocumentType" minOccurs="0"/>
+      <xs:element name="totalSumExcludingTaxesIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalSumExcludingTaxesDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalVATAmountIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalVATAmountDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalAmountIncrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="totalAmountDecrease" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="cargoSpaceInfo" type="tns:cargoSpaceInfoType" minOccurs="0"/>
+      <xs:element name="measurmentInfo" type="tns:packageMeasurementInfoType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="organization">
+    <xs:choice>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="inn" type="xs:string" minOccurs="0"/>
+      <xs:element name="kpp" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="cargoSpaceInfoType">
+    <xs:choice>
+      <xs:element name="totalEuroPallet" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="totalAmericanPallet" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="totalCartonsQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="packageForItemType">
+    <xs:choice>
+      <xs:element name="packageTypeCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="packageQuantity" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="onePackageQuantity" type="tns:quantityType" minOccurs="0"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="packageMeasurementInfoType">
+    <xs:choice>
+      <xs:element name="numberOfPalletPlaces" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="totalNetWeight" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="totalGrossWeight" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="totalLength" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="totalWidth" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="storageTemperature" type="tns:quantityType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="packageQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="typeOfPackage" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="packageType">
+    <xs:choice>
+      <xs:element name="packageLevel" type="xs:string" minOccurs="0"/>
+      <xs:element name="parentLevel" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="SSCC" type="xs:string" minOccurs="0"/>
+      <xs:element name="packageQuantity" type="tns:packageQuantityType" minOccurs="0"/>
+      <xs:element name="packageMeasurementInfo" type="tns:packageMeasurementInfoType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="packagesType">
+    <xs:choice>
+      <xs:element name="package" type="tns:packageType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="periodType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="startDate" type="xs:date"/>
+    <xs:attribute name="endDate" type="xs:date"/>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="physicalDimensionsType">
+    <xs:choice>
+      <xs:element name="height" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="width" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="depth" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="netContent" type="tns:quantityType" minOccurs="0"/>
+      <xs:element name="grossWeight" type="tns:quantityType" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="physicalOrLogicalStateType">
+    <xs:choice>
+      <xs:element name="state" type="xs:string" minOccurs="0"/>
+      <xs:element name="stateDescription" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="quantityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="unitOfMeasure" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="russianAddressType">
+    <xs:choice>
+      <xs:element name="regionISOCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="district" type="xs:string" minOccurs="0"/>
+      <xs:element name="city" type="xs:string" minOccurs="0"/>
+      <xs:element name="settlement" type="xs:string" minOccurs="0"/>
+      <xs:element name="street" type="xs:string" minOccurs="0"/>
+      <xs:element name="house" type="xs:string" minOccurs="0"/>
+      <xs:element name="flat" type="xs:string" minOccurs="0"/>
+      <xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="salesInLocationType" mixed="true">
+    <xs:choice>
+      <xs:element name="salesChannel" type="xs:string" minOccurs="0"/>
+      <xs:element name="location" type="tns:contractor" minOccurs="0"/>
+      <xs:element name="lineItems" minOccurs="0">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="lineItem" type="tns:lineItemType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+          <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="selfEmployed">
+    <xs:choice>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="inn" type="xs:string" minOccurs="0"/>
+      <xs:element name="fullName" type="tns:fullName" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="statusReport">
+    <xs:all>
+      <xs:element name="reportDateTime" type="xs:string"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:all>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="sumForDocumentType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="documentNumber" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="toBeReturnedQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="reasonOfReturn" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="transportationType" mixed="true">
+    <xs:choice>
+      <xs:element name="transportMode" type="xs:string" minOccurs="0"/>
+      <xs:element name="transportIdentificator" type="xs:string" minOccurs="0"/>
+      <xs:element name="vehicleCapacity" type="xs:string" minOccurs="0"/>
+      <xs:element name="vehicleNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="vehicleBrand" type="xs:string" minOccurs="0"/>
+      <xs:element name="nameOfCarrier" type="xs:string" minOccurs="0"/>
+      <xs:element name="vehicleArrivalDateTime" type="xs:string" minOccurs="0"/>
+      <xs:element name="typeOfTransportCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="sideDespatch" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="volumeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="volumeTypeQualifier" type="xs:string"/>
+        <xs:attribute name="unitOfMeasure" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>

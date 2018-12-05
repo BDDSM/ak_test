@@ -1,0 +1,1063 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НетАкцепта</dataPath>
+			<field>НетАкцепта</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НетПодтверждения</dataPath>
+			<field>НетПодтверждения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Заявка</dataPath>
+			<field>Заявка</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>УИН_СтрокиОплат</dataPath>
+			<field>УИН_СтрокиОплат</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Аванс</dataPath>
+			<field>Аванс</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПлатежа</dataPath>
+			<field>ДатаПлатежа</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НазначениеПлатежа</dataPath>
+			<field>НазначениеПлатежа</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаКОплате</dataPath>
+			<field>СуммаКОплате</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаОплаты</dataPath>
+			<field>СуммаОплаты</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Автор</dataPath>
+			<field>Автор</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НеПроведена</dataPath>
+			<field>НеПроведена</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НетПоступлений</dataPath>
+			<field>НетПоступлений</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Контрагент</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЧастичнаяОплата</dataPath>
+			<field>ЧастичнаяОплата</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаЗаявки</dataPath>
+			<field>СуммаЗаявки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Недостаток</dataPath>
+			<field>Недостаток</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НеЗаполненаДатаПлатежа</dataPath>
+			<field>НеЗаполненаДатаПлатежа</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЗаявкаНаУслугиМатериалыОплата.Ссылка КАК Заявка,
+	ЗаявкаНаУслугиМатериалыОплата.УИН_Строки КАК УИН_СтрокиОплат,
+	ЗаявкаНаУслугиМатериалыОплата.СуммаОплаты КАК СуммаОстаток
+ПОМЕСТИТЬ ВсеНеоплаченные
+ИЗ
+	Документ.ЗаявкаНаУслугиМатериалы.Оплата КАК ЗаявкаНаУслугиМатериалыОплата
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрНакопления.РасчетыПоЗаявкамНаУслугиМатериалы КАК РасчетыПоЗаявкамНаУслугиМатериалы
+		ПО (РасчетыПоЗаявкамНаУслугиМатериалы.Регистратор = ЗаявкаНаУслугиМатериалыОплата.Ссылка)
+ГДЕ
+	РасчетыПоЗаявкамНаУслугиМатериалы.Регистратор ЕСТЬ NULL 
+	И НЕ ЗаявкаНаУслугиМатериалыОплата.Ссылка.ПометкаУдаления
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	РасчетыПоЗаявкамНаУслугиМатериалыОстатки.Заявка,
+	РасчетыПоЗаявкамНаУслугиМатериалыОстатки.УИН_СтрокиОплат,
+	РасчетыПоЗаявкамНаУслугиМатериалыОстатки.СуммаОстаток
+ИЗ
+	РегистрНакопления.РасчетыПоЗаявкамНаУслугиМатериалы.Остатки(, ) КАК РасчетыПоЗаявкамНаУслугиМатериалыОстатки
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВсеНеоплаченные.Заявка
+ПОМЕСТИТЬ ВсеНеоплаченныеЗаявки
+ИЗ
+	ВсеНеоплаченные КАК ВсеНеоплаченные
+
+СГРУППИРОВАТЬ ПО
+	ВсеНеоплаченные.Заявка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ПоступлениеТоваровУслуг.Ссылка КАК ДокументПоступления,
+	ПоступлениеТоваровУслуг.СуммаДокумента,
+	"Поступление товаров услуг" КАК ВидДокумента,
+	ПоступлениеТоваровУслуг.Проведен,
+	ПоступлениеТоваровУслуг.ДокументОснование КАК Заявка
+ПОМЕСТИТЬ Поступления
+ИЗ
+	Документ.ПоступлениеТоваровУслуг КАК ПоступлениеТоваровУслуг
+ГДЕ
+	ПоступлениеТоваровУслуг.ДокументОснование ССЫЛКА Документ.ЗаявкаНаУслугиМатериалы
+	И ПоступлениеТоваровУслуг.ДокументОснование &lt;&gt; ЗНАЧЕНИЕ(Документ.ЗаявкаНаУслугиМатериалы.ПустаяСсылка)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ПоступлениеДопРасходов.Ссылка,
+	ПоступлениеДопРасходов.СуммаДокумента,
+	"Поступление доп.расходов",
+	ПоступлениеДопРасходов.Проведен,
+	ПоступлениеДопРасходов.ЗаявкаНаРсходованиеСредств
+ИЗ
+	Документ.ПоступлениеДопРасходов КАК ПоступлениеДопРасходов
+ГДЕ
+	ПоступлениеДопРасходов.ЗаявкаНаРсходованиеСредств ССЫЛКА Документ.ЗаявкаНаУслугиМатериалы
+	И ПоступлениеДопРасходов.ЗаявкаНаРсходованиеСредств &lt;&gt; ЗНАЧЕНИЕ(Документ.ЗаявкаНаУслугиМатериалы.ПустаяСсылка)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбщиеТранспортныеРасходы.Ссылка,
+	ОбщиеТранспортныеРасходы.Сумма,
+	"Общие транспортные расходы",
+	ОбщиеТранспортныеРасходы.Проведен,
+	ОбщиеТранспортныеРасходы.ДокументОснование
+ИЗ
+	Документ.ОбщиеТранспортныеРасходы КАК ОбщиеТранспортныеРасходы
+ГДЕ
+	ОбщиеТранспортныеРасходы.ДокументОснование ССЫЛКА Документ.ЗаявкаНаУслугиМатериалы
+	И ОбщиеТранспортныеРасходы.ДокументОснование &lt;&gt; ЗНАЧЕНИЕ(Документ.ЗаявкаНаУслугиМатериалы.ПустаяСсылка)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ДоставкаНаТТ.Ссылка,
+	ДоставкаНаТТ.СуммаДокумента,
+	"Доставка на ТТ",
+	ДоставкаНаТТ.Проведен,
+	ДоставкаНаТТ.ДокументОснование
+ИЗ
+	Документ.ДоставкаНаТТ КАК ДоставкаНаТТ
+ГДЕ
+	ДоставкаНаТТ.ДокументОснование ССЫЛКА Документ.ЗаявкаНаУслугиМатериалы
+	И ДоставкаНаТТ.ДокументОснование &lt;&gt; ЗНАЧЕНИЕ(Документ.ЗаявкаНаУслугиМатериалы.ПустаяСсылка)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	МаршрутныйЛист.Ссылка,
+	МаршрутныйЛист.Сумма,
+	"Маршрутный лист(рейс)",
+	МаршрутныйЛист.Проведен,
+	МаршрутныйЛист.ДокументОснование
+ИЗ
+	Документ.МаршрутныйЛист КАК МаршрутныйЛист
+ГДЕ
+	МаршрутныйЛист.ДокументОснование ССЫЛКА Документ.ЗаявкаНаУслугиМатериалы
+	И МаршрутныйЛист.ДокументОснование &lt;&gt; ЗНАЧЕНИЕ(Документ.ЗаявкаНаУслугиМатериалы.ПустаяСсылка)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВсеНеоплаченныеЗаявки.Заявка,
+	СУММА(ЕСТЬNULL(ВЫБОР
+				КОГДА Поступления.Проведен
+					ТОГДА Поступления.СуммаДокумента
+				ИНАЧЕ 0
+			КОНЕЦ, 0)) КАК ПринятаСумма,
+	СУММА(ЕСТЬNULL(РасходИзБанка.СуммаДокумента, 0)) КАК ОплаченнаяСумма,
+	ЕСТЬNULL(ИсключенияКонтроляПоЗаявкамНаУслугиМатериалы.НеКонтролироватьНаличиеДокументаПоступления, ЛОЖЬ) КАК НеКонтролироватьПоступления
+ПОМЕСТИТЬ ИтогиПоступленийПоЗаявкам
+ИЗ
+	ВсеНеоплаченныеЗаявки КАК ВсеНеоплаченныеЗаявки
+		ЛЕВОЕ СОЕДИНЕНИЕ Поступления КАК Поступления
+		ПО (Поступления.Заявка = ВсеНеоплаченныеЗаявки.Заявка)
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.РасходИзБанка КАК РасходИзБанка
+		ПО (РасходИзБанка.ЗаявкаНаРасходованиеСредств = ВсеНеоплаченныеЗаявки.Заявка)
+			И (РасходИзБанка.Оплачено)
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ИсключенияКонтроляПоЗаявкамНаУслугиМатериалы КАК ИсключенияКонтроляПоЗаявкамНаУслугиМатериалы
+		ПО ВсеНеоплаченныеЗаявки.Заявка.СтатьяДДС = ИсключенияКонтроляПоЗаявкамНаУслугиМатериалы.СтатьяДДС
+
+СГРУППИРОВАТЬ ПО
+	ЕСТЬNULL(ИсключенияКонтроляПоЗаявкамНаУслугиМатериалы.НеКонтролироватьНаличиеДокументаПоступления, ЛОЖЬ),
+	ВсеНеоплаченныеЗаявки.Заявка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ИтогиПоступленийПоЗаявкам.Заявка,
+	ИтогиПоступленийПоЗаявкам.Заявка.СуммаДокумента - ИтогиПоступленийПоЗаявкам.ПринятаСумма КАК Недостаток,
+	ИтогиПоступленийПоЗаявкам.ОплаченнаяСумма,
+	ИтогиПоступленийПоЗаявкам.Заявка.СуммаДокумента КАК СуммаЗаявки,
+	ИтогиПоступленийПоЗаявкам.ПринятаСумма,
+	ВЫБОР
+		КОГДА ИтогиПоступленийПоЗаявкам.ПринятаСумма &gt; ЕСТЬNULL(ИтогиПоступленийПоЗаявкам.ОплаченнаяСумма, 0)
+				И ИтогиПоступленийПоЗаявкам.ПринятаСумма &gt; ЕСТЬNULL(ИтогиПоступленийПоЗаявкам.ОплаченнаяСумма, 0)
+				И ИтогиПоступленийПоЗаявкам.Заявка.СуммаДокумента &gt; ЕСТЬNULL(ИтогиПоступленийПоЗаявкам.ОплаченнаяСумма, 0)
+			ТОГДА ИСТИНА
+		ИНАЧЕ ЛОЖЬ
+	КОНЕЦ КАК ЧастичнаяОплата,
+	ИтогиПоступленийПоЗаявкам.НеКонтролироватьПоступления
+ПОМЕСТИТЬ ЗаявкиСНехваткойПоступлений
+ИЗ
+	ИтогиПоступленийПоЗаявкам КАК ИтогиПоступленийПоЗаявкам
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка КАК Ссылка
+ПОМЕСТИТЬ НетАкцепта
+ИЗ
+	ВсеНеоплаченныеЗаявки КАК ВсеНеоплаченныеЗаявки
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+		ПО ВсеНеоплаченныеЗаявки.Заявка = ЗаявкаНаУслугиМатериалыУслуги.Ссылка
+ГДЕ
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка.Проведен
+	И ЗаявкаНаУслугиМатериалыУслуги.Акцептована = ЛОЖЬ
+
+СГРУППИРОВАТЬ ПО
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка КАК Ссылка
+ПОМЕСТИТЬ НетПодтверждения
+ИЗ
+	Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВсеНеоплаченныеЗаявки КАК ВсеНеоплаченныеЗаявки
+		ПО ЗаявкаНаУслугиМатериалыУслуги.Ссылка = ВсеНеоплаченныеЗаявки.Заявка
+ГДЕ
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка.Проведен
+	И ЗаявкаНаУслугиМатериалыУслуги.Сумма &gt; 0
+	И ЗаявкаНаУслугиМатериалыУслуги.Подтверждено = ЛОЖЬ
+
+СГРУППИРОВАТЬ ПО
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВЫБОР
+		КОГДА НетАкцепта.Ссылка ЕСТЬ NULL 
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК НетАкцепта,
+	ВЫБОР
+		КОГДА НетПодтверждения.Ссылка ЕСТЬ NULL 
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК НетПодтверждения,
+	ВсеНеоплаченные.Заявка,
+	ВсеНеоплаченные.СуммаОстаток КАК СуммаКОплате,
+	ЗаявкаНаУслугиМатериалыОплата.ДатаПлатежа,
+	ЗаявкаНаУслугиМатериалыОплата.СуммаОплаты,
+	ЗаявкаНаУслугиМатериалыОплата.Аванс,
+	ЗаявкаНаУслугиМатериалыОплата.НазначениеПлатежа,
+	ВсеНеоплаченные.Заявка.Ответственный КАК Автор,
+	ВЫБОР
+		КОГДА ЗаявкаНаУслугиМатериалыОплата.Ссылка.Проведен
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК НеПроведена,
+	ВЫБОР
+		КОГДА ВЫБОР
+					КОГДА ЕСТЬNULL(ЗаявкиСНехваткойПоступлений.Недостаток, 100) &gt; 0
+						ТОГДА ИСТИНА
+					ИНАЧЕ ЛОЖЬ
+				КОНЕЦ
+				И НЕ ЗаявкаНаУслугиМатериалыОплата.Аванс
+				И НЕ ЗаявкиСНехваткойПоступлений.НеКонтролироватьПоступления
+			ТОГДА ИСТИНА
+		ИНАЧЕ ЛОЖЬ
+	КОНЕЦ КАК НетПоступлений,
+	ЗаявкаНаУслугиМатериалыОплата.Ссылка.Контрагент,
+	ЕСТЬNULL(ЗаявкиСНехваткойПоступлений.ЧастичнаяОплата, ЛОЖЬ) КАК ЧастичнаяОплата,
+	ВсеНеоплаченные.Заявка.СуммаДокумента КАК СуммаЗаявки,
+	ЗаявкиСНехваткойПоступлений.Недостаток,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(ЗаявкаНаУслугиМатериалыОплата.ДатаПлатежа, ДАТАВРЕМЯ(1, 1, 1)) = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ИСТИНА
+		ИНАЧЕ ЛОЖЬ
+	КОНЕЦ КАК НеЗаполненаДатаПлатежа
+ИЗ
+	ВсеНеоплаченные КАК ВсеНеоплаченные
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаявкаНаУслугиМатериалы.Оплата КАК ЗаявкаНаУслугиМатериалыОплата
+		ПО ВсеНеоплаченные.УИН_СтрокиОплат = ЗаявкаНаУслугиМатериалыОплата.УИН_Строки
+			И ВсеНеоплаченные.Заявка = ЗаявкаНаУслугиМатериалыОплата.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ НетАкцепта КАК НетАкцепта
+		ПО ВсеНеоплаченные.Заявка = НетАкцепта.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ НетПодтверждения КАК НетПодтверждения
+		ПО ВсеНеоплаченные.Заявка = НетПодтверждения.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ ЗаявкиСНехваткойПоступлений КАК ЗаявкиСНехваткойПоступлений
+		ПО ВсеНеоплаченные.Заявка = ЗаявкиСНехваткойПоступлений.Заявка
+ГДЕ
+	ВсеНеоплаченные.СуммаОстаток &gt; 0</query>
+	</dataSet>
+	<calculatedField>
+		<dataPath>БудетОплачена</dataPath>
+		<expression>Выбор Когда Не НезаполненаДатаПлатежа И НЕ НетАкцепта И Не Непроведена И НЕ НетПоступлений Тогда Истина Когда ЧастичнаяОплата  И Не НезаполненаДатаПлатежа И НЕ НетАкцепта И Не Непроведена Тогда "Частично" Иначе Ложь Конец</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Готова к оплате</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<totalField>
+		<dataPath>НетАкцепта</dataPath>
+		<expression>Максимум(НетАкцепта)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>НетПодтверждения</dataPath>
+		<expression>Максимум(НетПодтверждения)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>НеПроведена</dataPath>
+		<expression>Максимум(НеПроведена)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>НетПоступлений</dataPath>
+		<expression>Максимум(НетПоступлений)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>СуммаКОплате</dataPath>
+		<expression>Сумма(СуммаКОплате)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>НеЗаполненаДатаПлатежа</dataPath>
+		<expression>Максимум(НеЗаполненаДатаПлатежа)</expression>
+	</totalField>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НетАкцепта</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НетПодтверждения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Заявка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Автор</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НеПроведена</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НетПоступлений</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НеЗаполненаДатаПлатежа</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПлатежа</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаЗаявки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаКОплате</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">БудетОплачена</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					<dcsset:userSettingID>d772fd98-bc26-4b43-980c-f1a1baceee71</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Автор</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>ad9fa03a-4635-4e05-a446-bee92ce12e17</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Контрагент</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>3d857548-96bc-4c7a-8ee8-8a90ec3b8b30</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Заявка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>60ff41e6-daba-4908-b247-72332c30abf1</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НеПроведена</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>e953c3b2-e778-4dd7-aeb5-445f78d7d298</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НетАкцепта</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>e80dc259-1ddd-48df-ad39-d44431d32f5a</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НетПодтверждения</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>55ecb2e3-9244-448f-9e0e-b1bb4c24e6c0</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НетПоступлений</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>ebdfc71e-5bba-4007-9674-164fdf990a94</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Заявка.Дата</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>БудетОплачена</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Заявка</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">БудетОплачена</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#CCFFCC</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>БудетОплачена</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Заявка</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">БудетОплачена</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#FF99CC</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НеЗаполненаДатаПлатежа</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НеЗаполненаДатаПлатежа</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НеПроведена</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НеПроведена</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НетАкцепта</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НетАкцепта</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НетПодтверждения</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НетПодтверждения</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НетПоступлений</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НетПоступлений</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МакетОформления</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">Арктика</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>БудетОплачена</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Автор</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Контрагент</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item xsi:type="dcsset:StructureItemGroup">
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemField">
+									<dcsset:field>СистемныеПоля.НомерПоПорядкуВГруппировке</dcsset:field>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+	<settingsVariant>
+		<dcsset:name>ВсеЗаявки</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Все заявки</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НетАкцепта</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НетПодтверждения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Заявка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Автор</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НеПроведена</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НетПоступлений</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПлатежа</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаЗаявки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаКОплате</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">БудетОплачена</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					<dcsset:userSettingID>d772fd98-bc26-4b43-980c-f1a1baceee71</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Автор</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>ad9fa03a-4635-4e05-a446-bee92ce12e17</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Контрагент</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>3d857548-96bc-4c7a-8ee8-8a90ec3b8b30</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Заявка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>60ff41e6-daba-4908-b247-72332c30abf1</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НеПроведена</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>e953c3b2-e778-4dd7-aeb5-445f78d7d298</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НетАкцепта</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>e80dc259-1ddd-48df-ad39-d44431d32f5a</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НетПодтверждения</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>55ecb2e3-9244-448f-9e0e-b1bb4c24e6c0</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НетПоступлений</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>ebdfc71e-5bba-4007-9674-164fdf990a94</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Заявка.Дата</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>БудетОплачена</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Заявка</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">БудетОплачена</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#CCFFCC</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>БудетОплачена</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Заявка</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">БудетОплачена</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#FF99CC</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НеЗаполненаДатаПлатежа</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НеЗаполненаДатаПлатежа</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НеПроведена</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НеПроведена</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НетАкцепта</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НетАкцепта</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НетПодтверждения</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НетПодтверждения</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НетПоступлений</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">НетПоступлений</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>-</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>БудетОплачена</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Автор</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Контрагент</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item xsi:type="dcsset:StructureItemGroup">
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemField">
+									<dcsset:field>СистемныеПоля.НомерПоПорядкуВГруппировке</dcsset:field>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

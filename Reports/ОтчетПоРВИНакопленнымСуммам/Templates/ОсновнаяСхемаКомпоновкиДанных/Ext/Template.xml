@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных2</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Счет</dataPath>
+			<field>Счет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто1</dataPath>
+			<field>Субконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто2</dataPath>
+			<field>Субконто2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто3</dataPath>
+			<field>Субконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Разница</dataPath>
+			<field>Разница</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаВручную</dataPath>
+			<field>СуммаВручную</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаРВ</dataPath>
+			<field>СуммаРВ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Касса</dataPath>
+			<field>Касса</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛистУчета</dataPath>
+			<field>ЛистУчета</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОрганизацияЛиста</dataPath>
+			<field>ОрганизацияЛиста</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтруктурнаяЕдиницаЛиста</dataPath>
+			<field>СтруктурнаяЕдиницаЛиста</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Структурная единица</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Расчетчик</dataPath>
+			<field>Расчетчик</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Расчетчик</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛистУчета.Ссылка КАК Ссылка,
+	ЛистУчета.Дата КАК Дата
+ПОМЕСТИТЬ ВТЛистыУчета
+ИЗ
+	Документ.ЛистУчета КАК ЛистУчета
+ГДЕ
+	ЛистУчета.Дата МЕЖДУ &amp;ДатаНач И КОНЕЦПЕРИОДА(&amp;ДатаКон, ДЕНЬ)
+
+ИНДЕКСИРОВАТЬ ПО
+	Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЛистУчетаZОтчеты.Касса,
+	МАКСИМУМ(ВТЛистыУчета.Дата) КАК ДатаДокумента
+ПОМЕСТИТЬ ВТПоследниеДаты
+ИЗ
+	Документ.ЛистУчета.ZОтчеты КАК ЛистУчетаZОтчеты
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТЛистыУчета КАК ВТЛистыУчета
+		ПО (ВТЛистыУчета.Ссылка = ЛистУчетаZОтчеты.Ссылка)
+ГДЕ
+	ЛистУчетаZОтчеты.Ссылка.Дата МЕЖДУ &amp;ДатаНач И КОНЕЦПЕРИОДА(&amp;ДатаКон, ДЕНЬ)
+
+СГРУППИРОВАТЬ ПО
+	ЛистУчетаZОтчеты.Касса
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЛистУчетаZОтчеты.Ссылка.Организация КАК ОрганизацияЛиста,
+	ВЫБОР
+		КОГДА НЕ КОНЕЦПЕРИОДА(ВТПоследниеДаты.ДатаДокумента, ДЕНЬ) = КОНЕЦПЕРИОДА(&amp;ДатаКон, ДЕНЬ)
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК ВПоследнийДень,
+	ЛистУчетаZОтчеты.Ссылка.ТорговаяТочка КАК СтруктурнаяЕдиницаЛиста,
+	ЛистУчетаZОтчеты.Касса КАК Касса,
+	МАКСИМУМ(ЛистУчетаZОтчеты.Ссылка) КАК ЛистУчета,
+	МАКСИМУМ(ЛистУчетаZОтчеты.ВведенныйОстаток) КАК Сумма
+ПОМЕСТИТЬ ВТРучныеСуммы
+ИЗ
+	Документ.ЛистУчета.ZОтчеты КАК ЛистУчетаZОтчеты
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТПоследниеДаты КАК ВТПоследниеДаты
+		ПО (ВТПоследниеДаты.ДатаДокумента = ЛистУчетаZОтчеты.Ссылка.Дата)
+			И (ВТПоследниеДаты.Касса = ЛистУчетаZОтчеты.Касса)
+ГДЕ
+	ЛистУчетаZОтчеты.Ссылка.Дата МЕЖДУ &amp;ДатаНач И КОНЕЦПЕРИОДА(&amp;ДатаКон, ДЕНЬ)
+
+СГРУППИРОВАТЬ ПО
+	ЛистУчетаZОтчеты.Ссылка.Организация,
+	ВЫБОР
+		КОГДА НЕ КОНЕЦПЕРИОДА(ВТПоследниеДаты.ДатаДокумента, ДЕНЬ) = КОНЕЦПЕРИОДА(&amp;ДатаКон, ДЕНЬ)
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ,
+	ЛистУчетаZОтчеты.Ссылка.ТорговаяТочка,
+	ЛистУчетаZОтчеты.Касса,
+	ЛистУчетаZОтчеты.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ФинансовыйОстатки.Субконто1 КАК Касса,
+	ФинансовыйОстатки.СуммаОстаток КАК Сумма
+ПОМЕСТИТЬ ВТОстаткиРВ
+ИЗ
+	РегистрБухгалтерии.Финансовый.Остатки(ДОБАВИТЬКДАТЕ(КОНЕЦПЕРИОДА(&amp;ДатаКон, ДЕНЬ), СЕКУНДА, 1), Счет = ЗНАЧЕНИЕ(ПланСчетов.Финансовый.НераспределеннаяРозничнаяВыручка), , ) КАК ФинансовыйОстатки
+
+ИНДЕКСИРОВАТЬ ПО
+	Касса
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТРучныеСуммы.СтруктурнаяЕдиницаЛиста КАК СтруктурнаяЕдиницаЛиста,
+	МАКСИМУМ(ВЫБОР
+			КОГДА ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) - ВТРучныеСуммы.Сумма &lt; 0
+				ТОГДА -1 * (ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) - ВТРучныеСуммы.Сумма)
+			ИНАЧЕ ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) - ВТРучныеСуммы.Сумма
+		КОНЕЦ) КАК Разница
+ПОМЕСТИТЬ ВТРазницы
+ИЗ
+	ВТРучныеСуммы КАК ВТРучныеСуммы
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТОстаткиРВ КАК ВТОстаткиРВ
+		ПО (ВТОстаткиРВ.Касса = ВТРучныеСуммы.Касса)
+
+СГРУППИРОВАТЬ ПО
+	ВТРучныеСуммы.СтруктурнаяЕдиницаЛиста
+
+ИНДЕКСИРОВАТЬ ПО
+	СтруктурнаяЕдиницаЛиста
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТРучныеСуммы.ОрганизацияЛиста КАК ОрганизацияЛиста,
+	ВТРучныеСуммы.СтруктурнаяЕдиницаЛиста КАК СтруктурнаяЕдиницаЛиста,
+	ВТРучныеСуммы.Касса КАК Касса,
+	ВТРучныеСуммы.ЛистУчета КАК ЛистУчета,
+	ВТРучныеСуммы.ЛистУчета.Расчетчик КАК Расчетчик,
+	ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) КАК СуммаРВ,
+	ВЫБОР
+		КОГДА ВТРучныеСуммы.ВПоследнийДень = ИСТИНА
+			ТОГДА ВТРучныеСуммы.Сумма
+		ИНАЧЕ 0
+	КОНЕЦ КАК СуммаВручную,
+	ВЫБОР
+		КОГДА ВТРучныеСуммы.ВПоследнийДень = ИСТИНА
+			ТОГДА ВТРучныеСуммы.Сумма - ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0)
+		ИНАЧЕ 0
+	КОНЕЦ КАК Разница
+ИЗ
+	ВТРучныеСуммы КАК ВТРучныеСуммы
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТОстаткиРВ КАК ВТОстаткиРВ
+		ПО (ВТОстаткиРВ.Касса = ВТРучныеСуммы.Касса)
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТРазницы КАК ВТРазницы
+		ПО (ВТРазницы.СтруктурнаяЕдиницаЛиста = ВТРучныеСуммы.СтруктурнаяЕдиницаЛиста)
+
+УПОРЯДОЧИТЬ ПО
+	ЕСТЬNULL(ВТРазницы.Разница, 0),
+	ВТРучныеСуммы.ВПоследнийДень УБЫВ,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) - ВТРучныеСуммы.Сумма &lt; 0
+			ТОГДА -1 * (ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) - ВТРучныеСуммы.Сумма)
+		ИНАЧЕ ЕСТЬNULL(ВТОстаткиРВ.Сумма, 0) - ВТРучныеСуммы.Сумма
+	КОНЕЦ
+;
+
+////////////////////////////////////////////////////////////////////////////////
+УНИЧТОЖИТЬ ВТЛистыУчета
+;
+
+////////////////////////////////////////////////////////////////////////////////
+УНИЧТОЖИТЬ ВТПоследниеДаты
+;
+
+////////////////////////////////////////////////////////////////////////////////
+УНИЧТОЖИТЬ ВТРучныеСуммы
+;
+
+////////////////////////////////////////////////////////////////////////////////
+УНИЧТОЖИТЬ ВТОстаткиРВ
+;
+
+////////////////////////////////////////////////////////////////////////////////
+УНИЧТОЖИТЬ ВТРазницы</query>
+	</dataSet>
+	<totalField>
+		<dataPath>СуммаРВ</dataPath>
+		<expression>Сумма(СуммаРВ)</expression>
+		<group>ОрганизацияЛиста</group>
+		<group>Расчетчик</group>
+		<group>СтруктурнаяЕдиницаЛиста</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>СуммаВручную</dataPath>
+		<expression>Сумма(СуммаВручную)</expression>
+		<group>ОрганизацияЛиста</group>
+		<group>Расчетчик</group>
+		<group>СтруктурнаяЕдиницаЛиста</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>Разница</dataPath>
+		<expression>Сумма(Разница)</expression>
+		<group>ОрганизацияЛиста</group>
+		<group>Расчетчик</group>
+		<group>СтруктурнаяЕдиницаЛиста</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<parameter>
+		<name>ДатаНач</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>2014-03-01T00:00:00</v8:startDate>
+			<v8:endDate>2014-03-31T23:59:59</v8:endDate>
+		</value>
+		<useRestriction>true</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОрганизацияЛиста</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтруктурнаяЕдиницаЛиста</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Касса</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЛистУчета</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаРВ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаВручную</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Разница</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ОрганизацияЛиста</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>55533ab5-d436-4f0c-be1c-5a662bddb56a</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">СтруктурнаяЕдиницаЛиста</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>bb6fdad6-95fe-49c4-9bd3-149b7178375c</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Касса</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>8432fb1e-1f63-48c2-a7d6-ea1891702444</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">СтруктурнаяЕдиницаЛиста.ГруппаДоступаСтруктурнойЕдиницы</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Расчетчик</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>3be0d4f0-db8a-4a47-8e69-c97bfd9add4f</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаНач</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>2014-03-01T00:00:00</v8:date>
+					</dcscor:value>
+					<dcsset:userSettingID>1db17a19-4c60-4472-9189-5896c78e5591</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаКон</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>2014-03-31T00:00:00</v8:date>
+					</dcscor:value>
+					<dcsset:userSettingID>d2f40b5c-b56b-4697-a20c-b40702e7c464</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>2014-03-01T00:00:00</v8:startDate>
+						<v8:endDate>2014-03-31T23:59:59</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>4b7f291e-848c-42d4-8216-760589a6d299</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>ОрганизацияЛиста.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>СтруктурнаяЕдиницаЛиста.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>Касса.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отчет по РВ и накопленным суммам</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ОрганизацияЛиста</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>СтруктурнаяЕдиницаЛиста</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

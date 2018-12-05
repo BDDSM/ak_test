@@ -1,0 +1,65 @@
+<xs:schema xmlns:apl="http://api.vetrf.ru/schema/cdm/application"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/application/ws-definitions"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/application/ws-definitions"
+		elementFormDefault="qualified"
+		version="1.3">
+	<xs:import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<xs:import namespace="http://api.vetrf.ru/schema/cdm/application"
+			schemaLocation="file://3.xsd"/>
+	<xs:element name="unsupportedApplicationDataTypeFault"
+			type="bs:FaultInfo"/>
+	<xs:element name="unknownServiceIdFault"
+			type="bs:FaultInfo"/>
+	<xs:element name="submitApplicationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="apiKey"
+						type="apl:APIKey"
+						minOccurs="1"
+						maxOccurs="1"/>
+				<xs:element ref="apl:application"
+						minOccurs="1"
+						maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="submitApplicationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="apl:application"
+						minOccurs="1"
+						maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="receiveApplicationResultRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="apiKey"
+						type="apl:APIKey"
+						minOccurs="1"
+						maxOccurs="1"/>
+				<xs:element name="issuerId"
+						type="bs:UUID"
+						minOccurs="1"
+						maxOccurs="1"/>
+				<xs:element name="applicationId"
+						type="bs:UUID"
+						minOccurs="1"
+						maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="receiveApplicationResultResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="apl:application"
+						minOccurs="1"
+						maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

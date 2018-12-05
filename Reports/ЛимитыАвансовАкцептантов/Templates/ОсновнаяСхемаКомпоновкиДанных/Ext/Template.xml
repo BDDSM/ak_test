@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>ВыбранныеАвансы</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Акцептант</dataPath>
+			<field>Акцептант</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Заявка</dataPath>
+			<field>Заявка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>УИН_СтрокиОплат</dataPath>
+			<field>УИН_СтрокиОплат</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>База</dataPath>
+			<field>База</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВыбранныйАванс</dataPath>
+			<field>ВыбранныйАванс</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	СУММА(ВложенныйЗапрос.ОстатокАванса) КАК ОстатокАванса,
+	ВложенныйЗапрос.Заявка
+ПОМЕСТИТЬ ОстаткиПоАвансам
+ИЗ
+	(ВЫБРАТЬ
+		СУММА(АвансыПоРасчетамСКонтрагентами.Сумма) КАК ОстатокАванса,
+		АвансыПоРасчетамСКонтрагентами.Сделка КАК Заявка
+	ИЗ
+		РегистрСведений.АвансыПоРасчетамСКонтрагентами КАК АвансыПоРасчетамСКонтрагентами
+	ГДЕ
+		АвансыПоРасчетамСКонтрагентами.Сделка ССЫЛКА Документ.ЗаявкаНаУслугиМатериалы
+		И НЕ АвансыПоРасчетамСКонтрагентами.Сделка = ЗНАЧЕНИЕ(Документ.ЗаявкаНаУслугиМатериалы.ПустаяСсылка)
+		И АвансыПоРасчетамСКонтрагентами.Сделка.ДатаПоступления &lt; &amp;ТекущаяДата
+		И АвансыПоРасчетамСКонтрагентами.Сделка.ДатаПоступления &lt;&gt; ДАТАВРЕМЯ(1, 1, 1)
+		И АвансыПоРасчетамСКонтрагентами.Сделка.Дата &gt;= ДАТАВРЕМЯ(2017, 5, 1)
+		И (НЕ АвансыПоРасчетамСКонтрагентами.Документ ССЫЛКА Документ.РасходИзБанка
+				ИЛИ АвансыПоРасчетамСКонтрагентами.Документ = ЗНАЧЕНИЕ(Документ.РасходИЗБанка.ПустаяСсылка)
+				ИЛИ АвансыПоРасчетамСКонтрагентами.Документ ССЫЛКА Документ.РасходИзБанка
+					И АвансыПоРасчетамСКонтрагентами.Документ.Дата &lt; ДАТАВРЕМЯ(2017, 10, 9))
+	
+	СГРУППИРОВАТЬ ПО
+		АвансыПоРасчетамСКонтрагентами.Сделка
+	
+	ОБЪЕДИНИТЬ ВСЕ
+	
+	ВЫБРАТЬ
+		СУММА(РасчетыПоЗаявкамНаУслугиМатериалыОстатки.СуммаОстаток),
+		РасчетыПоЗаявкамНаУслугиМатериалыОстатки.Заявка
+	ИЗ
+		РегистрНакопления.РасчетыПоЗаявкамНаУслугиМатериалы.Остатки(, ) КАК РасчетыПоЗаявкамНаУслугиМатериалыОстатки
+			ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаявкаНаУслугиМатериалы.Оплата КАК ЗаявкаНаУслугиМатериалыОплата
+			ПО РасчетыПоЗаявкамНаУслугиМатериалыОстатки.Заявка = ЗаявкаНаУслугиМатериалыОплата.Ссылка
+				И РасчетыПоЗаявкамНаУслугиМатериалыОстатки.УИН_СтрокиОплат = ЗаявкаНаУслугиМатериалыОплата.УИН_Строки
+	ГДЕ
+		ЗаявкаНаУслугиМатериалыОплата.Аванс
+		И ЛОЖЬ
+	
+	СГРУППИРОВАТЬ ПО
+		РасчетыПоЗаявкамНаУслугиМатериалыОстатки.Заявка
+	
+	ОБЪЕДИНИТЬ ВСЕ
+	
+	ВЫБРАТЬ
+		СУММА(АвансыПоРасчетамСКонтрагентами.Сумма),
+		АвансыПоРасчетамСКонтрагентами.Сделка
+	ИЗ
+		РегистрСведений.АвансыПоРасчетамСКонтрагентами КАК АвансыПоРасчетамСКонтрагентами
+	ГДЕ
+		АвансыПоРасчетамСКонтрагентами.Документ ССЫЛКА Документ.РасходИзБанка
+		И АвансыПоРасчетамСКонтрагентами.Документ &lt;&gt; ЗНАЧЕНИЕ(Документ.РасходИзБанка.ПустаяСсылка)
+		И ВЫБОР
+				КОГДА АвансыПоРасчетамСКонтрагентами.Документ.ПлановаяДатаПоступления = ДАТАВРЕМЯ(1, 1, 1)
+					ТОГДА АвансыПоРасчетамСКонтрагентами.Документ.Дата
+				ИНАЧЕ АвансыПоРасчетамСКонтрагентами.Документ.ПлановаяДатаПоступления
+			КОНЕЦ &lt; &amp;ТекущаяДата
+		И АвансыПоРасчетамСКонтрагентами.Документ.Дата &gt;= ДАТАВРЕМЯ(2017, 10, 9)
+	
+	СГРУППИРОВАТЬ ПО
+		АвансыПоРасчетамСКонтрагентами.Сделка) КАК ВложенныйЗапрос
+
+СГРУППИРОВАТЬ ПО
+	ВложенныйЗапрос.Заявка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗаявкаНаУслугиМатериалыУслуги.Акцептовал КАК Акцептант,
+	ЗаявкаНаУслугиМатериалыУслуги.Сумма,
+	ЗаявкаНаУслугиМатериалыУслуги.Ссылка КАК Заявка
+ПОМЕСТИТЬ БазаРаспределения
+ИЗ
+	ОстаткиПоАвансам КАК ОстаткиПоАвансам
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+		ПО ОстаткиПоАвансам.Заявка = ЗаявкаНаУслугиМатериалыУслуги.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	СУММА(БазаРаспределения.Сумма) КАК Сумма,
+	БазаРаспределения.Заявка
+ПОМЕСТИТЬ ИтогиПоБазамРаспределения
+ИЗ
+	БазаРаспределения КАК БазаРаспределения
+
+СГРУППИРОВАТЬ ПО
+	БазаРаспределения.Заявка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	БазаРаспределения.Заявка,
+	БазаРаспределения.Акцептант,
+	ВЫРАЗИТЬ(БазаРаспределения.Сумма КАК ЧИСЛО(15, 2)) КАК База,
+	ВЫРАЗИТЬ(ЕСТЬNULL(СУММА(БазаРаспределения1.Сумма), 0) КАК ЧИСЛО(15, 2)) КАК БазаНакопленная
+ПОМЕСТИТЬ ДанныеССнакоплением
+ИЗ
+	БазаРаспределения КАК БазаРаспределения
+		ЛЕВОЕ СОЕДИНЕНИЕ БазаРаспределения КАК БазаРаспределения1
+		ПО БазаРаспределения.Заявка = БазаРаспределения1.Заявка
+			И БазаРаспределения.Акцептант &gt; БазаРаспределения1.Акцептант
+
+СГРУППИРОВАТЬ ПО
+	БазаРаспределения.Заявка,
+	БазаРаспределения.Акцептант,
+	ВЫРАЗИТЬ(БазаРаспределения.Сумма КАК ЧИСЛО(15, 2))
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ДанныеССнакоплением.Заявка,
+	ДанныеССнакоплением.Акцептант,
+	ДанныеССнакоплением.База,
+	(ВЫРАЗИТЬ(ОстаткиПоАвансам.ОстатокАванса * (ДанныеССнакоплением.БазаНакопленная + ДанныеССнакоплением.База) / ИтогиПоБазамРаспределения.Сумма КАК ЧИСЛО(15, 2))) - (ВЫРАЗИТЬ(ОстаткиПоАвансам.ОстатокАванса * ДанныеССнакоплением.БазаНакопленная / ИтогиПоБазамРаспределения.Сумма КАК ЧИСЛО(15, 2))) КАК ВыбранныйАванс
+ИЗ
+	ДанныеССнакоплением КАК ДанныеССнакоплением
+		ПОЛНОЕ СОЕДИНЕНИЕ ИтогиПоБазамРаспределения КАК ИтогиПоБазамРаспределения
+			ПОЛНОЕ СОЕДИНЕНИЕ ОстаткиПоАвансам КАК ОстаткиПоАвансам
+			ПО (ОстаткиПоАвансам.Заявка = ИтогиПоБазамРаспределения.Заявка)
+		ПО ДанныеССнакоплением.Заявка = ИтогиПоБазамРаспределения.Заявка</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>УстановленныеЛимиты</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛимитПоАвансам</dataPath>
+			<field>ЛимитПоАвансам</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Акцептант</dataPath>
+			<field>Акцептант</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПользователиСПравомАкцептаОплат.Пользователь КАК Акцептант,
+	ПользователиСПравомАкцептаОплат.ЛимитПоАвансам
+ИЗ
+	Справочник.ПользователиСПравомАкцептаОплат КАК ПользователиСПравомАкцептаОплат</query>
+	</dataSet>
+	<dataSetLink>
+		<sourceDataSet>УстановленныеЛимиты</sourceDataSet>
+		<destinationDataSet>ВыбранныеАвансы</destinationDataSet>
+		<sourceExpression>Акцептант</sourceExpression>
+		<destinationExpression>Акцептант</destinationExpression>
+	</dataSetLink>
+	<calculatedField>
+		<dataPath>ОстатокЛимита</dataPath>
+		<expression>лимитпоАвансам-ВыбранныйАванс</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Остаток лимита</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>ВыбраноЛимитаПоАкцептанту</dataPath>
+		<expression>ВыбранныйАванс</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Выбрано лимита по акцептанту</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<totalField>
+		<dataPath>ВыбранныйАванс</dataPath>
+		<expression>Сумма(ВыбраноЛимитаПоАкцептанту)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ОстатокЛимита</dataPath>
+		<expression>ЛимитПоАвансам-ЕстьNULL(Сумма(ВыбраноЛимитаПоАкцептанту),0)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ВыбраноЛимитаПоАкцептанту</dataPath>
+		<expression>Сумма(ВыбранныйАванс)</expression>
+		<group>Акцептант</group>
+	</totalField>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ТекущаяДата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Текущая дата</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>ТекущаяДата()</expression>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Сводный отчет по лимитам акцентантов</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Акцептант</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЛимитПоАвансам</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВыбранныйАванс</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОстатокЛимита</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Акцептант</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ГоризонтальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ВертикальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Акцептант</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ЛимитПоАвансам</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+	<settingsVariant>
+		<dcsset:name>ПоЗаявкам</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>По заявкам</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Акцептант</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЛимитПоАвансам</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВыбранныйАванс</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОстатокЛимита</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Акцептант</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ГоризонтальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ВертикальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Акцептант</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ЛимитПоАвансам</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Заявка</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto">
+							<dcsset:use>false</dcsset:use>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>Заявка</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ВыбранныйАванс</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

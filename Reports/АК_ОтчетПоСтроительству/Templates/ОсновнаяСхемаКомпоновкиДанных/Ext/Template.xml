@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Адрес</dataPath>
+			<field>Адрес</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Каникулы</dataPath>
+			<field>Каникулы</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НачалоКаникул</dataPath>
+			<field>НачалоКаникул</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НомерТТ</dataPath>
+			<field>НомерТТ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ответственный</dataPath>
+			<field>Ответственный</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПланируемаяДатаЗавершения</dataPath>
+			<field>ПланируемаяДатаЗавершения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Поставщик</dataPath>
+			<field>Поставщик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Проект</dataPath>
+			<field>Проект</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Статус</dataPath>
+			<field>Статус</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Строители</dataPath>
+			<field>Строители</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяПлощадь</dataPath>
+			<field>ТорговаяПлощадь</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ФактическаяДатаЗавершения</dataPath>
+			<field>ФактическаяДатаЗавершения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Категория</dataPath>
+			<field>Категория</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоКасс</dataPath>
+			<field>КоличествоКасс</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОбщаяПлощадь</dataPath>
+			<field>ОбщаяПлощадь</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ХолодильноеОборудование</dataPath>
+			<field>ХолодильноеОборудование</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОткрытия</dataPath>
+			<field>ДатаОткрытия</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПринятия</dataPath>
+			<field>ДатаПринятия</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КолвоДней</dataPath>
+			<field>КолвоДней</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.НомерТочки КАК НомерТТ,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.Адрес КАК Адрес,
+	МП_ЗаданиеСтроителей.Ссылка КАК Проект,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.ОбщаяПлощадь КАК ОбщаяПлощадь,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.ТорговаяПлощадь КАК ТорговаяПлощадь,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.Категория КАК Категория,
+	МП_ЗаданиеСтроителей.НачалоКаникул,
+	МП_ЗаданиеСтроителей.Каникулы,
+	МП_ЗаданиеСтроителей.Ответственный,
+	МП_ЗаданиеСтроителей.Статус,
+	МП_ЗаданиеСтроителей.Строители,
+	МП_ЗаданиеСтроителей.ПоставщикХолодильногоОборудования КАК Поставщик,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.ХолодильноеОборудование КАК ХолодильноеОборудование,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.КоличествоКасс КАК КоличествоКасс,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(МП_ЗаданиеСтроителей.НачалоКаникул, ДАТАВРЕМЯ(1, 1, 1)) = ДАТАВРЕМЯ(1, 1, 1)
+				ИЛИ ЕСТЬNULL(МП_ЗаданиеСтроителей.ДатаФактическогоЗавершения, ДАТАВРЕМЯ(1, 1, 1)) = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА 0
+		ИНАЧЕ РАЗНОСТЬДАТ(НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(МП_ЗаданиеСтроителей.НачалоКаникул, ДЕНЬ, ЕСТЬNULL(МП_ЗаданиеСтроителей.Каникулы, 0)), ДЕНЬ), НАЧАЛОПЕРИОДА(МП_ЗаданиеСтроителей.ДатаФактическогоЗавершения, ДЕНЬ), ДЕНЬ)
+	КОНЕЦ КАК КолвоДней,
+	МП_ЗаданиеСтроителей.ДатаПлановогоЗавершения КАК ПланируемаяДатаЗавершения,
+	МП_ЗаданиеСтроителей.ДатаФактическогоЗавершения КАК ФактическаяДатаЗавершения,
+	МП_ЗаданиеСтроителей.ОбъектCтроительства.ДатаОткрытия КАК ДатаОткрытия,
+	МП_ЗаданиеСтроителей.ДатаПринятия КАК ДатаПринятия
+ИЗ
+	Документ.МП_ЗаданиеСтроителей КАК МП_ЗаданиеСтроителей
+ГДЕ
+	МП_ЗаданиеСтроителей.Проект = ИСТИНА
+	И МП_ЗаданиеСтроителей.ДатаПлановогоЗавершения МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+
+УПОРЯДОЧИТЬ ПО
+	ПланируемаяДатаЗавершения</query>
+	</dataSet>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата кон</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>ДатаНач</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата нач</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НомерТТ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Адрес</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Проект</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НачалоКаникул</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Каникулы</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Ответственный</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Статус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Строители</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОбщаяПлощадь</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяПлощадь</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Категория</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Поставщик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ХолодильноеОборудование</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоКасс</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КолвоДней</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Колво дней вне каникул</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПланируемаяДатаЗавершения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ФактическаяДатаЗавершения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаОткрытия</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПринятия</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьЗаголовок</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">Output</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отчет по открытию объектов</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьПараметрыДанных</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">Output</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

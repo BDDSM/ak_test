@@ -1,0 +1,200 @@
+﻿
+--declare @date1 as date = '20160101', @date2 as date = '20160216', @id_tov as int = 158, @id_kontr as int = 271
+
+declare @minDateIZ as date
+declare @minDateVV as date
+
+select @minDateVV=MIN(date_ch) from sms_union..checkline as cl with(nolock)
+select @minDateIZ=MIN(date_ch) from sms_izbenka..checkline as cl with(nolock)
+
+--select @minDateVV, @minDateIZ
+if OBJECT_ID ('tempdb..#vv') is not null drop table #vv
+if OBJECT_ID ('tempdb..#iz') is not null drop table #iz
+
+----------------------vv-----------------------------
+
+SELECT cl.id_tov_cl id_tov, id_tt_cl id_tt
+		,cl.id_kontr
+		, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) as ned
+	    , sum(cl.Quantity * cl.znak) Qty
+into #vv			 			 
+from SMS_union..Checkline  cl with (nolock) 
+where   cl.id_tov_cl = @id_tov  and cl.OperationType_cl in (1,3)	 and cl.BaseSum<>0 and isnull(id_Kontr,0)<>0 
+group by cl.id_tov_cl, cl.id_kontr, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0), id_tt_cl
+
+
+if OBJECT_ID ('tempdb..#vv_cl') is not null drop table #vv_cl
+
+SELECT cl.id_tov_cl id_tov, id_tt_cl id_tt, cl.date_ch
+		   , sum( cl.Quantity  * cl.znak) Qty
+		  
+into #vv_cl			 			 
+from SMS_union..Checkline  cl with (nolock) 
+where   cl.id_tov_cl = @id_tov and cl.OperationType_cl in (1,3)	 and cl.BaseSum<>0 and isnull(id_Kontr,0)=0 
+group by cl.id_tov_cl, date_ch, cl.id_tt_cl
+
+
+insert into #vv (id_tov,id_tt,id_kontr,ned,Qty)
+select a.id_tov,a.id_tt, isnull(Proizv.IdKontr,0) id_kontr ,  DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) as ned ,SUM(Qty) qty
+from (select v.*, _Fld3960RRef,_Fld3961
+			, ROW_NUMBER() OVER (partition BY v.id_tt, v.id_tov, v.date_ch    ORDER BY i._period DESC) rn
+		 from #vv_cl as v left join [IzbenkaFin].[dbo].[_InfoRg3957] i WITH (nolock, INDEX (ind))
+				on v.id_tt=i.id_tt_1C and v.id_tov=i.id_tov_1C and dateadd(year,-2000,i._period)<v.date_ch) a
+				
+		LEFT OUTER JOIN
+			(SELECT     Kontr._Fld1159 AS IdKontr, Proizv._Fld394_RRRef AS Ssilka
+			  FROM          [IzbenkaFin].[dbo].[_InfoRg393] AS Proizv(nolock) 
+						INNER JOIN  [IzbenkaFin].[dbo].[_Reference27] AS Kontr(nolock) ON Proizv._Fld396_RRRef = Kontr._IDRRef
+			  WHERE      Proizv._Fld395RRef = 0x9B0FBEA8EE4FEDDB4CAF6656F51808B7) AS Proizv ON a._Fld3960RRef = Proizv.Ssilka
+      
+WHERE     rn = 1 
+group by a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) 
+ 
+
+ 
+		
+--if @minDatevv>@date1
+
+--begin
+
+--	insert into #vv (id_tov,id_tt,id_kontr,ned,Qty)
+--	SELECT cl.id_tov_cl id_tov, id_tt_cl id_tt
+--			,cl.id_kontr
+--			, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) as ned
+--			, sum( cl.Quantity * cl.znak) Qty
+			  
+--	from SMS_IZBENKA_ARC..su_Checkline  cl with (nolock) 
+--	where cl.OperationType_cl in (1,3)	and cl.date_ch  between @date1 and @date2  and cl.BaseSum<>0  and isnull(id_Kontr,0)<>0 and cl.id_tov_cl = @id_tov  
+--	group by cl.id_tov_cl, cl.id_kontr		, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) , id_tt_cl
+	
+
+--	if OBJECT_ID ('tempdb..#vv_cl_arc') is not null drop table #vv_cl_arc
+
+--	SELECT cl.id_tov_cl id_tov, id_tt_cl id_tt, cl.date_ch
+--			   , sum(cl.Quantity * cl.znak) Qty
+			  
+--	into #vv_cl_arc			 			 
+--	from SMS_IZBENKA_ARC..su_Checkline  cl with (nolock) 
+				
+--	where  cl.OperationType_cl in (1,3)	and cl.date_ch  between @date1 and @date2  and cl.BaseSum<>0  and isnull(id_Kontr,0)=0 and cl.id_tov_cl = @id_tov  
+--	group by cl.id_tov_cl, date_ch, cl.id_tt_cl
+
+
+--	insert into #vv (id_tov,id_tt,id_kontr,ned,Qty)
+--	select a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) id_kontr , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) ned,SUM(Qty) qty
+--	from (select v.*, _Fld3960RRef,_Fld3961
+--				, ROW_NUMBER() OVER (partition BY v.id_tt, v.id_tov, v.date_ch    ORDER BY i._period DESC) rn
+--			 from #vv_cl_arc as v left join [IzbenkaFin].[dbo].[_InfoRg3957] i WITH (nolock, INDEX (ind))
+--					on v.id_tt=i.id_tt_1C and v.id_tov=i.id_tov_1C and dateadd(year,-2000,i._period)<v.date_ch) a
+					
+--			LEFT OUTER JOIN
+--				(SELECT     Kontr._Fld1159 AS IdKontr, Proizv._Fld394_RRRef AS Ssilka
+--				  FROM          [IzbenkaFin].[dbo].[_InfoRg393] AS Proizv(nolock) 
+--							INNER JOIN  [IzbenkaFin].[dbo].[_Reference27] AS Kontr(nolock) ON Proizv._Fld396_RRRef = Kontr._IDRRef
+--				  WHERE      Proizv._Fld395RRef = 0x9B0FBEA8EE4FEDDB4CAF6656F51808B7) AS Proizv ON a._Fld3960RRef = Proizv.Ssilka
+	      
+--	WHERE     rn = 1 
+--	group by a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0)
+		
+--end	
+	
+
+
+
+----------------------------------iz-----------------------------
+SELECT     cl.id_tov_cl id_tov, id_tt_cl id_tt,cl.ManufacturerID id_kontr
+			, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0)  ned
+			, sum(CASE cl.OperationType_cl WHEN 1 THEN 1 WHEN 3 THEN - 1 ELSE  0 END * cl.quantity ) Qty
+into #IZ
+FROM          SMS_IZBENKA.dbo.CheckLine(nolock) cl 
+WHERE         cl.id_tov_cl = @id_tov  and cl.OperationType_cl IN (1, 202,203,3)  AND cl.BasePrice<>0.01 AND cl.BaseSum <> 0 
+		and isnull(cl.ManufacturerID,0)<>0  
+GROUP BY cl.id_tov_cl, cl.ManufacturerID, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0), id_tt_cl
+
+
+if OBJECT_ID ('tempdb..#iz_cl') is not null drop table #iz_cl
+SELECT     cl.id_tov_cl id_tov, id_tt_cl id_tt,isnull(cl.ManufacturerID,0) id_kontr
+			,date_ch
+			, sum(CASE cl.OperationType_cl WHEN 1 THEN 1 WHEN 3 THEN - 1 ELSE  0 END * cl.quantity ) Qty
+into #IZ_cl
+FROM          SMS_IZBENKA.dbo.CheckLine(nolock) cl 
+WHERE   cl.id_tov_cl = @id_tov  and  cl.OperationType_cl IN (1, 202,203,3)  AND cl.BasePrice<>0.01 AND cl.BaseSum <> 0
+		and isnull(cl.ManufacturerID,0)=0  
+GROUP BY cl.id_tov_cl, isnull(cl.ManufacturerID,0),date_ch, id_tt_cl
+
+
+insert into #iz (id_tov,id_tt,id_kontr,ned,Qty)
+select a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) id_kontr , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) ned,SUM(Qty) qty
+from (select iz.*, _Fld3960RRef
+			, ROW_NUMBER() OVER (partition BY iz.id_tt, iz.id_tov, iz.date_ch    ORDER BY i._period DESC) rn
+		 from #iz_cl as iz left  join [IzbenkaFin].[dbo].[_InfoRg3957] i WITH (nolock, INDEX (ind))
+				on iz.id_tt=i.id_tt_1C and iz.id_tov=i.id_tov_1C and dateadd(year,-2000,i._period)<iz.date_ch
+				) a
+				
+		LEFT OUTER JOIN
+			(SELECT     Kontr._Fld1159 AS IdKontr, Proizv._Fld394_RRRef AS Ssilka
+			  FROM          [IzbenkaFin].[dbo].[_InfoRg393] AS Proizv(nolock) 
+						INNER JOIN  [IzbenkaFin].[dbo].[_Reference27] AS Kontr(nolock) ON Proizv._Fld396_RRRef = Kontr._IDRRef
+			  WHERE      Proizv._Fld395RRef = 0x9B0FBEA8EE4FEDDB4CAF6656F51808B7) AS Proizv ON a._Fld3960RRef = Proizv.Ssilka
+      
+WHERE     rn = 1 
+group by a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0)
+ 			
+--if @minDateIZ>@date1
+--begin
+
+				
+--	insert into #IZ (id_tov,id_tt,id_kontr,ned,Qty)
+--	SELECT     cl.id_tov_cl id_tov, id_tt_cl id_tt,cl.ManufacturerID id_kontr
+--				, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) ned
+--			, sum(CASE cl.OperationType_cl WHEN 1 THEN 1 WHEN 3 THEN - 1 ELSE  0 END * cl.quantity ) Qty
+--	FROM         SMS_IZBENKA_ARC.dbo.CheckLine(nolock) cl
+--	WHERE        cl.OperationType_cl IN (1, 202,203,3)  AND cl.date_ch between @date1 and @date2 AND cl.BasePrice<>0.01 AND cl.BaseSum <> 0
+--	      and isnull(cl.ManufacturerID,0)<> 0  and cl.id_tov_cl = @id_tov  
+--	GROUP BY cl.id_tov_cl, cl.ManufacturerID, DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0), id_tt_cl
+
+
+--	if OBJECT_ID ('tempdb..#iz_cl_arc') is not null drop table #iz_cl_arc
+--	SELECT     cl.id_tov_cl id_tov, id_tt_cl id_tt,cl.ManufacturerID id_kontr
+--				,date_ch
+--			, sum(CASE cl.OperationType_cl WHEN 1 THEN 1 WHEN 3 THEN - 1 ELSE  0 END * cl.quantity ) Qty
+--	into #IZ_cl_arc
+--	FROM          SMS_IZBENKA_ARC.dbo.CheckLine(nolock) cl 
+--	WHERE         cl.OperationType_cl IN (1, 202,203,3)  AND cl.date_ch between @date1 and @date2 AND cl.BasePrice<>0.01 AND cl.BaseSum <> 0
+--			and isnull(cl.ManufacturerID,0)=0  and cl.id_tov_cl = @id_tov  
+--	GROUP BY cl.id_tov_cl, cl.ManufacturerID,date_ch, id_tt_cl
+
+
+--	insert into #iz (id_tov,id_tt,id_kontr,ned,Qty)
+--	select a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) id_kontr , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0) ned,SUM(Qty) qty
+--	from (select iz.*, _Fld3960RRef
+--				, ROW_NUMBER() OVER (partition BY iz.id_tt, iz.id_tov, iz.date_ch    ORDER BY i._period DESC) rn
+--			 from #iz_cl_arc as iz left join [IzbenkaFin].[dbo].[_InfoRg3957] i WITH (nolock, INDEX (ind))
+--					on iz.id_tt=i.id_tt_1C and iz.id_tov=i.id_tov_1C and dateadd(year,-2000,i._period)<iz.date_ch) a
+					
+--			LEFT OUTER JOIN
+--				(SELECT     Kontr._Fld1159 AS IdKontr, Proizv._Fld394_RRRef AS Ssilka
+--				  FROM          [IzbenkaFin].[dbo].[_InfoRg393] AS Proizv(nolock) 
+--							INNER JOIN  [IzbenkaFin].[dbo].[_Reference27] AS Kontr(nolock) ON Proizv._Fld396_RRRef = Kontr._IDRRef
+--				  WHERE      Proizv._Fld395RRef = 0x9B0FBEA8EE4FEDDB4CAF6656F51808B7) AS Proizv ON a._Fld3960RRef = Proizv.Ssilka
+	      
+--	WHERE     rn = 1 
+--	group by a.id_tov,a.id_tt,  isnull(Proizv.IdKontr,0) , DATEADD(DD, DATEDIFF(DD, 0, date_ch)/7*7, 0)
+
+--end	
+
+---------------------------------------------------
+
+select ned, SUM(Qty) Qty
+--into #res
+from (
+	select id_kontr,ned, Qty from #vv 
+	union all
+	select id_kontr,ned, Qty from #iz )a
+where id_kontr = @id_kontr
+group by ned
+order by ned
+
+
+
+

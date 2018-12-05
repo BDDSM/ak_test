@@ -1,0 +1,658 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+			<role>
+				<dcscom:ignoreNullValues>true</dcscom:ignoreNullValues>
+			</role>
+			<valueType>
+				<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:CatalogRef.Организации</v8:Type>
+			</valueType>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Счет</dataPath>
+			<field>Счет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто1</dataPath>
+			<field>Субконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто2</dataPath>
+			<field>Субконто2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто3</dataPath>
+			<field>Субконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтруктурнаяЕдиница</dataPath>
+			<field>СтруктурнаяЕдиница</field>
+			<role>
+				<dcscom:ignoreNullValues>true</dcscom:ignoreNullValues>
+			</role>
+			<valueType>
+				<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</valueType>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЗаявкаНаРасходованиеСредств</dataPath>
+			<field>ЗаявкаНаРасходованиеСредств</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСчет</dataPath>
+			<field>КорСчет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСубконто1</dataPath>
+			<field>КорСубконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСубконто2</dataPath>
+			<field>КорСубконто2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСубконто3</dataPath>
+			<field>КорСубконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Значение</dataPath>
+			<field>Значение</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content> </v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Заявка</dataPath>
+			<field>Заявка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатьяДвиженияДенежныхСредств</dataPath>
+			<field>СтатьяДвиженияДенежныхСредств</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+				<dcscom:ignoreNullValues>true</dcscom:ignoreNullValues>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВидПоказателя</dataPath>
+			<field>ВидПоказателя</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОрганизацияНеИспользовать</dataPath>
+			<field>ОрганизацияНеИспользовать</field>
+			<useRestriction>
+				<condition>true</condition>
+			</useRestriction>
+			<attributeUseRestriction>
+				<condition>true</condition>
+			</attributeUseRestriction>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ФинансовыйОстатки.Субконто1 КАК СтруктурнаяЕдиница,
+	ФинансовыйОстатки.Субконто3 КАК Организация,
+	ФинансовыйОстатки.СуммаОстаток КАК Значение
+ПОМЕСТИТЬ ВТ_НачальныеОстатки
+ИЗ
+	РегистрБухгалтерии.Финансовый.Остатки(&amp;НачПериода, Счет = ЗНАЧЕНИЕ(ПланСчетов.Финансовый.Касса), , ) КАК ФинансовыйОстатки
+ГДЕ
+	ФинансовыйОстатки.Субконто1.ТипСтруктурнойЕдиницы &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+{ГДЕ
+	ФинансовыйОстатки.Субконто3.* КАК Организация,
+	ФинансовыйОстатки.Субконто1.* КАК СтруктурнаяЕдиница}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗаявкаНаРасходованиеСредств.БанковскийСчетКасса КАК СтруктурнаяЕдиница,
+	ЗаявкаНаРасходованиеСредств.Организация КАК Организация,
+	ЗаявкаНаРасходованиеСредств.СтатьяДвиженияДенежныхСредств,
+	ЗаявкаНаРасходованиеСредств.Ссылка КАК Заявка,
+	ЗаявкаНаРасходованиеСредств.СуммаДокумента КАК Значение
+ПОМЕСТИТЬ ВТ_НеисполненныеЗаявкиПредварительно
+ИЗ
+	Документ.ЗаявкаНаРасходованиеСредств КАК ЗаявкаНаРасходованиеСредств
+ГДЕ
+	ЗаявкаНаРасходованиеСредств.Проведен
+	И ЗаявкаНаРасходованиеСредств.ДатаРасхода &gt;= ДОБАВИТЬКДАТЕ(&amp;НачПериода, ДЕНЬ, -7)
+	И ЗаявкаНаРасходованиеСредств.ДатаРасхода &lt;= &amp;КонПериода
+	И ЗаявкаНаРасходованиеСредств.ФормаОплаты = ЗНАЧЕНИЕ(Перечисление.ФормыОплаты.Наличные)
+	И ЗаявкаНаРасходованиеСредств.БанковскийСчетКасса.ТипСтруктурнойЕдиницы &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+{ГДЕ
+	ЗаявкаНаРасходованиеСредств.Организация.* КАК Организация,
+	ЗаявкаНаРасходованиеСредств.БанковскийСчетКасса.* КАК СтруктурнаяЕдиница}
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ВзаиморасчетыСКонтрагентамиОбороты.ЗаявкаНаРасходованиеСредств.БанковскийСчетКасса,
+	ВзаиморасчетыСКонтрагентамиОбороты.ЗаявкаНаРасходованиеСредств.Организация,
+	ВзаиморасчетыСКонтрагентамиОбороты.ЗаявкаНаРасходованиеСредств.СтатьяДвиженияДенежныхСредств,
+	ВзаиморасчетыСКонтрагентамиОбороты.ЗаявкаНаРасходованиеСредств.Ссылка,
+	-ВзаиморасчетыСКонтрагентамиОбороты.СуммаРасход
+ИЗ
+	РегистрНакопления.ВзаиморасчетыСКонтрагентами.Обороты(
+			,
+			,
+			,
+			ЗаявкаНаРасходованиеСредств.ДатаРасхода &gt;= ДОБАВИТЬКДАТЕ(&amp;НачПериода, ДЕНЬ, -7)
+				И ЗаявкаНаРасходованиеСредств.ДатаРасхода &lt;= &amp;КонПериода
+				И ЗаявкаНаРасходованиеСредств.ФормаОплаты = ЗНАЧЕНИЕ(Перечисление.ФормыОплаты.Наличные)
+				И ЗаявкаНаРасходованиеСредств.БанковскийСчетКасса.ТипСтруктурнойЕдиницы &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница) {(Организация).* КАК ОрганизацияНеИспользовать}) КАК ВзаиморасчетыСКонтрагентамиОбороты
+{ГДЕ
+	ВзаиморасчетыСКонтрагентамиОбороты.ЗаявкаНаРасходованиеСредств.Организация.* КАК Организация,
+	ВзаиморасчетыСКонтрагентамиОбороты.ЗаявкаНаРасходованиеСредств.БанковскийСчетКасса.* КАК СтруктурнаяЕдиница}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_НеисполненныеЗаявкиПредварительно.СтруктурнаяЕдиница,
+	ВТ_НеисполненныеЗаявкиПредварительно.Организация,
+	ВТ_НеисполненныеЗаявкиПредварительно.СтатьяДвиженияДенежныхСредств,
+	ВТ_НеисполненныеЗаявкиПредварительно.Заявка,
+	СУММА(ВТ_НеисполненныеЗаявкиПредварительно.Значение) КАК Значение
+ПОМЕСТИТЬ ВТ_НеисполненныеЗаявки
+ИЗ
+	ВТ_НеисполненныеЗаявкиПредварительно КАК ВТ_НеисполненныеЗаявкиПредварительно
+
+СГРУППИРОВАТЬ ПО
+	ВТ_НеисполненныеЗаявкиПредварительно.СтруктурнаяЕдиница,
+	ВТ_НеисполненныеЗаявкиПредварительно.Организация,
+	ВТ_НеисполненныеЗаявкиПредварительно.СтатьяДвиженияДенежныхСредств,
+	ВТ_НеисполненныеЗаявкиПредварительно.Заявка
+
+ИМЕЮЩИЕ
+	СУММА(ВТ_НеисполненныеЗаявкиПредварительно.Значение) &gt; 0
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ФинансовыйОбороты.Субконто1 КАК СтруктурнаяЕдиница,
+	ФинансовыйОбороты.Субконто3 КАК Организация,
+	ФинансовыйОбороты.Субконто2 КАК СтатьяДвиженияДенежныхСредств,
+	ФинансовыйОбороты.СуммаОборотКт КАК Значение
+ПОМЕСТИТЬ ВТ_ФактическийРасход
+ИЗ
+	РегистрБухгалтерии.Финансовый.Обороты(&amp;НачПериода, КОНЕЦПЕРИОДА(&amp;КонПериода, ДЕНЬ), , Счет = ЗНАЧЕНИЕ(ПланСчетов.Финансовый.Касса), , , , ) КАК ФинансовыйОбороты
+ГДЕ
+	ФинансовыйОбороты.Субконто1.ТипСтруктурнойЕдиницы &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+{ГДЕ
+	ФинансовыйОбороты.Субконто3.* КАК Организация,
+	ФинансовыйОбороты.Субконто1.* КАК СтруктурнаяЕдиница}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ФинансовыйОбороты.Субконто1 КАК СтруктурнаяЕдиница,
+	ФинансовыйОбороты.Субконто3 КАК Организация,
+	ФинансовыйОбороты.Субконто2 КАК СтатьяДвиженияДенежныхСредств,
+	ФинансовыйОбороты.СуммаОборотДт КАК Значение
+ПОМЕСТИТЬ ВТ_ФактическийПриход
+ИЗ
+	РегистрБухгалтерии.Финансовый.Обороты(&amp;НачПериода, КОНЕЦПЕРИОДА(&amp;КонПериода, ДЕНЬ), , Счет = ЗНАЧЕНИЕ(ПланСчетов.Финансовый.Касса), , , , ) КАК ФинансовыйОбороты
+ГДЕ
+	ФинансовыйОбороты.Субконто1.ТипСтруктурнойЕдиницы &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+{ГДЕ
+	ФинансовыйОбороты.Субконто3.* КАК Организация,
+	ФинансовыйОбороты.Субконто1.* КАК СтруктурнаяЕдиница}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	"Начальный остаток" КАК ВидПоказателя,
+	ВТ_НачальныеОстатки.СтруктурнаяЕдиница,
+	ВТ_НачальныеОстатки.Организация,
+	NULL КАК СтатьяДвиженияДенежныхСредств,
+	NULL КАК Заявка,
+	ВТ_НачальныеОстатки.Значение
+ИЗ
+	ВТ_НачальныеОстатки КАК ВТ_НачальныеОстатки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Поступление",
+	ВТ_ФактическийПриход.СтруктурнаяЕдиница,
+	ВТ_ФактическийПриход.Организация,
+	ВТ_ФактическийПриход.СтатьяДвиженияДенежныхСредств,
+	NULL,
+	ВТ_ФактическийПриход.Значение
+ИЗ
+	ВТ_ФактическийПриход КАК ВТ_ФактическийПриход
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Расход (План)",
+	ВТ_НеисполненныеЗаявки.СтруктурнаяЕдиница,
+	ВТ_НеисполненныеЗаявки.Организация,
+	ВТ_НеисполненныеЗаявки.СтатьяДвиженияДенежныхСредств,
+	ВТ_НеисполненныеЗаявки.Заявка,
+	ВТ_НеисполненныеЗаявки.Значение
+ИЗ
+	ВТ_НеисполненныеЗаявки КАК ВТ_НеисполненныеЗаявки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Расход (План)",
+	ВТ_ФактическийРасход.СтруктурнаяЕдиница,
+	ВТ_ФактическийРасход.Организация,
+	ВТ_ФактическийРасход.СтатьяДвиженияДенежныхСредств,
+	NULL,
+	ВТ_ФактическийРасход.Значение
+ИЗ
+	ВТ_ФактическийРасход КАК ВТ_ФактическийРасход
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Расход (Факт)",
+	ВТ_ФактическийРасход.СтруктурнаяЕдиница,
+	ВТ_ФактическийРасход.Организация,
+	ВТ_ФактическийРасход.СтатьяДвиженияДенежныхСредств,
+	NULL,
+	ВТ_ФактическийРасход.Значение
+ИЗ
+	ВТ_ФактическийРасход КАК ВТ_ФактическийРасход
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (План)",
+	ВТ_НачальныеОстатки.СтруктурнаяЕдиница,
+	ВТ_НачальныеОстатки.Организация,
+	NULL,
+	NULL,
+	ВТ_НачальныеОстатки.Значение
+ИЗ
+	ВТ_НачальныеОстатки КАК ВТ_НачальныеОстатки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (План)",
+	ВТ_ФактическийПриход.СтруктурнаяЕдиница,
+	ВТ_ФактическийПриход.Организация,
+	NULL,
+	NULL,
+	ВТ_ФактическийПриход.Значение
+ИЗ
+	ВТ_ФактическийПриход КАК ВТ_ФактическийПриход
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (План)",
+	ВТ_НеисполненныеЗаявки.СтруктурнаяЕдиница,
+	ВТ_НеисполненныеЗаявки.Организация,
+	NULL,
+	NULL,
+	-ВТ_НеисполненныеЗаявки.Значение
+ИЗ
+	ВТ_НеисполненныеЗаявки КАК ВТ_НеисполненныеЗаявки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (План)",
+	ВТ_ФактическийРасход.СтруктурнаяЕдиница,
+	ВТ_ФактическийРасход.Организация,
+	NULL,
+	NULL,
+	-ВТ_ФактическийРасход.Значение
+ИЗ
+	ВТ_ФактическийРасход КАК ВТ_ФактическийРасход
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (Факт)",
+	ВТ_НачальныеОстатки.СтруктурнаяЕдиница,
+	ВТ_НачальныеОстатки.Организация,
+	NULL,
+	NULL,
+	ВТ_НачальныеОстатки.Значение
+ИЗ
+	ВТ_НачальныеОстатки КАК ВТ_НачальныеОстатки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (Факт)",
+	ВТ_ФактическийПриход.СтруктурнаяЕдиница,
+	ВТ_ФактическийПриход.Организация,
+	NULL,
+	NULL,
+	ВТ_ФактическийПриход.Значение
+ИЗ
+	ВТ_ФактическийПриход КАК ВТ_ФактическийПриход
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Итог (Факт)",
+	ВТ_ФактическийРасход.СтруктурнаяЕдиница,
+	ВТ_ФактическийРасход.Организация,
+	NULL,
+	NULL,
+	-ВТ_ФактическийРасход.Значение
+ИЗ
+	ВТ_ФактическийРасход КАК ВТ_ФактическийРасход</query>
+	</dataSet>
+	<calculatedField>
+		<dataPath>Порядок</dataPath>
+		<expression>Выбор 
+Когда ВидПоказателя = "Начальный остаток" Тогда 1
+Когда ВидПоказателя = "Поступление" Тогда 2
+Когда ВидПоказателя = "Расход (План)" Тогда 3
+Когда ВидПоказателя = "Расход (Факт)" Тогда 4
+Когда ВидПоказателя = "Итог (План)" Тогда 5
+Когда ВидПоказателя = "Итог (Факт)" Тогда 6
+Конец</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Порядок</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<totalField>
+		<dataPath>Значение</dataPath>
+		<expression>Сумма(Значение)</expression>
+		<group>ВидПоказателя</group>
+	</totalField>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="xs:string">Начало периода</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="xs:string">Конец периода</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>НачПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>КонПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Значение</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Организация</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>cdef4327-418b-4dca-92d5-89613684cfbd</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">СтруктурнаяЕдиница</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>6976a166-beac-4c10-b6e7-cb38a3dc3ba0</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>КонецПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>82b2c51a-7777-415e-8b1a-eb3411275e09</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>НачПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>9c7188c9-ed9f-4d5a-8f55-8270c57e0678</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>КонПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>17ac26b4-1535-4682-a580-32dbf6d64a44</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Порядок</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection/>
+					<dcsset:filter/>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ВыделятьОтрицательные</dcscor:parameter>
+							<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Значение</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter/>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Формат</dcscor:parameter>
+							<dcscor:value xsi:type="v8:LocalStringType">
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>ЧДЦ=2</v8:content>
+								</v8:item>
+							</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ГоризонтальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">End</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ВертикальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemTable">
+				<dcsset:column>
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Организация</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:column>
+				<dcsset:row>
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>СтруктурнаяЕдиница</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:conditionalAppearance>
+						<dcsset:item>
+							<dcsset:selection/>
+							<dcsset:filter/>
+							<dcsset:appearance>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:parameter>Шрифт</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Font" ref="sys:DefaultGUIFont" height="10" bold="true" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
+								</dcscor:item>
+							</dcsset:appearance>
+						</dcsset:item>
+					</dcsset:conditionalAppearance>
+					<dcsset:item>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ВидПоказателя</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Порядок</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>ВидПоказателя</dcsset:field>
+							</dcsset:item>
+						</dcsset:selection>
+						<dcsset:conditionalAppearance>
+							<dcsset:item>
+								<dcsset:selection/>
+								<dcsset:filter/>
+								<dcsset:appearance>
+									<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+										<dcscor:parameter>Шрифт</dcscor:parameter>
+										<dcscor:value xsi:type="v8ui:Font" ref="sys:DefaultGUIFont" height="9" bold="true" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
+									</dcscor:item>
+								</dcsset:appearance>
+							</dcsset:item>
+						</dcsset:conditionalAppearance>
+						<dcsset:item>
+							<dcsset:groupItems>
+								<dcsset:item xsi:type="dcsset:GroupItemField">
+									<dcsset:field>СтатьяДвиженияДенежныхСредств</dcsset:field>
+									<dcsset:groupType>Items</dcsset:groupType>
+									<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+									<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+									<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+								</dcsset:item>
+							</dcsset:groupItems>
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:row>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

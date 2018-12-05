@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Маршрут</dataPath>
+			<field>Маршрут</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Вес</dataPath>
+			<field>Вес</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Дата</dataPath>
+			<field>Дата</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВариантРасчетаНДС</dataPath>
+			<field>ВариантРасчетаНДС</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Перевозчик</dataPath>
+			<field>Перевозчик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтавкаНДС</dataPath>
+			<field>СтавкаНДС</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сумма</dataPath>
+			<field>Сумма</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаНДС</dataPath>
+			<field>СуммаНДС</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЦенаЗаКг</dataPath>
+			<field>ЦенаЗаКг</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЕдиныйТариф</dataPath>
+			<field>ЕдиныйТариф</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Поставщик</dataPath>
+			<field>Поставщик</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	НАЧАЛОПЕРИОДА(ВЫБОР
+			КОГДА НЕ ПриходныйОрдерСкладТовары.Ссылка.ДатаДокументаПоставщика = ДАТАВРЕМЯ(1, 1, 1)
+				ТОГДА ПриходныйОрдерСкладТовары.Ссылка.ДатаДокументаПоставщика
+			ИНАЧЕ ПриходныйОрдерСкладТовары.Ссылка.Дата
+		КОНЕЦ, ДЕНЬ) КАК Дата,
+	ЕСТЬNULL(ДокиМЛ.ДокМЛ.МаршрутТранспортныхКомпаний, ЗНАЧЕНИЕ(Справочник.МаршрутыТранспортныхКомпаний.ПустаяСсылка)) КАК Маршрут,
+	ЕСТЬNULL(ДокиМЛ.ДокМЛ.Перевозчик, ЗНАЧЕНИЕ(Справочник.Контрагенты.ПустаяСсылка)) КАК Перевозчик,
+	СУММА(ПриходныйОрдерСкладТовары.Количество * ПриходныйОрдерСкладТовары.ЕдиницаИзмерения.Вес) КАК Вес
+ПОМЕСТИТЬ ВТВесПоМаршрутам
+ИЗ
+	Документ.ПриходныйОрдерСклад.Товары КАК ПриходныйОрдерСкладТовары
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			МаршрутныйЛистПриходныеОрдера.ПриходныйОрдер КАК ПриходныйОрдер,
+			МИНИМУМ(МаршрутныйЛистПриходныеОрдера.Ссылка) КАК ДокМЛ
+		ИЗ
+			Документ.МаршрутныйЛист.ПриходныеОрдера КАК МаршрутныйЛистПриходныеОрдера
+		ГДЕ
+			МаршрутныйЛистПриходныеОрдера.Ссылка.ВидПеревозки = ЗНАЧЕНИЕ(Справочник.АК_ВидыПеревозки.ДоставкаНаСклад)
+			И ВЫБОР
+					КОГДА НЕ МаршрутныйЛистПриходныеОрдера.ПриходныйОрдер.ДатаДокументаПоставщика = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА МаршрутныйЛистПриходныеОрдера.ПриходныйОрдер.ДатаДокументаПоставщика МЕЖДУ &amp;ДатаНачала И КОНЕЦПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ)
+					ИНАЧЕ МаршрутныйЛистПриходныеОрдера.ПриходныйОрдер.Дата МЕЖДУ &amp;ДатаНачала И КОНЕЦПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ)
+				КОНЕЦ
+		
+		СГРУППИРОВАТЬ ПО
+			МаршрутныйЛистПриходныеОрдера.ПриходныйОрдер) КАК ДокиМЛ
+		ПО (ДокиМЛ.ПриходныйОрдер = ПриходныйОрдерСкладТовары.Ссылка)
+ГДЕ
+	ПриходныйОрдерСкладТовары.Ссылка.ВидОперации = ЗНАЧЕНИЕ(Перечисление.ВидыОперацийПриходСкладскойУчет.ОтПоставщика)
+	И ВЫБОР
+			КОГДА НЕ ПриходныйОрдерСкладТовары.Ссылка.ДатаДокументаПоставщика = ДАТАВРЕМЯ(1, 1, 1)
+				ТОГДА ПриходныйОрдерСкладТовары.Ссылка.ДатаДокументаПоставщика МЕЖДУ &amp;ДатаНачала И КОНЕЦПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ)
+			ИНАЧЕ ПриходныйОрдерСкладТовары.Ссылка.Дата МЕЖДУ &amp;ДатаНачала И КОНЕЦПЕРИОДА(&amp;ДатаОкончания, ДЕНЬ)
+		КОНЕЦ
+	И ПриходныйОрдерСкладТовары.Ссылка.Проведен
+
+СГРУППИРОВАТЬ ПО
+	НАЧАЛОПЕРИОДА(ВЫБОР
+			КОГДА НЕ ПриходныйОрдерСкладТовары.Ссылка.ДатаДокументаПоставщика = ДАТАВРЕМЯ(1, 1, 1)
+				ТОГДА ПриходныйОрдерСкладТовары.Ссылка.ДатаДокументаПоставщика
+			ИНАЧЕ ПриходныйОрдерСкладТовары.Ссылка.Дата
+		КОНЕЦ, ДЕНЬ),
+	ЕСТЬNULL(ДокиМЛ.ДокМЛ.МаршрутТранспортныхКомпаний, ЗНАЧЕНИЕ(Справочник.МаршрутыТранспортныхКомпаний.ПустаяСсылка)),
+	ЕСТЬNULL(ДокиМЛ.ДокМЛ.Перевозчик, ЗНАЧЕНИЕ(Справочник.Контрагенты.ПустаяСсылка))
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТарифыНаДоставкуПоМаршруту.Маршрут КАК Маршрут,
+	ТарифыНаДоставкуПоМаршруту.ВесОт КАК ВесОт,
+	ТарифыНаДоставкуПоМаршруту.ЕдиныйТариф КАК ЕдиныйТариф,
+	ТарифыНаДоставкуПоМаршруту.Сумма КАК Сумма,
+	ТарифыНаДоставкуПоМаршруту.ВариантРасчетаНДС,
+	ТарифыНаДоставкуПоМаршруту.СтавкаНДС,
+	ТарифыНаДоставкуПоМаршруту.СуммаНДС,
+	ТарифыНаДоставкуПоМаршруту.ЦенаЗаКг
+ПОМЕСТИТЬ ВТТарифыНаДоставку
+ИЗ
+	РегистрСведений.ТарифыНаДоставкуПоМаршруту.СрезПоследних(ДОБАВИТЬКДАТЕ(&amp;ДатаНачала, СЕКУНДА, 1), ) КАК ТарифыНаДоставкуПоМаршруту
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ РАЗЛИЧНЫЕ
+			ТарифыНаДоставкуПоМаршруту.Маршрут КАК Маршрут,
+			ТарифыНаДоставкуПоМаршруту.ЕдиныйТариф КАК ЕдиныйТариф
+		ИЗ
+			РегистрСведений.ТарифыНаДоставкуПоМаршруту КАК ТарифыНаДоставкуПоМаршруту
+				ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+					ТарифыНаДоставкуПоМаршруту.Маршрут КАК Маршрут,
+					МАКСИМУМ(ТарифыНаДоставкуПоМаршруту.Период) КАК Период
+				ИЗ
+					РегистрСведений.ТарифыНаДоставкуПоМаршруту КАК ТарифыНаДоставкуПоМаршруту
+				ГДЕ
+					НЕ ТарифыНаДоставкуПоМаршруту.Период &gt; &amp;ДатаНачала
+				
+				СГРУППИРОВАТЬ ПО
+					ТарифыНаДоставкуПоМаршруту.Маршрут) КАК ВТПоследняяЗапись
+				ПО (ВТПоследняяЗапись.Маршрут = ТарифыНаДоставкуПоМаршруту.Маршрут)
+					И (ВТПоследняяЗапись.Период = ТарифыНаДоставкуПоМаршруту.Период)
+		ГДЕ
+			НЕ ТарифыНаДоставкуПоМаршруту.Период &gt; &amp;ДатаНачала) КАК ВТПоследниеПериоды
+		ПО (ВТПоследниеПериоды.Маршрут = ТарифыНаДоставкуПоМаршруту.Маршрут)
+			И (ВТПоследниеПериоды.ЕдиныйТариф = ТарифыНаДоставкуПоМаршруту.ЕдиныйТариф)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТОсновная.Дата,
+	ВТОсновная.Маршрут,
+	ПоставщикиМаршрутов.Поставщик,
+	ВТОсновная.Перевозчик,
+	ВТОсновная.Вес,
+	ВЫРАЗИТЬ(ВТТарифыНаДоставку.Сумма * ВЫБОР
+		КОГДА ВТТарифыНаДоставку.ЦенаЗаКг
+			ТОГДА ВТОсновная.Вес
+		ИНАЧЕ 1
+	КОНЕЦ КАК ЧИСЛО(15,2)) КАК Сумма,
+	ВТТарифыНаДоставку.ВариантРасчетаНДС,
+	ВТТарифыНаДоставку.СтавкаНДС,
+	ВЫРАЗИТЬ(ВТТарифыНаДоставку.СуммаНДС * ВЫБОР
+		КОГДА ВТТарифыНаДоставку.ЦенаЗаКг
+			ТОГДА ВТОсновная.Вес
+		ИНАЧЕ 1
+	КОНЕЦ КАК ЧИСЛО(15,2)) КАК СуммаНДС,
+	ВТТарифыНаДоставку.ЦенаЗаКг,
+	ВТТарифыНаДоставку.ЕдиныйТариф
+ИЗ
+	(ВЫБРАТЬ
+		ВТВесПоМаршрутам.Дата КАК Дата,
+		ВТВесПоМаршрутам.Маршрут КАК Маршрут,
+		ВТВесПоМаршрутам.Перевозчик КАК Перевозчик,
+		ВТВесПоМаршрутам.Вес КАК Вес,
+		МАКСИМУМ(ЕСТЬNULL(ВТТарифыНаДоставку.ВесОт, 0)) КАК ВесОт
+	ИЗ
+		ВТВесПоМаршрутам КАК ВТВесПоМаршрутам
+			ЛЕВОЕ СОЕДИНЕНИЕ ВТТарифыНаДоставку КАК ВТТарифыНаДоставку
+			ПО (ВТТарифыНаДоставку.Маршрут = ВТВесПоМаршрутам.Маршрут)
+				И (ВТТарифыНаДоставку.ВесОт &lt;= ВТВесПоМаршрутам.Вес)
+	
+	СГРУППИРОВАТЬ ПО
+		ВТВесПоМаршрутам.Дата,
+		ВТВесПоМаршрутам.Маршрут,
+		ВТВесПоМаршрутам.Перевозчик,
+		ВТВесПоМаршрутам.Вес) КАК ВТОсновная
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТТарифыНаДоставку КАК ВТТарифыНаДоставку
+		ПО (ВТТарифыНаДоставку.Маршрут = ВТОсновная.Маршрут)
+			И (ВТТарифыНаДоставку.ВесОт = ВТОсновная.ВесОт)
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ТЧПоставщики.Ссылка КАК Ссылка,
+			МИНИМУМ(ТЧПоставщики.Поставщик) КАК Поставщик
+		ИЗ
+			Справочник.МаршрутыТранспортныхКомпаний.Поставщики КАК ТЧПоставщики
+		
+		СГРУППИРОВАТЬ ПО
+			ТЧПоставщики.Ссылка) КАК ПоставщикиМаршрутов
+		ПО (ПоставщикиМаршрутов.Ссылка = ВТОсновная.Маршрут)</query>
+	</dataSet>
+	<totalField>
+		<dataPath>Вес</dataPath>
+		<expression>Сумма(Вес)</expression>
+		<group>Маршрут</group>
+		<group>Перевозчик</group>
+		<group>Поставщик</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>Сумма</dataPath>
+		<expression>Сумма(Сумма)</expression>
+		<group>Маршрут</group>
+		<group>Перевозчик</group>
+		<group>Поставщик</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>СуммаНДС</dataPath>
+		<expression>Сумма(СуммаНДС)</expression>
+		<group>Маршрут</group>
+		<group>Перевозчик</group>
+		<group>Поставщик</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>true</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Дата</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Поставщик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Перевозчик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Вес</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сумма</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаНДС</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>СтавкаНДС</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>ВариантРасчетаНДС</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>ЕдиныйТариф</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Поставщик</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>a3812aad-7501-4d48-94f4-10c803cc8a33</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Перевозчик</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>c2687f57-e30c-4552-a93f-841f7f941436</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Маршрут</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>96dc5613-1d61-4053-9c4e-e9ebbe71294c</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаНачала</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfLastMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>ea64eb99-547d-416f-beb0-8078193cfe24</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаОкончания</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>2016-11-30T00:00:00</v8:date>
+					</dcscor:value>
+					<dcsset:userSettingID>384e2aa0-513c-4b17-abbb-b986210d0076</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>3a018620-b562-439b-a936-c552bf6c7d40</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Дата</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Поставщик.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Перевозчик.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Дата</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Поставщик</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Перевозчик</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item xsi:type="dcsset:StructureItemGroup">
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

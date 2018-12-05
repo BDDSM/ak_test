@@ -1,0 +1,339 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:com="http://api.vetrf.ru/schema/cdm/argus/common"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/argus/common/ws-definitions"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/argus/common/ws-definitions"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/argus/common"
+			schemaLocation="file://7.xsd"/>
+	<element name="getPurposeByGuidRequest">
+		<annotation>
+			<documentation>
+            Запрос на получение назначения груза по глобальному
+            идентификатору.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Глобальный идентификатор, по которому
+                     проводится поиск записи.
+                  </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getPurposeByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи назначения груза
+            по глобальному идентификатору.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:purpose"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Запись назначения груза.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getPurposeByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение записи назначения груза по
+            идентфикатору.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор, по которому производится поиск
+                     записи.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getPurposeByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи назначения груза
+            по идентификатору.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:purpose"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Запись назначения груза.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getPurposeListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка назначений.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getPurposeListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка целей.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:purposeList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список целей.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getPurposeChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей
+            целей ввоза/вывоза.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                     все записи, дата
+                     обновлений которых попадает в указанный интервал.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getPurposeChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей
+            назначений.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:purposeList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей назначения груза.
+                  </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getUnitByGuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение единицы измерения
+            по глобальному идентификатору.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор,
+                     по которому проводится поиск записи.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getUnitByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения единицы измерения
+            по глобальному идентификатору.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:unit"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденная по глобальному идентификатору запись единицы измерения.
+                  </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getUnitByUuidRequest">
+		<default:annotation>
+			<default:documentation>
+            Запрос на получение записи единицы измерения по ее идентификатору.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор, по которому производится поиск записи.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getUnitByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи единицы измерения
+            по идентификатору.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:unit"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Найденная по идентификатору запись единицы измерения.
+                  </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getUnitListRequest">
+		<default:annotation>
+			<default:documentation>Запрос списка единиц измерения.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getUnitListResponse">
+		<annotation>
+			<documentation>Ответ на запрос сипка единиц измерения.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:unitList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список едениц измерений.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getUnitChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей единиц измерений.
+         </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                     все записи, дата обновлений которых попадает в указанный интервал.
+                  </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getUnitChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка
+            изменившихся записей единиц измерений.
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="com:unitList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей единиц измерений.
+                  </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

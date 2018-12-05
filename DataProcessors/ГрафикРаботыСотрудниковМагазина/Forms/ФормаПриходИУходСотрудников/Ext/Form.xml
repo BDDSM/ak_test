@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<Title>
+		<v8:item>
+			<v8:lang>ru</v8:lang>
+			<v8:content>Приход/уход сотрудников</v8:content>
+		</v8:item>
+	</Title>
+	<Width>70</Width>
+	<AutoTitle>false</AutoTitle>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<Autofill>false</Autofill>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<LabelDecoration name="ДекорацияИнфо" id="37">
+			<TextColor>style:ТекстИнформационнойНадписи</TextColor>
+			<Title formatted="false">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ВНИМАНИЕ: Перед тем как устанавливать даты прихода/ухода или добавлять/удалять строки, обязательно нажимайте кнопку "Обновить" (для получения актуальных отметок из Фронтол)
+</v8:content>
+				</v8:item>
+			</Title>
+			<ContextMenu name="ДекорацияИнфоКонтекстноеМеню" id="38"/>
+			<ExtendedTooltip name="ДекорацияИнфоРасширеннаяПодсказка" id="39"/>
+		</LabelDecoration>
+		<Table name="ТабДанные" id="1">
+			<Representation>List</Representation>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>ТабДанные</DataPath>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="ТабДанныеКонтекстноеМеню" id="2"/>
+			<AutoCommandBar name="ТабДанныеКоманднаяПанель" id="3">
+				<Autofill>false</Autofill>
+				<ChildItems>
+					<Button name="ТабДанныеДобавить" id="23">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Item.ТабДанные.StandardCommand.Add</CommandName>
+						<ExtendedTooltip name="ТабДанныеДобавитьРасширеннаяПодсказка" id="24"/>
+					</Button>
+					<Button name="ТабДанныеУдалить" id="25">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Item.ТабДанные.StandardCommand.Delete</CommandName>
+						<ExtendedTooltip name="ТабДанныеУдалитьРасширеннаяПодсказка" id="26"/>
+					</Button>
+					<Button name="ТабДанныеКомандаОбновить" id="33">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.КомандаОбновить</CommandName>
+						<ExtendedTooltip name="ТабДанныеКомандаОбновитьРасширеннаяПодсказка" id="34"/>
+					</Button>
+					<Button name="ТабДанныеКомандаОбновитьНаДату" id="35">
+						<Type>CommandBarButton</Type>
+						<UserVisible>
+							<xr:Common>false</xr:Common>
+							<xr:Value name="Role.ПолныеПрава">true</xr:Value>
+						</UserVisible>
+						<OnlyInAllActions>false</OnlyInAllActions>
+						<CommandName>Form.Command.КомандаОбновитьЗаДату</CommandName>
+						<ExtendedTooltip name="ТабДанныеКомандаОбновитьНаДатуРасширеннаяПодсказка" id="36"/>
+					</Button>
+					<Button name="ТабДанныеУстановитьДатуПрихода" id="27">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.УстановитьДатуПрихода</CommandName>
+						<ExtendedTooltip name="ТабДанныеУстановитьДатуПриходаРасширеннаяПодсказка" id="28"/>
+					</Button>
+					<Button name="ТабДанныеУстановитьДатуУхода" id="29">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.УстановитьДатуУхода</CommandName>
+						<ExtendedTooltip name="ТабДанныеУстановитьДатуУходаРасширеннаяПодсказка" id="30"/>
+					</Button>
+					<Button name="ФормаВвестиШтрихКод" id="31">
+						<Type>CommandBarButton</Type>
+						<OnlyInAllActions>false</OnlyInAllActions>
+						<CommandName>Form.Command.ВвестиШтрихКод</CommandName>
+						<ExtendedTooltip name="ФормаВвестиШтрихКодРасширеннаяПодсказка" id="32"/>
+					</Button>
+				</ChildItems>
+			</AutoCommandBar>
+			<ExtendedTooltip name="ТабДанныеРасширеннаяПодсказка" id="4"/>
+			<SearchStringAddition name="ТабДанныеСтрокаПоиска" id="5">
+				<AdditionSource>
+					<Item>ТабДанные</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="ТабДанныеСтрокаПоискаКонтекстноеМеню" id="6"/>
+				<ExtendedTooltip name="ТабДанныеСтрокаПоискаРасширеннаяПодсказка" id="7"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="ТабДанныеСостояниеПросмотра" id="8">
+				<AdditionSource>
+					<Item>ТабДанные</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="ТабДанныеСостояниеПросмотраКонтекстноеМеню" id="9"/>
+				<ExtendedTooltip name="ТабДанныеСостояниеПросмотраРасширеннаяПодсказка" id="10"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="ТабДанныеУправлениеПоиском" id="11">
+				<AdditionSource>
+					<Item>ТабДанные</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="ТабДанныеУправлениеПоискомКонтекстноеМеню" id="12"/>
+				<ExtendedTooltip name="ТабДанныеУправлениеПоискомРасширеннаяПодсказка" id="13"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="BeforeDeleteRow">ТабДанныеПередУдалением</Event>
+				<Event name="OnStartEdit">ТабДанныеПриНачалеРедактирования</Event>
+			</Events>
+			<ChildItems>
+				<InputField name="ТабДанныеСотрудник" id="14">
+					<DataPath>ТабДанные.Сотрудник</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ChoiceListButton>true</ChoiceListButton>
+					<ContextMenu name="ТабДанныеСотрудникКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="ТабДанныеСотрудникРасширеннаяПодсказка" id="16"/>
+					<Events>
+						<Event name="OnChange">ТабДанныеСотрудникПриИзменении</Event>
+						<Event name="StartListChoice">ТабДанныеСотрудникНачалоВыбораИзСписка</Event>
+					</Events>
+				</InputField>
+				<InputField name="ТабДанныеДатаПрихода" id="17">
+					<DataPath>ТабДанные.ДатаПрихода</DataPath>
+					<ReadOnly>true</ReadOnly>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ТабДанныеДатаПриходаКонтекстноеМеню" id="18"/>
+					<ExtendedTooltip name="ТабДанныеДатаПриходаРасширеннаяПодсказка" id="19"/>
+				</InputField>
+				<InputField name="ТабДанныеДатаУхода" id="20">
+					<DataPath>ТабДанные.ДатаУхода</DataPath>
+					<ReadOnly>true</ReadOnly>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ТабДанныеДатаУходаКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="ТабДанныеДатаУходаРасширеннаяПодсказка" id="22"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.ГрафикРаботыСотрудниковМагазина</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="ТабДанные" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Таб данные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Сотрудник" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сотрудник</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.СотрудникиАутсорсинг</v8:Type>
+						<v8:Type>cfg:CatalogRef.ФизическиеЛица</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ДатаПрихода" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата прихода</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type>
+						<v8:DateQualifiers>
+							<v8:DateFractions>DateTime</v8:DateFractions>
+						</v8:DateQualifiers>
+					</Type>
+				</Column>
+				<Column name="ДатаУхода" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата ухода</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type>
+						<v8:DateQualifiers>
+							<v8:DateFractions>DateTime</v8:DateFractions>
+						</v8:DateQualifiers>
+					</Type>
+				</Column>
+				<Column name="idЗаписиПриход" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Id записи приход</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="idЗаписиУход" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Id записи уход</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Внештатный" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Внештатный</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ГруппаСотрудников" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа сотрудников</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.ГруппыСотрудниковАутсорсинг</v8:Type>
+			</Type>
+		</Attribute>
+		<ConditionalAppearance>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ТабДанныеСотрудник</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ТабДанные.Внештатный</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">#661A1A</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+		</ConditionalAppearance>
+	</Attributes>
+	<Commands>
+		<Command name="УстановитьДатуПрихода" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить дату прихода</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить дату прихода</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УстановитьДатуПрихода</Action>
+		</Command>
+		<Command name="ВвестиШтрихКод" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Ввести штрих код (F11)</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Ввести штрих код</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>F11</Shortcut>
+			<Action>ВвестиШтрихКод</Action>
+			<ModifiesSavedData>true</ModifiesSavedData>
+		</Command>
+		<Command name="УстановитьДатуУхода" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить дату ухода</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить дату ухода</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УстановитьДатуУхода</Action>
+		</Command>
+		<Command name="КомандаОбновить" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Обновить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Обновляет таблицу из Фронтол</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Refresh</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>КомандаОбновить</Action>
+			<Representation>TextPicture</Representation>
+		</Command>
+		<Command name="КомандаОбновитьЗаДату" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Обновить (за дату)</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отображает данные за определенную дату</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Refresh</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>КомандаОбновитьЗаДату</Action>
+			<Representation>TextPicture</Representation>
+		</Command>
+	</Commands>
+</Form>

@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Счет</dataPath>
+			<field>Счет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто1</dataPath>
+			<field>Субконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто3</dataPath>
+			<field>Субконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+				<dcscom:ignoreNullValues>true</dcscom:ignoreNullValues>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ссылка</dataPath>
+			<field>Ссылка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Бухгалтер</dataPath>
+			<field>Бухгалтер</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОстатокНаКонец</dataPath>
+			<field>ОстатокНаКонец</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОстатокНаКонецПоДаннымКонтрагента</dataPath>
+			<field>ОстатокНаКонецПоДаннымКонтрагента</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СверкаСогласована</dataPath>
+			<field>СверкаСогласована</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КонтрагентИНН</dataPath>
+			<field>КонтрагентИНН</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+				<dcscom:ignoreNullValues>true</dcscom:ignoreNullValues>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОрганизацияИНН</dataPath>
+			<field>ОрганизацияИНН</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОкончания</dataPath>
+			<field>ДатаОкончания</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Комментарий</dataPath>
+			<field>Комментарий</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПрикрепленФайлСверки</dataPath>
+			<field>ПрикрепленФайлСверки</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	Финансовый.Ссылка КАК Ссылка
+ПОМЕСТИТЬ ВТ_Счета
+ИЗ
+	ПланСчетов.Финансовый КАК Финансовый
+ГДЕ
+	Финансовый.Ссылка В ИЕРАРХИИ (ЗНАЧЕНИЕ(ПланСчетов.Финансовый.РасчетыСПоставщикамиИПодрядчиками), ЗНАЧЕНИЕ(ПланСчетов.Финансовый.РасчетыСПокупателями), ЗНАЧЕНИЕ(ПланСчетов.Финансовый.РасчетыСПрочимиДебиторамиИКредиторами))
+
+ИНДЕКСИРОВАТЬ ПО
+	Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗЛИЧНЫЕ
+	ФинансовыйОстаткиИОбороты.Организация КАК Организация,
+	ФинансовыйОстаткиИОбороты.Субконто2 КАК Контрагент
+ПОМЕСТИТЬ ВТ_Контрагенты
+ИЗ
+	РегистрБухгалтерии.Финансовый.ОстаткиИОбороты(
+			{(ДОБАВИТЬКДАТЕ(&amp;НаДату, МЕСЯЦ, -2))},
+			{(КОНЕЦПЕРИОДА(&amp;НаДату, ДЕНЬ))},
+			,
+			,
+			Счет В
+				(ВЫБРАТЬ
+					ВТ_Счета.Ссылка
+				ИЗ
+					ВТ_Счета КАК ВТ_Счета),
+			,
+			{(Организация), (Субконто2) КАК Контрагент}) КАК ФинансовыйОстаткиИОбороты
+ГДЕ
+	(ФинансовыйОстаткиИОбороты.СуммаКонечныйОстаток &lt;&gt; 0
+			ИЛИ ФинансовыйОстаткиИОбороты.СуммаОборотДт &lt;&gt; 0
+			ИЛИ ФинансовыйОстаткиИОбороты.СуммаОборотКт &lt;&gt; 0)
+	И ФинансовыйОстаткиИОбороты.Субконто2 ССЫЛКА Справочник.Контрагенты
+	И ФинансовыйОстаткиИОбороты.Субконто2 &lt;&gt; ЗНАЧЕНИЕ(Справочник.Контрагенты.ПустаяСсылка)
+	И ФинансовыйОстаткиИОбороты.Организация &lt;&gt; ЗНАЧЕНИЕ(Справочник.Организации.ПустаяСсылка)
+
+ИНДЕКСИРОВАТЬ ПО
+	Организация,
+	Контрагент
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВЗ_Полный.Организация,
+	ВЗ_Полный.Контрагент,
+	ВЗ_Полный.Ссылка,
+	ВЗ_Полный.Ссылка.ОстатокНаКонецПоДаннымКонтрагента,
+	ВЗ_Полный.Ссылка.ЕстьВложения,
+	ВЗ_Полный.Ссылка.СверкаСогласована,
+	ВЗ_Полный.Контрагент.ОсновнойБухгалтерПокупателя КАК Бухгалтер,
+	ВЗ_Полный.Ссылка.ОстатокНаНачало + ЕСТЬNULL(ВложенныйЗапрос.Дебет, 0) - ЕСТЬNULL(ВложенныйЗапрос.Кредит, 0) КАК ОстатокНаКонец,
+	ВЗ_Полный.Ссылка.ДатаОкончания,
+	ВЗ_Полный.Ссылка.Комментарий
+ПОМЕСТИТЬ ВТ_Акты
+ИЗ
+	(ВЫБРАТЬ
+		ВЗ_Акты.Организация КАК Организация,
+		ВЗ_Акты.Контрагент КАК Контрагент,
+		МАКСИМУМ(АктСверкиВзаиморасчетов.Ссылка) КАК Ссылка
+	ИЗ
+		Документ.АктСверкиВзаиморасчетов КАК АктСверкиВзаиморасчетов
+			ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+				АктСверкиВзаиморасчетов.Организация КАК Организация,
+				АктСверкиВзаиморасчетов.Контрагент КАК Контрагент,
+				МАКСИМУМ(АктСверкиВзаиморасчетов.ДатаОкончания) КАК ДатаОкончания
+			ИЗ
+				Документ.АктСверкиВзаиморасчетов КАК АктСверкиВзаиморасчетов
+			ГДЕ
+				АктСверкиВзаиморасчетов.ДатаОкончания &lt;= &amp;НаДату
+				И АктСверкиВзаиморасчетов.ПометкаУдаления = ЛОЖЬ
+				И АктСверкиВзаиморасчетов.СверкаСогласована = ИСТИНА
+			
+			СГРУППИРОВАТЬ ПО
+				АктСверкиВзаиморасчетов.Организация,
+				АктСверкиВзаиморасчетов.Контрагент) КАК ВЗ_Акты
+			ПО АктСверкиВзаиморасчетов.Организация = ВЗ_Акты.Организация
+				И АктСверкиВзаиморасчетов.Контрагент = ВЗ_Акты.Контрагент
+				И АктСверкиВзаиморасчетов.ДатаОкончания = ВЗ_Акты.ДатаОкончания
+				И (АктСверкиВзаиморасчетов.ПометкаУдаления = ЛОЖЬ)
+				И АктСверкиВзаиморасчетов.СверкаСогласована = ИСТИНА
+	{ГДЕ
+		ВЗ_Акты.Организация.*,
+		ВЗ_Акты.Контрагент.*}
+	
+	СГРУППИРОВАТЬ ПО
+		ВЗ_Акты.Организация,
+		ВЗ_Акты.Контрагент) КАК ВЗ_Полный
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			АктСверкиВзаиморасчетовПоДаннымОрганизации.Ссылка КАК Ссылка,
+			СУММА(АктСверкиВзаиморасчетовПоДаннымОрганизации.Дебет) КАК Дебет,
+			СУММА(АктСверкиВзаиморасчетовПоДаннымОрганизации.Кредит) КАК Кредит
+		ИЗ
+			Документ.АктСверкиВзаиморасчетов.ПоДаннымОрганизации КАК АктСверкиВзаиморасчетовПоДаннымОрганизации
+		
+		СГРУППИРОВАТЬ ПО
+			АктСверкиВзаиморасчетовПоДаннымОрганизации.Ссылка) КАК ВложенныйЗапрос
+		ПО ВЗ_Полный.Ссылка = ВложенныйЗапрос.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_Контрагенты.Организация,
+	ВТ_Контрагенты.Контрагент,
+	ВТ_Акты.Ссылка,
+	ВТ_Акты.СсылкаОстатокНаКонецПоДаннымКонтрагента КАК ОстатокНаКонецПоДаннымКонтрагента,
+	ВТ_Акты.СсылкаЕстьВложения КАК ПрикрепленФайлСверки,
+	ВТ_Акты.СсылкаСверкаСогласована КАК СверкаСогласована,
+	ВТ_Акты.Бухгалтер,
+	ВТ_Акты.ОстатокНаКонец,
+	ВТ_Контрагенты.Организация.ИНН,
+	ВЫРАЗИТЬ(ВТ_Контрагенты.Контрагент КАК Справочник.Контрагенты).ИНН КАК КонтрагентИНН,
+	ВТ_Акты.СсылкаДатаОкончания КАК ДатаОкончания,
+	ВТ_Акты.СсылкаКомментарий КАК Комментарий
+ИЗ
+	ВТ_Контрагенты КАК ВТ_Контрагенты
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТ_Акты КАК ВТ_Акты
+		ПО ВТ_Контрагенты.Организация = ВТ_Акты.Организация
+			И ВТ_Контрагенты.Контрагент = ВТ_Акты.Контрагент</query>
+	</dataSet>
+	<parameter>
+		<name>НаДату</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>На дату</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Организация</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Контрагент</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Бухгалтер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Ссылка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПрикрепленФайлСверки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОстатокНаКонецПоДаннымКонтрагента</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СверкаСогласована</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОстатокНаКонец</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОрганизацияИНН</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КонтрагентИНН</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаОкончания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Комментарий</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Организация</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>f1fe536a-4dfe-4a73-af30-be75d3ef9cc3</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Контрагент</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>7f7a42a0-1c86-4227-bcec-9d37ea18b28f</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>НаДату</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>53d63654-029a-46fb-bde3-b966cd8da92b</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

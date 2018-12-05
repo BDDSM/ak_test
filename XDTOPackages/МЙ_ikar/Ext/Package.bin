@@ -1,0 +1,81 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://api.vetrf.ru/schema/cdm/ikar">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="country" type="d2p1:Country"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="countryGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="countryList" type="d2p1:CountryList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="district" type="d2p1:District"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="districtGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="districtList" type="d2p1:DistrictList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="localityGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="localityList" type="d2p1:LocalityList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="region" type="d2p1:Region"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="regionGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="regionList" type="d2p1:RegionList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="streetList" type="d2p1:StreetList"/>
+	<valueType name="Code" base="xs:string" variety="Atomic" maxLength="2"/>
+	<valueType name="Code3" base="xs:string" variety="Atomic" maxLength="3"/>
+	<objectType name="Address">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="country" type="d3p1:Country"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="federalDistrict" type="d3p1:FederalDistrict" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="region" type="d3p1:Region" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="district" type="d3p1:District" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="locality" type="d3p1:Locality" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="subLocality" type="d3p1:Locality" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="street" type="d3p1:Street" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="house" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="building" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="room" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="postIndex" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="postBox" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="addressView" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="enAddressView" type="d3p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="AddressObjectView" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="englishName" type="d2p1:String255" lowerBound="0"/>
+		<property name="view" type="d2p1:String255" lowerBound="0"/>
+		<property name="regionCode" type="xs:string" lowerBound="0"/>
+		<property name="type" type="d2p1:String255" lowerBound="0"/>
+		<property name="countryGuid" type="d2p1:UUID" lowerBound="0"/>
+		<property name="hasStreets" type="xs:boolean" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Country" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="fullName" type="d2p1:String255" lowerBound="0"/>
+		<property name="englishName" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="code" type="d3p1:Code" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="code3" type="d3p1:Code3" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="CountryList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="country" type="d3p1:Country" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="District" base="d2p1:AddressObjectView">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="regionGuid" type="d3p1:UUID" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="DistrictList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="district" type="d3p1:District" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="FederalDistrict" base="d2p1:GenericVersioningEntity">
+		<property name="fullName" type="d2p1:String255" lowerBound="0"/>
+		<property name="shortName" type="d2p1:String255" lowerBound="0"/>
+		<property name="abbreviation" type="d2p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="Locality" base="d2p1:AddressObjectView">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="regionGuid" type="d3p1:UUID" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="districtGuid" type="d3p1:UUID" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="cityGuid" type="d3p1:UUID" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="LocalityList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="locality" type="d3p1:Locality" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="Region" base="d2p1:AddressObjectView"/>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="RegionList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="region" type="d3p1:Region" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/ikar" name="Street" base="d2p1:AddressObjectView">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="localityGuid" type="d3p1:UUID" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="StreetList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/ikar" name="street" type="d3p1:Street" lowerBound="0" upperBound="-1"/>
+	</objectType>
+</package>

@@ -1,0 +1,331 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="MobileExchange">
+	<import namespace="http://v8.1c.ru/8.1/data/core"/>
+	<objectType name="Objects">
+		<property xmlns:d3p1="MobileExchange" name="objects" type="d3p1:Object" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType name="Object">
+		<property name="name" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="id" type="xs:string" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Nomenclature" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Group" type="d2p1:Nomenclature" lowerBound="0" nillable="true"/>
+		<property name="ThisIsGroup" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="IsWeight" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="EdIzm" type="d2p1:EdIzm" lowerBound="0" nillable="true"/>
+		<property name="IsSkladir" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="BezUpakovki" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="OutsideMark" type="xs:boolean" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Characteristics" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Owner"/>
+		<property name="Weight" type="xs:decimal" lowerBound="0" nillable="true"/>
+		<property name="Quantum" type="xs:decimal" lowerBound="0" nillable="true"/>
+		<property name="ExpiryDate" type="xs:decimal" lowerBound="0" nillable="true"/>
+		<property name="ExpiryDateType" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="ExpiryDateLimit" type="xs:decimal" lowerBound="0" nillable="true"/>
+		<property name="NotActive" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="NumberInBox" type="xs:decimal" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="EdIzm" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Owner"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Barcodes" base="d2p1:Object">
+		<property name="Nomenclature" type="d2p1:Nomenclature" lowerBound="0" nillable="true"/>
+		<property name="Characteristic" type="d2p1:Characteristics" lowerBound="0" nillable="true"/>
+		<property name="EdIzm" type="d2p1:EdIzm" lowerBound="0" nillable="true"/>
+		<property name="Barcode" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="FalseBarcode" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="FromShop" type="xs:boolean" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Shops" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Rakurses" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Tasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Status" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="StartDate" type="xs:date" lowerBound="0" nillable="true"/>
+		<property name="EndDate" type="xs:date" lowerBound="0" nillable="true"/>
+		<property name="Initiator" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Items" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Item" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Rakurse" type="d2p1:Rakurses"/>
+						<property name="Quantity" type="xs:int" nillable="true"/>
+						<property name="RakursStatus" type="xs:string" lowerBound="0"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+		<property name="DeliveryDate" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Examiner" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="ExaminerPhone" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="RelevanceType" type="xs:string" lowerBound="0"/>
+		<property name="RelevanceDate" type="xs:dateTime" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="PhotosToTasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Task"/>
+		<property name="Data" type="xs:base64Binary" lowerBound="0" nillable="true"/>
+		<property name="Rakurs" type="d2p1:Rakurses" lowerBound="0"/>
+		<property name="RakursStatus" type="xs:string" lowerBound="0"/>
+		<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Extension" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="PhotoStatus" type="xs:string" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Inventory" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Shop" type="d2p1:Shops" lowerBound="0" nillable="true"/>
+		<property name="Finished" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="StartDate" type="xs:date" lowerBound="0" nillable="true"/>
+		<property name="EndDate" type="xs:date" lowerBound="0" nillable="true"/>
+		<property name="Items" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Item" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Nomenclature" type="d2p1:Nomenclature"/>
+						<property name="Characteristic" type="d2p1:Characteristics"/>
+						<property name="EdIzm" type="d2p1:EdIzm"/>
+						<property name="Quantity" type="xs:decimal" nillable="true"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="ObjectDeletion" base="d2p1:Object">
+		<property name="Type" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="id" type="xs:string" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="PackageInventory" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Nomenclature" type="d2p1:Nomenclature"/>
+		<property name="Characteristic" type="d2p1:Characteristics"/>
+		<property name="Data" type="xs:base64Binary" lowerBound="0" nillable="true"/>
+		<property name="Extension" type="xs:string" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="BarcodesNumerator" base="d2p1:Object">
+		<property name="Nomenclature" type="d2p1:Nomenclature" lowerBound="0" nillable="true"/>
+		<property name="Characteristic" type="d2p1:Characteristics" lowerBound="0" nillable="true"/>
+		<property name="Numerator" type="xs:decimal" upperBound="1" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="BarcodesSuppliers" base="d2p1:Object">
+		<property name="Characteristic" type="d2p1:Characteristics" lowerBound="0" nillable="true"/>
+		<property name="Barcode" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Quantity" type="xs:decimal" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="MessageTemplates" base="d2p1:Object">
+		<property name="MessageType" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Goods" type="xs:boolean" nillable="true"/>
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="BarcodeOff" type="xs:boolean" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="TechnologistTasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Closed" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="OperationType" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Items" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Item" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Nomenclature" type="d2p1:Nomenclature"/>
+						<property name="Characteristic" type="d2p1:Characteristics"/>
+						<property name="Parameter" type="d2p1:TechnologistTasksParameters"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="TechnologistTasksParameters" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="PhotoRequired" type="xs:boolean" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="TechnologistOperation" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Task" type="d2p1:TechnologistTasks"/>
+		<property name="Nomenclature" type="d2p1:Nomenclature"/>
+		<property name="Characteristic" type="d2p1:Characteristics"/>
+		<property name="DocumentBarcode" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Technologist" type="d2p1:Persons"/>
+		<property name="StoreCode" type="xs:int" lowerBound="0" nillable="true"/>
+		<property name="OperationType" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Ready" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="Result" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Items" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Item" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Parameter" type="d2p1:TechnologistTasksParameters"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="PhotosToTechnologistTasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="PhotoDestination" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Data" type="xs:base64Binary" lowerBound="0" nillable="true"/>
+		<property name="Extension" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Parameter" type="d2p1:TechnologistTasksParameters" nillable="true"/>
+		<property name="PhotoType" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="OperationNewProduct" type="d2p1:NewProductOperation" lowerBound="0" nillable="true"/>
+		<property name="Operation" type="d2p1:TechnologistOperation" lowerBound="0" nillable="true"/>
+		<property name="TaskNewProduct" type="d2p1:NewProductTasks" lowerBound="0" nillable="true"/>
+		<property name="PlanAssortim" type="d2p1:PlanAssortim" lowerBound="0" upperBound="1" nillable="true"/>
+		<property name="BuildersTask" type="d2p1:BuildersTasks" lowerBound="0" upperBound="1" nillable="true"/>
+		<property name="FileName" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="RepairRequest" type="d2p1:RepairRequest" lowerBound="0" nillable="true"/>
+		<property name="UINStroki" type="xs:string" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Persons" base="d2p1:Object"/>
+	<objectType xmlns:d2p1="MobileExchange" name="NewProductTasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Status" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="TaskDescription" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Technologist" type="d2p1:Persons"/>
+		<property name="Nomenclature" type="d2p1:Nomenclature"/>
+		<property name="Characteristic" type="d2p1:Characteristics"/>
+		<property name="Author" type="d2p1:Persons"/>
+		<property name="Partner" type="d2p1:Partners"/>
+		<property name="PlanAssortim" type="d2p1:PlanAssortim" lowerBound="0" upperBound="1" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="NewProductOperation" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="SupplierData" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="ManufactureAddress" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="TaskID" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Technologist" type="d2p1:Persons"/>
+		<property name="Degustation" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Comments" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Item" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="User" type="d2p1:Persons"/>
+						<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+						<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+		<property name="PlanAssortim" type="d2p1:PlanAssortim" lowerBound="0" upperBound="1" nillable="true"/>
+		<property name="Supplier" type="d2p1:Partners" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Partners" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="Urgency" base="d2p1:Object">
+		<property name="Days" type="xs:decimal" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="PlanAssortim" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Group" type="d2p1:PlanAssortim" lowerBound="0" upperBound="1" nillable="true"/>
+		<property name="ThisIsGroup" type="xs:boolean" lowerBound="0" nillable="true"/>
+		<property name="Status" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Responsible" type="d2p1:Persons" lowerBound="0" nillable="true" form="Element"/>
+		<property name="ProductManager" type="d2p1:Persons" lowerBound="0" nillable="true" form="Element"/>
+		<property name="Origin" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Description" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="TechnologsRoles" type="d2p1:UsersRoles" lowerBound="0" upperBound="-1" nillable="true"/>
+		<property name="TechnologRole" type="d2p1:UsersRoles" lowerBound="0" upperBound="1" nillable="true"/>
+		<property name="Photos" type="xs:string" lowerBound="0" upperBound="-1" nillable="true" form="Element"/>
+		<property name="Files" type="xs:string" lowerBound="0" upperBound="-1" nillable="true" form="Element"/>
+		<property name="PlanLaunchDate" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Nomenclature" type="d2p1:Nomenclature"/>
+		<property name="Degustations" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Degustation" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Name" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="UINStroki" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Description" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Sostav" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+		<property name="Analogi" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Analog" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Name" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="UINStroki" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Description" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Sostav" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+						<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="UsersRoles" base="d2p1:Object"/>
+	<objectType xmlns:d2p1="MobileExchange" name="BuildersEvents" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="BuildersTasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="false"/>
+		<property name="BuildObject" type="d2p1:Shops" lowerBound="0" nillable="false"/>
+		<property name="EventType" type="d2p1:BuildersEvents" lowerBound="0" nillable="true"/>
+		<property name="Status" type="xs:string" lowerBound="0" nillable="false"/>
+		<property name="StartDate" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="PlanDate" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="FactDate" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Responsible" type="d2p1:Persons" lowerBound="0" nillable="true" form="Element"/>
+		<property name="Photos" type="xs:string" lowerBound="0" upperBound="-1" nillable="true" form="Element"/>
+		<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="InventoryTasks" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Closed" type="xs:boolean" nillable="true"/>
+		<property name="NomenclatureGroup" type="d2p1:Nomenclature"/>
+		<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="TaskId" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="CloseTask" type="xs:boolean" nillable="true"/>
+		<property name="Items" lowerBound="0" upperBound="1" nillable="true">
+			<typeDef xsi:type="ObjectType">
+				<property name="Item" lowerBound="0" upperBound="-1" nillable="true">
+					<typeDef xsi:type="ObjectType">
+						<property name="Nomenclature" type="d2p1:Nomenclature"/>
+						<property name="Characteristic" type="d2p1:Characteristics"/>
+						<property name="Quantity" type="xs:decimal" nillable="true"/>
+					</typeDef>
+				</property>
+			</typeDef>
+		</property>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="PhotosToWriteOff" base="d2p1:Object">
+		<property name="Data" type="xs:base64Binary" lowerBound="0" nillable="true"/>
+		<property name="WriteOffId" type="xs:string" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="MobileExchange" name="RepairRequest" base="d2p1:Object">
+		<property name="DeletionMark" type="xs:boolean" nillable="true"/>
+		<property name="Date" type="xs:dateTime" lowerBound="0" nillable="true"/>
+		<property name="Photos" type="xs:string" lowerBound="0" upperBound="-1" nillable="true" form="Element"/>
+		<property name="RequestType" type="xs:string" lowerBound="0" nillable="false"/>
+		<property name="Comment" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="Author" type="d2p1:Persons" nillable="true"/>
+		<property name="Urgency" type="d2p1:Urgency" nillable="true"/>
+		<property name="DayPart" type="xs:string" lowerBound="0" nillable="true"/>
+		<property name="PartnerExe" type="d2p1:Partners" nillable="true"/>
+		<property name="PersonExe" type="d2p1:Persons" nillable="true"/>
+		<property name="Ready" type="xs:boolean" nillable="true"/>
+		<property name="Confirmed" type="xs:boolean" nillable="true"/>
+	</objectType>
+</package>

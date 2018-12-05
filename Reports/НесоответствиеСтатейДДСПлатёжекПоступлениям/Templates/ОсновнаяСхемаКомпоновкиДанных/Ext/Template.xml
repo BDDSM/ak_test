@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ссылка</dataPath>
+			<field>Ссылка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Документ поступления</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатьяДДСВПлатёжке</dataPath>
+			<field>СтатьяДДСВПлатёжке</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья ДДС в платёжном документе</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатьяДР</dataPath>
+			<field>СтатьяДР</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья ДР</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РасходИзБанка</dataPath>
+			<field>РасходИзБанка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Расход из банка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатьяДДС</dataPath>
+			<field>СтатьяДДС</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья ДДС поступления</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПоступлениеТоваровУслугУслуги.Ссылка,
+	ПоступлениеТоваровУслугУслуги.Сумма,
+	ВЫБОР
+		КОГДА ПоступлениеТоваровУслугУслуги.Субконто1 ССЫЛКА Справочник.СтатьиДоходовРасходов
+			ТОГДА ПоступлениеТоваровУслугУслуги.Субконто1
+		КОГДА ПоступлениеТоваровУслугУслуги.Субконто2 ССЫЛКА Справочник.СтатьиДоходовРасходов
+			ТОГДА ПоступлениеТоваровУслугУслуги.Субконто2
+		КОГДА ПоступлениеТоваровУслугУслуги.Субконто3 ССЫЛКА Справочник.СтатьиДоходовРасходов
+			ТОГДА ПоступлениеТоваровУслугУслуги.Субконто3
+		ИНАЧЕ НЕОПРЕДЕЛЕНО
+	КОНЕЦ КАК СтатьяДР
+ПОМЕСТИТЬ ПТУшки
+ИЗ
+	Документ.ПоступлениеТоваровУслуг.Услуги КАК ПоступлениеТоваровУслугУслуги
+ГДЕ
+	ПоступлениеТоваровУслугУслуги.Ссылка.Дата &gt; &amp;Дата
+	И ПоступлениеТоваровУслугУслуги.Ссылка.Проведен
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ПТУшки.Ссылка,
+	МАКСИМУМ(ПТУшки.Сумма) КАК Сумма
+ПОМЕСТИТЬ Максимумы
+ИЗ
+	ПТУшки КАК ПТУшки
+ГДЕ
+	ПТУшки.СтатьяДР ССЫЛКА Справочник.СтатьиДоходовРасходов
+
+СГРУППИРОВАТЬ ПО
+	ПТУшки.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	МАКСИМУМ(ПТУшки.Ссылка) КАК Ссылка,
+	МАКСИМУМ(ПТУшки.СтатьяДР) КАК СтатьяДР,
+	МАКСИМУМ(ПТУшки.СтатьяДР.ОсновнаяСтатьяДвиженияДенежныхСредств) КАК СтатьяДДС,
+	МАКСИМУМ(РасходИзБанка.СтатьяДвиженияДенежныхСредств) КАК СтатьяДДСВПлатёжке,
+	РасходИзБанка.Ссылка КАК РасходИзБанка
+ПОМЕСТИТЬ ВыборкаВсего
+ИЗ
+	Максимумы КАК Максимумы
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ПТУшки КАК ПТУшки
+			ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаявкаНаУслугиМатериалы КАК ЗаявкаНаУслугиМатериалы
+				ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.РасходИзБанка КАК РасходИзБанка
+				ПО ЗаявкаНаУслугиМатериалы.Ссылка = РасходИзБанка.ЗаявкаНаРасходованиеСредств
+					И (РасходИзБанка.Дата &gt; &amp;Дата)
+			ПО ПТУшки.Ссылка.Заявка = ЗаявкаНаУслугиМатериалы.Ссылка
+		ПО Максимумы.Ссылка = ПТУшки.Ссылка
+			И Максимумы.Сумма = ПТУшки.Сумма
+ГДЕ
+	РасходИзБанка.Дата &gt; &amp;Дата
+
+СГРУППИРОВАТЬ ПО
+	РасходИзБанка.Ссылка
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	МАКСИМУМ(ПоступлениеДопРасходов.Ссылка),
+	NULL,
+	МАКСИМУМ(ПоступлениеДопРасходов.СтатьяДДС),
+	МАКСИМУМ(РасходИзБанка.СтатьяДвиженияДенежныхСредств),
+	РасходИзБанка.Ссылка
+ИЗ
+	Документ.РасходИзБанка КАК РасходИзБанка
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаявкаНаУслугиМатериалы КАК ЗаявкаНаУслугиМатериалы
+			ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ПоступлениеДопРасходов КАК ПоступлениеДопРасходов
+			ПО (ПоступлениеДопРасходов.ЗаявкаНаРсходованиеСредств = ЗаявкаНаУслугиМатериалы.Ссылка)
+		ПО РасходИзБанка.ЗаявкаНаРасходованиеСредств = ЗаявкаНаУслугиМатериалы.Ссылка
+ГДЕ
+	ПоступлениеДопРасходов.Дата &gt; &amp;Дата
+	И ПоступлениеДопРасходов.Проведен
+	И РасходИзБанка.Дата &gt;= &amp;Дата
+
+СГРУППИРОВАТЬ ПО
+	РасходИзБанка.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВыборкаВсего.Ссылка,
+	ВыборкаВсего.СтатьяДР,
+	ВыборкаВсего.СтатьяДДС,
+	ВыборкаВсего.СтатьяДДСВПлатёжке,
+	ВыборкаВсего.РасходИзБанка КАК РасходИзБанка
+ИЗ
+	ВыборкаВсего КАК ВыборкаВсего
+ГДЕ
+	ВыборкаВсего.СтатьяДДС &lt;&gt; ВыборкаВсего.СтатьяДДСВПлатёжке
+
+УПОРЯДОЧИТЬ ПО
+	РасходИзБанка</query>
+	</dataSet>
+	<parameter>
+		<name>Дата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Документы с </v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>РасходИзБанка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтатьяДДСВПлатёжке</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Ссылка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтатьяДДС</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтатьяДР</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">СтатьяДДС</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>ee350ca7-04f7-497f-be5c-c994cfce6290</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">СтатьяДДСВПлатёжке</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>4175e1ac-ab13-49fb-a400-9b685d5f6786</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Дата</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfThisMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>c503e945-9b3b-478d-8fb3-8e0ecb513989</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

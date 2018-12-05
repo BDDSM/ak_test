@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoTime>CurrentOrLast</AutoTime>
+	<UsePostingMode>Auto</UsePostingMode>
+	<RepostOnWrite>true</RepostOnWrite>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="ФормаЗаполнитьДисконт" id="53">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.ЗаполнитьДисконт</CommandName>
+				<ExtendedTooltip name="ФормаЗаполнитьДисконтРасширеннаяПодсказка" id="108"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="AfterWrite">ПослеЗаписи</Event>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ДатаНомер" id="50">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата номер</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата номер</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ДатаНомерРасширеннаяПодсказка" id="109"/>
+			<ChildItems>
+				<InputField name="Номер" id="1">
+					<DataPath>Объект.Number</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="НомерКонтекстноеМеню" id="2"/>
+					<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="110"/>
+				</InputField>
+				<InputField name="Дата" id="3">
+					<DataPath>Объект.Date</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>от</v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ДатаКонтекстноеМеню" id="4"/>
+					<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="111"/>
+					<Events>
+						<Event name="OnChange">ДатаПриИзменении</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаОрганизация" id="59">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа организация</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа организация</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаОрганизацияРасширеннаяПодсказка" id="112"/>
+			<ChildItems>
+				<InputField name="Организация" id="5">
+					<DataPath>Объект.Организация</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ОрганизацияКонтекстноеМеню" id="6"/>
+					<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="113"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<Pages name="Страницы" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Страницы</v8:content>
+				</v8:item>
+			</Title>
+			<ExtendedTooltip name="СтраницыРасширеннаяПодсказка" id="114"/>
+		</Pages>
+		<Pages name="ГруппаСтраницы" id="63">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа страницы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа страницы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<ExtendedTooltip name="ГруппаСтраницыРасширеннаяПодсказка" id="115"/>
+			<ChildItems>
+				<Page name="ГруппаНачислениеРезерва" id="77">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Начисление резерва</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа начисление резерва</v8:content>
+						</v8:item>
+					</ToolTip>
+					<ExtendedTooltip name="ГруппаНачислениеРезерваРасширеннаяПодсказка" id="116"/>
+					<ChildItems>
+						<Table name="НачислениеРезерва" id="64">
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<DataPath>Объект.НачислениеРезерва</DataPath>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="НачислениеРезерваКонтекстноеМеню" id="65"/>
+							<AutoCommandBar name="НачислениеРезерваКоманднаяПанель" id="66"/>
+							<ExtendedTooltip name="НачислениеРезерваРасширеннаяПодсказка" id="117"/>
+							<SearchStringAddition name="НачислениеРезерваСтрокаПоиска" id="118">
+								<AdditionSource>
+									<Item>НачислениеРезерва</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="НачислениеРезерваСтрокаПоискаКонтекстноеМеню" id="119"/>
+								<ExtendedTooltip name="НачислениеРезерваСтрокаПоискаРасширеннаяПодсказка" id="120"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="НачислениеРезерваСостояниеПросмотра" id="121">
+								<AdditionSource>
+									<Item>НачислениеРезерва</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="НачислениеРезерваСостояниеПросмотраКонтекстноеМеню" id="122"/>
+								<ExtendedTooltip name="НачислениеРезерваСостояниеПросмотраРасширеннаяПодсказка" id="123"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="НачислениеРезерваУправлениеПоиском" id="124">
+								<AdditionSource>
+									<Item>НачислениеРезерва</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="НачислениеРезерваУправлениеПоискомКонтекстноеМеню" id="125"/>
+								<ExtendedTooltip name="НачислениеРезерваУправлениеПоискомРасширеннаяПодсказка" id="126"/>
+							</SearchControlAddition>
+							<ChildItems>
+								<LabelField name="НачислениеРезерваНомерСтроки" id="67">
+									<DataPath>Объект.НачислениеРезерва.LineNumber</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="НачислениеРезерваНомерСтрокиКонтекстноеМеню" id="68"/>
+									<ExtendedTooltip name="НачислениеРезерваНомерСтрокиРасширеннаяПодсказка" id="127"/>
+								</LabelField>
+								<InputField name="НачислениеРезерваКонтрагент" id="69">
+									<DataPath>Объект.НачислениеРезерва.Контрагент</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="НачислениеРезерваКонтрагентКонтекстноеМеню" id="70"/>
+									<ExtendedTooltip name="НачислениеРезерваКонтрагентРасширеннаяПодсказка" id="128"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+									</Events>
+								</InputField>
+								<InputField name="НачислениеРезерваДоговорКонтрагента" id="71">
+									<DataPath>Объект.НачислениеРезерва.ДоговорКонтрагента</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Владелец</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.НачислениеРезерва.CurrentData.Контрагент</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ContextMenu name="НачислениеРезерваДоговорКонтрагентаКонтекстноеМеню" id="72"/>
+									<ExtendedTooltip name="НачислениеРезерваДоговорКонтрагентаРасширеннаяПодсказка" id="129"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+										<Event name="StartChoice">ДоговорКонтрагентаНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="НачислениеРезерваДокумент" id="73">
+									<DataPath>Объект.НачислениеРезерва.Документ</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.ДоговорКонтрагента</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.НачислениеРезерва.CurrentData.ДоговорКонтрагента</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Контрагент</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.НачислениеРезерва.CurrentData.Контрагент</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ContextMenu name="НачислениеРезерваДокументКонтекстноеМеню" id="74"/>
+									<ExtendedTooltip name="НачислениеРезерваДокументРасширеннаяПодсказка" id="130"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+										<Event name="StartChoice">ДокументНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="НачислениеРезерваСтруктурнаяЕдиница" id="106">
+									<DataPath>1/0:fbb399d1-b9ca-4604-bf96-358e0c625fc8/0:2d00b6a4-0fc6-440d-af83-744a6671b143</DataPath>
+									<ReadOnly>true</ReadOnly>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="НачислениеРезерваСтруктурнаяЕдиницаКонтекстноеМеню" id="107"/>
+									<ExtendedTooltip name="НачислениеРезерваСтруктурнаяЕдиницаРасширеннаяПодсказка" id="131"/>
+								</InputField>
+								<InputField name="НачислениеРезерваСумма" id="75">
+									<DataPath>Объект.НачислениеРезерва.Сумма</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="НачислениеРезерваСуммаКонтекстноеМеню" id="76"/>
+									<ExtendedTooltip name="НачислениеРезерваСуммаРасширеннаяПодсказка" id="132"/>
+								</InputField>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаСписаниеНеиспользованногоРезерва" id="78">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Списание неиспользованного резерва</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа начисление резерва</v8:content>
+						</v8:item>
+					</ToolTip>
+					<ExtendedTooltip name="ГруппаСписаниеНеиспользованногоРезерваРасширеннаяПодсказка" id="133"/>
+					<ChildItems>
+						<Table name="СписаниеНеиспользованногоРезерва" id="80">
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<DataPath>Объект.СписаниеНеиспользованногоРезерва</DataPath>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="СписаниеНеиспользованногоРезерваКонтекстноеМеню" id="81"/>
+							<AutoCommandBar name="СписаниеНеиспользованногоРезерваКоманднаяПанель" id="82"/>
+							<ExtendedTooltip name="СписаниеНеиспользованногоРезерваРасширеннаяПодсказка" id="134"/>
+							<SearchStringAddition name="СписаниеНеиспользованногоРезерваСтрокаПоиска" id="135">
+								<AdditionSource>
+									<Item>СписаниеНеиспользованногоРезерва</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="СписаниеНеиспользованногоРезерваСтрокаПоискаКонтекстноеМеню" id="136"/>
+								<ExtendedTooltip name="СписаниеНеиспользованногоРезерваСтрокаПоискаРасширеннаяПодсказка" id="137"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="СписаниеНеиспользованногоРезерваСостояниеПросмотра" id="138">
+								<AdditionSource>
+									<Item>СписаниеНеиспользованногоРезерва</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="СписаниеНеиспользованногоРезерваСостояниеПросмотраКонтекстноеМеню" id="139"/>
+								<ExtendedTooltip name="СписаниеНеиспользованногоРезерваСостояниеПросмотраРасширеннаяПодсказка" id="140"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="СписаниеНеиспользованногоРезерваУправлениеПоиском" id="141">
+								<AdditionSource>
+									<Item>СписаниеНеиспользованногоРезерва</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="СписаниеНеиспользованногоРезерваУправлениеПоискомКонтекстноеМеню" id="142"/>
+								<ExtendedTooltip name="СписаниеНеиспользованногоРезерваУправлениеПоискомРасширеннаяПодсказка" id="143"/>
+							</SearchControlAddition>
+							<ChildItems>
+								<LabelField name="СписаниеНеиспользованногоРезерваНомерСтроки" id="83">
+									<DataPath>Объект.СписаниеНеиспользованногоРезерва.LineNumber</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СписаниеНеиспользованногоРезерваНомерСтрокиКонтекстноеМеню" id="84"/>
+									<ExtendedTooltip name="СписаниеНеиспользованногоРезерваНомерСтрокиРасширеннаяПодсказка" id="144"/>
+								</LabelField>
+								<InputField name="СписаниеНеиспользованногоРезерваКонтрагент" id="85">
+									<DataPath>Объект.СписаниеНеиспользованногоРезерва.Контрагент</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СписаниеНеиспользованногоРезерваКонтрагентКонтекстноеМеню" id="86"/>
+									<ExtendedTooltip name="СписаниеНеиспользованногоРезерваКонтрагентРасширеннаяПодсказка" id="145"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+									</Events>
+								</InputField>
+								<InputField name="СписаниеНеиспользованногоРезерваДоговорКонтрагента" id="87">
+									<DataPath>Объект.СписаниеНеиспользованногоРезерва.ДоговорКонтрагента</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Владелец</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.СписаниеНеиспользованногоРезерва.CurrentData.Контрагент</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ContextMenu name="СписаниеНеиспользованногоРезерваДоговорКонтрагентаКонтекстноеМеню" id="88"/>
+									<ExtendedTooltip name="СписаниеНеиспользованногоРезерваДоговорКонтрагентаРасширеннаяПодсказка" id="146"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+										<Event name="StartChoice">ДоговорКонтрагентаНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="СписаниеНеиспользованногоРезерваДокумент" id="89">
+									<DataPath>Объект.СписаниеНеиспользованногоРезерва.Документ</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.ДоговорКонтрагента</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.СписаниеНеиспользованногоРезерва.CurrentData.ДоговорКонтрагента</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Контрагент</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.СписаниеНеиспользованногоРезерва.CurrentData.Контрагент</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ContextMenu name="СписаниеНеиспользованногоРезерваДокументКонтекстноеМеню" id="90"/>
+									<ExtendedTooltip name="СписаниеНеиспользованногоРезерваДокументРасширеннаяПодсказка" id="147"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+										<Event name="StartChoice">ДокументНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="СписаниеНеиспользованногоРезерваСумма" id="91">
+									<DataPath>Объект.СписаниеНеиспользованногоРезерва.Сумма</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СписаниеНеиспользованногоРезерваСуммаКонтекстноеМеню" id="92"/>
+									<ExtendedTooltip name="СписаниеНеиспользованногоРезерваСуммаРасширеннаяПодсказка" id="148"/>
+								</InputField>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаСписаниеБезвозвратныхДепозитов" id="79">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Списание безвозвратных депозитов</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа начисление резерва</v8:content>
+						</v8:item>
+					</ToolTip>
+					<ExtendedTooltip name="ГруппаСписаниеБезвозвратныхДепозитовРасширеннаяПодсказка" id="149"/>
+					<ChildItems>
+						<Table name="СписаниеБезвозвратныхДепозитов" id="93">
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<DataPath>Объект.СписаниеБезвозвратныхДепозитов</DataPath>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="СписаниеБезвозвратныхДепозитовКонтекстноеМеню" id="94"/>
+							<AutoCommandBar name="СписаниеБезвозвратныхДепозитовКоманднаяПанель" id="95"/>
+							<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовРасширеннаяПодсказка" id="150"/>
+							<SearchStringAddition name="СписаниеБезвозвратныхДепозитовСтрокаПоиска" id="151">
+								<AdditionSource>
+									<Item>СписаниеБезвозвратныхДепозитов</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="СписаниеБезвозвратныхДепозитовСтрокаПоискаКонтекстноеМеню" id="152"/>
+								<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовСтрокаПоискаРасширеннаяПодсказка" id="153"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="СписаниеБезвозвратныхДепозитовСостояниеПросмотра" id="154">
+								<AdditionSource>
+									<Item>СписаниеБезвозвратныхДепозитов</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="СписаниеБезвозвратныхДепозитовСостояниеПросмотраКонтекстноеМеню" id="155"/>
+								<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовСостояниеПросмотраРасширеннаяПодсказка" id="156"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="СписаниеБезвозвратныхДепозитовУправлениеПоиском" id="157">
+								<AdditionSource>
+									<Item>СписаниеБезвозвратныхДепозитов</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="СписаниеБезвозвратныхДепозитовУправлениеПоискомКонтекстноеМеню" id="158"/>
+								<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовУправлениеПоискомРасширеннаяПодсказка" id="159"/>
+							</SearchControlAddition>
+							<ChildItems>
+								<LabelField name="СписаниеБезвозвратныхДепозитовНомерСтроки" id="96">
+									<DataPath>Объект.СписаниеБезвозвратныхДепозитов.LineNumber</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СписаниеБезвозвратныхДепозитовНомерСтрокиКонтекстноеМеню" id="97"/>
+									<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовНомерСтрокиРасширеннаяПодсказка" id="160"/>
+								</LabelField>
+								<InputField name="СписаниеБезвозвратныхДепозитовКонтрагент" id="98">
+									<DataPath>Объект.СписаниеБезвозвратныхДепозитов.Контрагент</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СписаниеБезвозвратныхДепозитовКонтрагентКонтекстноеМеню" id="99"/>
+									<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовКонтрагентРасширеннаяПодсказка" id="161"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+									</Events>
+								</InputField>
+								<InputField name="СписаниеБезвозвратныхДепозитовДоговорКонтрагента" id="100">
+									<DataPath>Объект.СписаниеБезвозвратныхДепозитов.ДоговорКонтрагента</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Владелец</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.СписаниеБезвозвратныхДепозитов.CurrentData.Контрагент</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ContextMenu name="СписаниеБезвозвратныхДепозитовДоговорКонтрагентаКонтекстноеМеню" id="101"/>
+									<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовДоговорКонтрагентаРасширеннаяПодсказка" id="162"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+										<Event name="StartChoice">ДоговорКонтрагентаНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="СписаниеБезвозвратныхДепозитовДокумент" id="102">
+									<DataPath>Объект.СписаниеБезвозвратныхДепозитов.Документ</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Объект.Организация</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.ДоговорКонтрагента</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.СписаниеБезвозвратныхДепозитов.CurrentData.ДоговорКонтрагента</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Контрагент</xr:Name>
+											<xr:DataPath xsi:type="xs:string">Items.СписаниеБезвозвратныхДепозитов.CurrentData.Контрагент</xr:DataPath>
+											<xr:ValueChange>Clear</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ContextMenu name="СписаниеБезвозвратныхДепозитовДокументКонтекстноеМеню" id="103"/>
+									<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовДокументРасширеннаяПодсказка" id="163"/>
+									<Events>
+										<Event name="OnChange">ДокументПриИзменении</Event>
+										<Event name="StartChoice">ДокументНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="СписаниеБезвозвратныхДепозитовСумма" id="104">
+									<DataPath>Объект.СписаниеБезвозвратныхДепозитов.Сумма</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СписаниеБезвозвратныхДепозитовСуммаКонтекстноеМеню" id="105"/>
+									<ExtendedTooltip name="СписаниеБезвозвратныхДепозитовСуммаРасширеннаяПодсказка" id="164"/>
+								</InputField>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+			</ChildItems>
+		</Pages>
+		<UsualGroup name="ГруппаОтветственный" id="62">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа организация</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа организация</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаОтветственныйРасширеннаяПодсказка" id="165"/>
+			<ChildItems>
+				<InputField name="Ответственный" id="7">
+					<DataPath>Объект.Ответственный</DataPath>
+					<ReadOnly>true</ReadOnly>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ОтветственныйКонтекстноеМеню" id="8"/>
+					<ExtendedTooltip name="ОтветственныйРасширеннаяПодсказка" id="166"/>
+				</InputField>
+				<InputField name="Комментарий" id="9">
+					<DataPath>Объект.Комментарий</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="КомментарийКонтекстноеМеню" id="10"/>
+					<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="167"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DocumentObject.РезервПоДепозитамАренды</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+			<UseAlways>
+				<Field>Объект.RegisterRecords</Field>
+			</UseAlways>
+		</Attribute>
+		<Attribute name="ТекущаяСтавкаДисконта" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Текущая ставка дисконта</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<ConditionalAppearance>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>НачислениеДисконта</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.НачислениеДисконта.РедактировалосьВручную</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="style:ШрифтВажнойНадписи" kind="StyleItem"/>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>СписаниеДисконта</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.СписаниеДисконта.РедактировалосьВручную</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="style:ШрифтВажнойНадписи" kind="StyleItem"/>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+		</ConditionalAppearance>
+	</Attributes>
+	<Commands>
+		<Command name="ЗаполнитьДисконт" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить дисконт</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьДисконт</Action>
+		</Command>
+	</Commands>
+	<CommandInterface>
+		<NavigationPanel>
+			<Item>
+				<Command>AccumulationRegister.ДисконтПоДепозитамАрендыНедвижимости.StandardCommand.OpenByRecorder</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+			</Item>
+			<Item>
+				<Command>AccountingRegister.Финансовый.StandardCommand.OpenByRecorder</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+			</Item>
+		</NavigationPanel>
+	</CommandInterface>
+</Form>

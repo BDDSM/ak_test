@@ -1,0 +1,36 @@
+﻿
+Процедура ПриОткрытии()
+	ADOСоединение = ВнешниеДанные.ПолучитьADOСоединение("SRV-SQL03");
+	СтрЗапрос = "SELECT [id],[id_tov],[id_kontr],[date_reset],[date_add],[Reason],[Autor],[Current_reiting] FROM [vv03].[dbo].[Reiting_reset_period] WHERE id_tov = &id_tov";
+	Если id_kontr <> 0 Тогда
+		СтрЗапрос = СтрЗапрос + " AND id_kontr = " + Формат(id_kontr,"ЧГ=");	
+	КонецЕсли;
+	СтрЗапрос = СтрЗаменить(СтрЗапрос, "&id_tov", Формат(id_tov,"ЧГ="));
+	rs = ADOСоединение.Execute(СтрЗапрос);
+	
+	Пока НЕ rs = Неопределено Цикл
+		Если rs.Fields.Count > 0 Тогда
+			Прервать;
+		КонецЕсли;
+			rs = rs.NextRecordSet();
+		КонецЦикла;
+
+	Попытка
+		rs.MoveFirst();	
+		Пока НЕ rs.EOF() Цикл
+			СтрокаДоб = ИсторияОбнуленийРейтинга.Добавить();
+			СтрокаДоб.Дата = СтрЗаменить(Строка(rs.Fields("date_reset").Value),"-","");
+			//Сообщить(rs.Fields("date_reset").Value);
+			СтрокаДоб.Причина = rs.Fields("Reason").Value;
+			СтрокаДоб.Автор = rs.Fields("Autor").Value;
+			//+++AK GREK 20.12.2017 ИП-00017358.01
+			СтрокаДоб.ДействовавшийРейтинг = rs.Fields("Current_reiting").Value;
+			//---AK	
+			rs.MoveNext();
+		КонецЦикла;
+	Исключение
+	КонецПопытки;
+	ADOСоединение.Close();
+	
+	ИсторияОбнуленийРейтинга.Сортировать("Дата");
+КонецПроцедуры

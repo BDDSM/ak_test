@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<AutoTime>CurrentOrLast</AutoTime>
+	<UsePostingMode>Auto</UsePostingMode>
+	<RepostOnWrite>true</RepostOnWrite>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="AfterWrite">ПослеЗаписи</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ГруппаНомерДатаВидЗаявки" id="71">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа номер дата вид заявки</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа номер дата вид заявки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаНомерДатаВидЗаявкиРасширеннаяПодсказка" id="72"/>
+			<ChildItems>
+				<InputField name="Номер" id="1">
+					<DataPath>Объект.Number</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="НомерКонтекстноеМеню" id="2"/>
+					<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="3"/>
+				</InputField>
+				<InputField name="Дата" id="4">
+					<DataPath>Объект.Date</DataPath>
+					<ReadOnly>true</ReadOnly>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ДатаКонтекстноеМеню" id="5"/>
+					<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="6"/>
+				</InputField>
+				<RadioButtonField name="ВидЗаявки" id="10">
+					<DataPath>Объект.ВидЗаявки</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<RadioButtonType>Tumbler</RadioButtonType>
+					<ChoiceList>
+						<xr:Item>
+							<xr:Presentation/>
+							<xr:CheckState>0</xr:CheckState>
+							<xr:Value xsi:type="FormChoiceListDesTimeValue">
+								<Presentation/>
+								<Value xsi:type="xr:DesignTimeRef">Enum.ВидыЗаявокНаКомпенсацию.EnumValue.Медицина</Value>
+							</xr:Value>
+						</xr:Item>
+						<xr:Item>
+							<xr:Presentation/>
+							<xr:CheckState>0</xr:CheckState>
+							<xr:Value xsi:type="FormChoiceListDesTimeValue">
+								<Presentation/>
+								<Value xsi:type="xr:DesignTimeRef">Enum.ВидыЗаявокНаКомпенсацию.EnumValue.Спорт</Value>
+							</xr:Value>
+						</xr:Item>
+					</ChoiceList>
+					<ContextMenu name="ВидЗаявкиКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="ВидЗаявкиРасширеннаяПодсказка" id="12"/>
+					<Events>
+						<Event name="OnChange">ВидЗаявкиПриИзменении</Event>
+					</Events>
+				</RadioButtonField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Организация" id="7">
+			<DataPath>Объект.Организация</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ОрганизацияКонтекстноеМеню" id="8"/>
+			<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="9"/>
+			<Events>
+				<Event name="OnChange">ОрганизацияПриИзменении</Event>
+			</Events>
+		</InputField>
+		<InputField name="Получатель" id="13">
+			<DataPath>Объект.Получатель</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ПолучательКонтекстноеМеню" id="14"/>
+			<ExtendedTooltip name="ПолучательРасширеннаяПодсказка" id="15"/>
+			<Events>
+				<Event name="StartChoice">ПолучательНачалоВыбора</Event>
+				<Event name="ChoiceProcessing">ПолучательОбработкаВыбора</Event>
+			</Events>
+		</InputField>
+		<UsualGroup name="ГруппаФайлы" id="80">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа файлы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа файлы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаФайлыРасширеннаяПодсказка" id="81"/>
+			<ChildItems>
+				<InputField name="ФайлДоговор" id="82">
+					<DataPath>Объект.ФайлДоговор</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Договор</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="ФайлДоговорКонтекстноеМеню" id="83"/>
+					<ExtendedTooltip name="ФайлДоговорРасширеннаяПодсказка" id="84"/>
+					<Events>
+						<Event name="StartChoice">ФайлДоговорНачалоВыбора</Event>
+						<Event name="Opening">ФайлДоговорОткрытие</Event>
+					</Events>
+				</InputField>
+				<InputField name="ФайлЧек" id="85">
+					<DataPath>Объект.ФайлЧек</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Чек</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="ФайлЧекКонтекстноеМеню" id="86"/>
+					<ExtendedTooltip name="ФайлЧекРасширеннаяПодсказка" id="87"/>
+					<Events>
+						<Event name="StartChoice">ФайлЧекНачалоВыбора</Event>
+						<Event name="Opening">ФайлЧекОткрытие</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Акцептант" id="28">
+			<DataPath>Объект.Акцептант</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="АкцептантКонтекстноеМеню" id="29"/>
+			<ExtendedTooltip name="АкцептантРасширеннаяПодсказка" id="30"/>
+			<Events>
+				<Event name="OnChange">АкцептантПриИзменении</Event>
+				<Event name="StartChoice">АкцептантНачалоВыбора</Event>
+			</Events>
+		</InputField>
+		<UsualGroup name="ГруппаПодтвержденАкцептовано" id="73">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа подтвержден акцептовано</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа подтвержден акцептовано</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаПодтвержденАкцептованоРасширеннаяПодсказка" id="74"/>
+			<ChildItems>
+				<CheckBoxField name="Акцептовано" id="34">
+					<DataPath>Объект.Акцептовано</DataPath>
+					<TitleLocation>Right</TitleLocation>
+					<EditMode>EnterOnInput</EditMode>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="АкцептованоКонтекстноеМеню" id="35"/>
+					<ExtendedTooltip name="АкцептованоРасширеннаяПодсказка" id="36"/>
+				</CheckBoxField>
+				<CheckBoxField name="ПодтвержденТилНет" id="31">
+					<DataPath>Объект.ПодтвержденТилНет</DataPath>
+					<TitleLocation>Right</TitleLocation>
+					<EditMode>EnterOnInput</EditMode>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ПодтвержденТилНетКонтекстноеМеню" id="32"/>
+					<ExtendedTooltip name="ПодтвержденТилНетРасширеннаяПодсказка" id="33"/>
+					<Events>
+						<Event name="OnChange">ПодтвержденТилНетПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+			</ChildItems>
+		</UsualGroup>
+		<Table name="ПереченьДокументов" id="37">
+			<Representation>List</Representation>
+			<Footer>true</Footer>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.ПереченьДокументов</DataPath>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="ПереченьДокументовКонтекстноеМеню" id="38"/>
+			<AutoCommandBar name="ПереченьДокументовКоманднаяПанель" id="39"/>
+			<ExtendedTooltip name="ПереченьДокументовРасширеннаяПодсказка" id="40"/>
+			<SearchStringAddition name="ПереченьДокументовСтрокаПоиска" id="41">
+				<AdditionSource>
+					<Item>ПереченьДокументов</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="ПереченьДокументовСтрокаПоискаКонтекстноеМеню" id="42"/>
+				<ExtendedTooltip name="ПереченьДокументовСтрокаПоискаРасширеннаяПодсказка" id="43"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="ПереченьДокументовСостояниеПросмотра" id="44">
+				<AdditionSource>
+					<Item>ПереченьДокументов</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="ПереченьДокументовСостояниеПросмотраКонтекстноеМеню" id="45"/>
+				<ExtendedTooltip name="ПереченьДокументовСостояниеПросмотраРасширеннаяПодсказка" id="46"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="ПереченьДокументовУправлениеПоиском" id="47">
+				<AdditionSource>
+					<Item>ПереченьДокументов</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="ПереченьДокументовУправлениеПоискомКонтекстноеМеню" id="48"/>
+				<ExtendedTooltip name="ПереченьДокументовУправлениеПоискомРасширеннаяПодсказка" id="49"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="OnEditEnd">ПереченьДокументовПриОкончанииРедактирования</Event>
+				<Event name="OnStartEdit">ПереченьДокументовПриНачалеРедактирования</Event>
+				<Event name="AfterDeleteRow">ПереченьДокументовПослеУдаления</Event>
+			</Events>
+			<ChildItems>
+				<LabelField name="ПереченьДокументовНомерСтроки" id="50">
+					<DataPath>Объект.ПереченьДокументов.LineNumber</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ПереченьДокументовНомерСтрокиКонтекстноеМеню" id="51"/>
+					<ExtendedTooltip name="ПереченьДокументовНомерСтрокиРасширеннаяПодсказка" id="52"/>
+				</LabelField>
+				<InputField name="ПереченьДокументовНомерДоговора" id="53">
+					<DataPath>Объект.ПереченьДокументов.НомерДоговора</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ПереченьДокументовНомерДоговораКонтекстноеМеню" id="54"/>
+					<ExtendedTooltip name="ПереченьДокументовНомерДоговораРасширеннаяПодсказка" id="55"/>
+				</InputField>
+				<InputField name="ПереченьДокументовДатаДоговора" id="56">
+					<DataPath>Объект.ПереченьДокументов.ДатаДоговора</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ПереченьДокументовДатаДоговораКонтекстноеМеню" id="57"/>
+					<ExtendedTooltip name="ПереченьДокументовДатаДоговораРасширеннаяПодсказка" id="58"/>
+				</InputField>
+				<ColumnGroup name="ГруппаПериодДействия" id="75">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период действия</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа период действия</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Group>Horizontal</Group>
+					<ShowInHeader>true</ShowInHeader>
+					<ExtendedTooltip name="ГруппаПериодДействияРасширеннаяПодсказка" id="76"/>
+					<ChildItems>
+						<InputField name="ПереченьДокументовДатаНачала" id="59">
+							<DataPath>Объект.ПереченьДокументов.ДатаНачала</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>с</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ПереченьДокументовДатаНачалаКонтекстноеМеню" id="60"/>
+							<ExtendedTooltip name="ПереченьДокументовДатаНачалаРасширеннаяПодсказка" id="61"/>
+						</InputField>
+						<InputField name="ПереченьДокументовДатаОкончания" id="62">
+							<DataPath>Объект.ПереченьДокументов.ДатаОкончания</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>по</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ПереченьДокументовДатаОкончанияКонтекстноеМеню" id="63"/>
+							<ExtendedTooltip name="ПереченьДокументовДатаОкончанияРасширеннаяПодсказка" id="64"/>
+						</InputField>
+					</ChildItems>
+				</ColumnGroup>
+				<InputField name="ПереченьДокументовСуммаДоговора" id="65">
+					<DataPath>Объект.ПереченьДокументов.СуммаДоговора</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterText>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Итого</v8:content>
+						</v8:item>
+					</FooterText>
+					<FooterHorizontalAlign>Right</FooterHorizontalAlign>
+					<ContextMenu name="ПереченьДокументовСуммаДоговораКонтекстноеМеню" id="66"/>
+					<ExtendedTooltip name="ПереченьДокументовСуммаДоговораРасширеннаяПодсказка" id="67"/>
+				</InputField>
+				<InputField name="ПереченьДокументовКомпенсация" id="68">
+					<DataPath>Объект.ПереченьДокументов.Компенсация</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Компенсация, %</v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>Объект.СуммаДокумента</FooterDataPath>
+					<ContextMenu name="ПереченьДокументовКомпенсацияКонтекстноеМеню" id="69"/>
+					<ExtendedTooltip name="ПереченьДокументовКомпенсацияРасширеннаяПодсказка" id="70"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+		<InputField name="ДокументНачисления" id="77">
+			<DataPath>Объект.ДокументНачисления</DataPath>
+			<ReadOnly>true</ReadOnly>
+			<ChoiceButton>false</ChoiceButton>
+			<OpenButton>true</OpenButton>
+			<ContextMenu name="ДокументНачисленияКонтекстноеМеню" id="78"/>
+			<ExtendedTooltip name="ДокументНачисленияРасширеннаяПодсказка" id="79"/>
+		</InputField>
+		<InputField name="Ответственный" id="19">
+			<DataPath>Объект.Ответственный</DataPath>
+			<ReadOnly>true</ReadOnly>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ОтветственныйКонтекстноеМеню" id="20"/>
+			<ExtendedTooltip name="ОтветственныйРасширеннаяПодсказка" id="21"/>
+		</InputField>
+		<InputField name="Комментарий" id="25">
+			<DataPath>Объект.Комментарий</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="КомментарийКонтекстноеМеню" id="26"/>
+			<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="27"/>
+		</InputField>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DocumentObject.ЗаявкаНаКомпенсациюСпортаИМедицины</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+			<UseAlways>
+				<Field>Объект.RegisterRecords</Field>
+			</UseAlways>
+		</Attribute>
+	</Attributes>
+</Form>

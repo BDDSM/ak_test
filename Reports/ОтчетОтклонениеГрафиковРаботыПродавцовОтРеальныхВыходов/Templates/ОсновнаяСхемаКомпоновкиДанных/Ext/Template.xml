@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Группа</dataPath>
+			<field>Группа</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Период</dataPath>
+			<field>Период</field>
+			<orderExpression>
+				<dcscom:expression>Период</dcscom:expression>
+				<dcscom:orderType>Asc</dcscom:orderType>
+				<dcscom:autoOrder>false</dcscom:autoOrder>
+			</orderExpression>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ДЛФ=D</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сотрудник</dataPath>
+			<field>Сотрудник</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТТ_Гр</dataPath>
+			<field>ТТ_Гр</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ТТ график</v8:content>
+				</v8:item>
+			</title>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МинимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">20</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТТ_ЛУ</dataPath>
+			<field>ТТ_ЛУ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ТТ лист учета</v8:content>
+				</v8:item>
+			</title>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МинимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">20</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЗУП_code</dataPath>
+			<field>ЗУП_code</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Свойство_Гр</dataPath>
+			<field>Свойство_Гр</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Свойство_ЛУ</dataPath>
+			<field>Свойство_ЛУ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЧасов_Гр</dataPath>
+			<field>КоличествоЧасов_Гр</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЧасов_ЛУ</dataPath>
+			<field>КоличествоЧасов_ЛУ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЭкстренныйВызов_Гр</dataPath>
+			<field>ЭкстренныйВызов_Гр</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЭкстренныйВызов_ЛУ</dataPath>
+			<field>ЭкстренныйВызов_ЛУ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ГруппаСотрудников</dataPath>
+			<field>ГруппаСотрудников</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа сотрудников</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПомощникТУ</dataPath>
+			<field>ПомощникТУ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Помощник ТУ</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ) КАК Период,
+	ЛистУчетаПродавцы.Ссылка.ТорговаяТочка КАК ТорговаяТочка,
+	ЛистУчетаПродавцы.Продавец КАК Сотрудник,
+	ЛистУчетаПродавцы.Ссылка.ЦФО КАК ГруппаЦФО,
+	ЛистУчетаПродавцы.Ссылка.ТорговаяТочка КАК ТТ_ЛУ,
+	ВЫБОР
+		КОГДА ЛистУчетаПродавцы.Пч ЕСТЬ NULL
+			ТОГДА ""
+		ИНАЧЕ ВЫБОР
+				КОГДА ЛистУчетаПродавцы.Пч = 1
+					ТОГДА "Частичный"
+				КОГДА ЛистУчетаПродавцы.Пч = 2
+					ТОГДА "Старший продавец"
+				КОГДА ЛистУчетаПродавцы.Пч = 3
+					ТОГДА "Практикант"
+				КОГДА ЛистУчетаПродавцы.Пч = 4
+					ТОГДА "Стажер"
+				КОГДА ЛистУчетаПродавцы.Пч = 5
+					ТОГДА "Ночной продавец"
+				КОГДА ЛистУчетаПродавцы.Пч = 6
+					ТОГДА "Старший ночной продавец"
+				КОГДА ЛистУчетаПродавцы.Пч = 7
+					ТОГДА "Кассир"
+				ИНАЧЕ "Полный"
+			КОНЕЦ
+	КОНЕЦ КАК Свойство_ЛУ,
+	ЛистУчетаПродавцы.КоличествоЧасов КАК КоличествоЧасов,
+	ЛистУчетаПродавцы.ЭкстренныйВызов КАК ЭкстренныйВызов,
+	ЛистУчетаПродавцы.Продавец.ПомощникТУ КАК ПомощникТУ
+ПОМЕСТИТЬ ВТ_Листы
+ИЗ
+	Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+ГДЕ
+	ЛистУчетаПродавцы.Ссылка.Дата МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И ЛистУчетаПродавцы.Ссылка.Проведен = ИСТИНА
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	ТабельРаботыПродавцов.Период КАК Период,
+	ТабельРаботыПродавцов.Сотрудник КАК Сотрудник,
+	ТабельРаботыПродавцов.Группа КАК ГруппаЦФО,
+	ТабельРаботыПродавцов.ТорговаяТочка КАК ТорговаяТочка,
+	ВЫБОР
+		КОГДА ТабельРаботыПродавцов.СвойствоПродавца ЕСТЬ NULL
+				ИЛИ ТабельРаботыПродавцов.Отсутствие &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ВидыОтсутствия.ПустаяСсылка)
+			ТОГДА ""
+		ИНАЧЕ ВЫБОР
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 1
+					ТОГДА "Частичный"
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 2
+					ТОГДА "Старший продавец"
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 3
+					ТОГДА "Практикант"
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 4
+					ТОГДА "Стажер"
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 5
+					ТОГДА "Ночной продавец"
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 6
+					ТОГДА "Старший ночной продавец"
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 7
+					ТОГДА "Кассир"
+				ИНАЧЕ "Полный"
+			КОНЕЦ
+	КОНЕЦ КАК Свойство_Гр,
+	ТабельРаботыПродавцов.КоличествоЧасов КАК КоличествоЧасов,
+	ТабельРаботыПродавцов.ЭкстренныйВызов КАК ЭкстренныйВызов,
+	ТабельРаботыПродавцов.ГруппаСотрудника,
+	ТабельРаботыПродавцов.Сотрудник.ПомощникТУ КАК ПомощникТУ
+ПОМЕСТИТЬ ВТ_Табель
+ИЗ
+	РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцов
+ГДЕ
+	ТабельРаботыПродавцов.Период МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И ТабельРаботыПродавцов.ТорговаяТочка &lt;&gt; ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+	;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЕСТЬNULL(ТабельРаботыПродавцов.Период, ЛистУчетаПродавцы.Период) КАК Период,
+	ЕСТЬNULL(ТабельРаботыПродавцов.Сотрудник, ЛистУчетаПродавцы.Сотрудник) КАК Сотрудник,
+	ЕСТЬNULL(ТабельРаботыПродавцов.ГруппаЦФО, ЛистУчетаПродавцы.ГруппаЦФО) КАК Группа,
+	ЕСТЬNULL(ТабельРаботыПродавцов.ТорговаяТочка, ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)) КАК ТТ_Гр,
+	ТабельРаботыПродавцов.Свойство_Гр КАК Свойство_Гр,
+	ЕСТЬNULL(ТабельРаботыПродавцов.КоличествоЧасов, 0) КАК КоличествоЧасов_Гр,
+	ЕСТЬNULL(ТабельРаботыПродавцов.ЭкстренныйВызов, ЛОЖЬ) КАК ЭкстренныйВызов_Гр,
+	ЕСТЬNULL(ЛистУчетаПродавцы.ТорговаяТочка, ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)) КАК ТТ_ЛУ,
+	ЛистУчетаПродавцы.Свойство_ЛУ КАК Свойство_ЛУ,
+	ЕСТЬNULL(ЛистУчетаПродавцы.КоличествоЧасов, 0) КАК КоличествоЧасов_ЛУ,
+	ЕСТЬNULL(ЛистУчетаПродавцы.ЭкстренныйВызов, ЛОЖЬ) КАК ЭкстренныйВызов_ЛУ,
+	ВЫБОР
+		КОГДА ЕСТЬNULL(ТабельРаботыПродавцов.Сотрудник, ЛистУчетаПродавцы.Сотрудник) ЕСТЬ NULL
+			ТОГДА ""
+		ИНАЧЕ ВЫРАЗИТЬ(ЕСТЬNULL(ТабельРаботыПродавцов.Сотрудник, ЛистУчетаПродавцы.Сотрудник) КАК Справочник.ФизическиеЛица).Код
+	КОНЕЦ КАК ЗУП_code,
+	ВЫБОР
+		КОГДА ТабельРаботыПродавцов.ГруппаСотрудника = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+			ТОГДА ЛистУчетаПродавцы.ГруппаЦФО
+		ИНАЧЕ ЕСТЬNULL(ТабельРаботыПродавцов.ГруппаСотрудника, ЛистУчетаПродавцы.ГруппаЦФО)
+	КОНЕЦ КАК ГруппаСотрудников,
+	ЕСТЬNULL(ТабельРаботыПродавцов.ПомощникТУ, ЛистУчетаПродавцы.ПомощникТУ) КАК ПомощникТУ
+ИЗ
+	ВТ_Листы КАК ЛистУчетаПродавцы
+		ПОЛНОЕ СОЕДИНЕНИЕ ВТ_Табель КАК ТабельРаботыПродавцов
+		ПО (ТабельРаботыПродавцов.Период = ЛистУчетаПродавцы.Период)
+			И (ТабельРаботыПродавцов.Сотрудник = ЛистУчетаПродавцы.Сотрудник)
+			И (ТабельРаботыПродавцов.ТорговаяТочка = ЛистУчетаПродавцы.ТорговаяТочка)
+ГДЕ
+	(ЕСТЬNULL(ТабельРаботыПродавцов.ТорговаяТочка, ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)) &lt;&gt; ЕСТЬNULL(ЛистУчетаПродавцы.ТорговаяТочка, ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка))
+			ИЛИ ЕСТЬNULL(ТабельРаботыПродавцов.КоличествоЧасов, 0) &lt;&gt; ЕСТЬNULL(ЛистУчетаПродавцы.КоличествоЧасов, 0)
+			ИЛИ ТабельРаботыПродавцов.Свойство_Гр &lt;&gt; ЛистУчетаПродавцы.Свойство_ЛУ
+			ИЛИ ЕСТЬNULL(ТабельРаботыПродавцов.ЭкстренныйВызов, ЛОЖЬ) &lt;&gt; ЕСТЬNULL(ЛистУчетаПродавцы.ЭкстренныйВызов, ЛОЖЬ))</query>
+	</dataSet>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>КонецПериода(&amp;ПериодОтчета.ДатаОкончания, "День")</expression>
+	</parameter>
+	<parameter>
+		<name>ПериодОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Период</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЗУП_code</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>Группа</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ГруппаСотрудников</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТТ_ЛУ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Свойство_ЛУ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоЧасов_ЛУ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЭкстренныйВызов_ЛУ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТТ_Гр</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Свойство_Гр</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоЧасов_Гр</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЭкстренныйВызов_Гр</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Группа</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ПомощникТУ</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>79e47d74-30cf-47eb-a862-6f6c56769630</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Помощник</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ГруппаСотрудников</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Сотрудник</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>99652e5c-6afd-4e7a-874e-3680e659719f</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТТ_Гр</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>11891e53-c665-4d6f-ba9b-74c18adfe363</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ТТ График</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТТ_ЛУ</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>a93262eb-9210-46af-8050-732e755d186b</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">ThisMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>aae259b2-fd84-4c9a-b58d-8dfc71326884</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Период</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отчет по отклонению графиков работы продавцов от реальных их выходов</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

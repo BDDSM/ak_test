@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РасходныйОрдер</dataPath>
+			<field>РасходныйОрдер</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Расходный ордер</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Маршрут</dataPath>
+			<field>Маршрут</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Магазин</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВремяВыездаНормативное</dataPath>
+			<field>ВремяВыездаНормативное</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Время выезда нормативное</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПоследнейЗаписи_Собран</dataPath>
+			<field>ДатаПоследнейЗаписи_Собран</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Время окончания сборки</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПоследнейЗаписи_НаДебаркадере</dataPath>
+			<field>ДатаПоследнейЗаписи_НаДебаркадере</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Время выезда на дебаркадер</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаЗавершенияПогрузки</dataPath>
+			<field>ДатаЗавершенияПогрузки</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Время завершения погрузки</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗЛИЧНЫЕ
+	МаршрутныйЛист.Ссылка КАК Рейс,
+	МаршрутныйЛист.Маршрут КАК Маршрут,
+	ДОБАВИТЬКДАТЕ(ВЫБОР
+			КОГДА МаршрутныйЛист.Маршрут.ПланируемоеВремяВыездаПоМаршруту ССЫЛКА Справочник.ВремяВыездаПоМаршруту
+				ТОГДА ВЫРАЗИТЬ(МаршрутныйЛист.Маршрут.ПланируемоеВремяВыездаПоМаршруту КАК Справочник.ВремяВыездаПоМаршруту).ВремяВыезда
+			ИНАЧЕ ВЫРАЗИТЬ(МаршрутныйЛист.Маршрут.ПланируемоеВремяВыездаПоМаршруту КАК ДАТА)
+		КОНЕЦ, ДЕНЬ, РАЗНОСТЬДАТ(ДАТАВРЕМЯ(1, 1, 1), НАЧАЛОПЕРИОДА(МаршрутныйЛист.Дата, ДЕНЬ), ДЕНЬ)) КАК ВремяВыездаНормативное,
+	МаршрутныйЛист.ДатаЗавершенияПогрузки КАК ДатаЗавершенияПогрузки,
+	МаршрутныйЛистРасходныеОрдера.Документ КАК РасходныйОрдер,
+	ВЫРАЗИТЬ(МаршрутныйЛистРасходныеОрдера.Документ КАК Документ.РасходныйОрдерСклад).Получатель КАК ТорговаяТочка,
+	ВЫРАЗИТЬ(МаршрутныйЛистРасходныеОрдера.Документ КАК Документ.РасходныйОрдерСклад).КоличествоПаллет КАК КоличествоПаллет
+ПОМЕСТИТЬ втРейсы
+ИЗ
+	Документ.МаршрутныйЛист КАК МаршрутныйЛист
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.МаршрутныйЛист.РасходныеОрдера КАК МаршрутныйЛистРасходныеОрдера
+		ПО МаршрутныйЛист.Ссылка = МаршрутныйЛистРасходныеОрдера.Ссылка
+ГДЕ
+	МаршрутныйЛист.Дата МЕЖДУ &amp;НачалоДня И &amp;КонецДня
+	И МаршрутныйЛист.СтруктурноеПодразделение = &amp;Кавказский_1
+	И МаршрутныйЛист.Проведен
+	И ДОБАВИТЬКДАТЕ(ВЫБОР
+				КОГДА МаршрутныйЛист.Маршрут.ПланируемоеВремяВыездаПоМаршруту ССЫЛКА Справочник.ВремяВыездаПоМаршруту
+					ТОГДА ВЫРАЗИТЬ(МаршрутныйЛист.Маршрут.ПланируемоеВремяВыездаПоМаршруту КАК Справочник.ВремяВыездаПоМаршруту).ВремяВыезда
+				ИНАЧЕ ВЫРАЗИТЬ(МаршрутныйЛист.Маршрут.ПланируемоеВремяВыездаПоМаршруту КАК ДАТА)
+			КОНЕЦ, ДЕНЬ, РАЗНОСТЬДАТ(ДАТАВРЕМЯ(1, 1, 1), НАЧАЛОПЕРИОДА(МаршрутныйЛист.Дата, ДЕНЬ), ДЕНЬ)) МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+
+ИНДЕКСИРОВАТЬ ПО
+	РасходныйОрдер
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втРейсы.РасходныйОрдер КАК РасходныйОрдер,
+	СканированныеПаллеты.Статус КАК Статус,
+	КОЛИЧЕСТВО(СканированныеПаллеты.Ордер) КАК КоличествоЗаписей,
+	МАКСИМУМ(СканированныеПаллеты.Период) КАК ДатаПоследнейЗаписи
+ПОМЕСТИТЬ втИзмененияСтатусовДокументов
+ИЗ
+	втРейсы КАК втРейсы
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрСведений.СканированныеПаллеты КАК СканированныеПаллеты
+		ПО втРейсы.РасходныйОрдер = СканированныеПаллеты.Ордер
+
+СГРУППИРОВАТЬ ПО
+	втРейсы.РасходныйОрдер,
+	СканированныеПаллеты.Статус
+
+ИНДЕКСИРОВАТЬ ПО
+	РасходныйОрдер,
+	Статус,
+	КоличествоЗаписей
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втРейсы.Маршрут КАК Маршрут,
+	втРейсы.ТорговаяТочка КАК ТорговаяТочка,
+	втРейсы.РасходныйОрдер,
+	втРейсы.ВремяВыездаНормативное,
+	ЕСТЬNULL(втИзмененияСтатусовДокументов_Собран.ДатаПоследнейЗаписи, ДАТАВРЕМЯ(1, 1, 1)) КАК ДатаПоследнейЗаписи_Собран,
+	ЕСТЬNULL(втИзмененияСтатусовДокументов_НаДебаркадере.ДатаПоследнейЗаписи, ДАТАВРЕМЯ(1, 1, 1)) КАК ДатаПоследнейЗаписи_НаДебаркадере,
+	ВЫБОР
+		КОГДА втРейсы.ДатаЗавершенияПогрузки &lt;&gt; ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА втРейсы.ДатаЗавершенияПогрузки
+		КОГДА втИзмененияСтатусовДокументов_ВодительПринял.РасходныйОрдер ЕСТЬ NULL
+			ТОГДА ДАТАВРЕМЯ(1, 1, 1)
+		КОГДА втРейсы.КоличествоПаллет &gt; втИзмененияСтатусовДокументов_ВодительПринял.КоличествоЗаписей
+			ТОГДА ДАТАВРЕМЯ(1, 1, 1)
+		ИНАЧЕ втИзмененияСтатусовДокументов_ВодительПринял.ДатаПоследнейЗаписи
+	КОНЕЦ КАК ДатаЗавершенияПогрузки
+ИЗ
+	втРейсы КАК втРейсы
+		ЛЕВОЕ СОЕДИНЕНИЕ втИзмененияСтатусовДокументов КАК втИзмененияСтатусовДокументов_Собран
+		ПО втРейсы.РасходныйОрдер = втИзмененияСтатусовДокументов_Собран.РасходныйОрдер
+			И (втИзмененияСтатусовДокументов_Собран.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.Собран))
+		ЛЕВОЕ СОЕДИНЕНИЕ втИзмененияСтатусовДокументов КАК втИзмененияСтатусовДокументов_НаДебаркадере
+		ПО втРейсы.РасходныйОрдер = втИзмененияСтатусовДокументов_НаДебаркадере.РасходныйОрдер
+			И (втИзмененияСтатусовДокументов_НаДебаркадере.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.НаДебаркадере))
+		ЛЕВОЕ СОЕДИНЕНИЕ втИзмененияСтатусовДокументов КАК втИзмененияСтатусовДокументов_ВодительПринял
+		ПО втРейсы.РасходныйОрдер = втИзмененияСтатусовДокументов_ВодительПринял.РасходныйОрдер
+			И (втИзмененияСтатусовДокументов_ВодительПринял.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.ВодительПринял))
+ГДЕ
+	ВЫБОР
+			КОГДА втРейсы.ДатаЗавершенияПогрузки &lt;&gt; ДАТАВРЕМЯ(1, 1, 1)
+				ТОГДА втРейсы.ДатаЗавершенияПогрузки &gt; втРейсы.ВремяВыездаНормативное
+			КОГДА втИзмененияСтатусовДокументов_ВодительПринял.РасходныйОрдер ЕСТЬ NULL
+				ТОГДА ИСТИНА
+			КОГДА втРейсы.КоличествоПаллет &gt; втИзмененияСтатусовДокументов_ВодительПринял.КоличествоЗаписей
+				ТОГДА ИСТИНА
+			ИНАЧЕ втИзмененияСтатусовДокументов_ВодительПринял.ДатаПоследнейЗаписи &gt; втРейсы.ВремяВыездаНормативное
+		КОНЕЦ</query>
+	</dataSet>
+	<totalField>
+		<dataPath>ВремяВыездаНормативное</dataPath>
+		<expression>Максимум(ВремяВыездаНормативное)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ДатаПоследнейЗаписи_Собран</dataPath>
+		<expression>ВЫБОР КОГДА Минимум(ДатаПоследнейЗаписи_Собран) = ДАТАВРЕМЯ(1,1,1) ТОГДА ДАТАВРЕМЯ(1,1,1) ИНАЧЕ Максимум(ДатаПоследнейЗаписи_Собран) КОНЕЦ</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ДатаПоследнейЗаписи_НаДебаркадере</dataPath>
+		<expression>ВЫБОР КОГДА Минимум(ДатаПоследнейЗаписи_НаДебаркадере) = ДАТАВРЕМЯ(1,1,1) ТОГДА ДАТАВРЕМЯ(1,1,1) ИНАЧЕ Максимум(ДатаПоследнейЗаписи_НаДебаркадере) КОНЕЦ</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ДатаЗавершенияПогрузки</dataPath>
+		<expression>ВЫБОР КОГДА Минимум(ДатаЗавершенияПогрузки) = ДАТАВРЕМЯ(1,1,1) ТОГДА ДАТАВРЕМЯ(1,1,1) ИНАЧЕ Максимум(ДатаЗавершенияПогрузки) КОНЕЦ</expression>
+	</totalField>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>НачалоДня</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало дня</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>НачалоПериода(&amp;КонецПериода, "День")</expression>
+	</parameter>
+	<parameter>
+		<name>КонецДня</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец дня</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>КонецПериода(&amp;КонецПериода, "День")</expression>
+	</parameter>
+	<parameter>
+		<name>Кавказский_1</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Кавказский 1</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Маршрут</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>РасходныйОрдер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВремяВыездаНормативное</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПоследнейЗаписи_Собран</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПоследнейЗаписи_НаДебаркадере</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаЗавершенияПогрузки</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>InList</dcsset:comparisonType>
+					<dcsset:right xsi:type="v8:ValueListType">
+						<v8:valueType/>
+						<v8:lastId xsi:type="xs:decimal">-1</v8:lastId>
+					</dcsset:right>
+					<dcsset:userSettingID>5f9bf685-df5e-4795-ad0f-2c45b183b1f8</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Маршрут</dcsset:left>
+					<dcsset:comparisonType>InList</dcsset:comparisonType>
+					<dcsset:right xsi:type="v8:ValueListType">
+						<v8:valueType/>
+						<v8:lastId xsi:type="xs:decimal">-1</v8:lastId>
+					</dcsset:right>
+					<dcsset:userSettingID>ba189d0e-5774-4e19-b915-901ccbea71af</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ВремяВыездаНормативное</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Маршрут.Код</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ДатаЗавершенияПогрузки</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВертикальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Маршрут</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>ТорговаяТочка</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

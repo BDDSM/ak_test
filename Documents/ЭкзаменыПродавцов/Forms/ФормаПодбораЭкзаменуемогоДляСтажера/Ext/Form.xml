@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<Title>
+		<v8:item>
+			<v8:lang>ru</v8:lang>
+			<v8:content>Подбор стажеров для экзамена</v8:content>
+		</v8:item>
+	</Title>
+	<AutoTitle>false</AutoTitle>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="ФормаОбновить" id="49">
+				<Type>CommandBarButton</Type>
+				<OnlyInAllActions>true</OnlyInAllActions>
+				<CommandName>Form.Item.Кандидаты.StandardCommand.Refresh</CommandName>
+				<ExtendedTooltip name="ФормаОбновитьРасширеннаяПодсказка" id="54"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="Группа2" id="115">
+			<Group>Horizontal</Group>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа2РасширеннаяПодсказка" id="116"/>
+			<ChildItems>
+				<InputField name="ДатаОпроса" id="47">
+					<DataPath>ДатаОпроса</DataPath>
+					<ContextMenu name="ДатаОпросаКонтекстноеМеню" id="48"/>
+					<ExtendedTooltip name="ДатаОпросаРасширеннаяПодсказка" id="55"/>
+					<Events>
+						<Event name="OnChange">ДатаОпросаПриИзменении</Event>
+					</Events>
+				</InputField>
+				<InputField name="ФильтрНомерСмены" id="112">
+					<DataPath>ФильтрНомерСмены</DataPath>
+					<ContextMenu name="ФильтрНомерСменыКонтекстноеМеню" id="113"/>
+					<ExtendedTooltip name="ФильтрНомерСменыРасширеннаяПодсказка" id="114"/>
+					<Events>
+						<Event name="OnChange">ФильтрНомерСменыПриИзменении</Event>
+					</Events>
+				</InputField>
+				<InputField name="ФильтрНомерСменыПо" id="126">
+					<DataPath>ФильтрНомерСменыПо</DataPath>
+					<ContextMenu name="ФильтрНомерСменыПоКонтекстноеМеню" id="127"/>
+					<ExtendedTooltip name="ФильтрНомерСменыПоРасширеннаяПодсказка" id="128"/>
+					<Events>
+						<Event name="OnChange">ФильтрНомерСменыПриИзменении</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="ФильтрПоТочке" id="14">
+			<DataPath>ФильтрПоТочке</DataPath>
+			<ContextMenu name="ФильтрПоТочкеКонтекстноеМеню" id="15"/>
+			<ExtendedTooltip name="ФильтрПоТочкеРасширеннаяПодсказка" id="56"/>
+			<Events>
+				<Event name="OnChange">ФильтрПоТочкеПриИзменении</Event>
+			</Events>
+		</InputField>
+		<Table name="Кандидаты" id="1">
+			<UseAlternationRowColor>true</UseAlternationRowColor>
+			<EnableStartDrag>true</EnableStartDrag>
+			<DataPath>Кандидаты</DataPath>
+			<RowPictureDataPath>Кандидаты.DefaultPicture</RowPictureDataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<AutoRefresh>false</AutoRefresh>
+			<AutoRefreshPeriod>60</AutoRefreshPeriod>
+			<Period>
+				<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+				<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+				<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+			</Period>
+			<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+			<RestoreCurrentRow>false</RestoreCurrentRow>
+			<TopLevelParent xsi:nil="true"/>
+			<ShowRoot>true</ShowRoot>
+			<AllowRootChoice>false</AllowRootChoice>
+			<UpdateOnDataChange>Auto</UpdateOnDataChange>
+			<ContextMenu name="КандидатыКонтекстноеМеню" id="2"/>
+			<AutoCommandBar name="КандидатыКоманднаяПанель" id="3"/>
+			<ExtendedTooltip name="КандидатыРасширеннаяПодсказка" id="57"/>
+			<SearchStringAddition name="КандидатыСтрокаПоиска" id="58">
+				<AdditionSource>
+					<Item>Кандидаты</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="КандидатыСтрокаПоискаКонтекстноеМеню" id="59"/>
+				<ExtendedTooltip name="КандидатыСтрокаПоискаРасширеннаяПодсказка" id="60"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="КандидатыСостояниеПросмотра" id="61">
+				<AdditionSource>
+					<Item>Кандидаты</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="КандидатыСостояниеПросмотраКонтекстноеМеню" id="62"/>
+				<ExtendedTooltip name="КандидатыСостояниеПросмотраРасширеннаяПодсказка" id="63"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="КандидатыУправлениеПоиском" id="64">
+				<AdditionSource>
+					<Item>Кандидаты</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="КандидатыУправлениеПоискомКонтекстноеМеню" id="65"/>
+				<ExtendedTooltip name="КандидатыУправлениеПоискомРасширеннаяПодсказка" id="66"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="Selection">КандидатыВыбор</Event>
+			</Events>
+			<ChildItems>
+				<LabelField name="КандидатыТорговаяТочка" id="94">
+					<DataPath>Кандидаты.ТорговаяТочка</DataPath>
+					<ContextMenu name="КандидатыТорговаяТочкаКонтекстноеМеню" id="95"/>
+					<ExtendedTooltip name="КандидатыТорговаяТочкаРасширеннаяПодсказка" id="96"/>
+				</LabelField>
+				<LabelField name="КандидатыEmail" id="120">
+					<DataPath>Кандидаты.Email</DataPath>
+					<Width>17</Width>
+					<ContextMenu name="КандидатыEmailКонтекстноеМеню" id="121"/>
+					<ExtendedTooltip name="КандидатыEmailРасширеннаяПодсказка" id="122"/>
+				</LabelField>
+				<LabelField name="КандидатыТелефон" id="123">
+					<DataPath>Кандидаты.Телефон</DataPath>
+					<Width>17</Width>
+					<ContextMenu name="КандидатыТелефонКонтекстноеМеню" id="124"/>
+					<ExtendedTooltip name="КандидатыТелефонРасширеннаяПодсказка" id="125"/>
+				</LabelField>
+				<LabelField name="КандидатыПродавец" id="97">
+					<DataPath>Кандидаты.Продавец</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Стажер</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="КандидатыПродавецКонтекстноеМеню" id="98"/>
+					<ExtendedTooltip name="КандидатыПродавецРасширеннаяПодсказка" id="99"/>
+				</LabelField>
+				<LabelField name="КандидатыНомерСмены" id="100">
+					<DataPath>Кандидаты.НомерСмены</DataPath>
+					<ContextMenu name="КандидатыНомерСменыКонтекстноеМеню" id="101"/>
+					<ExtendedTooltip name="КандидатыНомерСменыРасширеннаяПодсказка" id="102"/>
+				</LabelField>
+				<LabelField name="КандидатыСвойство" id="103">
+					<DataPath>Кандидаты.Свойство</DataPath>
+					<ContextMenu name="КандидатыСвойствоКонтекстноеМеню" id="104"/>
+					<ExtendedTooltip name="КандидатыСвойствоРасширеннаяПодсказка" id="105"/>
+				</LabelField>
+				<LabelField name="КандидатыДолжность" id="106">
+					<DataPath>Кандидаты.Должность</DataPath>
+					<ContextMenu name="КандидатыДолжностьКонтекстноеМеню" id="107"/>
+					<ExtendedTooltip name="КандидатыДолжностьРасширеннаяПодсказка" id="108"/>
+				</LabelField>
+				<LabelField name="КандидатыВопросовВЭкзамене" id="109">
+					<DataPath>Кандидаты.ВопросовВЭкзамене</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Вопросов</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="КандидатыВопросовВЭкзаменеКонтекстноеМеню" id="110"/>
+					<ExtendedTooltip name="КандидатыВопросовВЭкзаменеРасширеннаяПодсказка" id="111"/>
+				</LabelField>
+				<CheckBoxField name="КандидатыОпрошен" id="117">
+					<DataPath>Кандидаты.Опрошен</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="КандидатыОпрошенКонтекстноеМеню" id="118"/>
+					<ExtendedTooltip name="КандидатыОпрошенРасширеннаяПодсказка" id="119"/>
+				</CheckBoxField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Кандидаты" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Кандидаты</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:DynamicList</v8:Type>
+			</Type>
+			<Settings xsi:type="DynamicList">
+				<ManualQuery>true</ManualQuery>
+				<DynamicDataRead>false</DynamicDataRead>
+				<QueryText>ВЫБРАТЬ
+	ВрПланИФакт.Продавец,
+	ВрПланИФакт.СвойствоПродавца,
+	ВрПланИФакт.РазделУчета,
+	ВЫБОР
+		КОГДА ВрПланИФакт.СвойствоПродавца = 4
+			ТОГДА "Стажер"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 1
+			ТОГДА "Частичный"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 3
+			ТОГДА "Практикант"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 5
+			ТОГДА "Ночной почасовик"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 6
+			ТОГДА "Старший ночной почасовик"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 2
+			ТОГДА "Старший продавец"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 0
+			ТОГДА "Полный"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 10
+			ТОГДА "Кассир"
+		КОГДА ВрПланИФакт.СвойствоПродавца = 11
+			ТОГДА "Стажер-кассир"
+		ИНАЧЕ ""
+	КОНЕЦ КАК Свойство,
+	&amp;Стажер КАК Должность,
+	Вопросов.ВопросовВЭкзамене,
+	ВЫБОР
+		КОГДА ОпрошенныеСегодня.Продавец ЕСТЬ NULL
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК Опрошен,
+	ВрПланИФакт.Смен КАК НомерСмены,
+	ВрПланИФакт.Смен КАК НомерСменыПо,
+	ВрПланИФакт.ТорговаяТочка,
+	ВрПланИФакт.ТорговаяТочка.АдресЭлектроннойПочты КАК Email,
+	ВрПланИФакт.ТорговаяТочка.ТелефонныйНомер1 КАК Телефон
+ИЗ
+	(ВЫБРАТЬ
+		ТабельРаботыПродавцов.СвойствоПродавца КАК СвойствоПродавца,
+		"Продавцы" КАК РазделУчета,
+		ТабельРаботыПродавцов.Сотрудник КАК Продавец,
+		КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ТабельРаботыПродавцовПодсчетСмен.Период) КАК Смен,
+		ТабельРаботыПродавцов.ТорговаяТочка КАК ТорговаяТочка,
+		МАКСИМУМ(ВЫБОР
+				КОГДА ТабельРаботыПродавцов.СвойствоПродавца = 4
+					ТОГДА ИСТИНА
+				ИНАЧЕ ЛОЖЬ
+			КОНЕЦ) КАК Стажер
+	ИЗ
+		РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцов
+			ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЭкзаменыПродавцов КАК ЭкзаменыПродавцов
+			ПО ТабельРаботыПродавцов.Сотрудник = ЭкзаменыПродавцов.Продавец
+				И (ЭкзаменыПродавцов.Проведен)
+				И (ЭкзаменыПродавцов.Дата &gt;= ДОБАВИТЬКДАТЕ(&amp;ДатаОпроса, МЕСЯЦ, -3))
+			ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ТабельРаботыПродавцов КАК ТабельРаботыПродавцовПодсчетСмен
+			ПО ТабельРаботыПродавцов.Сотрудник = ТабельРаботыПродавцовПодсчетСмен.Сотрудник
+				И ТабельРаботыПродавцов.Период &gt;= ТабельРаботыПродавцовПодсчетСмен.Период
+				И (ТабельРаботыПродавцовПодсчетСмен.Период &gt;= ДОБАВИТЬКДАТЕ(&amp;ДатаОпроса, МЕСЯЦ, -1))
+				И (ТабельРаботыПродавцовПодсчетСмен.ТорговаяТочка &lt;&gt; ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.пустаяссылка))
+	ГДЕ
+		ТабельРаботыПродавцов.Период = &amp;ДатаОпроса
+		И (ТабельРаботыПродавцов.ТорговаяТочка = &amp;ФильтрПоТочке
+				ИЛИ &amp;ПоВсемТочкам)
+		И ТабельРаботыПродавцов.ТорговаяТочка В
+				(ВЫБРАТЬ
+					ЦФОСтруктурныхЕдиницСрезПоследних.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница
+				ИЗ
+					РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних КАК ЦФОСтруктурныхЕдиницСрезПоследних
+				ГДЕ
+					ЦФОСтруктурныхЕдиницСрезПоследних.Организация.Код = "000000006")
+		И ТабельРаботыПродавцов.ТорговаяТочка &lt;&gt; ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+		И ЭкзаменыПродавцов.Ссылка ЕСТЬ NULL
+	
+	СГРУППИРОВАТЬ ПО
+		ТабельРаботыПродавцов.СвойствоПродавца,
+		ТабельРаботыПродавцов.Сотрудник,
+		ТабельРаботыПродавцов.ТорговаяТочка
+	
+	ОБЪЕДИНИТЬ ВСЕ
+	
+	ВЫБРАТЬ
+		ТабельРаботыКассиров.СвойствоСотрудника + 10,
+		"Кассиры",
+		ТабельРаботыКассиров.Сотрудник,
+		КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ТабельРаботыКассировПодсчетСмен.Период),
+		ТабельРаботыКассиров.ТорговаяТочка,
+		МАКСИМУМ(ВЫБОР
+				КОГДА ТабельРаботыКассиров.СвойствоСотрудника = 1
+					ТОГДА ИСТИНА
+				ИНАЧЕ ЛОЖЬ
+			КОНЕЦ)
+	ИЗ
+		РегистрСведений.ТабельРаботыКассиров КАК ТабельРаботыКассиров
+			ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЭкзаменыПродавцов КАК ЭкзаменыПродавцов
+			ПО ТабельРаботыКассиров.Сотрудник = ЭкзаменыПродавцов.Продавец
+				И (ЭкзаменыПродавцов.Проведен)
+				И (ЭкзаменыПродавцов.Дата &gt;= ДОБАВИТЬКДАТЕ(&amp;ДатаОпроса, МЕСЯЦ, -3))
+			ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ТабельРаботыКассиров КАК ТабельРаботыКассировПодсчетСмен
+			ПО ТабельРаботыКассиров.Сотрудник = ТабельРаботыКассировПодсчетСмен.Сотрудник
+				И ТабельРаботыКассиров.Период &gt;= ТабельРаботыКассировПодсчетСмен.Период
+				И (ТабельРаботыКассировПодсчетСмен.Период &gt;= ДОБАВИТЬКДАТЕ(&amp;ДатаОпроса, МЕСЯЦ, -1))
+				И (ТабельРаботыКассировПодсчетСмен.ТорговаяТочка &lt;&gt; ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.пустаяссылка))
+	ГДЕ
+		ТабельРаботыКассиров.Период = &amp;ДатаОпроса
+		И (ТабельРаботыКассиров.ТорговаяТочка = &amp;ФильтрПоТочке
+				ИЛИ &amp;ПоВсемТочкам)
+		И ТабельРаботыКассиров.ТорговаяТочка В
+				(ВЫБРАТЬ
+					ЦФОСтруктурныхЕдиницСрезПоследних.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница
+				ИЗ
+					РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних КАК ЦФОСтруктурныхЕдиницСрезПоследних
+				ГДЕ
+					ЦФОСтруктурныхЕдиницСрезПоследних.Организация.Код = "000000006")
+		И ТабельРаботыКассиров.ТорговаяТочка &lt;&gt; ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+		И ЭкзаменыПродавцов.Ссылка ЕСТЬ NULL
+	
+	СГРУППИРОВАТЬ ПО
+		ТабельРаботыКассиров.СвойствоСотрудника + 10,
+		ТабельРаботыКассиров.Сотрудник,
+		ТабельРаботыКассиров.ТорговаяТочка) КАК ВрПланИФакт
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ОпросникДляЭкзаменацииПродавцаПринадлежностьВопросов.Должность КАК Должность,
+			СУММА(ОпросникДляЭкзаменацииПродавцаПринадлежностьВопросов.ВопросовВЭкзамене) КАК ВопросовВЭкзамене
+		ИЗ
+			Справочник.ОпросникДляЭкзаменацииПродавца.ПринадлежностьВопросов КАК ОпросникДляЭкзаменацииПродавцаПринадлежностьВопросов
+		ГДЕ
+			ОпросникДляЭкзаменацииПродавцаПринадлежностьВопросов.Ссылка.ЭтоГруппа
+			И ОпросникДляЭкзаменацииПродавцаПринадлежностьВопросов.Должность = &amp;Стажер
+		
+		СГРУППИРОВАТЬ ПО
+			ОпросникДляЭкзаменацииПродавцаПринадлежностьВопросов.Должность) КАК Вопросов
+		ПО (ИСТИНА)
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ЭкзаменыПродавцов.Продавец КАК Продавец
+		ИЗ
+			Документ.ЭкзаменыПродавцов КАК ЭкзаменыПродавцов
+		ГДЕ
+			ЭкзаменыПродавцов.Проведен
+			И ЭкзаменыПродавцов.Должность = &amp;Стажер
+			И ЭкзаменыПродавцов.Дата &lt; &amp;ДатаОпроса
+		
+		СГРУППИРОВАТЬ ПО
+			ЭкзаменыПродавцов.Продавец) КАК Опрошенные
+		ПО ВрПланИФакт.Продавец = Опрошенные.Продавец
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ЭкзаменыПродавцов.Продавец КАК Продавец
+		ИЗ
+			Документ.ЭкзаменыПродавцов КАК ЭкзаменыПродавцов
+		ГДЕ
+			ЭкзаменыПродавцов.Проведен
+			И ЭкзаменыПродавцов.Должность = &amp;Стажер
+			И ЭкзаменыПродавцов.Дата &gt;= &amp;ДатаОпроса
+		
+		СГРУППИРОВАТЬ ПО
+			ЭкзаменыПродавцов.Продавец) КАК ОпрошенныеСегодня
+		ПО ВрПланИФакт.Продавец = ОпрошенныеСегодня.Продавец
+ГДЕ
+	Опрошенные.Продавец ЕСТЬ NULL</QueryText>
+				<ListSettings>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ДнейБезОпроса</dcsset:left>
+							<dcsset:comparisonType>GreaterOrEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">МесяцевБезОпроса</dcsset:left>
+							<dcsset:comparisonType>GreaterOrEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">1</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">СвойствоПродавца</dcsset:left>
+							<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">4</dcsset:right>
+							<dcsset:presentation xsi:type="xs:string">Не стажёры</dcsset:presentation>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">СвойствоПродавца</dcsset:left>
+							<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">1</dcsset:right>
+							<dcsset:presentation xsi:type="xs:string">Не частичный</dcsset:presentation>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">СвойствоПродавца</dcsset:left>
+							<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">3</dcsset:right>
+							<dcsset:presentation xsi:type="xs:string">Не практикант</dcsset:presentation>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">Опрошен</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ЕстьВыходыПродацом</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ДнейСПервогоВыхода</dcsset:left>
+							<dcsset:comparisonType>Greater</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">14</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ПлановыеДанные</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+							<dcsset:presentation xsi:type="xs:string">Только плановые выходы</dcsset:presentation>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ФактическиеДанные</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+							<dcsset:presentation xsi:type="xs:string">Только фактические выходы</dcsset:presentation>
+						</dcsset:item>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>dfcece9d-5077-440b-b6b3-45a5cb4538eb</dcsset:userSettingID>
+					</dcsset:filter>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:field>СменДоКонцаМесяца</dcsset:field>
+							<dcsset:orderType>Asc</dcsset:orderType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:field>Точка</dcsset:field>
+							<dcsset:orderType>Asc</dcsset:orderType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:OrderItemField">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:field>ДнейБезОпроса</dcsset:field>
+							<dcsset:orderType>Desc</dcsset:orderType>
+						</dcsset:item>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>88619765-ccb3-46c6-ac52-38e9c992ebd4</dcsset:userSettingID>
+					</dcsset:order>
+					<dcsset:conditionalAppearance>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>b75fecce-942b-4aed-abc9-e6a02e460fb3</dcsset:userSettingID>
+					</dcsset:conditionalAppearance>
+				</ListSettings>
+			</Settings>
+		</Attribute>
+		<Attribute name="ФильтрПоТочке" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ДатаОпроса" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата опроса</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:dateTime</v8:Type>
+				<v8:DateQualifiers>
+					<v8:DateFractions>Date</v8:DateFractions>
+				</v8:DateQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ФильтрНомерСмены" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Номер смены с</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>2</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ФильтрНомерСменыПо" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>по</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>2</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<ConditionalAppearance>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>Кандидаты</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Кандидаты.НовичокНеПодлежитОпросу</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветФона</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">web:PaleGreen</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+		</ConditionalAppearance>
+	</Attributes>
+</Form>

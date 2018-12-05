@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<UseForFoldersAndItems>Items</UseForFoldersAndItems>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="Код" id="1">
+			<DataPath>Объект.Code</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="КодКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="КодРасширеннаяПодсказка" id="32"/>
+		</InputField>
+		<InputField name="Наименование" id="3">
+			<DataPath>Объект.Description</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="НаименованиеКонтекстноеМеню" id="4"/>
+			<ExtendedTooltip name="НаименованиеРасширеннаяПодсказка" id="33"/>
+		</InputField>
+		<InputField name="Родитель" id="5">
+			<DataPath>Объект.Parent</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="РодительКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="РодительРасширеннаяПодсказка" id="34"/>
+		</InputField>
+		<UsualGroup name="Группа1" id="19">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="35"/>
+			<ChildItems>
+				<InputField name="ТипРоли" id="7">
+					<DataPath>Объект.ТипРоли</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ТипРолиКонтекстноеМеню" id="8"/>
+					<ExtendedTooltip name="ТипРолиРасширеннаяПодсказка" id="36"/>
+					<Events>
+						<Event name="OnChange">ТипРолиПриИзменении</Event>
+						<Event name="Clearing">ТипРолиОчистка</Event>
+					</Events>
+				</InputField>
+				<InputField name="ТипРолиСтр" id="20">
+					<DataPath>Объект.ТипРолиСтр</DataPath>
+					<UserVisible>
+						<xr:Common>false</xr:Common>
+						<xr:Value name="Role.ПолныеПрава">true</xr:Value>
+					</UserVisible>
+					<ReadOnly>true</ReadOnly>
+					<Width>10</Width>
+					<ContextMenu name="ТипРолиСтрКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="ТипРолиСтрРасширеннаяПодсказка" id="37"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Расчетчик_СтруктурнаяЕдиница" id="17">
+			<DataPath>Объект.Расчетчик_СтруктурнаяЕдиница</DataPath>
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Прогр. заголовок</v8:content>
+				</v8:item>
+			</Title>
+			<ContextMenu name="Расчетчик_СтруктурнаяЕдиницаКонтекстноеМеню" id="18"/>
+			<ExtendedTooltip name="Расчетчик_СтруктурнаяЕдиницаРасширеннаяПодсказка" id="38"/>
+		</InputField>
+		<UsualGroup name="РамкаПользователей" id="16">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Пользователи роли</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Рамка пользователей</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Vertical</Group>
+			<Representation>StrongSeparation</Representation>
+			<ExtendedTooltip name="РамкаПользователейРасширеннаяПодсказка" id="39"/>
+			<ChildItems>
+				<Table name="Пользователи" id="9">
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>Объект.СоставРоли</DataPath>
+					<SearchStringLocation>None</SearchStringLocation>
+					<ViewStatusLocation>None</ViewStatusLocation>
+					<SearchControlLocation>None</SearchControlLocation>
+					<RowFilter xsi:nil="true"/>
+					<ContextMenu name="ПользователиКонтекстноеМеню" id="10"/>
+					<AutoCommandBar name="ПользователиКоманднаяПанель" id="11"/>
+					<ExtendedTooltip name="ПользователиРасширеннаяПодсказка" id="40"/>
+					<SearchStringAddition name="ПользователиСтрокаПоиска" id="41">
+						<AdditionSource>
+							<Item>Пользователи</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ПользователиСтрокаПоискаКонтекстноеМеню" id="42"/>
+						<ExtendedTooltip name="ПользователиСтрокаПоискаРасширеннаяПодсказка" id="43"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="ПользователиСостояниеПросмотра" id="44">
+						<AdditionSource>
+							<Item>Пользователи</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ПользователиСостояниеПросмотраКонтекстноеМеню" id="45"/>
+						<ExtendedTooltip name="ПользователиСостояниеПросмотраРасширеннаяПодсказка" id="46"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="ПользователиУправлениеПоиском" id="47">
+						<AdditionSource>
+							<Item>Пользователи</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="ПользователиУправлениеПоискомКонтекстноеМеню" id="48"/>
+						<ExtendedTooltip name="ПользователиУправлениеПоискомРасширеннаяПодсказка" id="49"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<LabelField name="ПользователиНомерСтроки" id="12">
+							<DataPath>Объект.СоставРоли.LineNumber</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ПользователиНомерСтрокиКонтекстноеМеню" id="13"/>
+							<ExtendedTooltip name="ПользователиНомерСтрокиРасширеннаяПодсказка" id="50"/>
+						</LabelField>
+						<InputField name="ПользователиПользователь" id="14">
+							<DataPath>Объект.СоставРоли.Сотрудник</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ПользователиПользовательКонтекстноеМеню" id="15"/>
+							<ExtendedTooltip name="ПользователиПользовательРасширеннаяПодсказка" id="51"/>
+						</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаНоменклатураИПроизводители" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Номенклатура и производители</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа номенклатура и производители</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Vertical</Group>
+			<ExtendedTooltip name="ГруппаНоменклатураИПроизводителиРасширеннаяПодсказка" id="52"/>
+			<ChildItems>
+				<Table name="НоменклатураХарактеристика" id="23">
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>Объект.НоменклатураХарактеристика</DataPath>
+					<SearchStringLocation>None</SearchStringLocation>
+					<ViewStatusLocation>None</ViewStatusLocation>
+					<SearchControlLocation>None</SearchControlLocation>
+					<RowFilter xsi:nil="true"/>
+					<ContextMenu name="НоменклатураХарактеристикаКонтекстноеМеню" id="24"/>
+					<AutoCommandBar name="НоменклатураХарактеристикаКоманднаяПанель" id="25"/>
+					<ExtendedTooltip name="НоменклатураХарактеристикаРасширеннаяПодсказка" id="53"/>
+					<SearchStringAddition name="НоменклатураХарактеристикаСтрокаПоиска" id="54">
+						<AdditionSource>
+							<Item>НоменклатураХарактеристика</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="НоменклатураХарактеристикаСтрокаПоискаКонтекстноеМеню" id="55"/>
+						<ExtendedTooltip name="НоменклатураХарактеристикаСтрокаПоискаРасширеннаяПодсказка" id="56"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="НоменклатураХарактеристикаСостояниеПросмотра" id="57">
+						<AdditionSource>
+							<Item>НоменклатураХарактеристика</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="НоменклатураХарактеристикаСостояниеПросмотраКонтекстноеМеню" id="58"/>
+						<ExtendedTooltip name="НоменклатураХарактеристикаСостояниеПросмотраРасширеннаяПодсказка" id="59"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="НоменклатураХарактеристикаУправлениеПоиском" id="60">
+						<AdditionSource>
+							<Item>НоменклатураХарактеристика</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="НоменклатураХарактеристикаУправлениеПоискомКонтекстноеМеню" id="61"/>
+						<ExtendedTooltip name="НоменклатураХарактеристикаУправлениеПоискомРасширеннаяПодсказка" id="62"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<LabelField name="НоменклатураХарактеристикаНомерСтроки" id="26">
+							<DataPath>Объект.НоменклатураХарактеристика.LineNumber</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="НоменклатураХарактеристикаНомерСтрокиКонтекстноеМеню" id="27"/>
+							<ExtendedTooltip name="НоменклатураХарактеристикаНомерСтрокиРасширеннаяПодсказка" id="63"/>
+						</LabelField>
+						<InputField name="НоменклатураХарактеристикаНоменклатура" id="28">
+							<DataPath>Объект.НоменклатураХарактеристика.Номенклатура</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="НоменклатураХарактеристикаНоменклатураКонтекстноеМеню" id="29"/>
+							<ExtendedTooltip name="НоменклатураХарактеристикаНоменклатураРасширеннаяПодсказка" id="64"/>
+						</InputField>
+						<InputField name="НоменклатураХарактеристикаХарактеристика" id="30">
+							<DataPath>Объект.НоменклатураХарактеристика.Характеристика</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Производитель</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<ChoiceParameterLinks>
+								<xr:Link>
+									<xr:Name>Отбор.Владелец</xr:Name>
+									<xr:DataPath xsi:type="xs:string">Items.НоменклатураХарактеристика.CurrentData.Номенклатура</xr:DataPath>
+									<xr:ValueChange>Clear</xr:ValueChange>
+								</xr:Link>
+							</ChoiceParameterLinks>
+							<ContextMenu name="НоменклатураХарактеристикаХарактеристикаКонтекстноеМеню" id="31"/>
+							<ExtendedTooltip name="НоменклатураХарактеристикаХарактеристикаРасширеннаяПодсказка" id="65"/>
+						</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:CatalogObject.РолиПользователей</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+		</Attribute>
+	</Attributes>
+</Form>

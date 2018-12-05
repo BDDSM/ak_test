@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Периоды</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Период</dataPath>
+			<field>Период</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	СтатусыДоговоровАренды.Период КАК Период,
+	СтатусыДоговоровАренды.Договор КАК ДоговорКонтрагента
+ИЗ
+	РегистрСведений.СтатусыДоговоровАренды КАК СтатусыДоговоровАренды
+ГДЕ
+	СтатусыДоговоровАренды.Договор = &amp;ДоговорКонтрагента
+{ГДЕ
+	(СтатусыДоговоровАренды.Период &lt;= &amp;Период)}
+
+СГРУППИРОВАТЬ ПО
+	СтатусыДоговоровАренды.Период,
+	СтатусыДоговоровАренды.Договор
+
+УПОРЯДОЧИТЬ ПО
+	Период</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Ставки</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОбъектАренды</dataPath>
+			<field>ОбъектАренды</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Площадь</dataPath>
+			<field>Площадь</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПостояннаяЧастьОплаты</dataPath>
+			<field>ПостояннаяЧастьОплаты</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СпособНачисления</dataPath>
+			<field>СпособНачисления</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ставка</dataPath>
+			<field>Ставка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Услуга</dataPath>
+			<field>Услуга</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодСтавки</dataPath>
+			<field>ПериодСтавки</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	СтатусыДоговоровАренды.Период КАК Период
+ПОМЕСТИТЬ ВТ_Периоды
+ИЗ
+	РегистрСведений.СтатусыДоговоровАренды КАК СтатусыДоговоровАренды
+ГДЕ
+	СтатусыДоговоровАренды.Договор = &amp;ДоговорКонтрагента
+{ГДЕ
+	(СтатусыДоговоровАренды.Период &lt;= &amp;Период)}
+
+СГРУППИРОВАТЬ ПО
+	СтатусыДоговоровАренды.Период
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	ВложенныйЗапрос.Период КАК ПериодСтавки,
+	ВложенныйЗапрос.ДоговорКонтрагента,
+	ВложенныйЗапрос.ОбъектАренды,
+	ВложенныйЗапрос.Услуга,
+	ВложенныйЗапрос.ПостояннаяЧастьОплаты,
+	ВложенныйЗапрос.СпособНачисления,
+	ВложенныйЗапрос.Площадь,
+	ВложенныйЗапрос.Ставка
+ИЗ
+	(ВЫБРАТЬ
+		УслугиПоДоговорамАренды.Договор КАК ДоговорКонтрагента,
+		УслугиПоДоговорамАренды.ОбъектАренды КАК ОбъектАренды,
+		УслугиПоДоговорамАренды.Услуга КАК Услуга,
+		УслугиПоДоговорамАренды.Услуга.ПостояннаяЧастьОплаты КАК ПостояннаяЧастьОплаты,
+		УслугиПоДоговорамАренды.СпособНачисления КАК СпособНачисления,
+		УслугиПоДоговорамАренды.Площадь КАК Площадь,
+		УслугиПоДоговорамАренды.Ставка КАК Ставка,
+		МАКСИМУМ(УслугиПоДоговорамАренды.Период) КАК Период
+	ИЗ
+		ВТ_Периоды КАК ВТ_Периоды
+			ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.УслугиПоДоговорамАренды КАК УслугиПоДоговорамАренды
+			ПО ВТ_Периоды.Период &gt;= УслугиПоДоговорамАренды.Период
+	ГДЕ
+		УслугиПоДоговорамАренды.Договор = &amp;ДоговорКонтрагента
+	
+	СГРУППИРОВАТЬ ПО
+		УслугиПоДоговорамАренды.Договор,
+		УслугиПоДоговорамАренды.ОбъектАренды,
+		УслугиПоДоговорамАренды.Услуга,
+		УслугиПоДоговорамАренды.Услуга.ПостояннаяЧастьОплаты,
+		УслугиПоДоговорамАренды.СпособНачисления,
+		УслугиПоДоговорамАренды.Площадь,
+		УслугиПоДоговорамАренды.Ставка) КАК ВложенныйЗапрос
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.УслугиПоДоговорамАренды КАК УслугиПоДоговорамАренды
+		ПО ВложенныйЗапрос.Период = УслугиПоДоговорамАренды.Период</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Курсы</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Валюта</dataPath>
+			<field>Валюта</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВерхняяГраница</dataPath>
+			<field>ВерхняяГраница</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Коэффициент</dataPath>
+			<field>Коэффициент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Кратность</dataPath>
+			<field>Кратность</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Курс</dataPath>
+			<field>Курс</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НижняяГраница</dataPath>
+			<field>НижняяГраница</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СпособРасчетаКурса</dataPath>
+			<field>СпособРасчетаКурса</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Валюта2</dataPath>
+			<field>Валюта2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодКурсы</dataPath>
+			<field>ПериодКурсы</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	КурсыВалютДляРасчетовПоАренде.Период КАК ПериодКурсы,
+	КурсыВалютДляРасчетовПоАренде.ДоговорКонтрагента,
+	КурсыВалютДляРасчетовПоАренде.Валюта,
+	КурсыВалютДляРасчетовПоАренде.Валюта2,
+	КурсыВалютДляРасчетовПоАренде.Курс,
+	КурсыВалютДляРасчетовПоАренде.Кратность,
+	КурсыВалютДляРасчетовПоАренде.СпособРасчета КАК СпособРасчетаКурса,
+	КурсыВалютДляРасчетовПоАренде.Коэффициент,
+	КурсыВалютДляРасчетовПоАренде.НижняяГраница,
+	КурсыВалютДляРасчетовПоАренде.ВерхняяГраница
+ИЗ
+	РегистрСведений.КурсыВалютДляРасчетовПоАренде КАК КурсыВалютДляРасчетовПоАренде
+ГДЕ
+	КурсыВалютДляРасчетовПоАренде.ДоговорКонтрагента = &amp;ДоговорКонтрагента
+{ГДЕ
+	(КурсыВалютДляРасчетовПоАренде.Период &lt;= &amp;Период)}</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Статусы</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатусДоговора</dataPath>
+			<field>СтатусДоговора</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодСтатусы</dataPath>
+			<field>ПериодСтатусы</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачалаАренды</dataPath>
+			<field>ДатаНачалаАренды</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОкончанияАренды</dataPath>
+			<field>ДатаОкончанияАренды</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	СтатусыДоговоровАренды.Период КАК ПериодСтатусы,
+	ЕСТЬNULL(СтатусыДоговоровАренды.Статус, ЗНАЧЕНИЕ(Перечисление.СтатусыДоговоровКонтрагентов.НеПодписан)) КАК СтатусДоговора,
+	СтатусыДоговоровАренды.ДатаНачалаАренды,
+	СтатусыДоговоровАренды.ДатаОкончанияАренды,
+	СтатусыДоговоровАренды.Договор КАК ДоговорКонтрагента
+ИЗ
+	РегистрСведений.СтатусыДоговоровАренды КАК СтатусыДоговоровАренды
+ГДЕ
+	СтатусыДоговоровАренды.Договор = &amp;ДоговорКонтрагента
+{ГДЕ
+	(СтатусыДоговоровАренды.Период &lt;= &amp;Период)}</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Депозиты</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВалютаДепозита</dataPath>
+			<field>ВалютаДепозита</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СпособРасчетаЗалога</dataPath>
+			<field>СпособРасчетаЗалога</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>УчитыватьЗалог</dataPath>
+			<field>УчитыватьЗалог</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодДепозиты</dataPath>
+			<field>ПериодДепозиты</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтавкаНДСЗалогаБезналичные</dataPath>
+			<field>СтавкаНДСЗалогаБезналичные</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтавкаНДСЗалогаНаличные</dataPath>
+			<field>СтавкаНДСЗалогаНаличные</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВалютаДепозита2</dataPath>
+			<field>ВалютаДепозита2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДоговорКонтрагента</dataPath>
+			<field>ДоговорКонтрагента</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаЗалогаБезналичные</dataPath>
+			<field>СуммаЗалогаБезналичные</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаЗалогаНаличные</dataPath>
+			<field>СуммаЗалогаНаличные</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	ДепозитыПоДоговорамАренды.Период КАК ПериодДепозиты,
+	ДепозитыПоДоговорамАренды.УчитыватьЗалог,
+	ДепозитыПоДоговорамАренды.СпособРасчетаЗалога,
+	ДепозитыПоДоговорамАренды.СуммаЗалогаБезналичныеВал КАК СуммаЗалогаБезналичные,
+	ДепозитыПоДоговорамАренды.СуммаЗалогаНаличныеВал КАК СуммаЗалогаНаличные,
+	ДепозитыПоДоговорамАренды.ВалютаДепозита,
+	ДепозитыПоДоговорамАренды.ВалютаДепозита2,
+	ДепозитыПоДоговорамАренды.СтавкаНДСЗалогаБезналичные,
+	ДепозитыПоДоговорамАренды.СтавкаНДСЗалогаНаличные,
+	ДепозитыПоДоговорамАренды.ДоговорКонтрагента
+ИЗ
+	РегистрСведений.ДепозитыПоДоговорамАренды КАК ДепозитыПоДоговорамАренды
+ГДЕ
+	ДепозитыПоДоговорамАренды.ДоговорКонтрагента = &amp;ДоговорКонтрагента
+{ГДЕ
+	(ДепозитыПоДоговорамАренды.Период &lt;= &amp;Период)}</query>
+	</dataSet>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Ставки</destinationDataSet>
+		<sourceExpression>Период</sourceExpression>
+		<destinationExpression>ПериодСтавки</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Курсы</destinationDataSet>
+		<sourceExpression>Период</sourceExpression>
+		<destinationExpression>ПериодКурсы</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Статусы</destinationDataSet>
+		<sourceExpression>Период</sourceExpression>
+		<destinationExpression>ПериодСтатусы</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Депозиты</destinationDataSet>
+		<sourceExpression>Период</sourceExpression>
+		<destinationExpression>ПериодДепозиты</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Ставки</destinationDataSet>
+		<sourceExpression>ДоговорКонтрагента</sourceExpression>
+		<destinationExpression>ДоговорКонтрагента</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Курсы</destinationDataSet>
+		<sourceExpression>ДоговорКонтрагента</sourceExpression>
+		<destinationExpression>ДоговорКонтрагента</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Статусы</destinationDataSet>
+		<sourceExpression>ДоговорКонтрагента</sourceExpression>
+		<destinationExpression>ДоговорКонтрагента</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Периоды</sourceDataSet>
+		<destinationDataSet>Депозиты</destinationDataSet>
+		<sourceExpression>ДоговорКонтрагента</sourceExpression>
+		<destinationExpression>ДоговорКонтрагента</destinationExpression>
+	</dataSetLink>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДоговорКонтрагента</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Договор контрагента</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.ДоговорыКонтрагентов</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПериодДепозиты</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПериодКурсы</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПериодСтавки</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПериодСтатусы</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ПериодСтатусы</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ДоговорКонтрагента</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>СтатусДоговора</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ДатаНачалаАренды</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ДатаОкончанияАренды</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemTable">
+					<dcsset:row>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПериодСтавки</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Услуга</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПостояннаяЧастьОплаты</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СпособНачисления</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Площадь</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Ставка</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemField">
+								<dcsset:field>ПериодСтавки</dcsset:field>
+								<dcsset:orderType>Asc</dcsset:orderType>
+							</dcsset:item>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+					</dcsset:row>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:StructureItemTable">
+					<dcsset:row>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПериодКурсы</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ВерхняяГраница</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Валюта</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Валюта2</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СпособРасчетаКурса</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Курс</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Кратность</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>Коэффициент</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>НижняяГраница</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemField">
+								<dcsset:field>ПериодКурсы</dcsset:field>
+								<dcsset:orderType>Asc</dcsset:orderType>
+							</dcsset:item>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+					</dcsset:row>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:StructureItemTable">
+					<dcsset:row>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПериодДепозиты</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>УчитыватьЗалог</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СпособРасчетаЗалога</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ВалютаДепозита</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ВалютаДепозита2</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СтавкаНДСЗалогаБезналичные</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СтавкаНДСЗалогаНаличные</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СтавкаНДСЗалогаБезналичные</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>СтавкаНДСЗалогаНаличные</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemField">
+								<dcsset:field>ПериодДепозиты</dcsset:field>
+								<dcsset:orderType>Asc</dcsset:orderType>
+							</dcsset:item>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+					</dcsset:row>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

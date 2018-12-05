@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoTime>CurrentOrLast</AutoTime>
+	<UsePostingMode>Auto</UsePostingMode>
+	<RepostOnWrite>true</RepostOnWrite>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="BeforeWrite">ПередЗаписью</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ГруппаНомерИДата" id="24">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа номер и дата</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа номер и дата</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаНомерИДатаРасширеннаяПодсказка" id="37"/>
+			<ChildItems>
+				<InputField name="Номер" id="1">
+					<DataPath>Объект.Number</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="НомерКонтекстноеМеню" id="2"/>
+					<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="38"/>
+				</InputField>
+				<InputField name="Дата" id="3">
+					<DataPath>Объект.Date</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="ДатаКонтекстноеМеню" id="4"/>
+					<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="39"/>
+					<Events>
+						<Event name="OnChange">ДатаПриИзменении</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Оператор" id="5">
+			<DataPath>Объект.Оператор</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<Width>30</Width>
+			<HorizontalStretch>false</HorizontalStretch>
+			<ContextMenu name="ОператорКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="ОператорРасширеннаяПодсказка" id="40"/>
+			<Events>
+				<Event name="OnChange">ОператорПриИзменении</Event>
+			</Events>
+		</InputField>
+		<InputField name="ВариантРасчетаНДС" id="76">
+			<DataPath>Объект.ВариантРасчетаНДС</DataPath>
+			<Width>30</Width>
+			<HorizontalStretch>false</HorizontalStretch>
+			<ContextMenu name="ВариантРасчетаНДСКонтекстноеМеню" id="77"/>
+			<ExtendedTooltip name="ВариантРасчетаНДСРасширеннаяПодсказка" id="78"/>
+		</InputField>
+		<UsualGroup name="Период" id="65">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>StrongSeparation</Representation>
+			<ExtendedTooltip name="ПериодРасширеннаяПодсказка" id="66"/>
+			<ChildItems>
+				<InputField name="ДатаНачала" id="67">
+					<DataPath>Объект.ДатаНачала</DataPath>
+					<ContextMenu name="ДатаНачалаКонтекстноеМеню" id="68"/>
+					<ExtendedTooltip name="ДатаНачалаРасширеннаяПодсказка" id="69"/>
+				</InputField>
+				<InputField name="ДатаОкончания" id="70">
+					<DataPath>Объект.ДатаОкончания</DataPath>
+					<ContextMenu name="ДатаОкончанияКонтекстноеМеню" id="71"/>
+					<ExtendedTooltip name="ДатаОкончанияРасширеннаяПодсказка" id="72"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<Table name="Расходы" id="7">
+			<Representation>List</Representation>
+			<Footer>true</Footer>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.Расходы</DataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="РасходыКонтекстноеМеню" id="8"/>
+			<AutoCommandBar name="РасходыКоманднаяПанель" id="9">
+				<ChildItems>
+					<Button name="РасходыЗагрузитьДанные" id="25">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.ЗагрузитьДанные</CommandName>
+						<ExtendedTooltip name="РасходыЗагрузитьДанныеРасширеннаяПодсказка" id="41"/>
+					</Button>
+				</ChildItems>
+			</AutoCommandBar>
+			<ExtendedTooltip name="РасходыРасширеннаяПодсказка" id="42"/>
+			<SearchStringAddition name="РасходыСтрокаПоиска" id="43">
+				<AdditionSource>
+					<Item>Расходы</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="РасходыСтрокаПоискаКонтекстноеМеню" id="44"/>
+				<ExtendedTooltip name="РасходыСтрокаПоискаРасширеннаяПодсказка" id="45"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="РасходыСостояниеПросмотра" id="46">
+				<AdditionSource>
+					<Item>Расходы</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="РасходыСостояниеПросмотраКонтекстноеМеню" id="47"/>
+				<ExtendedTooltip name="РасходыСостояниеПросмотраРасширеннаяПодсказка" id="48"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="РасходыУправлениеПоиском" id="49">
+				<AdditionSource>
+					<Item>Расходы</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="РасходыУправлениеПоискомКонтекстноеМеню" id="50"/>
+				<ExtendedTooltip name="РасходыУправлениеПоискомРасширеннаяПодсказка" id="51"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="OnChange">РасходыПриИзменении</Event>
+			</Events>
+			<ChildItems>
+				<LabelField name="РасходыНомерСтроки" id="10">
+					<DataPath>Объект.Расходы.LineNumber</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="РасходыНомерСтрокиКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="РасходыНомерСтрокиРасширеннаяПодсказка" id="52"/>
+				</LabelField>
+				<InputField name="РасходыСимКарта" id="12">
+					<DataPath>Объект.Расходы.СимКарта</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоСимКарт</FooterDataPath>
+					<ContextMenu name="РасходыСимКартаКонтекстноеМеню" id="13"/>
+					<ExtendedTooltip name="РасходыСимКартаРасширеннаяПодсказка" id="53"/>
+				</InputField>
+				<CheckBoxField name="РасходыНомерНеЗарегистрирован" id="73">
+					<DataPath>Объект.Расходы.НомерНеЗарегистрирован</DataPath>
+					<TitleLocation>None</TitleLocation>
+					<EditMode>EnterOnInput</EditMode>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="РасходыНомерНеЗарегистрированКонтекстноеМеню" id="74"/>
+					<ExtendedTooltip name="РасходыНомерНеЗарегистрированРасширеннаяПодсказка" id="75"/>
+				</CheckBoxField>
+				<InputField name="РасходыАбонентскаяПлата" id="14">
+					<DataPath>Объект.Расходы.АбонентскаяПлата</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоАбонентскаяПлата</FooterDataPath>
+					<ContextMenu name="РасходыАбонентскаяПлатаКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="РасходыАбонентскаяПлатаРасширеннаяПодсказка" id="54"/>
+				</InputField>
+				<InputField name="РасходыМобильнаяСвязь" id="16">
+					<DataPath>Объект.Расходы.МобильнаяСвязь</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоМобильнаяСвязь</FooterDataPath>
+					<ContextMenu name="РасходыМобильнаяСвязьКонтекстноеМеню" id="17"/>
+					<ExtendedTooltip name="РасходыМобильнаяСвязьРасширеннаяПодсказка" id="55"/>
+				</InputField>
+				<InputField name="РасходыSMSMMS" id="33">
+					<DataPath>Объект.Расходы.SMSMMS</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>SMS MMS</v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоSMSMMS</FooterDataPath>
+					<ContextMenu name="РасходыSMSMMSКонтекстноеМеню" id="34"/>
+					<ExtendedTooltip name="РасходыSMSMMSРасширеннаяПодсказка" id="56"/>
+				</InputField>
+				<InputField name="РасходыИнтернет" id="35">
+					<DataPath>Объект.Расходы.Интернет</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоИнтернет</FooterDataPath>
+					<ContextMenu name="РасходыИнтернетКонтекстноеМеню" id="36"/>
+					<ExtendedTooltip name="РасходыИнтернетРасширеннаяПодсказка" id="57"/>
+				</InputField>
+				<InputField name="РасходыРоуминг" id="18">
+					<DataPath>Объект.Расходы.Роуминг</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоРоуминг</FooterDataPath>
+					<ContextMenu name="РасходыРоумингКонтекстноеМеню" id="19"/>
+					<ExtendedTooltip name="РасходыРоумингРасширеннаяПодсказка" id="58"/>
+				</InputField>
+				<InputField name="РасходыДополнительныеУслуги" id="20">
+					<DataPath>Объект.Расходы.ДополнительныеУслуги</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоДополнительныеУслуги</FooterDataPath>
+					<ContextMenu name="РасходыДополнительныеУслугиКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="РасходыДополнительныеУслугиРасширеннаяПодсказка" id="59"/>
+				</InputField>
+				<InputField name="РасходыСуммаСУчетомСкидки" id="22">
+					<DataPath>Объект.Расходы.Скидка</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>ИтогоСкидка</FooterDataPath>
+					<ContextMenu name="РасходыСуммаСУчетомСкидкиКонтекстноеМеню" id="23"/>
+					<ExtendedTooltip name="РасходыСуммаСУчетомСкидкиРасширеннаяПодсказка" id="60"/>
+				</InputField>
+				<InputField name="РасходыИтого" id="31">
+					<DataPath>Объект.Расходы.Итого</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<FooterDataPath>Итого</FooterDataPath>
+					<ContextMenu name="РасходыИтогоКонтекстноеМеню" id="32"/>
+					<ExtendedTooltip name="РасходыИтогоРасширеннаяПодсказка" id="61"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+		<UsualGroup name="ГруппаПодвал" id="26">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа подвал</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа подвал</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаПодвалРасширеннаяПодсказка" id="62"/>
+			<ChildItems>
+				<InputField name="Комментарий" id="27">
+					<DataPath>Объект.Комментарий</DataPath>
+					<ContextMenu name="КомментарийКонтекстноеМеню" id="28"/>
+					<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="63"/>
+				</InputField>
+				<InputField name="Ответственный" id="29">
+					<DataPath>Объект.Ответственный</DataPath>
+					<ContextMenu name="ОтветственныйКонтекстноеМеню" id="30"/>
+					<ExtendedTooltip name="ОтветственныйРасширеннаяПодсказка" id="64"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DocumentObject.РасходыНаМобильнуюСвязь</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+			<UseAlways>
+				<Field>Объект.RegisterRecords</Field>
+			</UseAlways>
+			<Columns>
+				<AdditionalColumns table="Объект.Расходы">
+					<Column name="Итого" id="1">
+						<Title>
+							<v8:item>
+								<v8:lang>ru</v8:lang>
+								<v8:content>Итого</v8:content>
+							</v8:item>
+						</Title>
+						<Type>
+							<v8:Type>xs:decimal</v8:Type>
+							<v8:NumberQualifiers>
+								<v8:Digits>10</v8:Digits>
+								<v8:FractionDigits>2</v8:FractionDigits>
+								<v8:AllowedSign>Any</v8:AllowedSign>
+							</v8:NumberQualifiers>
+						</Type>
+					</Column>
+				</AdditionalColumns>
+			</Columns>
+		</Attribute>
+		<Attribute name="ИтогоАбонентскаяПлата" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоСимКарт" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого сим карт</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоМобильнаяСвязь" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоSMSMMS" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоИнтернет" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоРоуминг" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоДополнительныеУслуги" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоСкидка" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого абонентская плата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Итого" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Итого</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ОперацияАпдекс" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Операция апдекс</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.APDEX_КлючевыеОперации</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="ЗагрузитьДанные" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузить данные из Excel</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузить данные</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>CommonPicture.ПиктограммаФайла_Excel</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+				<xr:TransparentPixel x="2" y="13"/>
+			</Picture>
+			<Action>ЗагрузитьДанные</Action>
+			<Representation>TextPicture</Representation>
+		</Command>
+	</Commands>
+	<CommandInterface>
+		<NavigationPanel>
+			<Item>
+				<Command>AccumulationRegister.РасходыНаМобильнуюСвязь.StandardCommand.OpenByRecorder</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+			</Item>
+		</NavigationPanel>
+	</CommandInterface>
+</Form>

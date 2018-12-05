@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="Сформировать" id="35">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.Сформировать</CommandName>
+				<ExtendedTooltip name="СформироватьРасширеннаяПодсказка" id="36"/>
+			</Button>
+			<Button name="ФормаЗаписатьИзменения" id="37">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.ЗаписатьИзменения</CommandName>
+				<ExtendedTooltip name="ФормаЗаписатьИзмененияРасширеннаяПодсказка" id="38"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="Дата" id="1">
+			<DataPath>Объект.Дата</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ДатаКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="3"/>
+		</InputField>
+		<InputField name="Организация" id="73">
+			<DataPath>Объект.Организация</DataPath>
+			<ContextMenu name="ОрганизацияКонтекстноеМеню" id="74"/>
+			<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="75"/>
+			<Events>
+				<Event name="OnChange">ОрганизацияПриИзменении</Event>
+			</Events>
+		</InputField>
+		<InputField name="Склад" id="4">
+			<DataPath>Объект.Склад</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="СкладКонтекстноеМеню" id="5"/>
+			<ExtendedTooltip name="СкладРасширеннаяПодсказка" id="6"/>
+		</InputField>
+		<Table name="Квоты" id="7">
+			<Representation>List</Representation>
+			<Visible>false</Visible>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.Квоты</DataPath>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="КвотыКонтекстноеМеню" id="8"/>
+			<AutoCommandBar name="КвотыКоманднаяПанель" id="9"/>
+			<ExtendedTooltip name="КвотыРасширеннаяПодсказка" id="10"/>
+			<SearchStringAddition name="КвотыСтрокаПоиска" id="11">
+				<AdditionSource>
+					<Item>Квоты</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="КвотыСтрокаПоискаКонтекстноеМеню" id="12"/>
+				<ExtendedTooltip name="КвотыСтрокаПоискаРасширеннаяПодсказка" id="13"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="КвотыСостояниеПросмотра" id="14">
+				<AdditionSource>
+					<Item>Квоты</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="КвотыСостояниеПросмотраКонтекстноеМеню" id="15"/>
+				<ExtendedTooltip name="КвотыСостояниеПросмотраРасширеннаяПодсказка" id="16"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="КвотыУправлениеПоиском" id="17">
+				<AdditionSource>
+					<Item>Квоты</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="КвотыУправлениеПоискомКонтекстноеМеню" id="18"/>
+				<ExtendedTooltip name="КвотыУправлениеПоискомРасширеннаяПодсказка" id="19"/>
+			</SearchControlAddition>
+			<ChildItems>
+				<InputField name="КвотыВременнойИнтервал" id="20">
+					<DataPath>Объект.Квоты.ВременнойИнтервал</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="КвотыВременнойИнтервалКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="КвотыВременнойИнтервалРасширеннаяПодсказка" id="22"/>
+				</InputField>
+				<InputField name="КвотыПодрядчик" id="23">
+					<DataPath>Объект.Квоты.Подрядчик</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="КвотыПодрядчикКонтекстноеМеню" id="24"/>
+					<ExtendedTooltip name="КвотыПодрядчикРасширеннаяПодсказка" id="25"/>
+				</InputField>
+				<InputField name="КвотыКоличествоМаршрутов" id="26">
+					<DataPath>Объект.Квоты.КоличествоМаршрутов</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="КвотыКоличествоМаршрутовКонтекстноеМеню" id="27"/>
+					<ExtendedTooltip name="КвотыКоличествоМаршрутовРасширеннаяПодсказка" id="28"/>
+				</InputField>
+				<InputField name="КвотыКоличествоМаршрутовИспользуется" id="29">
+					<DataPath>Объект.Квоты.КоличествоМаршрутовИспользуется</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="КвотыКоличествоМаршрутовИспользуетсяКонтекстноеМеню" id="30"/>
+					<ExtendedTooltip name="КвотыКоличествоМаршрутовИспользуетсяРасширеннаяПодсказка" id="31"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+		<SpreadSheetDocumentField name="ТабДок" id="32">
+			<DataPath>ТабДок</DataPath>
+			<TitleLocation>None</TitleLocation>
+			<ContextMenu name="ТабДокКонтекстноеМеню" id="33"/>
+			<ExtendedTooltip name="ТабДокРасширеннаяПодсказка" id="34"/>
+			<Events>
+				<Event name="DetailProcessing">ТабДокОбработкаРасшифровки</Event>
+			</Events>
+		</SpreadSheetDocumentField>
+		<Table name="Маршруты" id="39">
+			<Visible>false</Visible>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.Маршруты</DataPath>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="МаршрутыКонтекстноеМеню" id="40"/>
+			<AutoCommandBar name="МаршрутыКоманднаяПанель" id="41"/>
+			<ExtendedTooltip name="МаршрутыРасширеннаяПодсказка" id="42"/>
+			<SearchStringAddition name="МаршрутыСтрокаПоиска" id="43">
+				<AdditionSource>
+					<Item>Маршруты</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="МаршрутыСтрокаПоискаКонтекстноеМеню" id="44"/>
+				<ExtendedTooltip name="МаршрутыСтрокаПоискаРасширеннаяПодсказка" id="45"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="МаршрутыСостояниеПросмотра" id="46">
+				<AdditionSource>
+					<Item>Маршруты</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="МаршрутыСостояниеПросмотраКонтекстноеМеню" id="47"/>
+				<ExtendedTooltip name="МаршрутыСостояниеПросмотраРасширеннаяПодсказка" id="48"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="МаршрутыУправлениеПоиском" id="49">
+				<AdditionSource>
+					<Item>Маршруты</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="МаршрутыУправлениеПоискомКонтекстноеМеню" id="50"/>
+				<ExtendedTooltip name="МаршрутыУправлениеПоискомРасширеннаяПодсказка" id="51"/>
+			</SearchControlAddition>
+			<ChildItems>
+				<LabelField name="МаршрутыНомерСтроки" id="52">
+					<DataPath>Объект.Маршруты.LineNumber</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыНомерСтрокиКонтекстноеМеню" id="53"/>
+					<ExtendedTooltip name="МаршрутыНомерСтрокиРасширеннаяПодсказка" id="54"/>
+				</LabelField>
+				<InputField name="МаршрутыМаршрут" id="55">
+					<DataPath>Объект.Маршруты.Маршрут</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыМаршрутКонтекстноеМеню" id="56"/>
+					<ExtendedTooltip name="МаршрутыМаршрутРасширеннаяПодсказка" id="57"/>
+				</InputField>
+				<InputField name="МаршрутыТекущееВремяВыезда" id="58">
+					<DataPath>Объект.Маршруты.ТекущееВремяВыезда</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыТекущееВремяВыездаКонтекстноеМеню" id="59"/>
+					<ExtendedTooltip name="МаршрутыТекущееВремяВыездаРасширеннаяПодсказка" id="60"/>
+				</InputField>
+				<InputField name="МаршрутыДатаПланирования" id="61">
+					<DataPath>Объект.Маршруты.ДатаПланирования</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыДатаПланированияКонтекстноеМеню" id="62"/>
+					<ExtendedTooltip name="МаршрутыДатаПланированияРасширеннаяПодсказка" id="63"/>
+				</InputField>
+				<InputField name="МаршрутыВременнойИнтервал" id="64">
+					<DataPath>Объект.Маршруты.ТекущийВременнойИнтервал</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыВременнойИнтервалКонтекстноеМеню" id="65"/>
+					<ExtendedTooltip name="МаршрутыВременнойИнтервалРасширеннаяПодсказка" id="66"/>
+				</InputField>
+				<InputField name="МаршрутыВремяВыезда" id="67">
+					<DataPath>Объект.Маршруты.ВремяВыезда</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыВремяВыездаКонтекстноеМеню" id="68"/>
+					<ExtendedTooltip name="МаршрутыВремяВыездаРасширеннаяПодсказка" id="69"/>
+				</InputField>
+				<InputField name="МаршрутыПеревозчик" id="70">
+					<DataPath>Объект.Маршруты.Перевозчик</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыПеревозчикКонтекстноеМеню" id="71"/>
+					<ExtendedTooltip name="МаршрутыПеревозчикРасширеннаяПодсказка" id="72"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.РедактированиеКвотПоМаршрутам</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="ТабДок" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Таб док</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type xmlns:mxl="http://v8.1c.ru/8.2/data/spreadsheet">mxl:SpreadsheetDocument</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="КолонкаИтога" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Колонка итога</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СписокПеревозчиков" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Список перевозчиков</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueListType</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Сформировать" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сформировать</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сформировать</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Сформировать</Action>
+		</Command>
+		<Command name="ЗаписатьИзменения" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Записать изменения</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Записать изменения</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаписатьИзменения</Action>
+		</Command>
+	</Commands>
+</Form>

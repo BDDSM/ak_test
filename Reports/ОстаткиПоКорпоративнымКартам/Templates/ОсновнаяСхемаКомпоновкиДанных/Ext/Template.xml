@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаСписания</dataPath>
+			<field>ДатаСписания</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НомерКорпоративнойКарты</dataPath>
+			<field>НомерКорпоративнойКарты</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаПриход</dataPath>
+			<field>СуммаПриход</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаРасход</dataPath>
+			<field>СуммаРасход</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Регистратор</dataPath>
+			<field>Регистратор</field>
+			<role>
+				<dcscom:periodNumber>1</dcscom:periodNumber>
+				<dcscom:periodType>Main</dcscom:periodType>
+			</role>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ДвиженияПоКорпоративнымКартам.Регистратор,
+	НАЧАЛОПЕРИОДА(ДвиженияПоКорпоративнымКартам.ДатаСписания, МЕСЯЦ) КАК МесяцДатыСписания,
+	ДвиженияПоКорпоративнымКартам.ДатаСписания,
+	ДвиженияПоКорпоративнымКартам.Организация,
+	ДвиженияПоКорпоративнымКартам.НомерКорпоративнойКарты,
+	ДвиженияПоКорпоративнымКартам.Сумма,
+	1 КАК КолвоСуммПриход,
+	0 КАК КолвоСуммРасход
+ПОМЕСТИТЬ ВТВременная
+ИЗ
+	РегистрНакопления.ДвиженияПоКорпоративнымКартам КАК ДвиженияПоКорпоративнымКартам
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрНакопления.ДвиженияПоКорпоративнымКартам.Остатки(, ) КАК ВТОстатки
+		ПО (НЕ ВТОстатки.СуммаОстаток = 0)
+			И (ВТОстатки.ДатаСписания = ДвиженияПоКорпоративнымКартам.ДатаСписания)
+			И (ВТОстатки.Организация = ДвиженияПоКорпоративнымКартам.Организация)
+			И (ВТОстатки.НомерКорпоративнойКарты = ДвиженияПоКорпоративнымКартам.НомерКорпоративнойКарты)
+ГДЕ
+	ДвиженияПоКорпоративнымКартам.ВидДвижения = ЗНАЧЕНИЕ(ВидДвиженияНакопления.Приход)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ДвиженияПоКорпоративнымКартам.Регистратор,
+	НАЧАЛОПЕРИОДА(ДвиженияПоКорпоративнымКартам.ДатаСписания, МЕСЯЦ),
+	ДвиженияПоКорпоративнымКартам.ДатаСписания,
+	ДвиженияПоКорпоративнымКартам.Организация,
+	ДвиженияПоКорпоративнымКартам.НомерКорпоративнойКарты,
+	ДвиженияПоКорпоративнымКартам.Сумма,
+	0,
+	1
+ИЗ
+	РегистрНакопления.ДвиженияПоКорпоративнымКартам КАК ДвиженияПоКорпоративнымКартам
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрНакопления.ДвиженияПоКорпоративнымКартам.Остатки(, ) КАК ВТОстатки
+		ПО (НЕ ВТОстатки.СуммаОстаток = 0)
+			И (ВТОстатки.ДатаСписания = ДвиженияПоКорпоративнымКартам.ДатаСписания)
+			И (ВТОстатки.Организация = ДвиженияПоКорпоративнымКартам.Организация)
+			И (ВТОстатки.НомерКорпоративнойКарты = ДвиженияПоКорпоративнымКартам.НомерКорпоративнойКарты)
+ГДЕ
+	ДвиженияПоКорпоративнымКартам.ВидДвижения = ЗНАЧЕНИЕ(ВидДвиженияНакопления.Расход)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТВременная.Регистратор,
+	ВТВременная.ДатаСписания,
+	ВТВременная.Организация,
+	ВТВременная.НомерКорпоративнойКарты,
+	ВЫБОР
+		КОГДА ВТВременная.КолвоСуммПриход = 1
+			ТОГДА ВТВременная.Сумма
+		ИНАЧЕ 0
+	КОНЕЦ КАК СуммаПриход,
+	ВЫБОР
+		КОГДА ВТВременная.КолвоСуммРасход = 1
+			ТОГДА ВТВременная.Сумма
+		ИНАЧЕ 0
+	КОНЕЦ КАК СуммаРасход
+ИЗ
+	ВТВременная КАК ВТВременная
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ВТВременная.Организация КАК Организация,
+			ВТВременная.НомерКорпоративнойКарты КАК НомерКорпоративнойКарты,
+			ВТВременная.Сумма КАК Сумма
+		ИЗ
+			ВТВременная КАК ВТВременная
+		
+		СГРУППИРОВАТЬ ПО
+			ВТВременная.МесяцДатыСписания,
+			ВТВременная.Организация,
+			ВТВременная.НомерКорпоративнойКарты,
+			ВТВременная.Сумма
+		
+		ИМЕЮЩИЕ
+			НЕ СУММА(ВТВременная.КолвоСуммПриход) = СУММА(ВТВременная.КолвоСуммРасход)) КАК ВТНужныеЗаписи
+		ПО (ВТНужныеЗаписи.Организация = ВТВременная.Организация)
+			И (ВТНужныеЗаписи.НомерКорпоративнойКарты = ВТВременная.НомерКорпоративнойКарты)
+			И (ВТНужныеЗаписи.Сумма = ВТВременная.Сумма)</query>
+	</dataSet>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаСписания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Организация</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НомерКорпоративнойКарты</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаПриход</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаРасход</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Регистратор</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ДатаСписания</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>0001-01-01T00:00:00</v8:date>
+					</dcsset:right>
+					<dcsset:userSettingID>4f5e6dd1-8c0f-4dcb-b799-31b3e583eeec</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">НомерКорпоративнойКарты.ФизЛицо</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>68109dea-9793-4b20-a82a-4acb314dc2a6</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Физ. лицо</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ДатаСписания</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Организация.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>НомерКорпоративнойКарты.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Остатки по корпоративным картам</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:filter>
+					<dcsset:userSettingID>12ca7499-66d7-4101-b119-cb7a09002ef3</dcsset:userSettingID>
+				</dcsset:filter>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>fc142325-d632-479b-b025-5288f4a41f77</dcsset:userSettingID>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>3403bd2c-98ae-41e0-95f6-b178a5b4d1f8</dcsset:userSettingID>
+				</dcsset:selection>
+				<dcsset:conditionalAppearance>
+					<dcsset:viewMode>Normal</dcsset:viewMode>
+					<dcsset:userSettingID>1a92634f-d69a-4566-a248-d1cb0bf6828d</dcsset:userSettingID>
+				</dcsset:conditionalAppearance>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

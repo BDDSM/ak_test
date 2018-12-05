@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoTime>CurrentOrLast</AutoTime>
+	<UsePostingMode>Auto</UsePostingMode>
+	<RepostOnWrite>true</RepostOnWrite>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="ФормаЗаполнить" id="22">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.Заполнить</CommandName>
+				<ExtendedTooltip name="ФормаЗаполнитьРасширеннаяПодсказка" id="47"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="BeforeWrite">ПередЗаписью</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="Номер" id="1">
+			<DataPath>Объект.Number</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="НомерКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="48"/>
+		</InputField>
+		<InputField name="Дата" id="3">
+			<DataPath>Объект.Date</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ДатаКонтекстноеМеню" id="4"/>
+			<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="49"/>
+		</InputField>
+		<InputField name="Организация" id="89">
+			<DataPath>Объект.Организация</DataPath>
+			<AutoMarkIncomplete>true</AutoMarkIncomplete>
+			<ContextMenu name="ОрганизацияКонтекстноеМеню" id="90"/>
+			<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="91"/>
+		</InputField>
+		<InputField name="Подрядчик" id="5">
+			<DataPath>Объект.Подрядчик</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ПодрядчикКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="ПодрядчикРасширеннаяПодсказка" id="50"/>
+		</InputField>
+		<InputField name="Склад" id="23">
+			<DataPath>Объект.Склад</DataPath>
+			<ContextMenu name="СкладКонтекстноеМеню" id="24"/>
+			<ExtendedTooltip name="СкладРасширеннаяПодсказка" id="51"/>
+		</InputField>
+		<InputField name="ДатаПланирования" id="7">
+			<DataPath>Объект.ДатаПланирования</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ДатаПланированияКонтекстноеМеню" id="8"/>
+			<ExtendedTooltip name="ДатаПланированияРасширеннаяПодсказка" id="52"/>
+			<Events>
+				<Event name="OnChange">ДатаПланированияПриИзменении</Event>
+			</Events>
+		</InputField>
+		<Table name="Маршруты" id="9">
+			<Representation>List</Representation>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.Маршруты</DataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="МаршрутыКонтекстноеМеню" id="10"/>
+			<AutoCommandBar name="МаршрутыКоманднаяПанель" id="11">
+				<ChildItems>
+					<Button name="ФормаСоздатьМаршрут" id="45">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.СоздатьМаршрут</CommandName>
+						<ExtendedTooltip name="ФормаСоздатьМаршрутРасширеннаяПодсказка" id="53"/>
+					</Button>
+					<Button name="МаршрутыСкопироватьМаршрут" id="46">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.СкопироватьМаршрут</CommandName>
+						<ExtendedTooltip name="МаршрутыСкопироватьМаршрутРасширеннаяПодсказка" id="54"/>
+					</Button>
+				</ChildItems>
+			</AutoCommandBar>
+			<ExtendedTooltip name="МаршрутыРасширеннаяПодсказка" id="55"/>
+			<SearchStringAddition name="МаршрутыСтрокаПоиска" id="56">
+				<AdditionSource>
+					<Item>Маршруты</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="МаршрутыСтрокаПоискаКонтекстноеМеню" id="57"/>
+				<ExtendedTooltip name="МаршрутыСтрокаПоискаРасширеннаяПодсказка" id="58"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="МаршрутыСостояниеПросмотра" id="59">
+				<AdditionSource>
+					<Item>Маршруты</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="МаршрутыСостояниеПросмотраКонтекстноеМеню" id="60"/>
+				<ExtendedTooltip name="МаршрутыСостояниеПросмотраРасширеннаяПодсказка" id="61"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="МаршрутыУправлениеПоиском" id="62">
+				<AdditionSource>
+					<Item>Маршруты</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="МаршрутыУправлениеПоискомКонтекстноеМеню" id="63"/>
+				<ExtendedTooltip name="МаршрутыУправлениеПоискомРасширеннаяПодсказка" id="64"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="BeforeAddRow">МаршрутыПередНачаломДобавления</Event>
+				<Event name="BeforeDeleteRow">МаршрутыПередУдалением</Event>
+				<Event name="BeforeEditEnd">МаршрутыПередОкончаниемРедактирования</Event>
+				<Event name="OnActivateRow">МаршрутыПриАктивизацииСтроки</Event>
+			</Events>
+			<ChildItems>
+				<LabelField name="МаршрутыНомерСтроки" id="12">
+					<DataPath>Объект.Маршруты.LineNumber</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыНомерСтрокиКонтекстноеМеню" id="13"/>
+					<ExtendedTooltip name="МаршрутыНомерСтрокиРасширеннаяПодсказка" id="65"/>
+				</LabelField>
+				<InputField name="МаршрутыВременнойИнтервал" id="14">
+					<DataPath>Объект.Маршруты.ВременнойИнтервал</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыВременнойИнтервалКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="МаршрутыВременнойИнтервалРасширеннаяПодсказка" id="66"/>
+				</InputField>
+				<InputField name="МаршрутыМаршрут" id="16">
+					<DataPath>Объект.Маршруты.Маршрут</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ClearButton>true</ClearButton>
+					<ContextMenu name="МаршрутыМаршрутКонтекстноеМеню" id="17"/>
+					<ExtendedTooltip name="МаршрутыМаршрутРасширеннаяПодсказка" id="67"/>
+					<Events>
+						<Event name="OnChange">МаршрутыМаршрутПриИзменении</Event>
+					</Events>
+				</InputField>
+				<LabelField name="МаршрутыМаршрутПолноеНаименование" id="20">
+					<DataPath>Объект.Маршруты.Маршрут.ПолноеНаименование</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content> </v8:content>
+						</v8:item>
+					</Title>
+					<EditMode>EnterOnInput</EditMode>
+					<Width>25</Width>
+					<ContextMenu name="МаршрутыМаршрутПолноеНаименованиеКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="МаршрутыМаршрутПолноеНаименованиеРасширеннаяПодсказка" id="68"/>
+				</LabelField>
+				<InputField name="МаршрутыВремяВыезда" id="18">
+					<DataPath>Объект.Маршруты.ВремяВыезда</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыВремяВыездаКонтекстноеМеню" id="19"/>
+					<ExtendedTooltip name="МаршрутыВремяВыездаРасширеннаяПодсказка" id="69"/>
+					<Events>
+						<Event name="StartChoice">МаршрутыВремяВыездаНачалоВыбора</Event>
+					</Events>
+				</InputField>
+				<InputField name="МаршрутыУИН_Строки" id="36">
+					<DataPath>Объект.Маршруты.УИН_Строки</DataPath>
+					<Visible>false</Visible>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МаршрутыУИН_СтрокиКонтекстноеМеню" id="37"/>
+					<ExtendedTooltip name="МаршрутыУИН_СтрокиРасширеннаяПодсказка" id="70"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+		<Table name="Магазины" id="25">
+			<Height>5</Height>
+			<AutoInsertNewRow>true</AutoInsertNewRow>
+			<EnableStartDrag>true</EnableStartDrag>
+			<EnableDrag>true</EnableDrag>
+			<DataPath>Объект.Магазины</DataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<RowFilter xsi:nil="true"/>
+			<ContextMenu name="МагазиныКонтекстноеМеню" id="26"/>
+			<AutoCommandBar name="МагазиныКоманднаяПанель" id="27">
+				<ChildItems>
+					<Button name="МагазиныЗаполнитьМагазины" id="38">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.ЗаполнитьМагазины</CommandName>
+						<ExtendedTooltip name="МагазиныЗаполнитьМагазиныРасширеннаяПодсказка" id="71"/>
+					</Button>
+				</ChildItems>
+			</AutoCommandBar>
+			<ExtendedTooltip name="МагазиныРасширеннаяПодсказка" id="72"/>
+			<SearchStringAddition name="МагазиныСтрокаПоиска" id="73">
+				<AdditionSource>
+					<Item>Магазины</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="МагазиныСтрокаПоискаКонтекстноеМеню" id="74"/>
+				<ExtendedTooltip name="МагазиныСтрокаПоискаРасширеннаяПодсказка" id="75"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="МагазиныСостояниеПросмотра" id="76">
+				<AdditionSource>
+					<Item>Магазины</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="МагазиныСостояниеПросмотраКонтекстноеМеню" id="77"/>
+				<ExtendedTooltip name="МагазиныСостояниеПросмотраРасширеннаяПодсказка" id="78"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="МагазиныУправлениеПоиском" id="79">
+				<AdditionSource>
+					<Item>Магазины</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="МагазиныУправлениеПоискомКонтекстноеМеню" id="80"/>
+				<ExtendedTooltip name="МагазиныУправлениеПоискомРасширеннаяПодсказка" id="81"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="BeforeAddRow">МагазиныПередНачаломДобавления</Event>
+				<Event name="BeforeDeleteRow">МагазиныПередУдалением</Event>
+			</Events>
+			<ChildItems>
+				<LabelField name="МагазиныНомерСтроки" id="28">
+					<DataPath>Объект.Магазины.LineNumber</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МагазиныНомерСтрокиКонтекстноеМеню" id="29"/>
+					<ExtendedTooltip name="МагазиныНомерСтрокиРасширеннаяПодсказка" id="82"/>
+				</LabelField>
+				<InputField name="МагазиныУИН_Строки" id="30">
+					<DataPath>Объект.Магазины.УИН_Строки</DataPath>
+					<Visible>false</Visible>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МагазиныУИН_СтрокиКонтекстноеМеню" id="31"/>
+					<ExtendedTooltip name="МагазиныУИН_СтрокиРасширеннаяПодсказка" id="83"/>
+				</InputField>
+				<InputField name="МагазиныМаршрут" id="32">
+					<DataPath>Объект.Магазины.Маршрут</DataPath>
+					<Visible>false</Visible>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МагазиныМаршрутКонтекстноеМеню" id="33"/>
+					<ExtendedTooltip name="МагазиныМаршрутРасширеннаяПодсказка" id="84"/>
+				</InputField>
+				<InputField name="МагазиныМагазин" id="34">
+					<DataPath>Объект.Магазины.Магазин</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МагазиныМагазинКонтекстноеМеню" id="35"/>
+					<ExtendedTooltip name="МагазиныМагазинРасширеннаяПодсказка" id="85"/>
+					<Events>
+						<Event name="OnChange">МагазиныМагазинПриИзменении</Event>
+					</Events>
+				</InputField>
+				<InputField name="МагазиныСтоимость" id="39">
+					<DataPath>Объект.Магазины.Стоимость</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МагазиныСтоимостьКонтекстноеМеню" id="40"/>
+					<ExtendedTooltip name="МагазиныСтоимостьРасширеннаяПодсказка" id="86"/>
+				</InputField>
+				<InputField name="МагазиныПорядокДоставки" id="41">
+					<DataPath>Объект.Магазины.ПорядокДоставки</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ContextMenu name="МагазиныПорядокДоставкиКонтекстноеМеню" id="42"/>
+					<ExtendedTooltip name="МагазиныПорядокДоставкиРасширеннаяПодсказка" id="87"/>
+				</InputField>
+				<CheckBoxField name="МагазиныПоставкаВСетках" id="43">
+					<DataPath>Объект.Магазины.ПоставкаВСетках</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="МагазиныПоставкаВСеткахКонтекстноеМеню" id="44"/>
+					<ExtendedTooltip name="МагазиныПоставкаВСеткахРасширеннаяПодсказка" id="88"/>
+				</CheckBoxField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DocumentObject.ПланируемыеМаршрутыПеревозчика</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+			<UseAlways>
+				<Field>Объект.RegisterRecords</Field>
+			</UseAlways>
+		</Attribute>
+		<Attribute name="ТаблицаКонфликтов" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Таблица конфликтов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Маршрут" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Маршрут</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.Маршруты</v8:Type>
+					</Type>
+				</Column>
+				<Column name="СтруктурнаяЕдиница" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Структурная единица</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+					</Type>
+				</Column>
+				<Column name="МаршрутПредставление" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Маршрут представление</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="СтруктурнаяЕдиницаПредставление" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Структурная единица представление</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ТекУИН" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Тек УИН</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="НеАктивизировать" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Не активизировать</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ТаблицаКонфликтов1" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Таблица конфликтов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Маршрут" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Маршрут</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.Маршруты</v8:Type>
+					</Type>
+				</Column>
+				<Column name="СтруктурнаяЕдиница" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Структурная единица</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+					</Type>
+				</Column>
+				<Column name="МаршрутПредставление" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Маршрут представление</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="СтруктурнаяЕдиницаПредставление" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Структурная единица представление</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ОперацияАпдекс" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Операция апдекс</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.APDEX_КлючевыеОперации</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Заполнить" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Заполнить</Action>
+		</Command>
+		<Command name="ЗаполнитьМагазины" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить магазины из справочника Маршруты</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить магазины</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьМагазины</Action>
+		</Command>
+		<Command name="СоздатьМаршрут" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать маршрут</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать маршрут</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СоздатьМаршрут</Action>
+		</Command>
+		<Command name="СкопироватьМаршрут" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Скопировать маршрут</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Скопировать маршрут</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СкопироватьМаршрут</Action>
+		</Command>
+	</Commands>
+</Form>

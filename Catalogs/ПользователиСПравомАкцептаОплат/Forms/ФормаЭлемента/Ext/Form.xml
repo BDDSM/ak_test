@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<UseForFoldersAndItems>Items</UseForFoldersAndItems>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<Autofill>false</Autofill>
+		<ChildItems>
+			<Button name="ФормаЗаписатьИЗакрыть" id="11">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.StandardCommand.WriteAndClose</CommandName>
+				<ExtendedTooltip name="ФормаЗаписатьИЗакрытьРасширеннаяПодсказка" id="16"/>
+			</Button>
+			<Button name="ФормаЗаписать" id="13">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.StandardCommand.Write</CommandName>
+				<ExtendedTooltip name="ФормаЗаписатьРасширеннаяПодсказка" id="17"/>
+			</Button>
+			<Button name="ФормаПеречитать" id="12">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.StandardCommand.Reread</CommandName>
+				<ExtendedTooltip name="ФормаПеречитатьРасширеннаяПодсказка" id="18"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="BeforeWrite">ПередЗаписью</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+		<Event name="OnWriteAtServer">ПриЗаписиНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="Родитель" id="3">
+			<DataPath>Объект.Parent</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="РодительКонтекстноеМеню" id="4"/>
+			<ExtendedTooltip name="РодительРасширеннаяПодсказка" id="19"/>
+		</InputField>
+		<InputField name="Пользователь" id="5">
+			<DataPath>Объект.Пользователь</DataPath>
+			<EditMode>EnterOnInput</EditMode>
+			<ContextMenu name="ПользовательКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="ПользовательРасширеннаяПодсказка" id="20"/>
+		</InputField>
+		<CheckBoxField name="Активен" id="7">
+			<DataPath>Объект.Активен</DataPath>
+			<CheckBoxType>Auto</CheckBoxType>
+			<ContextMenu name="АктивенКонтекстноеМеню" id="8"/>
+			<ExtendedTooltip name="АктивенРасширеннаяПодсказка" id="21"/>
+			<Events>
+				<Event name="OnChange">АктивенПриИзменении</Event>
+			</Events>
+		</CheckBoxField>
+		<InputField name="ЛимитПоАвансам" id="9">
+			<DataPath>Объект.ЛимитПоАвансам</DataPath>
+			<ContextMenu name="ЛимитПоАвансамКонтекстноеМеню" id="10"/>
+			<ExtendedTooltip name="ЛимитПоАвансамРасширеннаяПодсказка" id="22"/>
+			<Events>
+				<Event name="OnChange">ЛимитПоАвансамПриИзменении</Event>
+			</Events>
+		</InputField>
+		<InputField name="ЛимитПоЗаявкам" id="24">
+			<DataPath>Объект.ЛимитПоЗаявкам</DataPath>
+			<ContextMenu name="ЛимитПоЗаявкамКонтекстноеМеню" id="25"/>
+			<ExtendedTooltip name="ЛимитПоЗаявкамРасширеннаяПодсказка" id="26"/>
+			<Events>
+				<Event name="OnChange">ЛимитПоЗаявкамПриИзменении</Event>
+			</Events>
+		</InputField>
+		<InputField name="ВариантРассылкиЗаявкиНаУслугиИМатериалы" id="14">
+			<DataPath>Объект.ВариантРассылкиЗаявкиНаУслугиИМатериалы</DataPath>
+			<Enabled>false</Enabled>
+			<ContextMenu name="ВариантРассылкиЗаявкиНаУслугиИМатериалыКонтекстноеМеню" id="15"/>
+			<ExtendedTooltip name="ВариантРассылкиЗаявкиНаУслугиИМатериалыРасширеннаяПодсказка" id="23"/>
+		</InputField>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:CatalogObject.ПользователиСПравомАкцептаОплат</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+		</Attribute>
+		<Attribute name="СЕПользователиСПравомАкцептаОплат" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>СЕПользователи с правом акцепта оплат</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="СЕПолныеПрава" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>СЕПолные права</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+</Form>

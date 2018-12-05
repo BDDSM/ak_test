@@ -1,0 +1,286 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/argus/common"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/argus/common"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<element name="purpose"
+			type="tns:Purpose"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="purposeList"
+			type="tns:PurposeList"/>
+	<element name="unit"
+			type="tns:Unit"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="unitList"
+			type="tns:UnitList"/>
+	<complexType name="Document">
+		<annotation>
+			<documentation>Документ.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название документа.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="form"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Форма документа.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="issueSeries"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Серия документа.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="issueNumber"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Номер документа.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="issueDate"
+							type="xs:date"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Дата документа.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="DocumentNature">
+		<annotation>
+			<documentation>Природа (тип) документа</documentation>
+		</annotation>
+		<restriction base="bs:String255">
+			<enumeration value="ELECTRONIC">
+				<annotation>
+					<documentation>Электронный документ</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="PAPER">
+				<annotation>
+					<documentation>Бумажный документ</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<complexType name="User">
+		<annotation>
+			<documentation>Тип, описывающий пользователя.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericEntity">
+				<sequence>
+					<element name="fio"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>ФИО пользователя.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="post"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Должность пользователя.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="phone"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Контактный телефон пользователя.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="email"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Адрес электронной почты пользователя.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="login"
+							type="xs:NCName"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Имя пользователя в системе Ветис.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="Purpose">
+		<default:annotation>
+			<default:documentation>Тип, описывающий назначение груза.</default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:GenericVersioningEntity">
+				<default:sequence>
+					<default:element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Наименование назначение.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<default:element name="forSubstandard"
+							type="default:boolean"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Назначение для некачественных грузов.</default:documentation>
+						</default:annotation>
+					</default:element>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<complexType name="Unit">
+		<annotation>
+			<documentation>Тип, описывающий единицу измерения.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Наименование единицы измерения.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="fullName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Полное наименование единицы измерения, если оно отличается
+                        от name.
+                     </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="commonUnitGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Глобальный идентификатор базовой единицы измерения.
+                        Например, для центнера, тонны, тыс.тонн базовой единицей измерения является
+                        килограмм.
+                     </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="factor"
+							type="default:integer"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Коэффициент относительно базовой единицы измерения.
+                        Например, для тонны этот коэффициент равен 1000, т.к. в 1 тонне 1000 кг.
+                        Для килограмма этот коэффициент равен единице.
+                     </default:documentation>
+						</default:annotation>
+					</default:element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="PackingForm">
+		<annotation>
+			<documentation>Упаковка</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Наименование упаковки.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="PurposeList">
+		<default:annotation>
+			<default:documentation>Тип, описывающий список целей.</default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:EntityList">
+				<default:sequence>
+					<default:element name="purpose"
+							type="tns:Purpose"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<complexType name="UnitList">
+		<annotation>
+			<documentation>Тип, описывающий список единиц измерений.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="unit"
+							type="tns:Unit"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="PackingFormList">
+		<default:annotation>
+			<default:documentation>Тип, описывающий список форм упаковки.</default:documentation>
+		</default:annotation>
+		<default:sequence>
+			<default:element name="packingForm"
+					type="tns:PackingForm"
+					minOccurs="0"
+					maxOccurs="unbounded"/>
+		</default:sequence>
+	</default:complexType>
+</schema>

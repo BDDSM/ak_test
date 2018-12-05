@@ -1,0 +1,592 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ФункциональнаяРоль</dataPath>
+			<field>ФункциональнаяРоль</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Функциональная роль</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Представление</dataPath>
+			<field>Представление</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>email</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сотрудник</dataPath>
+			<field>Сотрудник</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Тип</dataPath>
+			<field>Тип</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Родитель</dataPath>
+			<field>Родитель</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Характеристика</dataPath>
+			<field>Характеристика</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НомерСтроки</dataPath>
+			<field>НомерСтроки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номенклатура</dataPath>
+			<field>Номенклатура</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДокументСсылка</dataPath>
+			<field>ДокументСсылка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Документ ссылка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЦенаНовая</dataPath>
+			<field>ЦенаНовая</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Статус</dataPath>
+			<field>Статус</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачала</dataPath>
+			<field>ДатаНачала</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	ИзменениеЗакупочныхЦенТовары.Ссылка КАК ДокументСсылка,
+	ИзменениеЗакупочныхЦенТовары.НомерСтроки,
+	ИзменениеЗакупочныхЦенТовары.Номенклатура,
+	ИзменениеЗакупочныхЦенТовары.Характеристика,
+	ИзменениеЗакупочныхЦенТовары.ЦенаНовая,
+	ИзменениеЗакупочныхЦенТовары.ДатаНачала,
+	ИзменениеЗакупочныхЦенТовары.Статус
+ПОМЕСТИТЬ ВТ_Товары
+ИЗ
+	Документ.ИзменениеЗакупочныхЦен.Товары КАК ИзменениеЗакупочныхЦенТовары
+ГДЕ
+	ИСТИНА
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_Товары.ДокументСсылка,
+	ВТ_Товары.НомерСтроки,
+	ВТ_Товары.Номенклатура,
+	ВТ_Товары.Характеристика,
+	ВТ_Товары.ЦенаНовая,
+	ВТ_Товары.ДатаНачала,
+	ВТ_Товары.Статус,
+	ЗначенияСвойствОбъектов.Значение КАК Производитель
+ПОМЕСТИТЬ ВТ_ТоварыПроизводители
+ИЗ
+	ВТ_Товары КАК ВТ_Товары
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЗначенияСвойствОбъектов КАК ЗначенияСвойствОбъектов
+		ПО (ЗначенияСвойствОбъектов.Объект ССЫЛКА Справочник.ХарактеристикиНоменклатуры)
+			И (ЗначенияСвойствОбъектов.Значение ССЫЛКА Справочник.Контрагенты)
+			И ВТ_Товары.Характеристика = ЗначенияСвойствОбъектов.Объект
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	ВТ_ТоварыПроизводители.НомерСтроки,
+	ВТ_ТоварыПроизводители.Номенклатура,
+	ВТ_ТоварыПроизводители.Характеристика,
+	ЕСТЬNULL(СоответствиеОбъектРоль.РольПользователя, ЕСТЬNULL(СоответствиеОбъектРольКонтрагенты.РольПользователя, "Не установлена роль")) КАК ДоступнаяРольПользователя,
+	ВТ_ТоварыПроизводители.ДокументСсылка,
+	ВТ_ТоварыПроизводители.ЦенаНовая,
+	ВТ_ТоварыПроизводители.ДатаНачала,
+	ВТ_ТоварыПроизводители.Статус,
+	СоответствиеОбъектРольКонтрагенты.РольПользователя
+ПОМЕСТИТЬ ВТ_ТоварыРоли
+ИЗ
+	ВТ_ТоварыПроизводители КАК ВТ_ТоварыПроизводители
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль КАК СоответствиеОбъектРоль
+		ПО (СоответствиеОбъектРоль.Объект ССЫЛКА Справочник.ХарактеристикиНоменклатуры)
+			И (СоответствиеОбъектРоль.ТипРолиID = "TechnologPoKachestvu")
+			И ВТ_ТоварыПроизводители.Характеристика = СоответствиеОбъектРоль.Объект
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль КАК СоответствиеОбъектРольКонтрагенты
+		ПО (СоответствиеОбъектРольКонтрагенты.Объект ССЫЛКА Справочник.Контрагенты)
+			И (СоответствиеОбъектРольКонтрагенты.ТипРолиID = "TechnologPoKachestvu")
+			И ВТ_ТоварыПроизводители.Производитель = СоответствиеОбъектРольКонтрагенты.Объект
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	РолиПользователейТипыРолей.Ссылка,
+	РолиПользователейТипыРолей.ТипРоли,
+	РолиПользователейТипыРолей.ТипРоли.Код
+ПОМЕСТИТЬ ВТ_БрендМенеджеры
+ИЗ
+	Справочник.РолиПользователей.ТипыРолей КАК РолиПользователейТипыРолей
+ГДЕ
+	РолиПользователейТипыРолей.ТипРоли.Код = "BrendManager"
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗЛИЧНЫЕ
+	РолиПользователей.Ссылка КАК РольБрендменеджер,
+	СоответствиеОбъектРольСрезПоследних.Объект КАК РольТехнолога
+ПОМЕСТИТЬ ВТ_БрендМенеджерыТехнологов
+ИЗ
+	Справочник.РолиПользователей.ТипыРолей КАК РолиПользователей
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних(, Объект ССЫЛКА Справочник.РолиПользователей) КАК СоответствиеОбъектРольСрезПоследних
+		ПО РолиПользователей.Ссылка = СоответствиеОбъектРольСрезПоследних.РольПользователя
+			И РолиПользователей.ТипРоли = СоответствиеОбъектРольСрезПоследних.ТипРоли
+ГДЕ
+	РолиПользователей.Ссылка В
+			(ВЫБРАТЬ
+				ВТ_БрендМенеджеры.Ссылка
+			ИЗ
+				ВТ_БрендМенеджеры КАК ВТ_БрендМенеджеры)
+	И НЕ СоответствиеОбъектРольСрезПоследних.Объект ЕСТЬ NULL
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	РолиПользователей.Ссылка,
+	РолиПользователей.Код,
+	РолиПользователей.Родитель
+ПОМЕСТИТЬ ВТ_ОсновныеРолиТехнологов
+ИЗ
+	Справочник.РолиПользователей КАК РолиПользователей
+ГДЕ
+	РолиПользователей.ТипРоли = &amp;ТипРоли
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	РолиПользователейТипыРолей.Ссылка.Родитель,
+	РолиПользователейТипыРолей.Ссылка,
+	РолиПользователейТипыРолей.ТипРоли
+ПОМЕСТИТЬ ВТ_РолиТехнологов
+ИЗ
+	Справочник.РолиПользователей.ТипыРолей КАК РолиПользователейТипыРолей
+ГДЕ
+	РолиПользователейТипыРолей.ТипРоли.Код = "TechnologPoKachestvu"
+
+СГРУППИРОВАТЬ ПО
+	РолиПользователейТипыРолей.ТипРоли,
+	РолиПользователейТипыРолей.Ссылка.Родитель,
+	РолиПользователейТипыРолей.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_ОсновныеРолиТехнологов.Ссылка КАК Родитель,
+	ВТ_ОсновныеРолиТехнологов.Ссылка КАК ФункциональнаяРоль
+ПОМЕСТИТЬ ВТ_ФункциональныеРолиРодители
+ИЗ
+	ВТ_ОсновныеРолиТехнологов КАК ВТ_ОсновныеРолиТехнологов
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ВТ_РолиТехнологов.Родитель,
+	ВТ_РолиТехнологов.Ссылка
+ИЗ
+	ВТ_РолиТехнологов КАК ВТ_РолиТехнологов
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ВТ_БрендМенеджерыТехнологов.РольТехнолога,
+	ВТ_БрендМенеджерыТехнологов.РольБрендменеджер
+ИЗ
+	ВТ_БрендМенеджерыТехнологов КАК ВТ_БрендМенеджерыТехнологов
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ РАЗЛИЧНЫЕ
+	Таб_Итоговая.Родитель,
+	Таб_Итоговая.ФункциональнаяРоль,
+	Таб_Итоговая.Сотрудник,
+	Таб_Итоговая.НомерСтроки,
+	Таб_Итоговая.Номенклатура,
+	Таб_Итоговая.Характеристика,
+	ВЫРАЗИТЬ(ЕСТЬNULL(КонтактнаяИнформация.Представление, "email не указан") КАК СТРОКА(500)) КАК Представление,
+	КонтактнаяИнформация.Тип,
+	Таб_Итоговая.ДокументСсылка,
+	Таб_Итоговая.ЦенаНовая,
+	Таб_Итоговая.ДатаНачала,
+	Таб_Итоговая.Статус
+ИЗ
+	(ВЫБРАТЬ
+		ВТ_ФункциональныеРолиРодители.Родитель КАК Родитель,
+		ВТ_ФункциональныеРолиРодители.ФункциональнаяРоль КАК ФункциональнаяРоль,
+		РолиПользователейСоставРоли.Сотрудник КАК Сотрудник,
+		ВТ_ТоварыРоли.НомерСтроки КАК НомерСтроки,
+		ВТ_ТоварыРоли.Номенклатура КАК Номенклатура,
+		ВТ_ТоварыРоли.Характеристика КАК Характеристика,
+		ВТ_ТоварыРоли.ДокументСсылка КАК ДокументСсылка,
+		ВТ_ТоварыРоли.ЦенаНовая КАК ЦенаНовая,
+		ВТ_ТоварыРоли.ДатаНачала КАК ДатаНачала,
+		ВТ_ТоварыРоли.Статус КАК Статус,
+		NULL КАК ДоступнаяРольПользователя
+	ИЗ
+		ВТ_ТоварыРоли КАК ВТ_ТоварыРоли
+			ЛЕВОЕ СОЕДИНЕНИЕ ВТ_ФункциональныеРолиРодители КАК ВТ_ФункциональныеРолиРодители
+				ЛЕВОЕ СОЕДИНЕНИЕ Справочник.РолиПользователей.СоставРоли КАК РолиПользователейСоставРоли
+				ПО ВТ_ФункциональныеРолиРодители.ФункциональнаяРоль = РолиПользователейСоставРоли.Ссылка
+			ПО ВТ_ТоварыРоли.ДоступнаяРольПользователя = ВТ_ФункциональныеРолиРодители.Родитель
+	
+	ОБЪЕДИНИТЬ
+	
+	ВЫБРАТЬ
+		"Не установлена роль",
+		"Не установлена роль",
+		"Не установлена роль",
+		ВТ_ТоварыРоли.НомерСтроки,
+		ВТ_ТоварыРоли.Номенклатура,
+		ВТ_ТоварыРоли.Характеристика,
+		ВТ_ТоварыРоли.ДокументСсылка,
+		ВТ_ТоварыРоли.ЦенаНовая,
+		ВТ_ТоварыРоли.ДатаНачала,
+		ВТ_ТоварыРоли.Статус,
+		ВТ_ТоварыРоли.ДоступнаяРольПользователя
+	ИЗ
+		ВТ_ТоварыРоли КАК ВТ_ТоварыРоли
+	ГДЕ
+		ВТ_ТоварыРоли.ДоступнаяРольПользователя = "Не установлена роль") КАК Таб_Итоговая
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.КонтактнаяИнформация КАК КонтактнаяИнформация
+		ПО (КонтактнаяИнформация.Тип = &amp;Тип)
+			И Таб_Итоговая.Сотрудник = КонтактнаяИнформация.Объект
+ГДЕ
+	(Таб_Итоговая.Родитель = "Не установлена роль"
+			ИЛИ ИСТИНА)
+	И Таб_Итоговая.Родитель &lt;&gt; ЗНАЧЕНИЕ(Справочник.РолиПользователей.ПустаяСсылка)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	"Доп. рассылка",
+	"Доп. рассылка",
+	РуководителиИзменениеЦен.Сотрудник,
+	ВТ_Товары.НомерСтроки,
+	ВТ_Товары.Номенклатура,
+	ВТ_Товары.Характеристика,
+	РуководителиИзменениеЦен.ЭлектронныйАдрес,
+	NULL,
+	ВТ_Товары.ДокументСсылка,
+	ВТ_Товары.ЦенаНовая,
+	ВТ_Товары.ДатаНачала,
+	ВТ_Товары.Статус
+ИЗ
+	ВТ_Товары КАК ВТ_Товары,
+	РегистрСведений.РуководителиИзменениеЦен КАК РуководителиИзменениеЦен
+ГДЕ
+	РуководителиИзменениеЦен.ПолучатьРассылку</query>
+	</dataSet>
+	<parameter>
+		<name>Тип</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Тип</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:EnumRef.ТипыКонтактнойИнформации</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыКонтактнойИнформации.АдресЭлектроннойПочты</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ТипРоли</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Тип роли</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:EnumRef.ТипыРолейПользователейМОС</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыРолейПользователейМОС.Технолог</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Родитель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ФункциональнаяРоль</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НомерСтроки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Характеристика</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЦенаНовая</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаНачала</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Статус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Представление</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ДокументСсылка</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Родитель</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>НомерСтроки</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>ДокументСсылка</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ДокументСсылка.ПометкаУдаления</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:use>false</dcscor:use>
+							<dcscor:parameter>ЦветТекста</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">style:SpecialTextColor</dcscor:value>
+						</dcscor:item>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Шрифт</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Font" ref="sys:DefaultGUIFont" bold="false" italic="false" underline="false" strikeout="true" kind="WindowsFont"/>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection/>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemGroup">
+							<dcsset:groupType>AndGroup</dcsset:groupType>
+							<dcsset:item xsi:type="dcsset:FilterItemComparison">
+								<dcsset:left xsi:type="dcscor:Field">ДокументСсылка.ПометкаУдаления</dcsset:left>
+								<dcsset:comparisonType>Equal</dcsset:comparisonType>
+								<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:FilterItemComparison">
+								<dcsset:left xsi:type="dcscor:Field">ДокументСсылка.Проведен</dcsset:left>
+								<dcsset:comparisonType>Equal</dcsset:comparisonType>
+								<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+							</dcsset:item>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветТекста</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">style:ПлановыйНеутвержденныйПоказатель</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>НомерСтроки</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Номенклатура</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Характеристика</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Родитель</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Родитель</dcsset:left>
+							<dcsset:comparisonType>Contains</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string">Не установлена роль</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветТекста</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#C80000</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Сотрудник</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Представление</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Представление</dcsset:left>
+							<dcsset:comparisonType>Contains</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string">email не указан</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветТекста</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#C80000</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection/>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Родитель</dcsset:left>
+							<dcsset:comparisonType>Contains</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string">Доп. рассылка</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветТекста</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">style:ПлановыйНеутвержденныйПоказатель</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ДокументСсылка</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ДокументСсылка.Статус</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Родитель</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ФункциональнаяРоль</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item xsi:type="dcsset:StructureItemGroup">
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

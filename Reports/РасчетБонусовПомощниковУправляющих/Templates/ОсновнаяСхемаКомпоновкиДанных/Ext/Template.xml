@@ -1,0 +1,1233 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>ЗарплатаПродавцов</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РольПользователя</dataPath>
+			<field>РольПользователя</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачисления</dataPath>
+			<field>ДатаНачисления</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Смен</dataPath>
+			<field>Смен</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипРабот</dataPath>
+			<field>ТипРабот</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипТочки</dataPath>
+			<field>ТипТочки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НачисленоПродавцам</dataPath>
+			<field>НачисленоПродавцам</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Продавец</dataPath>
+			<field>Продавец</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаКалендаря</dataPath>
+			<field>ДатаКалендаря</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛистУчетаПродавцы.Продавец КАК Продавец
+ПОМЕСТИТЬ ПродавцыЛУ
+ИЗ
+	Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+ГДЕ
+	ЛистУчетаПродавцы.Ссылка.Проведен
+	И ЛистУчетаПродавцы.Ссылка.Дата МЕЖДУ ДОБАВИТЬКДАТЕ(&amp;ДатаКалендаря, ДЕНЬ, -1) И КОНЕЦПЕРИОДА(ДОБАВИТЬКДАТЕ(&amp;ДатаКалендаря, ДЕНЬ, 1), ДЕНЬ)
+
+СГРУППИРОВАТЬ ПО
+	ЛистУчетаПродавцы.Продавец
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗарплатаПродавцов.ФизЛицо
+ПОМЕСТИТЬ ПродавцыНачислений
+ИЗ
+	РегистрСведений.ЗарплатаПродавцов КАК ЗарплатаПродавцов
+ГДЕ
+	ЗарплатаПродавцов.ДатаНачисления МЕЖДУ &amp;ДатаКалендаря И КОНЕЦПЕРИОДА(&amp;ДатаКалендаря, ДЕНЬ)
+	И ЗарплатаПродавцов.ТипРабот В (ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ПолныйДень), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ПолнаяНочь), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ВыходЗаЧас), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.БонусОтВыручки), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ДоплатаЗаРаботуНаТТ))
+	И ЗарплатаПродавцов.ФизЛицо В
+			(ВЫБРАТЬ
+				ПродавцыЛУ.Продавец
+			ИЗ
+				ПродавцыЛУ)
+
+СГРУППИРОВАТЬ ПО
+	ЗарплатаПродавцов.ФизЛицо
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗарплатаПродавцов.ТорговаяТочка.ТипРозничнойТочки КАК ТипТочки,
+	ЗарплатаПродавцов.ТорговаяТочка КАК ТорговаяТочка,
+	ЗарплатаПродавцов.ФизЛицо КАК Продавец,
+	ЗарплатаПродавцов.ДатаНачисления,
+	ЗарплатаПродавцов.ТипРабот,
+	СУММА(ЗарплатаПродавцов.Бонус) КАК НачисленоПродавцам,
+	СУММА(ВЫБОР
+			КОГДА ЗарплатаПродавцов.ТипРабот В (ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ПолныйДень), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ПолнаяНочь), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ВыходЗаЧас))
+				ТОГДА 1
+			ИНАЧЕ 0
+		КОНЕЦ) КАК Смен,
+	СоответствиеОбъектРольСрезПоследних.РольПользователя,
+	&amp;ДатаКалендаря
+ИЗ
+	РегистрСведений.ЗарплатаПродавцов КАК ЗарплатаПродавцов
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних(&amp;ДатаКалендаря, ) КАК СоответствиеОбъектРольСрезПоследних
+		ПО ЗарплатаПродавцов.ТорговаяТочка = СоответствиеОбъектРольСрезПоследних.Объект
+			И (СоответствиеОбъектРольСрезПоследних.ТипРоли = ЗНАЧЕНИЕ(ПланВидовХарактеристик.ТипыРолейПользователя.ПомощникТерриториальногоУправляющего))
+ГДЕ
+	ЗарплатаПродавцов.ДатаНачисления МЕЖДУ &amp;ДатаКалендаря И КОНЕЦПЕРИОДА(&amp;ДатаКалендаря, ДЕНЬ)
+	И ЗарплатаПродавцов.ТипРабот В (ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ПолныйДень), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.СтаршийПродавецКонсультант), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ПолнаяНочь), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.БонусОтСтажа), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ВыходЗаЧас), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ДоплатаПраздник), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ДоплатаПереработка_9_10), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ДоплатаПереработка_11), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ДоплатаЗаНочнуюСмену), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.БонусОтВыручки), ЗНАЧЕНИЕ(Перечисление.ТипыРаботДляРасчетаЗП.ДоплатаЗаРаботуНаТТ))
+	И ЗарплатаПродавцов.ТорговаяТочка В
+			(ВЫБРАТЬ
+				ЦФОСтруктурныхЕдиницСрезПоследних.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница
+			ИЗ
+				РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних(&amp;ДатаКалендаря, ) КАК ЦФОСтруктурныхЕдиницСрезПоследних
+			ГДЕ
+				ЦФОСтруктурныхЕдиницСрезПоследних.ЦФО.Код &lt;&gt; "ЦФО_88")
+	И ЗарплатаПродавцов.ФизЛицо В
+			(ВЫБРАТЬ
+				ПродавцыНачислений.ФизЛицо
+			ИЗ
+				ПродавцыНачислений
+			СГРУППИРОВАТЬ ПО
+				ПродавцыНачислений.ФизЛицо)
+	И (НЕ СоответствиеОбъектРольСрезПоследних.РольПользователя В ИЕРАРХИИ
+					(ВЫБРАТЬ
+						РолиПользователей.Ссылка КАК Ссылка
+					ИЗ
+						Справочник.РолиПользователей КАК РолиПользователей
+					ГДЕ
+						РолиПользователей.Код = "00361")
+			ИЛИ СоответствиеОбъектРольСрезПоследних.РольПользователя ЕСТЬ NULL
+			ИЛИ СоответствиеОбъектРольСрезПоследних.РольПользователя = ЗНАЧЕНИЕ(Справочник.РолиПользователей.ПустаяСсылка))
+
+СГРУППИРОВАТЬ ПО
+	ЗарплатаПродавцов.ТорговаяТочка,
+	ЗарплатаПродавцов.ТорговаяТочка.ТипРозничнойТочки,
+	ЗарплатаПродавцов.ФизЛицо,
+	ЗарплатаПродавцов.ДатаНачисления,
+	ЗарплатаПродавцов.ТипРабот,
+	СоответствиеОбъектРольСрезПоследних.РольПользователя</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>МагазиныПоследнегоДня</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РольПользователя</dataPath>
+			<field>РольПользователя</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипТочки</dataPath>
+			<field>ТипТочки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТочекРаботалоНаКонецПериода</dataPath>
+			<field>ТочекРаботалоНаКонецПериода</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Работало точек</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ККМ</dataPath>
+			<field>ККМ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ККМ(коэффициент количества магазинов)</v8:content>
+				</v8:item>
+			</title>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаКалендаря</dataPath>
+			<field>ДатаКалендаря</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛистУчета.ТорговаяТочка.ТипРозничнойТочки КАК ТипТочки,
+	СоответствиеОбъектРольСрезПоследних.РольПользователя КАК РольПользователя,
+	КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ЛистУчета.ТорговаяТочка) КАК ТочекРаботалоНаКонецПериода,
+	ВЫБОР
+		КОГДА ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.ТипРозничнойТочки = ЗНАЧЕНИЕ(Перечисление.ТипыРозничныхТочек.Магазин)
+			ТОГДА ВЫБОР
+					КОГДА КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ЛистУчета.ТорговаяТочка) &lt; ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальноеКоличествоМагазинов
+						ТОГДА 1
+					ИНАЧЕ 1 + (КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ЛистУчета.ТорговаяТочка) - ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальноеКоличествоМагазинов) / 100
+				КОНЕЦ
+		ИНАЧЕ 1
+	КОНЕЦ КАК ККМ,
+	&amp;ДатаКалендаря
+ИЗ
+	Документ.ЛистУчета КАК ЛистУчета
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних(&amp;ДатаКалендаря, ) КАК СоответствиеОбъектРольСрезПоследних
+		ПО ЛистУчета.ТорговаяТочка = СоответствиеОбъектРольСрезПоследних.Объект
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ПараметрыДляРасчетаЗаработнойПлаты.СрезПоследних КАК ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних
+		ПО ЛистУчета.ТорговаяТочка.ТипРозничнойТочки = ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.ТипРозничнойТочки
+ГДЕ
+	ЛистУчета.Дата МЕЖДУ НАЧАЛОПЕРИОДА(&amp;ДатаКалендаря, ДЕНЬ) И КОНЕЦПЕРИОДА(&amp;ДатаКалендаря, ДЕНЬ)
+	И ЛистУчета.Проведен
+	И СоответствиеОбъектРольСрезПоследних.ТипРоли = ЗНАЧЕНИЕ(ПланВидовХарактеристик.ТипыРолейПользователя.ПомощникТерриториальногоУправляющего)
+	И ЛистУчета.ТорговаяТочка В
+			(ВЫБРАТЬ
+				ЦФОСтруктурныхЕдиницСрезПоследних.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница
+			ИЗ
+				РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних(&amp;ДатаКалендаря, ) КАК ЦФОСтруктурныхЕдиницСрезПоследних
+			ГДЕ
+				ЦФОСтруктурныхЕдиницСрезПоследних.ЦФО.Код &lt;&gt; "ЦФО_88")
+
+СГРУППИРОВАТЬ ПО
+	СоответствиеОбъектРольСрезПоследних.РольПользователя,
+	ЛистУчета.ТорговаяТочка.ТипРозничнойТочки,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальноеКоличествоМагазинов,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.ТипРозничнойТочки</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Настройки</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов</dataPath>
+			<field>МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов</dataPath>
+			<field>МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МинимальноеКоличествоМагазинов</dataPath>
+			<field>МинимальноеКоличествоМагазинов</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипТочки</dataPath>
+			<field>ТипТочки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОкладнаяЧастьПомощникаУправляющего</dataPath>
+			<field>ОкладнаяЧастьПомощникаУправляющего</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаКалендаря</dataPath>
+			<field>ДатаКалендаря</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	&amp;ДатаКалендаря,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.ТипРозничнойТочки КАК ТипТочки,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальноеКоличествоМагазинов,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов,
+	ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.ОкладнаяЧастьПомощникаУправляющего
+ИЗ
+	РегистрСведений.ПараметрыДляРасчетаЗаработнойПлаты.СрезПоследних(&amp;ДатаКалендаря, ) КАК ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>ДнейВМесяце</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РольПользователя</dataPath>
+			<field>РольПользователя</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипТочки</dataPath>
+			<field>ТипТочки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>УчитываемыйДень</dataPath>
+			<field>УчитываемыйДень</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаКалендаря</dataPath>
+			<field>ДатаКалендаря</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>УчитываемыхДней</dataPath>
+			<field>УчитываемыхДней</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛистУчета.ТорговаяТочка.ТипРозничнойТочки КАК ТипТочки,
+	СоответствиеОбъектРольСрезПоследних.РольПользователя КАК РольПользователя,
+	НАЧАЛОПЕРИОДА(ЛистУчета.Дата, ДЕНЬ) КАК УчитываемыйДень,
+	&amp;ДатаКалендаря,
+	СУММА(1) КАК УчитываемыхДней
+ИЗ
+	Документ.ЛистУчета КАК ЛистУчета
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних(&amp;ДатаКалендаря, ) КАК СоответствиеОбъектРольСрезПоследних
+		ПО ЛистУчета.ТорговаяТочка = СоответствиеОбъектРольСрезПоследних.Объект
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ПараметрыДляРасчетаЗаработнойПлаты.СрезПоследних КАК ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних
+		ПО ЛистУчета.ТорговаяТочка.ТипРозничнойТочки = ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.ТипРозничнойТочки
+ГДЕ
+	ЛистУчета.Дата МЕЖДУ &amp;ДатаКалендаря И КОНЕЦПЕРИОДА(&amp;ДатаКалендаря, ДЕНЬ)
+	И ЛистУчета.Проведен
+	И СоответствиеОбъектРольСрезПоследних.ТипРоли = ЗНАЧЕНИЕ(ПланВидовХарактеристик.ТипыРолейПользователя.ПомощникТерриториальногоУправляющего)
+	И ЛистУчета.СуммаДокумента &gt; ПараметрыДляРасчетаЗаработнойПлатыСрезПоследних.МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов
+	И ЛистУчета.ТорговаяТочка В
+			(ВЫБРАТЬ
+				ЦФОСтруктурныхЕдиницСрезПоследних.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница
+			ИЗ
+				РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних(&amp;ДатаКалендаря, ) КАК ЦФОСтруктурныхЕдиницСрезПоследних
+			ГДЕ
+				ЦФОСтруктурныхЕдиницСрезПоследних.ЦФО.Код &lt;&gt; "ЦФО_88")
+
+СГРУППИРОВАТЬ ПО
+	СоответствиеОбъектРольСрезПоследних.РольПользователя,
+	ЛистУчета.ТорговаяТочка.ТипРозничнойТочки,
+	НАЧАЛОПЕРИОДА(ЛистУчета.Дата, ДЕНЬ)</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Сотрудники</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПомощникУправляющего</dataPath>
+			<field>ПомощникУправляющего</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РольПользователя</dataPath>
+			<field>РольПользователя</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаКалендаря</dataPath>
+			<field>ДатаКалендаря</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	РолиПользователейСоставРоли.Сотрудник КАК ПомощникУправляющего,
+	РолиПользователейСоставРоли.Ссылка КАК РольПользователя,
+	&amp;ДатаКалендаря
+ИЗ
+	Справочник.РолиПользователей.СоставРоли КАК РолиПользователейСоставРоли</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Календарь</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаКалендаря</dataPath>
+			<field>ДатаКалендаря</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	РегламентированныйПроизводственныйКалендарь.ДатаКалендаря
+ИЗ
+	РегистрСведений.РегламентированныйПроизводственныйКалендарь КАК РегламентированныйПроизводственныйКалендарь
+ГДЕ
+	РегламентированныйПроизводственныйКалендарь.ДатаКалендаря МЕЖДУ &amp;ДатаНачала И &amp;ДатаОкончания</query>
+	</dataSet>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>Настройки</destinationDataSet>
+		<sourceExpression>ТипТочки</sourceExpression>
+		<destinationExpression>ТипТочки</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>МагазиныПоследнегоДня</destinationDataSet>
+		<sourceExpression>ТипТочки</sourceExpression>
+		<destinationExpression>ТипТочки</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>МагазиныПоследнегоДня</destinationDataSet>
+		<sourceExpression>РольПользователя</sourceExpression>
+		<destinationExpression>РольПользователя</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>ДнейВМесяце</destinationDataSet>
+		<sourceExpression>РольПользователя</sourceExpression>
+		<destinationExpression>РольПользователя</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>ДнейВМесяце</destinationDataSet>
+		<sourceExpression>ТипТочки</sourceExpression>
+		<destinationExpression>ТипТочки</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>Сотрудники</destinationDataSet>
+		<sourceExpression>РольПользователя</sourceExpression>
+		<destinationExpression>РольПользователя</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>Календарь</sourceDataSet>
+		<destinationDataSet>ЗарплатаПродавцов</destinationDataSet>
+		<sourceExpression>ДатаКалендаря</sourceExpression>
+		<destinationExpression>ДатаКалендаря</destinationExpression>
+		<parameter>ДатаКалендаря</parameter>
+		<parameterListAllowed>false</parameterListAllowed>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>Настройки</destinationDataSet>
+		<sourceExpression>ДатаКалендаря</sourceExpression>
+		<destinationExpression>ДатаКалендаря</destinationExpression>
+		<parameter>ДатаКалендаря</parameter>
+		<parameterListAllowed>false</parameterListAllowed>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>МагазиныПоследнегоДня</destinationDataSet>
+		<sourceExpression>ДатаКалендаря</sourceExpression>
+		<destinationExpression>ДатаКалендаря</destinationExpression>
+		<parameter>ДатаКалендаря</parameter>
+		<parameterListAllowed>false</parameterListAllowed>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>ДнейВМесяце</destinationDataSet>
+		<sourceExpression>ДатаКалендаря</sourceExpression>
+		<destinationExpression>ДатаКалендаря</destinationExpression>
+		<parameter>ДатаКалендаря</parameter>
+		<parameterListAllowed>false</parameterListAllowed>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ЗарплатаПродавцов</sourceDataSet>
+		<destinationDataSet>Сотрудники</destinationDataSet>
+		<sourceExpression>ДатаКалендаря</sourceExpression>
+		<destinationExpression>ДатаКалендаря</destinationExpression>
+		<parameter>ДатаКалендаря</parameter>
+		<parameterListAllowed>false</parameterListAllowed>
+	</dataSetLink>
+	<calculatedField>
+		<dataPath>СредняяЗарплатаПродавцов</dataPath>
+		<expression>Сумма(НачисленоПродавцам)/Сумма(Смен)</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Средняя зарплата продавцов(начислено/смен)</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧДЦ=3</dcscor:value>
+			</dcscor:item>
+		</appearance>
+		<valueType>
+			<v8:Type>xs:decimal</v8:Type>
+			<v8:NumberQualifiers>
+				<v8:Digits>15</v8:Digits>
+				<v8:FractionDigits>1</v8:FractionDigits>
+				<v8:AllowedSign>Any</v8:AllowedSign>
+			</v8:NumberQualifiers>
+		</valueType>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>СредняяЗарплатаДляРасчета</dataPath>
+		<expression>""</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Средняя зарплата для расчета(если средняя зарплата меньше настройки то настройка).(Сумма средних зарплат/количество магазинов)</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧДЦ=3</dcscor:value>
+			</dcscor:item>
+		</appearance>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>УчтеноДнейВМесяце</dataPath>
+		<expression>""</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дней с ЛУ больше 100 руб.</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>Бонус</dataPath>
+		<expression>""</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Бонус(Средняя зарплата для расчета х 1.5 х ККМ х Дней х К.Помощника)</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧДЦ=2</dcscor:value>
+			</dcscor:item>
+		</appearance>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>МагазиновСЗаменойЗП</dataPath>
+		<expression/>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Магазинов с заменой ЗП</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>КоэффициентПомощника</dataPath>
+		<expression>Выбор когда ПомощникУправляющего.КоэффициентБонусаПомощникаУправляющего = 0 Тогда 1 Иначе ПомощникУправляющего.КоэффициентБонусаПомощникаУправляющего Конец</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Коэффициент помощника</v8:content>
+			</v8:item>
+		</title>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>БонусБезОклада</dataPath>
+		<expression>""</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Бонус без оклада</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧДЦ=2</dcscor:value>
+			</dcscor:item>
+		</appearance>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>БонусЗаДень</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(НачисленоПродавцам)/Сумма(Смен)&lt;МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов И ТорговаяТочка.Регион.Код = 50 Тогда МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов Иначе Сумма(НачисленоПродавцам)/Сумма(Смен) Конец","ТорговаяТочка"))/Количество(Различные ТорговаяТочка)*1.5*Максимум(ККМ)*Количество(Различные УчитываемыйДень)*Выбор когда ПомощникУправляющего.КоэффициентБонусаПомощникаУправляющего = 0 Тогда 1 Иначе ПомощникУправляющего.КоэффициентБонусаПомощникаУправляющего Конец</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Бонус за день</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧДЦ=2</dcscor:value>
+			</dcscor:item>
+		</appearance>
+	</calculatedField>
+	<totalField>
+		<dataPath>НачисленоПродавцам</dataPath>
+		<expression>Сумма(НачисленоПродавцам)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Смен</dataPath>
+		<expression>Сумма(Смен)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>СредняяЗарплатаПродавцов</dataPath>
+		<expression>Сумма(НачисленоПродавцам)/Сумма(Смен)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>СредняяЗарплатаДляРасчета</dataPath>
+		<expression>Выбор Когда Сумма(НачисленоПродавцам)/Сумма(Смен)&lt;МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов И ТорговаяТочка.Регион.Код = 50 Тогда МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов Иначе Сумма(НачисленоПродавцам)/Сумма(Смен) Конец</expression>
+		<group>ТорговаяТочка</group>
+	</totalField>
+	<totalField>
+		<dataPath>СредняяЗарплатаДляРасчета</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(НачисленоПродавцам)/Сумма(Смен)&lt;МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов И ТорговаяТочка.Регион.Код = 50 Тогда МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов Иначе Сумма(НачисленоПродавцам) /Сумма(Смен) Конец","ТорговаяТочка"))/Количество(Различные ТорговаяТочка)</expression>
+		<group>ДатаКалендаря</group>
+		<group>ПомощникУправляющего</group>
+		<group>ПомощникУправляющего Иерархия</group>
+		<group>РольПользователя</group>
+		<group>РольПользователя Иерархия</group>
+		<group>ТипТочки</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>ККМ</dataPath>
+		<expression>Максимум(ККМ)</expression>
+		<group>ДатаКалендаря</group>
+	</totalField>
+	<totalField>
+		<dataPath>ТочекРаботалоНаКонецПериода</dataPath>
+		<expression>Сумма(ТочекРаботалоНаКонецПериода)</expression>
+		<group>ДатаКалендаря</group>
+		<group>ТипТочки</group>
+	</totalField>
+	<totalField>
+		<dataPath>УчтеноДнейВМесяце</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Количество(Различные УчитываемыйДень)","ПомощникУправляющего,ДатаКалендаря"))</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Бонус</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(НачисленоПродавцам)/Сумма(Смен)&lt;МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов И ТорговаяТочка.Регион.Код = 50 Тогда МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов Иначе Сумма(НачисленоПродавцам)/Сумма(Смен) Конец","ТорговаяТочка"))/Количество(Различные ТорговаяТочка)*1.5*Сумма(ККМ)*Количество(Различные УчитываемыйДень)*КоэффициентПомощника</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ККМ</dataPath>
+		<expression>Максимум(ВычислитьВыражениеСГруппировкойМассив("Максимум(ККМ)","ДатаКалендаря,ПомощникУправляющего"))</expression>
+	</totalField>
+	<totalField>
+		<dataPath>СредняяЗарплатаДляРасчета</dataPath>
+		<expression>0</expression>
+		<group>ДатаНачисления</group>
+		<group>НачисленоПродавцам</group>
+		<group>Продавец</group>
+		<group>Продавец Иерархия</group>
+		<group>Смен</group>
+		<group>ТипРабот</group>
+		<group>ТочекРаботалоНаКонецПериода</group>
+		<group>УчитываемыйДень</group>
+	</totalField>
+	<totalField>
+		<dataPath>ТочекРаботалоНаКонецПериода</dataPath>
+		<expression>0</expression>
+		<group>ДатаНачисления</group>
+		<group>ККМ</group>
+		<group>НачисленоПродавцам</group>
+		<group>ПомощникУправляющего</group>
+		<group>ПомощникУправляющего Иерархия</group>
+		<group>Продавец</group>
+		<group>Продавец Иерархия</group>
+		<group>РольПользователя</group>
+		<group>РольПользователя Иерархия</group>
+		<group>Смен</group>
+		<group>ТипРабот</group>
+		<group>ТорговаяТочка</group>
+		<group>ТочекРаботалоНаКонецПериода</group>
+		<group>УчитываемыйДень</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>МагазиновСЗаменойЗП</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(НачисленоПродавцам)/Сумма(Смен)&lt;МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов И ТорговаяТочка.Регион.Код = 50 Тогда 1 Иначе 0 Конец","ТорговаяТочка"))</expression>
+		<group>ДатаКалендаря</group>
+		<group>ПомощникУправляющего</group>
+		<group>ПомощникУправляющего Иерархия</group>
+		<group>ТипТочки</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>КоэффициентПомощника</dataPath>
+		<expression>Сумма(КоэффициентПомощника)</expression>
+		<group>ДатаКалендаря</group>
+	</totalField>
+	<totalField>
+		<dataPath>КоэффициентПомощника</dataPath>
+		<expression>Среднее(ВычислитьВыражениеСГруппировкойМассив("Сумма(КоэффициентПомощника)","ДатаКалендаря,ПомощникУправляющего"))</expression>
+	</totalField>
+	<totalField>
+		<dataPath>БонусБезОклада</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("БонусЗаДень","ДатаКалендаря,ПомощникУправляющего")) - ОкладнаяЧастьПомощникаУправляющего</expression>
+		<group>ПомощникУправляющего</group>
+		<group>РольПользователя</group>
+	</totalField>
+	<totalField>
+		<dataPath>Бонус</dataPath>
+		<expression>0</expression>
+		<group>Бонус</group>
+		<group>БонусБезОклада</group>
+		<group>БонусЗаДень</group>
+		<group>КоэффициентПомощника</group>
+		<group>МагазиновСЗаменойЗП</group>
+		<group>СредняяЗарплатаДляРасчета</group>
+		<group>СредняяЗарплатаПродавцов</group>
+		<group>УчтеноДнейВМесяце</group>
+		<group>ДатаНачисления</group>
+		<group>ККМ</group>
+		<group>НачисленоПродавцам</group>
+		<group>ОкладнаяЧастьПомощникаУправляющего</group>
+		<group>Продавец</group>
+		<group>Продавец Иерархия</group>
+		<group>Смен</group>
+		<group>ТипРабот</group>
+		<group>ТорговаяТочка</group>
+		<group>ТочекРаботалоНаКонецПериода</group>
+		<group>УчитываемыйДень</group>
+		<group>УчитываемыхДней</group>
+	</totalField>
+	<totalField>
+		<dataPath>БонусЗаДень</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("Выбор Когда Сумма(НачисленоПродавцам)/Сумма(Смен)&lt;МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов И ТорговаяТочка.Регион.Код = 50 Тогда МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов Иначе Сумма(НачисленоПродавцам)/Сумма(Смен) Конец","ТорговаяТочка"))/Количество(Различные ТорговаяТочка)*1.5*Максимум(ККМ)*Количество(Различные УчитываемыйДень)*Выбор когда ПомощникУправляющего.КоэффициентБонусаПомощникаУправляющего = 0 Тогда 1 Иначе ПомощникУправляющего.КоэффициентБонусаПомощникаУправляющего Конец</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Бонус</dataPath>
+		<expression>Сумма(ВычислитьВыражениеСГруппировкойМассив("БонусЗаДень","ДатаКалендаря,помощникУправляющего,РольПользователя"))</expression>
+		<group>ДатаКалендаря</group>
+		<group>МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов</group>
+		<group>МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов</group>
+		<group>МинимальноеКоличествоМагазинов</group>
+		<group>ПомощникУправляющего</group>
+		<group>ПомощникУправляющего Иерархия</group>
+		<group>РольПользователя</group>
+		<group>РольПользователя Иерархия</group>
+		<group>ТипТочки</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>БонусБезОклада</dataPath>
+		<expression>0</expression>
+		<group>Бонус</group>
+		<group>БонусБезОклада</group>
+		<group>БонусЗаДень</group>
+		<group>КоэффициентПомощника</group>
+		<group>МагазиновСЗаменойЗП</group>
+		<group>СредняяЗарплатаДляРасчета</group>
+		<group>СредняяЗарплатаПродавцов</group>
+		<group>УчтеноДнейВМесяце</group>
+		<group>ДатаКалендаря</group>
+		<group>ДатаНачисления</group>
+		<group>ККМ</group>
+		<group>МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов</group>
+		<group>МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов</group>
+		<group>МинимальноеКоличествоМагазинов</group>
+		<group>НачисленоПродавцам</group>
+		<group>ОкладнаяЧастьПомощникаУправляющего</group>
+		<group>Продавец</group>
+		<group>Продавец Иерархия</group>
+		<group>Смен</group>
+		<group>ТипРабот</group>
+		<group>ТипТочки</group>
+		<group>ТорговаяТочка</group>
+		<group>ТочекРаботалоНаКонецПериода</group>
+		<group>УчитываемыйДень</group>
+		<group>УчитываемыхДней</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>ПериодОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период отчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">LastMonth</v8:variant>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаКалендаря</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата календаря</v8:content>
+			</v8:item>
+		</title>
+		<value xsi:nil="true"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Продавец</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НачисленоПродавцам</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Смен</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СредняяЗарплатаПродавцов</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>МагазиновСЗаменойЗП</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СредняяЗарплатаДляРасчета</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТочекРаботалоНаКонецПериода</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ККМ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>УчтеноДнейВМесяце</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоэффициентПомощника</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Бонус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>БонусБезОклада</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemGroup">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:groupType>OrGroup</dcsset:groupType>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ПомощникУправляющего</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ПомощникУправляющего</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+					<dcsset:presentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Помощник</v8:content>
+						</v8:item>
+					</dcsset:presentation>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">LastMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>67d954b7-5271-4db9-904c-0e073f896b12</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаКалендаря</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>77889bb6-92e0-4347-a343-15cab0adb650</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>Бонус</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>УчтеноДнейВМесяце</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ККМ</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>КоэффициентПомощника</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>МагазиновСЗаменойЗП</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>НачисленоПродавцам</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>Смен</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>СредняяЗарплатаДляРасчета</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>СредняяЗарплатаПродавцов</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ТочекРаботалоНаКонецПериода</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter/>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+							<dcscor:value xsi:type="xs:decimal">20</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МакетОформления</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">Арктика</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ПомощникУправляющего</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>РольПользователя</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>ТипТочки</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>МинимальнаяСредняяЗПМагазинаДляРасчетаБонусов</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>МинимальнаяСуммаЛистаУчетаДляРасчетаБонусов</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>МинимальноеКоличествоМагазинов</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ДатаКалендаря</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item xsi:type="dcsset:StructureItemGroup">
+							<dcsset:groupItems>
+								<dcsset:item xsi:type="dcsset:GroupItemField">
+									<dcsset:field>ТорговаяТочка</dcsset:field>
+									<dcsset:groupType>Items</dcsset:groupType>
+									<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+									<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+									<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+								</dcsset:item>
+							</dcsset:groupItems>
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+							<dcsset:item xsi:type="dcsset:StructureItemGroup">
+								<dcsset:groupItems>
+									<dcsset:item xsi:type="dcsset:GroupItemField">
+										<dcsset:field>Продавец</dcsset:field>
+										<dcsset:groupType>Items</dcsset:groupType>
+										<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+										<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+										<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+									</dcsset:item>
+								</dcsset:groupItems>
+								<dcsset:order>
+									<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+								</dcsset:order>
+								<dcsset:selection>
+									<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+								</dcsset:selection>
+								<dcsset:item xsi:type="dcsset:StructureItemGroup">
+									<dcsset:groupItems>
+										<dcsset:item xsi:type="dcsset:GroupItemField">
+											<dcsset:field>ДатаНачисления</dcsset:field>
+											<dcsset:groupType>Items</dcsset:groupType>
+											<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+											<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+											<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+										</dcsset:item>
+									</dcsset:groupItems>
+									<dcsset:order>
+										<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+									</dcsset:order>
+									<dcsset:selection>
+										<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+									</dcsset:selection>
+								</dcsset:item>
+							</dcsset:item>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+	<settingsVariant>
+		<dcsset:name>КраткийВариант</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Расчет бонусов(кратко)</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Продавец</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НачисленоПродавцам</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Смен</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СредняяЗарплатаПродавцов</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СредняяЗарплатаДляРасчета</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>МагазиновСЗаменойЗП</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТочекРаботалоНаКонецПериода</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ККМ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>УчтеноДнейВМесяце</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоэффициентПомощника</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Бонус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>БонусБезОклада</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Продавец</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">РольПользователя</dcsset:left>
+					<dcsset:comparisonType>Filled</dcsset:comparisonType>
+					<dcsset:viewMode>Inaccessible</dcsset:viewMode>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">LastMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>b9d225c3-d8c1-49d1-8e3b-ec3395a3f2a7</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ПомощникУправляющего</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+	<settingsVariant>
+		<dcsset:name>КраткийВариант1</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Расчет по дням</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Продавец</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НачисленоПродавцам</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Смен</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СредняяЗарплатаПродавцов</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СредняяЗарплатаДляРасчета</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>МагазиновСЗаменойЗП</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТочекРаботалоНаКонецПериода</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ККМ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>УчтеноДнейВМесяце</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоэффициентПомощника</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Бонус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>БонусБезОклада</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Продавец</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">LastMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>b9d225c3-d8c1-49d1-8e3b-ec3395a3f2a7</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ПомощникУправляющего</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>ДатаКалендаря</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

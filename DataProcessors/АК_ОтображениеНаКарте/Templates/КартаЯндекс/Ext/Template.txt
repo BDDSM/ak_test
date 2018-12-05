@@ -1,0 +1,95 @@
+﻿<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<!-- Стартовый набор (   -->
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=9"/>  <!-- Используем IE 9 -->
+<!-- Загрузка API yandex  -->
+	<script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU" "type="text/javascript"></script> 
+<!-- Стартовый набор )
+
+<!-- Свои скрипты (   -->
+	
+	<script type="text/javascript">	
+		
+		var myMap;
+		ymaps.ready(CreateMap);
+
+		function CreateMap() {
+
+		
+		 myMap = new ymaps.Map("YMapsID", {
+//Центр		center: [КоординатыЦентра],zoom: 12,
+//Границы	bounds: [  КоординатыГраниц	  ],
+	      controls: ["zoomControl", "fullscreenControl"]
+	    });
+		
+		// переводим карту в полноразмерный режим
+		myMap.controls.get("fullscreenControl").enterFullscreen();		
+		myMap.controls.get("fullscreenControl").options.visible = false;
+
+		// привяжем событие щелчка по карте
+		myMap.events.add('click', function (e) {  
+			return1c('ЩелчокПоКарте',e.get('coords'));
+        	//myMap.hint.open(e.get('coords'), 'Координаты щелчка переданы на форму');
+    		});
+		
+		// Скрываем хинт при открытии балуна.
+	    myMap.events.add('balloonopen', function (e) {
+	        //myMap.hint.close();
+	    });
+		
+	    //var geoGroup = new ymaps.GeoObjectArray({}) ;
+	    
+		var placemark = new ymaps.Placemark([КоординатыОфиса], {
+		    balloonContent: 'Офис "ВкусВилл"',
+		    iconContent: 'В'
+		}, {
+		    preset: 'islands#greenIcon',
+		    balloonCloseButton: false,
+		    hideIconOnBalloonOpen: false,
+		    draggable: false
+		});
+		
+		myMap.geoObjects.add(placemark);	
+		//geoGroup.add(placemark);	
+		
+
+		//INSERT_CODE_HERE
+
+		//масштаб
+
+		//myMap.setBounds(geoGroup.getBounds()) ;		
+		
+		//myMap.setBounds([  КоординатыГраниц	  ], {checkZoomRange: true	  });
+		
+		return1c("ЗагрузкаЗавершена","1");
+		
+		}; // CreateMap конец функции 
+	    			
+		function return1c(name,data){ 
+			
+			// вызов обработчика
+			var evt = document.createEventObject();
+			evt.propertyName = name;
+			evt.data = data;
+			evt.cancelBubble = true;
+			evt.returnValue = false;
+
+			document.fireEvent('onclick',evt);
+		
+		};  
+
+	 </script>
+	 
+<!-- Свои скрипты )  -->
+  
+</HEAD>
+<body>
+
+<div id="YMapsID" style="width: 600px; height: 400px"></div>
+<div id="DIV_NAME"/>
+</body>
+</html>

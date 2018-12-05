@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МесяцАренды</dataPath>
+			<field>МесяцАренды</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Период</dataPath>
+			<field>Период</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МесяцАрендыДоИзменения</dataPath>
+			<field>МесяцАрендыДоИзменения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>АрендаПеременная</dataPath>
+			<field>АрендаПеременная</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>АрендаПеременнаяДоИзменения</dataPath>
+			<field>АрендаПеременнаяДоИзменения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>АрендаПостоянная</dataPath>
+			<field>АрендаПостоянная</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>АрендаПостояннаяДоИзменения</dataPath>
+			<field>АрендаПостояннаяДоИзменения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субаренда</dataPath>
+			<field>Субаренда</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СубарендаДоИзменения</dataPath>
+			<field>СубарендаДоИзменения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Автор</dataPath>
+			<field>Автор</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛимитыАренднойПлаты.Период,
+	ЛимитыАренднойПлаты.ТорговаяТочка,
+	МАКСИМУМ(ЛимитыАренднойПлатыПредыдущие.Период) КАК ПредыдушийПериод
+ПОМЕСТИТЬ ВТ_Периоды
+ИЗ
+	РегистрСведений.ЛимитыАренднойПлаты КАК ЛимитыАренднойПлаты
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЛимитыАренднойПлаты КАК ЛимитыАренднойПлатыПредыдущие
+		ПО ЛимитыАренднойПлаты.ТорговаяТочка = ЛимитыАренднойПлатыПредыдущие.ТорговаяТочка
+			И ЛимитыАренднойПлаты.Период &gt; ЛимитыАренднойПлатыПредыдущие.Период
+
+СГРУППИРОВАТЬ ПО
+	ЛимитыАренднойПлаты.Период,
+	ЛимитыАренднойПлаты.ТорговаяТочка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЛимитыАренднойПлаты.ТорговаяТочка,
+	ЛимитыАренднойПлаты.Период КАК Период,
+	ЛимитыАренднойПлаты.МесяцАренды,
+	ЛимитыАренднойПлаты.СуммаАрендаПостоянная КАК АрендаПостоянная,
+	ЛимитыАренднойПлаты.СуммаАрендаПеременная КАК АрендаПеременная,
+	ЛимитыАренднойПлаты.СуммаСубаренда КАК Субаренда,
+	ЛимитыАренднойПлаты.Ответственный КАК Автор,
+	ЛимитыАренднойПлатыПредыдущие.МесяцАренды КАК МесяцАрендыДоИзменения,
+	ЛимитыАренднойПлатыПредыдущие.СуммаАрендаПостоянная КАК АрендаПостояннаяДоИзменения,
+	ЛимитыАренднойПлатыПредыдущие.СуммаАрендаПеременная КАК АрендаПеременнаяДоИзменения,
+	ЛимитыАренднойПлатыПредыдущие.СуммаСубаренда КАК СубарендаДоИзменения
+ИЗ
+	ВТ_Периоды КАК ВТ_Периоды
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрСведений.ЛимитыАренднойПлаты КАК ЛимитыАренднойПлаты
+		ПО ВТ_Периоды.Период = ЛимитыАренднойПлаты.Период
+			И ВТ_Периоды.ТорговаяТочка = ЛимитыАренднойПлаты.ТорговаяТочка
+		левое СОЕДИНЕНИЕ РегистрСведений.ЛимитыАренднойПлаты КАК ЛимитыАренднойПлатыПредыдущие
+		ПО ВТ_Периоды.ПредыдушийПериод = ЛимитыАренднойПлатыПредыдущие.Период
+			И ВТ_Периоды.ТорговаяТочка = ЛимитыАренднойПлатыПредыдущие.ТорговаяТочка
+
+УПОРЯДОЧИТЬ ПО
+	ВТ_Периоды.ТорговаяТочка.Наименование,
+	Период Возр</query>
+	</dataSet>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Период</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemFolder">
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Было</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>МесяцАрендыДоИзменения</dcsset:field>
+						<dcsset:lwsTitle>
+							<v8:item>
+								<v8:lang>ru</v8:lang>
+								<v8:content>Начинает действовать с</v8:content>
+							</v8:item>
+						</dcsset:lwsTitle>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>АрендаПеременнаяДоИзменения</dcsset:field>
+						<dcsset:lwsTitle>
+							<v8:item>
+								<v8:lang>ru</v8:lang>
+								<v8:content>Аренда переменная</v8:content>
+							</v8:item>
+						</dcsset:lwsTitle>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>АрендаПостояннаяДоИзменения</dcsset:field>
+						<dcsset:lwsTitle>
+							<v8:item>
+								<v8:lang>ru</v8:lang>
+								<v8:content>Аренда постоянная</v8:content>
+							</v8:item>
+						</dcsset:lwsTitle>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>СубарендаДоИзменения</dcsset:field>
+						<dcsset:lwsTitle>
+							<v8:item>
+								<v8:lang>ru</v8:lang>
+								<v8:content>Субаренда</v8:content>
+							</v8:item>
+						</dcsset:lwsTitle>
+					</dcsset:item>
+					<dcsset:placement>Auto</dcsset:placement>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemFolder">
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Стало</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>МесяцАренды</dcsset:field>
+						<dcsset:lwsTitle>
+							<v8:item>
+								<v8:lang>ru</v8:lang>
+								<v8:content>Начинает действовать с</v8:content>
+							</v8:item>
+						</dcsset:lwsTitle>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>АрендаПеременная</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>АрендаПостоянная</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>Субаренда</dcsset:field>
+					</dcsset:item>
+					<dcsset:placement>Auto</dcsset:placement>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Автор</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>c6cb1fe8-16a6-4d1c-9ba8-c267aa44af6a</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

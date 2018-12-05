@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="ФормаОбновить" id="31">
+				<Type>CommandBarButton</Type>
+				<Representation>PictureAndText</Representation>
+				<OnlyInAllActions>true</OnlyInAllActions>
+				<CommandName>Form.StandardCommand.Refresh</CommandName>
+				<ExtendedTooltip name="ФормаОбновитьРасширеннаяПодсказка" id="32"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ГруппаОтбор" id="30">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отбор</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаОтборРасширеннаяПодсказка" id="33"/>
+			<ChildItems>
+				<CheckBoxField name="ПоказатьВсеЗадачи" id="26">
+					<DataPath>ПоказатьВсеЗадачи</DataPath>
+					<TitleLocation>Right</TitleLocation>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ПоказатьВсеЗадачиКонтекстноеМеню" id="27"/>
+					<ExtendedTooltip name="ПоказатьВсеЗадачиРасширеннаяПодсказка" id="34"/>
+					<Events>
+						<Event name="OnChange">ПоказатьВсеЗадачиПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<InputField name="НоменклатураОтбор" id="28">
+					<DataPath>НоменклатураОтбор</DataPath>
+					<ClearButton>true</ClearButton>
+					<OpenButton>false</OpenButton>
+					<ContextMenu name="НоменклатураОтборКонтекстноеМеню" id="29"/>
+					<ExtendedTooltip name="НоменклатураОтборРасширеннаяПодсказка" id="35"/>
+					<Events>
+						<Event name="OnChange">НоменклатураОтборПриИзменении</Event>
+						<Event name="Clearing">НоменклатураОтборОчистка</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<Table name="Список" id="1">
+			<Representation>List</Representation>
+			<CommandBarLocation>None</CommandBarLocation>
+			<DefaultItem>true</DefaultItem>
+			<UseAlternationRowColor>true</UseAlternationRowColor>
+			<InitialTreeView>ExpandTopLevel</InitialTreeView>
+			<EnableStartDrag>true</EnableStartDrag>
+			<DataPath>Список</DataPath>
+			<RowPictureDataPath>Список.DefaultPicture</RowPictureDataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<AutoRefresh>false</AutoRefresh>
+			<AutoRefreshPeriod>60</AutoRefreshPeriod>
+			<Period>
+				<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+				<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+				<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+			</Period>
+			<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+			<RestoreCurrentRow>false</RestoreCurrentRow>
+			<TopLevelParent xsi:nil="true"/>
+			<ShowRoot>true</ShowRoot>
+			<AllowRootChoice>false</AllowRootChoice>
+			<UpdateOnDataChange>Auto</UpdateOnDataChange>
+			<ContextMenu name="СписокКонтекстноеМеню" id="2"/>
+			<AutoCommandBar name="СписокКоманднаяПанель" id="3">
+				<Autofill>false</Autofill>
+			</AutoCommandBar>
+			<ExtendedTooltip name="СписокРасширеннаяПодсказка" id="36"/>
+			<SearchStringAddition name="СписокСтрокаПоиска" id="37">
+				<AdditionSource>
+					<Item>Список</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="СписокСтрокаПоискаКонтекстноеМеню" id="38"/>
+				<ExtendedTooltip name="СписокСтрокаПоискаРасширеннаяПодсказка" id="39"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="СписокСостояниеПросмотра" id="40">
+				<AdditionSource>
+					<Item>Список</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="СписокСостояниеПросмотраКонтекстноеМеню" id="41"/>
+				<ExtendedTooltip name="СписокСостояниеПросмотраРасширеннаяПодсказка" id="42"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="СписокУправлениеПоиском" id="43">
+				<AdditionSource>
+					<Item>Список</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="СписокУправлениеПоискомКонтекстноеМеню" id="44"/>
+				<ExtendedTooltip name="СписокУправлениеПоискомРасширеннаяПодсказка" id="45"/>
+			</SearchControlAddition>
+			<Events>
+				<Event name="OnActivateRow">СписокПриАктивизацииСтроки</Event>
+			</Events>
+			<ChildItems>
+				<LabelField name="Дата" id="4">
+					<DataPath>Список.Date</DataPath>
+					<DefaultItem>true</DefaultItem>
+					<ContextMenu name="ДатаКонтекстноеМеню" id="5"/>
+					<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="46"/>
+				</LabelField>
+				<LabelField name="НомерДок" id="24">
+					<DataPath>Список.НомерДок</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер док.</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="НомерДокКонтекстноеМеню" id="25"/>
+					<ExtendedTooltip name="НомерДокРасширеннаяПодсказка" id="47"/>
+				</LabelField>
+				<LabelField name="Номер" id="6">
+					<DataPath>Список.Number</DataPath>
+					<UserVisible>
+						<xr:Common>false</xr:Common>
+					</UserVisible>
+					<ContextMenu name="НомерКонтекстноеМеню" id="7"/>
+					<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="48"/>
+				</LabelField>
+				<LabelField name="Магазин" id="18">
+					<DataPath>Список.Магазин</DataPath>
+					<ContextMenu name="МагазинКонтекстноеМеню" id="19"/>
+					<ExtendedTooltip name="МагазинРасширеннаяПодсказка" id="49"/>
+				</LabelField>
+				<LabelField name="НоменклатураПредставление" id="22">
+					<DataPath>Список.НоменклатураПредставление</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номенклатура</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="НоменклатураПредставлениеКонтекстноеМеню" id="23"/>
+					<ExtendedTooltip name="НоменклатураПредставлениеРасширеннаяПодсказка" id="50"/>
+				</LabelField>
+				<LabelField name="ВидПроверяемойОперации" id="8">
+					<DataPath>Список.ВидПроверяемойОперации</DataPath>
+					<Visible>false</Visible>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Вид операции</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="ВидПроверяемойОперацииКонтекстноеМеню" id="9"/>
+					<ExtendedTooltip name="ВидПроверяемойОперацииРасширеннаяПодсказка" id="51"/>
+				</LabelField>
+				<LabelField name="ТипЗадания" id="16">
+					<DataPath>Список.ТипЗадания</DataPath>
+					<ContextMenu name="ТипЗаданияКонтекстноеМеню" id="17"/>
+					<ExtendedTooltip name="ТипЗаданияРасширеннаяПодсказка" id="52"/>
+				</LabelField>
+				<CheckBoxField name="Закрыта" id="10">
+					<DataPath>Список.Закрыта</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ЗакрытаКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="ЗакрытаРасширеннаяПодсказка" id="53"/>
+				</CheckBoxField>
+				<CheckBoxField name="Продлена" id="56">
+					<DataPath>Список.Продлена</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ПродленаКонтекстноеМеню" id="57"/>
+					<ExtendedTooltip name="ПродленаРасширеннаяПодсказка" id="58"/>
+				</CheckBoxField>
+				<LabelField name="Комментарий" id="12">
+					<DataPath>Список.КомментарийДок</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Комментарий</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="КомментарийКонтекстноеМеню" id="13"/>
+					<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="54"/>
+				</LabelField>
+				<CheckBoxField name="Проведен" id="20">
+					<DataPath>Список.Posted</DataPath>
+					<Visible>false</Visible>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ПроведенКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="ПроведенРасширеннаяПодсказка" id="55"/>
+				</CheckBoxField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Список" id="1">
+			<Type>
+				<v8:Type>cfg:DynamicList</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<UseAlways>
+				<Field>Список.ФактическаяДатаВыполнения</Field>
+				<Field>Список.ТипЗадания</Field>
+				<Field>Список.Склад</Field>
+				<Field>Список.НомерДок</Field>
+				<Field>Список.НоменклатураПредставление</Field>
+				<Field>Список.Магазин</Field>
+				<Field>Список.КомментарийДок</Field>
+				<Field>Список.ИзмененаДатаАвтозакрытия</Field>
+				<Field>Список.Закрыта</Field>
+				<Field>Список.ДокументОснование</Field>
+				<Field>Список.ДатаВывоза</Field>
+				<Field>Список.ВидПроверяемойОперации</Field>
+				<Field>Список.Ref</Field>
+				<Field>Список.Posted</Field>
+				<Field>Список.PointInTime</Field>
+				<Field>Список.Number</Field>
+				<Field>Список.DeletionMark</Field>
+				<Field>Список.Date</Field>
+				<Field>Список.DataVersion</Field>
+			</UseAlways>
+			<Settings xsi:type="DynamicList">
+				<ManualQuery>true</ManualQuery>
+				<DynamicDataRead>true</DynamicDataRead>
+				<QueryText>ВЫБРАТЬ
+	ДокументМП_ЗадачаТехнолога.Ссылка,
+	ДокументМП_ЗадачаТехнолога.ВерсияДанных,
+	ДокументМП_ЗадачаТехнолога.ПометкаУдаления,
+	ДокументМП_ЗадачаТехнолога.Номер,
+	ДокументМП_ЗадачаТехнолога.Дата,
+	ДокументМП_ЗадачаТехнолога.Проведен,
+	ДокументМП_ЗадачаТехнолога.Склад,
+	ДокументМП_ЗадачаТехнолога.ВидПроверяемойОперации,
+	ДокументМП_ЗадачаТехнолога.ТипЗадания,
+	ДокументМП_ЗадачаТехнолога.Магазин,
+	ДокументМП_ЗадачаТехнолога.ДокументОснование,
+	ДокументМП_ЗадачаТехнолога.Закрыта,
+	ДокументМП_ЗадачаТехнолога.ФактическаяДатаВыполнения,
+	ДокументМП_ЗадачаТехнолога.ИзмененаДатаАвтозакрытия,
+	ДокументМП_ЗадачаТехнолога.МоментВремени,
+	ВложенныйЗапрос.НоменклатураПредставление,
+	ЕСТЬNULL(ЗаданиеТехнологаМагазинам.НеЗакрыватьАвтоматически, ЛОЖЬ) КАК Продлена,
+	ЕСТЬNULL(ЗаданиеТехнологаМагазинам.ДатаВывоза, ДАТАВРЕМЯ(1, 1, 1)) КАК ДатаВывоза,
+	ЕСТЬNULL(ЗаданиеТехнологаМагазинам.Номер, ДокументМП_ЗадачаТехнолога.Номер) КАК НомерДок,
+	ЕСТЬNULL(ЗаданиеТехнологаМагазинам.Комментарий, ДокументМП_ЗадачаТехнолога.Комментарий) КАК КомментарийДок
+ИЗ
+	Документ.МП_ЗадачаТехнолога КАК ДокументМП_ЗадачаТехнолога
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ РАЗЛИЧНЫЕ
+			МП_ЗадачаТехнологаПараметрыЗадачи.Ссылка КАК Ссылка,
+			МП_ЗадачаТехнологаПараметрыЗадачи.Номенклатура КАК Номенклатура,
+			МП_ЗадачаТехнологаПараметрыЗадачи.Номенклатура.Представление КАК НоменклатураПредставление
+		ИЗ
+			Документ.МП_ЗадачаТехнолога.ПараметрыЗадачи КАК МП_ЗадачаТехнологаПараметрыЗадачи
+		ГДЕ
+			ВЫБОР
+					КОГДА &amp;Номенклатура = ЗНАЧЕНИЕ(Справочник.Номенклатура.ПустаяСсылка)
+						ТОГДА МП_ЗадачаТехнологаПараметрыЗадачи.НомерСтроки = 1
+					ИНАЧЕ МП_ЗадачаТехнологаПараметрыЗадачи.Номенклатура = &amp;Номенклатура
+				КОНЕЦ) КАК ВложенныйЗапрос
+		ПО (ВложенныйЗапрос.Ссылка = ДокументМП_ЗадачаТехнолога.Ссылка)
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЗаданиеТехнологаМагазинам КАК ЗаданиеТехнологаМагазинам
+		ПО ДокументМП_ЗадачаТехнолога.ДокументОснование = ЗаданиеТехнологаМагазинам.Ссылка
+ГДЕ
+	ВЫБОР
+			КОГДА &amp;ПоказатьВсеЗадачи
+				ТОГДА НЕ ДокументМП_ЗадачаТехнолога.ПометкаУдаления
+			ИНАЧЕ НЕ ДокументМП_ЗадачаТехнолога.ПометкаУдаления
+					И НЕ ДокументМП_ЗадачаТехнолога.Закрыта
+					И ДокументМП_ЗадачаТехнолога.ФактическаяДатаВыполнения = ДАТАВРЕМЯ(1, 1, 1)
+		КОНЕЦ
+	И ЕСТЬNULL(ЗаданиеТехнологаМагазинам.ПометкаУдаления, ЛОЖЬ) = ЛОЖЬ
+	И ВЫБОР
+			КОГДА &amp;Магазин = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+				ТОГДА ИСТИНА
+			ИНАЧЕ ДокументМП_ЗадачаТехнолога.Магазин = &amp;Магазин
+		КОНЕЦ
+	И ВЫБОР
+			КОГДА &amp;Номенклатура = ЗНАЧЕНИЕ(Справочник.Номенклатура.ПустаяСсылка)
+				ТОГДА ИСТИНА
+			ИНАЧЕ ВложенныйЗапрос.Номенклатура = &amp;Номенклатура
+		КОНЕЦ</QueryText>
+				<MainTable>Document.МП_ЗадачаТехнолога</MainTable>
+				<ListSettings>
+					<dcsset:filter>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>dfcece9d-5077-440b-b6b3-45a5cb4538eb</dcsset:userSettingID>
+					</dcsset:filter>
+					<dcsset:order>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>88619765-ccb3-46c6-ac52-38e9c992ebd4</dcsset:userSettingID>
+					</dcsset:order>
+					<dcsset:conditionalAppearance>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>b75fecce-942b-4aed-abc9-e6a02e460fb3</dcsset:userSettingID>
+					</dcsset:conditionalAppearance>
+				</ListSettings>
+			</Settings>
+		</Attribute>
+		<Attribute name="ПроводитьОперацииМагазина" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Проводить операции магазина</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ПоказатьВсеЗадачи" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать все задачи</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="НоменклатураОтбор" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отбор по номенклатуре</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.Номенклатура</v8:Type>
+			</Type>
+		</Attribute>
+		<ConditionalAppearance>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>Список</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Список.ТипЗадания</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыЗаданийТехнологаМагазинам.СписаниеСМагазинов</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветФона</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">web:LawnGreen</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>Список</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Список.ТипЗадания</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыЗаданийТехнологаМагазинам.СписаниеСМагазиновЗаНашСчёт</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветФона</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">web:LawnGreen</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>Список</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Список.ТипЗадания</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыЗаданийТехнологаМагазинам.СамовывозСМагазинов</dcsset:right>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Список.ДатаВывоза</dcsset:left>
+						<dcsset:comparisonType>Filled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветФона</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">web:Red</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>Список</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Список.ИзмененаДатаАвтозакрытия</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>ЦветФона</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="sys:DefaultGUIFont" bold="true" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+		</ConditionalAppearance>
+	</Attributes>
+	<Parameters>
+		<Parameter name="Номенклатура">
+			<Type>
+				<v8:Type>cfg:CatalogRef.Номенклатура</v8:Type>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="Магазин">
+			<Type>
+				<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</Type>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="ПоказатьВсеЗадачи">
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Parameter>
+	</Parameters>
+	<CommandInterface>
+		<CommandBar>
+			<Item>
+				<Command>Document.МП_ЗадачаТехнолога.Command.ПриходныйОрдер</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>Document.МП_ЗадачаТехнолога.Command.СписаниеПоКачеству103</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>Document.МП_ЗадачаТехнолога.Command.РасходПоПеремещениюТовара411</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>Document.ПретензияПоставщику.StandardCommand.CreateBasedOn</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>Document.ПриходныйОрдерСклад.StandardCommand.CreateBasedOn</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+		</CommandBar>
+	</CommandInterface>
+</Form>

@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="ФормаСохранить" id="63">
+				<Type>CommandBarButton</Type>
+				<Representation>PictureAndText</Representation>
+				<CommandName>Form.Command.Сохранить</CommandName>
+				<Picture>
+					<xr:Ref>StdPicture.SaveFile</xr:Ref>
+					<xr:LoadTransparent>true</xr:LoadTransparent>
+				</Picture>
+				<ExtendedTooltip name="ФормаСохранитьРасширеннаяПодсказка" id="64"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="Группа1" id="6">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="7"/>
+			<ChildItems>
+				<InputField name="Контрагент" id="1">
+					<DataPath>Контрагент</DataPath>
+					<ContextMenu name="КонтрагентКонтекстноеМеню" id="2"/>
+					<ExtendedTooltip name="КонтрагентРасширеннаяПодсказка" id="3"/>
+				</InputField>
+				<Button name="Поиск" id="4">
+					<Type>UsualButton</Type>
+					<CommandName>Form.Command.Поиск</CommandName>
+					<ExtendedTooltip name="ПоискРасширеннаяПодсказка" id="5"/>
+				</Button>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="Группа2" id="8">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа2РасширеннаяПодсказка" id="9"/>
+			<ChildItems>
+				<Table name="ТаблицаКонтрагентов" id="10">
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>Объект.ТаблицаКонтрагентов</DataPath>
+					<RowFilter xsi:nil="true"/>
+					<ContextMenu name="ТаблицаКонтрагентовКонтекстноеМеню" id="11"/>
+					<AutoCommandBar name="ТаблицаКонтрагентовКоманднаяПанель" id="12">
+						<Autofill>false</Autofill>
+					</AutoCommandBar>
+					<ExtendedTooltip name="ТаблицаКонтрагентовРасширеннаяПодсказка" id="13"/>
+					<SearchStringAddition name="ТаблицаКонтрагентовСтрокаПоиска" id="14">
+						<AdditionSource>
+							<Item>ТаблицаКонтрагентов</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаКонтрагентовСтрокаПоискаКонтекстноеМеню" id="15"/>
+						<ExtendedTooltip name="ТаблицаКонтрагентовСтрокаПоискаРасширеннаяПодсказка" id="16"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="ТаблицаКонтрагентовСостояниеПросмотра" id="17">
+						<AdditionSource>
+							<Item>ТаблицаКонтрагентов</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаКонтрагентовСостояниеПросмотраКонтекстноеМеню" id="18"/>
+						<ExtendedTooltip name="ТаблицаКонтрагентовСостояниеПросмотраРасширеннаяПодсказка" id="19"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="ТаблицаКонтрагентовУправлениеПоиском" id="20">
+						<AdditionSource>
+							<Item>ТаблицаКонтрагентов</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаКонтрагентовУправлениеПоискомКонтекстноеМеню" id="21"/>
+						<ExtendedTooltip name="ТаблицаКонтрагентовУправлениеПоискомРасширеннаяПодсказка" id="22"/>
+					</SearchControlAddition>
+					<Events>
+						<Event name="OnActivateRow">ТаблицаКонтрагентовПриАктивизацииСтроки</Event>
+					</Events>
+					<ChildItems>
+						<CheckBoxField name="ТаблицаКонтрагентовПометка" id="57">
+							<DataPath>Объект.ТаблицаКонтрагентов.Пометка</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="ТаблицаКонтрагентовПометкаКонтекстноеМеню" id="58"/>
+							<ExtendedTooltip name="ТаблицаКонтрагентовПометкаРасширеннаяПодсказка" id="59"/>
+						</CheckBoxField>
+						<LabelField name="ТаблицаКонтрагентовНомерСтроки" id="23">
+							<DataPath>Объект.ТаблицаКонтрагентов.LineNumber</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаКонтрагентовНомерСтрокиКонтекстноеМеню" id="24"/>
+							<ExtendedTooltip name="ТаблицаКонтрагентовНомерСтрокиРасширеннаяПодсказка" id="25"/>
+						</LabelField>
+						<InputField name="ТаблицаКонтрагентовGUID" id="26">
+							<DataPath>Объект.ТаблицаКонтрагентов.GUID</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаКонтрагентовGUIDКонтекстноеМеню" id="27"/>
+							<ExtendedTooltip name="ТаблицаКонтрагентовGUIDРасширеннаяПодсказка" id="28"/>
+						</InputField>
+						<InputField name="ТаблицаКонтрагентовname" id="29">
+							<DataPath>Объект.ТаблицаКонтрагентов.name</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаКонтрагентовnameКонтекстноеМеню" id="30"/>
+							<ExtendedTooltip name="ТаблицаКонтрагентовnameРасширеннаяПодсказка" id="31"/>
+						</InputField>
+					</ChildItems>
+				</Table>
+				<Table name="ТаблицаПлощадок" id="32">
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>Объект.ТаблицаПлощадок</DataPath>
+					<RowFilter xsi:nil="true"/>
+					<ContextMenu name="ТаблицаПлощадокКонтекстноеМеню" id="33"/>
+					<AutoCommandBar name="ТаблицаПлощадокКоманднаяПанель" id="34">
+						<Autofill>false</Autofill>
+					</AutoCommandBar>
+					<ExtendedTooltip name="ТаблицаПлощадокРасширеннаяПодсказка" id="35"/>
+					<SearchStringAddition name="ТаблицаПлощадокСтрокаПоиска" id="36">
+						<AdditionSource>
+							<Item>ТаблицаПлощадок</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаПлощадокСтрокаПоискаКонтекстноеМеню" id="37"/>
+						<ExtendedTooltip name="ТаблицаПлощадокСтрокаПоискаРасширеннаяПодсказка" id="38"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="ТаблицаПлощадокСостояниеПросмотра" id="39">
+						<AdditionSource>
+							<Item>ТаблицаПлощадок</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаПлощадокСостояниеПросмотраКонтекстноеМеню" id="40"/>
+						<ExtendedTooltip name="ТаблицаПлощадокСостояниеПросмотраРасширеннаяПодсказка" id="41"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="ТаблицаПлощадокУправлениеПоиском" id="42">
+						<AdditionSource>
+							<Item>ТаблицаПлощадок</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="ТаблицаПлощадокУправлениеПоискомКонтекстноеМеню" id="43"/>
+						<ExtendedTooltip name="ТаблицаПлощадокУправлениеПоискомРасширеннаяПодсказка" id="44"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<CheckBoxField name="ТаблицаПлощадокПометка" id="60">
+							<DataPath>Объект.ТаблицаПлощадок.Пометка</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="ТаблицаПлощадокПометкаКонтекстноеМеню" id="61"/>
+							<ExtendedTooltip name="ТаблицаПлощадокПометкаРасширеннаяПодсказка" id="62"/>
+							<Events>
+								<Event name="OnChange">ТаблицаПлощадокПометкаПриИзменении</Event>
+							</Events>
+						</CheckBoxField>
+						<LabelField name="ТаблицаПлощадокНомерСтроки" id="45">
+							<DataPath>Объект.ТаблицаПлощадок.LineNumber</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаПлощадокНомерСтрокиКонтекстноеМеню" id="46"/>
+							<ExtendedTooltip name="ТаблицаПлощадокНомерСтрокиРасширеннаяПодсказка" id="47"/>
+						</LabelField>
+						<InputField name="ТаблицаПлощадокGUID" id="48">
+							<DataPath>Объект.ТаблицаПлощадок.GUID</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаПлощадокGUIDКонтекстноеМеню" id="49"/>
+							<ExtendedTooltip name="ТаблицаПлощадокGUIDРасширеннаяПодсказка" id="50"/>
+						</InputField>
+						<InputField name="ТаблицаПлощадокname" id="51">
+							<DataPath>Объект.ТаблицаПлощадок.name</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаПлощадокnameКонтекстноеМеню" id="52"/>
+							<ExtendedTooltip name="ТаблицаПлощадокnameРасширеннаяПодсказка" id="53"/>
+						</InputField>
+						<InputField name="ТаблицаПлощадокaddressView" id="54">
+							<DataPath>Объект.ТаблицаПлощадок.addressView</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ТаблицаПлощадокaddressViewКонтекстноеМеню" id="55"/>
+							<ExtendedTooltip name="ТаблицаПлощадокaddressViewРасширеннаяПодсказка" id="56"/>
+						</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.МЙ_ПоискКонтрагентаВВетисе</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="Контрагент" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Контрагент</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.Контрагенты</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Поиск" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Поиск</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Поиск</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Поиск</Action>
+		</Command>
+		<Command name="Сохранить" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сохранить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сохранить</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Сохранить</Action>
+		</Command>
+		<Command name="УстановитьВсе" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить все</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить все</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.CheckAll</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Representation>Picture</Representation>
+		</Command>
+		<Command name="СнятьВсе" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Снять все</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Снять все</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.UncheckAll</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Representation>Picture</Representation>
+		</Command>
+	</Commands>
+	<Parameters>
+		<Parameter name="Контрагент">
+			<Type>
+				<v8:Type>cfg:CatalogRef.Контрагенты</v8:Type>
+			</Type>
+		</Parameter>
+	</Parameters>
+</Form>

@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>id_tov_cl</dataPath>
+			<field>id_tov_cl</field>
+			<valueType>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</valueType>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>id_tt_cl</dataPath>
+			<field>id_tt_cl</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПоЧеку</dataPath>
+			<field>ДатаПоЧеку</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ИД_Производитель</dataPath>
+			<field>ИД_Производитель</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ИдентификаторЧека</dataPath>
+			<field>ИдентификаторЧека</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоПоСтроке</dataPath>
+			<field>КоличествоПоСтроке</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НомерМагазина</dataPath>
+			<field>НомерМагазина</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НомерСтроки</dataPath>
+			<field>НомерСтроки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаБонусПоЧеку</dataPath>
+			<field>СуммаБонусПоЧеку</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаВсегоПоСтроке</dataPath>
+			<field>СуммаВсегоПоСтроке</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаОплатыБанковскаяКартаПоЧеку</dataPath>
+			<field>СуммаОплатыБанковскаяКартаПоЧеку</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаОплатыВсегоПоЧеку</dataPath>
+			<field>СуммаОплатыВсегоПоЧеку</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаОплатыНаличныеПоЧеку</dataPath>
+			<field>СуммаОплатыНаличныеПоЧеку</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаСкидкиПоСтроке</dataPath>
+			<field>СуммаСкидкиПоСтроке</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаСкидкиПоЧеку</dataPath>
+			<field>СуммаСкидкиПоЧеку</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипОперации</dataPath>
+			<field>ТипОперации</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипСкидки</dataPath>
+			<field>ТипСкидки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЦенаПоСтроке</dataPath>
+			<field>ЦенаПоСтроке</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НомерКарты</dataPath>
+			<field>НомерКарты</field>
+			<valueType>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>10</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</valueType>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	dbo_Checks.JournDateTime КАК ДатаПоЧеку,
+	dbo_Checks.CheckUID КАК ИдентификаторЧека,
+	dbo_Checks.ShopNo КАК НомерМагазина,
+	dbo_Checks.BaseSum КАК СуммаОплатыВсегоПоЧеку,
+	dbo_Checks.SummCash КАК СуммаОплатыНаличныеПоЧеку,
+	dbo_Checks.SummBank КАК СуммаОплатыБанковскаяКартаПоЧеку,
+	dbo_Checks.SummBonus КАК СуммаБонусПоЧеку,
+	dbo_Checks.Discount КАК СуммаСкидкиПоЧеку,
+	dbo_Checks.OperationType КАК ТипОперации,
+	dbo_CheckLine.id_tov_cl,
+	dbo_CheckLine.BasePrice КАК ЦенаПоСтроке,
+	dbo_CheckLine.id_tt_cl,
+	dbo_CheckLine.BaseSum КАК СуммаВсегоПоСтроке,
+	dbo_CheckLine.Quantity КАК КоличествоПоСтроке,
+	dbo_CheckLine.Discount КАК СуммаСкидкиПоСтроке,
+	dbo_CheckLine.DiscountType КАК ТипСкидки,
+	dbo_CheckLine.CashCheckLineNo КАК НомерСтроки,
+	dbo_CheckLine.ManufacturerID КАК ИД_Производитель,
+	dbo_Checks.BONUSCARD КАК НомерКарты
+ИЗ
+	ВнешнийИсточникДанных.SMS_Izbenka.Таблица.dbo_Checks КАК dbo_Checks
+		ПОЛНОЕ СОЕДИНЕНИЕ ВнешнийИсточникДанных.SMS_Izbenka.Таблица.dbo_CheckLine КАК dbo_CheckLine
+		ПО dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
+ГДЕ
+	dbo_Checks.BONUSCARD &lt;&gt; ""
+	И НЕ dbo_Checks.BONUSCARD В (&amp;СписокУжеОбработанных)</query>
+	</dataSet>
+	<parameter>
+		<name>СписокУжеОбработанных</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Список уже обработанных</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:string</v8:Type>
+			<v8:StringQualifiers>
+				<v8:Length>10</v8:Length>
+				<v8:AllowedLength>Variable</v8:AllowedLength>
+			</v8:StringQualifiers>
+		</valueType>
+		<useRestriction>true</useRestriction>
+		<valueListAllowed>true</valueListAllowed>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Покупатели</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Покупатели</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>id_tov_cl</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>id_tt_cl</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаПоЧеку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ИД_Производитель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ИдентификаторЧека</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоПоСтроке</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НомерКарты</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НомерМагазина</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НомерСтроки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаБонусПоЧеку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаВсегоПоСтроке</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаОплатыБанковскаяКартаПоЧеку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаОплатыВсегоПоЧеку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаОплатыНаличныеПоЧеку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаСкидкиПоСтроке</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаСкидкиПоЧеку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТипОперации</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТипСкидки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЦенаПоСтроке</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

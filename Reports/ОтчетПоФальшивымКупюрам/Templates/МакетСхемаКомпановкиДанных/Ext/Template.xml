@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Продавец</dataPath>
+			<field>Продавец</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаФальшивки</dataPath>
+			<field>ДатаФальшивки</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата фальшивки</v8:content>
+				</v8:item>
+			</title>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ДФ=dd.MM.yyyy</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Примечание</dataPath>
+			<field>Примечание</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтруктурноеПодразделение</dataPath>
+			<field>СтруктурноеПодразделение</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Подразделение</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Рейтинг</dataPath>
+			<field>Рейтинг</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Кассир</dataPath>
+			<field>Кассир</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Регистратор</dataPath>
+			<field>Регистратор</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Регистратор</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номинал</dataPath>
+			<field>Номинал</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сумма</dataPath>
+			<field>Сумма</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма</v8:content>
+				</v8:item>
+			</title>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка,
+	ЛистУчетаПродавцы.Продавец КАК Коэффициент,
+	НАЧАЛОПЕРИОДА(ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Дата, ДЕНЬ) КАК Дата
+ПОМЕСТИТЬ ТЗ_КоэфициентНоминала
+{ВЫБРАТЬ
+	Дата}
+ИЗ
+	Документ.ЗаявкаНаРасходованиеСредств.ТорговыеТочки КАК ЗаявкаНаРасходованиеСредствТорговыеТочки
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+		ПО (НАЧАЛОПЕРИОДА(ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.ДатаФальшивки, ДЕНЬ) = НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ))
+			И ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка = ЛистУчетаПродавцы.Ссылка.ТорговаяТочка
+ГДЕ
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Проведен
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СтатьяДвиженияДенежныхСредств = &amp;СтатьяДвиженияДенежныхСредств
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_КоэфициентНоминала.ТорговаяТочка,
+	КОЛИЧЕСТВО(ТЗ_КоэфициентНоминала.Коэффициент) КАК Коэффициент,
+	ТЗ_КоэфициентНоминала.Дата
+ПОМЕСТИТЬ ТЗ_КоэфициентНоминалаСвернутая
+ИЗ
+	ТЗ_КоэфициентНоминала КАК ТЗ_КоэфициентНоминала
+
+СГРУППИРОВАТЬ ПО
+	ТЗ_КоэфициентНоминала.ТорговаяТочка,
+	ТЗ_КоэфициентНоминала.Дата
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВложенныйЗапрос.ТорговаяТочка,
+	ЛистУчетаПродавцы.Продавец,
+	ВложенныйЗапрос.Дата
+ПОМЕСТИТЬ ТЗ_КоэфициентНоминала2
+ИЗ
+	(ВЫБРАТЬ
+		-ПоступлениеВБанкАктыНаСписание.Сумма КАК Сумма,
+		ПоступлениеВБанкАктыНаСписание.ТорговаяТочка КАК ТорговаяТочка,
+		"Отказ банка" КАК Примечание,
+		1 КАК Рейтинг,
+		НАЧАЛОПЕРИОДА(ПоступлениеВБанкИнкассация.ДокументРасхода.Дата, ДЕНЬ) КАК Дата,
+		"" КАК СтруктурноеПодразделение,
+		ПоступлениеВБанкИнкассация.Ссылка КАК Регистратор
+	ИЗ
+		Документ.ПоступлениеВБанк.АктыНаСписание КАК ПоступлениеВБанкАктыНаСписание
+			ЛЕВОЕ СОЕДИНЕНИЕ Документ.ПоступлениеВБанк.Инкассация КАК ПоступлениеВБанкИнкассация
+			ПО ПоступлениеВБанкАктыНаСписание.Ссылка = ПоступлениеВБанкИнкассация.Ссылка
+				И ПоступлениеВБанкАктыНаСписание.ТорговаяТочка = ПоступлениеВБанкИнкассация.ДокументРасхода.СтруктурнаяЕдиница
+	ГДЕ
+		ПоступлениеВБанкАктыНаСписание.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+		И ПоступлениеВБанкАктыНаСписание.ВидАктаНаСписание = ЗНАЧЕНИЕ(Перечисление.ВидыАктовНаСписаниеПриИнкассации.ФальшиваяКупюра)
+		И ПоступлениеВБанкАктыНаСписание.ТорговаяТочка.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+		И ПоступлениеВБанкАктыНаСписание.Ссылка.Проведен) КАК ВложенныйЗапрос
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+		ПО ВложенныйЗапрос.ТорговаяТочка = ЛистУчетаПродавцы.Ссылка.ТорговаяТочка
+			И (НАЧАЛОПЕРИОДА(ВложенныйЗапрос.Дата, ДЕНЬ) = НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ))
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_КоэфициентНоминала2.ТорговаяТочка,
+	КОЛИЧЕСТВО(ТЗ_КоэфициентНоминала2.Продавец) КАК Коэффициент,
+	ТЗ_КоэфициентНоминала2.Дата
+ПОМЕСТИТЬ ТЗ_КоэфициентНоминалаСвернутая2
+ИЗ
+	ТЗ_КоэфициентНоминала2 КАК ТЗ_КоэфициентНоминала2
+
+СГРУППИРОВАТЬ ПО
+	ТЗ_КоэфициентНоминала2.ТорговаяТочка,
+	ТЗ_КоэфициентНоминала2.Дата
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СуммаДокумента КАК Номинал,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка,
+	ЛистУчетаПродавцы.Продавец,
+	"" КАК СтруктурноеПодразделение,
+	1 КАК Рейтинг,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.ДатаФальшивки,
+	"" КАК Примечание,
+	NULL КАК Кассир,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка КАК Регистратор,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СуммаДокумента / ЕСТЬNULL(ТЗ_КоэфициентНоминалаСвернутая.Коэффициент, 1) КАК Сумма
+ПОМЕСТИТЬ ТЗ_Итог
+{ВЫБРАТЬ
+	Регистратор.*}
+ИЗ
+	Документ.ЗаявкаНаРасходованиеСредств.ТорговыеТочки КАК ЗаявкаНаРасходованиеСредствТорговыеТочки
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+		ПО (НАЧАЛОПЕРИОДА(ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.ДатаФальшивки, ДЕНЬ) = НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ))
+			И ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка = ЛистУчетаПродавцы.Ссылка.ТорговаяТочка
+		ЛЕВОЕ СОЕДИНЕНИЕ ТЗ_КоэфициентНоминалаСвернутая КАК ТЗ_КоэфициентНоминалаСвернутая
+		ПО ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка = ТЗ_КоэфициентНоминалаСвернутая.ТорговаяТочка
+			И (НАЧАЛОПЕРИОДА(ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.ДатаФальшивки, ДЕНЬ) = ТЗ_КоэфициентНоминалаСвернутая.Дата)
+ГДЕ
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Проведен
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СтатьяДвиженияДенежныхСредств = &amp;СтатьяДвиженияДенежныхСредств
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СуммаДокумента,
+	"",
+	NULL,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.БанковскийСчетКасса,
+	1,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.ДатаФальшивки,
+	"",
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Ответственный,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка,
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СуммаДокумента
+ИЗ
+	Документ.ЗаявкаНаРасходованиеСредств.ТорговыеТочки КАК ЗаявкаНаРасходованиеСредствТорговыеТочки
+ГДЕ
+	ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.Проведен
+	И ЗаявкаНаРасходованиеСредствТорговыеТочки.Ссылка.СтатьяДвиженияДенежныхСредств = &amp;СтатьяДвиженияДенежныхСредств
+	И НЕ ЗаявкаНаРасходованиеСредствТорговыеТочки.ТорговаяТочка.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ВложенныйЗапрос.Сумма,
+	ВложенныйЗапрос.ТорговаяТочка,
+	ЛистУчетаПродавцы.Продавец,
+	ВложенныйЗапрос.СтруктурноеПодразделение,
+	ВложенныйЗапрос.Рейтинг,
+	ВложенныйЗапрос.Дата,
+	ВложенныйЗапрос.Примечание,
+	NULL,
+	ВложенныйЗапрос.Регистратор,
+	ВложенныйЗапрос.Сумма / ТЗ_КоэфициентНоминалаСвернутая2.Коэффициент
+ИЗ
+	(ВЫБРАТЬ
+		-ПоступлениеВБанкАктыНаСписание.Сумма КАК Сумма,
+		ПоступлениеВБанкАктыНаСписание.ТорговаяТочка КАК ТорговаяТочка,
+		"Отказ банка" КАК Примечание,
+		1 КАК Рейтинг,
+		НАЧАЛОПЕРИОДА(ПоступлениеВБанкИнкассация.ДокументРасхода.Дата, ДЕНЬ) КАК Дата,
+		"" КАК СтруктурноеПодразделение,
+		ПоступлениеВБанкИнкассация.Ссылка КАК Регистратор
+	ИЗ
+		Документ.ПоступлениеВБанк.АктыНаСписание КАК ПоступлениеВБанкАктыНаСписание
+			ЛЕВОЕ СОЕДИНЕНИЕ Документ.ПоступлениеВБанк.Инкассация КАК ПоступлениеВБанкИнкассация
+			ПО ПоступлениеВБанкАктыНаСписание.Ссылка = ПоступлениеВБанкИнкассация.Ссылка
+				И ПоступлениеВБанкАктыНаСписание.ТорговаяТочка = ПоступлениеВБанкИнкассация.ДокументРасхода.СтруктурнаяЕдиница
+	ГДЕ
+		ПоступлениеВБанкАктыНаСписание.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+		И ПоступлениеВБанкАктыНаСписание.ВидАктаНаСписание = ЗНАЧЕНИЕ(Перечисление.ВидыАктовНаСписаниеПриИнкассации.ФальшиваяКупюра)
+		И ПоступлениеВБанкАктыНаСписание.ТорговаяТочка.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+		И ПоступлениеВБанкАктыНаСписание.Ссылка.Проведен) КАК ВложенныйЗапрос
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+		ПО ВложенныйЗапрос.ТорговаяТочка = ЛистУчетаПродавцы.Ссылка.ТорговаяТочка
+			И (НАЧАЛОПЕРИОДА(ВложенныйЗапрос.Дата, ДЕНЬ) = НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ))
+		ЛЕВОЕ СОЕДИНЕНИЕ ТЗ_КоэфициентНоминалаСвернутая2 КАК ТЗ_КоэфициентНоминалаСвернутая2
+		ПО ВложенныйЗапрос.ТорговаяТочка = ТЗ_КоэфициентНоминалаСвернутая2.ТорговаяТочка
+			И ВложенныйЗапрос.Дата = ТЗ_КоэфициентНоминалаСвернутая2.Дата
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	-ПоступлениеВБанкАктыНаСписание.Сумма,
+	"",
+	NULL,
+	"",
+	1,
+	ПоступлениеВБанкИнкассация.ДокументРасхода.Дата,
+	"Отказ банка",
+	ПоступлениеВБанкИнкассация.ДокументРасхода.Ответственный,
+	ПоступлениеВБанкАктыНаСписание.Ссылка,
+	-ПоступлениеВБанкАктыНаСписание.Сумма
+ИЗ
+	Документ.ПоступлениеВБанк.АктыНаСписание КАК ПоступлениеВБанкАктыНаСписание
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ПоступлениеВБанк.Инкассация КАК ПоступлениеВБанкИнкассация
+		ПО ПоступлениеВБанкАктыНаСписание.Ссылка = ПоступлениеВБанкИнкассация.Ссылка
+			И ПоступлениеВБанкАктыНаСписание.ТорговаяТочка = ПоступлениеВБанкИнкассация.ДокументРасхода.СтруктурнаяЕдиница
+ГДЕ
+	ПоступлениеВБанкАктыНаСписание.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И ПоступлениеВБанкАктыНаСписание.ВидАктаНаСписание = ЗНАЧЕНИЕ(Перечисление.ВидыАктовНаСписаниеПриИнкассации.ФальшиваяКупюра)
+	И НЕ ПоступлениеВБанкАктыНаСписание.ТорговаяТочка.ТипСтруктурнойЕдиницы = ЗНАЧЕНИЕ(Перечисление.ТипыСтруктурныхЕдиниц.Розница)
+	И ПоступлениеВБанкАктыНаСписание.Ссылка.Проведен
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_Итог.Номинал,
+	ТЗ_Итог.ТорговаяТочка,
+	ТЗ_Итог.Продавец,
+	ТЗ_Итог.СтруктурноеПодразделение,
+	ТЗ_Итог.Рейтинг,
+	ТЗ_Итог.ДатаФальшивки,
+	ТЗ_Итог.Примечание,
+	ТЗ_Итог.Кассир,
+	ТЗ_Итог.Регистратор,
+	ТЗ_Итог.Сумма
+ИЗ
+	ТЗ_Итог КАК ТЗ_Итог
+ГДЕ
+	ТЗ_Итог.ДатаФальшивки МЕЖДУ &amp;ДатаНач И &amp;ДатаКон</query>
+	</dataSet>
+	<totalField>
+		<dataPath>Рейтинг</dataPath>
+		<expression>Сумма(Рейтинг)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Сумма</dataPath>
+		<expression>Сумма(Сумма)</expression>
+	</totalField>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата кон</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>ДатаНач</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата нач</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>СтатьяДвиженияДенежныхСредств</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Статья движения денежных средств</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтатьиДвиженияДенежныхСредств</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сумма</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Рейтинг</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Номинал</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+					<dcsset:userSettingID>764ec5fc-4e34-42f6-a916-80ac0846c1ff</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Кассир</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>0cc787f2-6e9f-4dff-9f28-ffa8bd029a4c</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Продавец</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>810c6d21-054b-4e65-be8f-0d9b81a224a8</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>29880ca7-2031-4e70-a134-ed1d4c4956a9</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>СтатьяДвиженияДенежныхСредств</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>29bd4513-530a-48d4-b9bc-f6346b687f7d</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>4c40ec29-a0d5-406a-bb7d-43e48be9d255</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Рейтинг</dcsset:field>
+					<dcsset:orderType>Desc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Кассир.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Продавец</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>ТорговаяТочка</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Кассир</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Номинал</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>ДатаФальшивки</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Примечание</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>СтруктурноеПодразделение</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

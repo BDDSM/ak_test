@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>БрэндМенеджер</dataPath>
+			<field>БрэндМенеджер</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Брэнд менеджер</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатусАктивностиХарактеристики</dataPath>
+			<field>СтатусАктивностиХарактеристики</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОжидаемогоВозврата</dataPath>
+			<field>ДатаОжидаемогоВозврата</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаВывода</dataPath>
+			<field>ДатаВывода</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ссылка</dataPath>
+			<field>Ссылка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Группа</dataPath>
+			<field>Группа</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Товарная группа</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Технолог</dataPath>
+			<field>Технолог</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Технолог</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Статус</dataPath>
+			<field>Статус</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НаименованиеТовара</dataPath>
+			<field>НаименованиеТовара</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Наименование товара</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НаименованиеХарактеристики</dataPath>
+			<field>НаименованиеХарактеристики</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Наименование характеристики</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Группа2</dataPath>
+			<field>Группа2</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Товарная группа 2</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Причина</dataPath>
+			<field>Причина</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ 
+	ХарактеристикиНоменклатуры.Ссылка,
+	МИНИМУМ(ЗначенияСвойствОбъектов.Значение) КАК Производитель
+		
+		ПОМЕСТИТЬ втСписок	
+	
+ИЗ Справочник.ХарактеристикиНоменклатуры КАК ХарактеристикиНоменклатуры
+	ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЗначенияСвойствОбъектов КАК ЗначенияСвойствОбъектов ПО
+			ЗначенияСвойствОбъектов.Объект = ХарактеристикиНоменклатуры.Ссылка 
+		И   ЗначенияСвойствОбъектов.Свойство = ЗНАЧЕНИЕ(ПланВидовХарактеристик.СвойстваОбъектов.Производитель)
+
+ГДЕ ХарактеристикиНоменклатуры.ПометкаУдаления = ЛОЖЬ
+
+СГРУППИРОВАТЬ ПО ХарактеристикиНоменклатуры.Ссылка
+
+;
+///////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	втСписок.Ссылка,
+	ЕСТЬNULL(СоответствиеОбъектРольХарактеристика.РольПользователя, СоответствиеОбъектРольПроизводитель.РольПользователя) КАК РольТехнолога,
+	СоответствиеОбъектРольТехнолог.РольПользователя КАК РольОтветственного
+		
+		ПОМЕСТИТЬ втСписокРолейХарактеристик
+
+ИЗ втСписок
+	ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних КАК СоответствиеОбъектРольХарактеристика ПО
+			СоответствиеОбъектРольХарактеристика.ТипРоли = ЗНАЧЕНИЕ(ПланВидовХарактеристик.ТипыРолейПользователя.ТехнологПоКачеству)
+		И	СоответствиеОбъектРольХарактеристика.Объект = втСписок.Ссылка
+		И	СоответствиеОбъектРольХарактеристика.РольПользователя &lt;&gt; ЗНАЧЕНИЕ(Справочник.РолиПользователей.ПустаяСсылка)
+	
+	ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних КАК СоответствиеОбъектРольПроизводитель ПО
+			СоответствиеОбъектРольПроизводитель.ТипРоли = ЗНАЧЕНИЕ(ПланВидовХарактеристик.ТипыРолейПользователя.ТехнологПоКачеству)
+		И	СоответствиеОбъектРольПроизводитель.Объект = втСписок.Производитель
+		И	СоответствиеОбъектРольПроизводитель.РольПользователя &lt;&gt; ЗНАЧЕНИЕ(Справочник.РолиПользователей.ПустаяСсылка)
+
+	ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних КАК СоответствиеОбъектРольТехнолог ПО
+			ТИПЗНАЧЕНИЯ(СоответствиеОбъектРольТехнолог.Объект) = ТИП(Справочник.РолиПользователей)
+		И	СоответствиеОбъектРольТехнолог.Объект = ЕСТЬNULL(СоответствиеОбъектРольХарактеристика.РольПользователя, СоответствиеОбъектРольПроизводитель.РольПользователя)
+		И	СоответствиеОбъектРольТехнолог.РольПользователя &lt;&gt; ЗНАЧЕНИЕ(Справочник.РолиПользователей.ПустаяСсылка)
+		
+ИНДЕКСИРОВАТЬ ПО втСписок.Ссылка
+;
+///////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ	
+	ХарактеристикиНоменклатуры.Ссылка,
+	ХарактеристикиНоменклатуры.Владелец.Родитель.Родитель КАК Группа2,
+	ХарактеристикиНоменклатуры.Владелец.Родитель КАК Группа,
+	ХарактеристикиНоменклатуры.Владелец.Наименование КАК НаименованиеТовара,
+	ХарактеристикиНоменклатуры.Наименование КАК НаименованиеХарактеристики,
+	ХарактеристикиНоменклатуры.СтатусАктивностиХарактеристики,
+	ХарактеристикиНоменклатуры.Статус,
+	ХарактеристикиНоменклатуры.ДатаВывода,
+	ХарактеристикиНоменклатуры.ДатаОжидаемогоВозврата,
+	ХарактеристикиНоменклатуры.Причина,
+	Технолог.Сотрудник КАК Технолог,
+	БрэндМенеджер.Сотрудник КАК БрэндМенеджер
+	
+ИЗ втСписокРолейХарактеристик
+	ВНУТРЕННЕЕ СОЕДИНЕНИЕ Справочник.ХарактеристикиНоменклатуры КАК ХарактеристикиНоменклатуры ПО
+			втСписокРолейХарактеристик.Ссылка = ХарактеристикиНоменклатуры.Ссылка
+	
+	ЛЕВОЕ СОЕДИНЕНИЕ Справочник.РолиПользователей.СоставРоли КАК Технолог ПО
+			Технолог.НомерСтроки = 1
+		И	Технолог.Ссылка = втСписокРолейХарактеристик.РольТехнолога
+ 	
+ 	ЛЕВОЕ СОЕДИНЕНИЕ Справочник.РолиПользователей.СоставРоли КАК БрэндМенеджер ПО
+			БрэндМенеджер.НомерСтроки = 1
+		И	БрэндМенеджер.Ссылка = втСписокРолейХарактеристик.РольОтветственного</query>
+	</dataSet>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Группа2</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Группа</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НаименованиеТовара</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НаименованиеХарактеристики</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтатусАктивностиХарактеристики</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Статус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаВывода</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаОжидаемогоВозврата</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Причина</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Технолог</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>БрэндМенеджер</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">Группа2</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:userSettingID>c5c51c10-d68c-464f-83a6-e6a260e7a91d</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">Группа</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:userSettingID>08dcc132-5186-4cb7-9e04-01123c3befbe</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">НаименованиеТовара</dcsset:left>
+						<dcsset:comparisonType>Contains</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string"/>
+						<dcsset:userSettingID>82e46f21-8727-4daa-a212-3197d2a11940</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">НаименованиеХарактеристики</dcsset:left>
+						<dcsset:comparisonType>Contains</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string"/>
+						<dcsset:userSettingID>341117b6-c98d-49c3-82dc-06e9637b7b35</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">СтатусАктивностиХарактеристики</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:userSettingID>c6a944e6-6ae4-4b0c-88ad-7ce3bad043b9</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">Статус</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:userSettingID>32138e7f-8347-435d-b1b7-4a860cf4b02a</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">ДатаВывода</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="v8:StandardBeginningDate">
+							<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+							<v8:date>0001-01-01T00:00:00</v8:date>
+						</dcsset:right>
+						<dcsset:userSettingID>fed53e8a-72ae-444a-ad3f-eb685b56d0c8</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">ДатаОжидаемогоВозврата</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="v8:StandardBeginningDate">
+							<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+							<v8:date>0001-01-01T00:00:00</v8:date>
+						</dcsset:right>
+						<dcsset:userSettingID>912db10e-b534-401c-8c39-5543a894d242</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">Причина</dcsset:left>
+						<dcsset:comparisonType>Contains</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string"/>
+						<dcsset:userSettingID>32649b8c-a580-4b06-ba0e-d240b009b6d0</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">Технолог</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:userSettingID>a06a8c2e-e524-48d0-a39c-c0598696032e</dcsset:userSettingID>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:use>false</dcsset:use>
+						<dcsset:left xsi:type="dcscor:Field">БрэндМенеджер</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:userSettingID>6a78d8dc-a290-4d7d-bb00-75cee8a37b69</dcsset:userSettingID>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

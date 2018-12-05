@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаПроизводства</dataPath>
+			<field>ДатаПроизводства</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЕдиницаИзмерения</dataPath>
+			<field>ЕдиницаИзмерения</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">5</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номенклатура</dataPath>
+			<field>Номенклатура</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">15</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Склад</dataPath>
+			<field>Склад</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">15</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Характеристика</dataPath>
+			<field>Характеристика</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">15</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Остаток23дня</dataPath>
+			<field>Остаток23дня</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТекущийОстаток</dataPath>
+			<field>ТекущийОстаток</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Стоимость</dataPath>
+			<field>Стоимость</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>МестоХранения</dataPath>
+			<field>МестоХранения</field>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">20</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ТоварыНаСкладахОстатки.Склад,
+	ТоварыНаСкладахОстатки.Номенклатура,
+	ТоварыНаСкладахОстатки.Характеристика,
+	ТоварыНаСкладахОстатки.ЕдиницаИзмерения,
+	ТоварыНаСкладахОстатки.КоличествоОстаток
+ПОМЕСТИТЬ ТекущиеОстатки
+ИЗ
+	РегистрНакопления.ТоварыНаСкладах.Остатки(
+			&amp;Период,
+			Склад.ВидСклада = ЗНАЧЕНИЕ(Перечисление.ВидыСкладов.Виртуальный)
+				ИЛИ Склад.Владелец.СтатусТорговойТочки = ЗНАЧЕНИЕ(Перечисление.СтатусыТорговыхТочек.Закрыт)) КАК ТоварыНаСкладахОстатки
+
+СГРУППИРОВАТЬ ПО
+	ТоварыНаСкладахОстатки.Склад,
+	ТоварыНаСкладахОстатки.Номенклатура,
+	ТоварыНаСкладахОстатки.Характеристика,
+	ТоварыНаСкладахОстатки.ЕдиницаИзмерения,
+	ТоварыНаСкладахОстатки.КоличествоОстаток
+
+ИМЕЮЩИЕ
+	СУММА(ТоварыНаСкладахОстатки.КоличествоОстаток) &gt; 0
+
+ИНДЕКСИРОВАТЬ ПО
+	ТоварыНаСкладахОстатки.Номенклатура,
+	ТоварыНаСкладахОстатки.Характеристика,
+	ТоварыНаСкладахОстатки.Склад,
+	ТоварыНаСкладахОстатки.ЕдиницаИзмерения
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗЛИЧНЫЕ
+	ТекущиеОстатки.Номенклатура,
+	ТекущиеОстатки.Характеристика
+ПОМЕСТИТЬ ВТ_Номенклатура
+ИЗ
+	ТекущиеОстатки КАК ТекущиеОстатки
+
+ИНДЕКСИРОВАТЬ ПО
+	ТекущиеОстатки.Номенклатура,
+	ТекущиеОстатки.Характеристика
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТоварыНаСкладахОстатки.Склад,
+	ТоварыНаСкладахОстатки.Номенклатура,
+	ТоварыНаСкладахОстатки.Характеристика,
+	ТоварыНаСкладахОстатки.ЕдиницаИзмерения,
+	ТоварыНаСкладахОстатки.КоличествоОстаток КАК Остаток23дня,
+	ТекущиеОстатки.КоличествоОстаток КАК ТекущийОстаток,
+	ЕСТЬNULL(ЦеныНоменклатурыСрезПоследних.Цена, ЕСТЬNULL(ЦеныПоставщиковСрезПоследних.Цена, 0)) * ТоварыНаСкладахОстатки.КоличествоОстаток КАК Стоимость,
+	ВЫБОР
+		КОГДА ТекущиеОстатки.Склад.ВидСклада = ЗНАЧЕНИЕ(Перечисление.ВидыСкладов.Виртуальный)
+			ТОГДА ""
+		ИНАЧЕ "#Н/Д " + ТекущиеОстатки.Склад.Владелец.Наименование + "/"
+	КОНЕЦ + ТекущиеОстатки.Склад.Наименование КАК МестоХранения
+ИЗ
+	ТекущиеОстатки КАК ТекущиеОстатки
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрНакопления.ТоварыНаСкладах.Остатки(
+				ДОБАВИТЬКДАТЕ(&amp;Период, ДЕНЬ, -23),
+				(Склад, Номенклатура, Характеристика, ЕдиницаИзмерения) В
+					(ВЫБРАТЬ
+						Т.Склад,
+						Т.Номенклатура,
+						Т.Характеристика,
+						Т.ЕдиницаИзмерения
+					ИЗ
+						ТекущиеОстатки КАК Т)) КАК ТоварыНаСкладахОстатки
+		ПО ТекущиеОстатки.Склад = ТоварыНаСкладахОстатки.Склад
+			И ТекущиеОстатки.Номенклатура = ТоварыНаСкладахОстатки.Номенклатура
+			И ТекущиеОстатки.Характеристика = ТоварыНаСкладахОстатки.Характеристика
+			И ТекущиеОстатки.ЕдиницаИзмерения = ТоварыНаСкладахОстатки.ЕдиницаИзмерения
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЦеныНоменклатуры.СрезПоследних(
+				&amp;Период,
+				ТипЦен = ЗНАЧЕНИЕ(Справочник.ТипыЦен.ОсновнойТипЦенПродаж)
+					И ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+					И Номенклатура В
+						(ВЫБРАТЬ РАЗЛИЧНЫЕ
+							Т.Номенклатура
+						ИЗ
+							ВТ_Номенклатура КАК Т)) КАК ЦеныНоменклатурыСрезПоследних
+		ПО ТекущиеОстатки.Номенклатура = ЦеныНоменклатурыСрезПоследних.Номенклатура
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЦеныПоставщиков.СрезПоследних(
+				&amp;Период,
+				(Номенклатура, Характеристика) В
+					(ВЫБРАТЬ
+						Т.Номенклатура,
+						Т.Характеристика
+					ИЗ
+						ВТ_Номенклатура КАК Т)) КАК ЦеныПоставщиковСрезПоследних
+		ПО ТекущиеОстатки.Номенклатура = ЦеныПоставщиковСрезПоследних.Номенклатура
+			И ТекущиеОстатки.Характеристика = ЦеныПоставщиковСрезПоследних.Характеристика
+
+СГРУППИРОВАТЬ ПО
+	ТоварыНаСкладахОстатки.Склад,
+	ТоварыНаСкладахОстатки.Номенклатура,
+	ТоварыНаСкладахОстатки.Характеристика,
+	ТоварыНаСкладахОстатки.ЕдиницаИзмерения,
+	ТоварыНаСкладахОстатки.КоличествоОстаток,
+	ТекущиеОстатки.КоличествоОстаток,
+	ЕСТЬNULL(ЦеныНоменклатурыСрезПоследних.Цена, ЕСТЬNULL(ЦеныПоставщиковСрезПоследних.Цена, 0)) * ТоварыНаСкладахОстатки.КоличествоОстаток,
+	ВЫБОР
+		КОГДА ТекущиеОстатки.Склад.ВидСклада = ЗНАЧЕНИЕ(Перечисление.ВидыСкладов.Виртуальный)
+			ТОГДА ""
+		ИНАЧЕ "#Н/Д " + ТекущиеОстатки.Склад.Владелец.Наименование + "/"
+	КОНЕЦ + ТекущиеОстатки.Склад.Наименование
+
+ИМЕЮЩИЕ
+	СУММА(ТоварыНаСкладахОстатки.КоличествоОстаток) &gt; 0</query>
+	</dataSet>
+	<totalField>
+		<dataPath>Остаток23дня</dataPath>
+		<expression>Сумма(Остаток23дня)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ТекущийОстаток</dataPath>
+		<expression>Сумма(ТекущийОстаток)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Стоимость</dataPath>
+		<expression>Сумма(Стоимость)</expression>
+	</totalField>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>МестоХранения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Характеристика</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЕдиницаИзмерения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТекущийОстаток</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Остаток23дня</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Стоимость</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfThisDay</v8:variant>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Стоимость</dcsset:field>
+					<dcsset:orderType>Desc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

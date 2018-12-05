@@ -1,0 +1,197 @@
+﻿<!DOCTYPE HTML>
+<html>
+<HEAD>
+	
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9;IE=7;"/>
+
+	
+	<style>
+		.helper,.img-container{vertical-align:middle;zoom:1}.canvas,.helper,.image,body,html{height:100%}body,html,image,p{margin:0;padding:0}body,html{overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.canvas{width:100%;text-align:center}.img-container{position:relative;display:-moz-inline-box;display:inline-block;//display:inline}.helper{display:-moz-inline-box;display:inline-block;width:0;//display:inline}.image{width:100%}
+	</style>
+
+</HEAD>
+
+<body>
+
+<div id="canvas" class="canvas">
+    <div id="img-container" class="img-container">
+        <img id="image" class="image" src="">
+    </div>
+    <div class="helper"></div>
+    <div id="BufferData" style="display:none"></div>
+</div>
+
+
+<script>
+
+	var area;
+
+	! function() {
+    function t(t) {
+        (p = "string" == typeof t ? JSON.parse(t) : r(t)).margin = p.margin || 0, p.bgColor = p.bgColor || "#fff", p.selColor = p.selColor || "none", p.selOpacity = void 0 === p.selOpacity ? 1 : p.selOpacity, p.selBorder || (p.selBorder = {}), p.selBorder = {
+            color: p.selBorder.color || "#6bc4ff",
+            width: void 0 === p.selBorder.width ? 1 : p.selBorder.width,
+            style: p.selBorder.style || "dashed"
+        }
+    }
+
+    function n(t) {
+        if (document.body.style.background = p.bgColor, f = {
+                t: document.getElementById("img-container"),
+                img: document.getElementById("image"),
+                ii: t.width,
+                hh: t.height,
+                i: !1
+            }, c.imgOrigWidth = t.width, c.imgOrigHeight = t.height, f.img.src = p.img, isNaN(+p.margin)) {
+            f.t.style.margin = p.margin;
+            var n = f.t.currentStyle || window.getComputedStyle(f.t);
+            f.o = parseFloat(n.marginLeft) + parseFloat(n.marginRight), f.p = parseFloat(n.marginTop) + parseFloat(n.marginBottom)
+        } else f.t.style.margin = p.margin + "px", f.p = f.o = 2 * p.margin;
+        i(), f.img.onselectstart = f.img.ondragstart = function() {
+            return !1
+        }, f.img.onmousedown = o, window.addEventListener("resize", function(t) {
+            i(), e()
+        })
+    }
+
+    function i() {
+        f.width = document.documentElement.clientWidth - f.o, f.height = document.documentElement.clientHeight - f.p, f.ii < f.width && f.hh < f.height ? (f.rr = 1, f.t.style.width = f.ii + "px", f.t.style.height = f.hh + "px") : (f.width / f.height >= f.ii / f.hh ? f.rr = f.height / f.hh : f.rr = f.width / f.ii, f.t.style.width = f.rr * f.ii + "px", f.t.style.height = f.rr * f.hh + "px")
+    }
+
+    function e() {
+        f.selection && (f.selection.style.left = f.u.x * f.rr + "px", f.selection.style.top = f.u.y * f.rr + "px", f.selection.style.width = f.u.width * f.rr + "px", f.selection.style.height = f.u.height * f.rr + "px")
+    }
+
+    function o(t) {
+        if (1 == (t = t || window.event).which || 0 == t.button) {
+            u.i = !0;
+            var n = "";
+            p.selBorder.width && (n = '<div style="width:100%;height:100%;margin:-' + p.selBorder.width + "px 0 0 -" + p.selBorder.width + "px;border:" + p.selBorder.width + "px " + p.selBorder.style + " " + p.selBorder.color + '"></div>'), f.selection = f.t.appendChild(a('<div style="position:absolute;line-height:0;z-index:10;left:-9999px;top:-9999px;background:' + p.selColor + ";opacity:" + p.selOpacity + ";filter:Alpha(opacity=" + 100 * p.selOpacity + ');">' + n + "</div>")), u.h = t.pageX, u.l = t.pageY, c.coords = {
+                x: u.h,
+                y: u.l,
+                width: 0,
+                height: 0
+            }, p.mousedown && p.mousedown()
+        }
+    }
+
+    function a(t) {
+        var n = document.createElement("div");
+        return n.innerHTML = t, n.children[0]
+    }
+
+    function r(t) {
+        var n;
+        if (null == t || "object" != typeof t) return t;
+        if (t instanceof Date) return (n = new Date).setTime(t.getTime()), n;
+        if (t instanceof Array) {
+            n = [];
+            for (var i = 0, e = t.length; i < e; i++) return n;
+            n[i] = r(t[i])
+        }
+        if (t instanceof Object) {
+            n = {};
+            for (var o in t) t.hasOwnProperty(o) && (n[o] = r(t[o]));
+            return n
+        }
+        throw new Error("Unable to copy object! Its type isn't supported.")
+    }
+    var c, p = {},
+        f = {},
+        u = {};
+    document.addEventListener("mousemove", function(t) {
+        if (u.i) { 
+            t = t || window.event;
+            var n = f.img.getBoundingClientRect(),
+                i = (t.pageX > u.h ? u.h : t.pageX) - n.left,
+                e = (t.pageY > u.l ? u.l : t.pageY) - n.top,
+                o = Math.abs(t.pageX - u.h),
+                a = Math.abs(t.pageY - u.l);
+            f.selection.style.left = i + "px", f.selection.style.top = e + "px", f.selection.style.width = o + "px", f.selection.style.height = a + "px", p.mousemove && (c.coords = {
+                x: i,
+                y: e,
+                width: o,
+                height: a,
+               	img_left: n.left,
+                img_top: n.top,
+                img_bottom: n.bottom,
+                img_right: n.right
+            }, p.mousemove())
+        }
+    }), document.addEventListener("mouseup", function(t) {
+        if (u.i) {
+            u.i = !1;
+            var n = f.selection.getBoundingClientRect(),
+                i = f.img.getBoundingClientRect(),
+                e = Math.max(n.left, i.left),
+                o = Math.max(n.top, i.top),
+                a = Math.min(n.right, i.right) - e,
+                d = Math.min(n.bottom, i.bottom) - o;
+            if (e -= i.left, o -= i.top, f.selection.style.left = e + "px", f.selection.style.top = o + "px", f.selection.style.width = a + "px", f.selection.style.height = d + "px", a < 1 && d < 1) return f.t.removeChild(f.selection), void(f.selection = null);
+            f.img.onmousedown = null, f.u = {
+                x: Math.round(e / f.rr),
+                y: Math.round(o / f.rr),
+                width: Math.round(a / f.rr),
+                height: Math.round(d / f.rr),
+                img_left: i.left/ f.rr,
+                img_top: i.top/ f.rr,
+                img_bottom: i.bottom/ f.rr,
+                img_right: i.right/ f.rr
+            }, c.coords = r(f.u), p.mouseup && p.mouseup()
+        }
+    }), window.SelectImageArea = function(i, e) {
+        if ("object" == typeof i && null != i) {
+            c = this, t(i), null == e && "object" != typeof e || (p.mousedown = e.mousedown, p.mousemove = e.mousemove, p.mouseup = e.mouseup);
+            var o = new Image;
+            o.src = p.img, o.complete ? n(o) : o.onload = function(t) {
+                n(o)
+            }
+        } else console.log("SelectImageArea: invalid options")
+    }
+}();
+	
+	
+	    
+
+function g()
+{}
+
+	function getCoords(param)
+	   {
+		
+	   
+	    
+		
+	    var evt = document.createEventObject(); // создадим пустой объект событие
+		evt.propertyName = "РезультатВыделения"; // в реквизит propertyName предлагаю помещать название результата ( что-то вроде типа, или название функции от которой получили данные )
+		evt.data = param; //в реквизит data будем передавать данные результата
+		document.body.fireEvent('onclick', evt); 
+
+    	
+	    }
+	
+	    
+			var area = new SelectImageArea(
+		    {
+		        img:&file
+		    }, 
+		    {
+		        mouseup : function () {
+		            // сюда вставить одно из двух:
+		           // getCoords(area.coords); // если в 1С сможете обработать JS-объект
+		           getCoords(JSON.stringify(area.coords)); // если координаты нужны в JSON, структура coords описана в readme.txt
+		           
+		        }
+		    }
+		);
+	
+	
+	   
+	        
+
+</script>
+
+
+</body>
+</html>

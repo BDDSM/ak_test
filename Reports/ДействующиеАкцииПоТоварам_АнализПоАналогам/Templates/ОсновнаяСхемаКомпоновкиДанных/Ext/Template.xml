@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачала</dataPath>
+			<field>ДатаНачала</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОкончания</dataPath>
+			<field>ДатаОкончания</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДействуетВМагазине</dataPath>
+			<field>ДействуетВМагазине</field>
+			<presentationExpression>ВЫБОР КОГДА ДействуетВМагазине = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка) ТОГДА "На всех магазинах" ИНАЧЕ ДействуетВМагазине КОНЕЦ</presentationExpression>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДействуетЦена_Скидка</dataPath>
+			<field>ДействуетЦена_Скидка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КомментарийНаЦенник</dataPath>
+			<field>КомментарийНаЦенник</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НазваниеАкции</dataPath>
+			<field>НазваниеАкции</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПриПокупкеШтук</dataPath>
+			<field>ПриПокупкеШтук</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипСкидки</dataPath>
+			<field>ТипСкидки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЦенаПоАкции</dataPath>
+			<field>ЦенаПоАкции</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ГруппаАналогов</dataPath>
+			<field>ГруппаАналогов</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа аналогов</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номенклатура</dataPath>
+			<field>Номенклатура</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	АналогиНоменклатурыТовары.Номенклатура,
+	ВЗ_Запрос.ДействуетВМагазине,
+	ВЗ_Запрос.ТипСкидки,
+	ВЗ_Запрос.НазваниеАкции,
+	ВЗ_Запрос.ДатаНачала,
+	ВЗ_Запрос.ДатаОкончания,
+	ВЗ_Запрос.ПриПокупкеШтук,
+	ВЗ_Запрос.ДействуетЦена_Скидка,
+	ВЗ_Запрос.ЦенаПоАкции,
+	ВЗ_Запрос.КомментарийНаЦенник,
+	АналогиНоменклатурыТовары.Ссылка КАК ГруппаАналогов
+ИЗ
+	Справочник.АналогиНоменклатуры.Товары КАК АналогиНоменклатурыТовары
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			НоменклатураАкции.Ссылка КАК Ссылка,
+			НоменклатураАкции.ДействуетВМагазине КАК ДействуетВМагазине,
+			НоменклатураАкции.ТипСкидки КАК ТипСкидки,
+			НоменклатураАкции.НазваниеАкции КАК НазваниеАкции,
+			НоменклатураАкции.ДатаНачала КАК ДатаНачала,
+			ВЫБОР
+				КОГДА НоменклатураАкции.ДатаОкончания &gt; ДАТАВРЕМЯ(2050, 1, 1)
+					ТОГДА "бессрочная"
+				ИНАЧЕ НоменклатураАкции.ДатаОкончания
+			КОНЕЦ КАК ДатаОкончания,
+			НоменклатураАкции.ПриПокупкеШтук КАК ПриПокупкеШтук,
+			НоменклатураАкции.ДействуетЦена_Скидка КАК ДействуетЦена_Скидка,
+			ВЫБОР
+				КОГДА НоменклатураАкции.ТипСкидки = ЗНАЧЕНИЕ(Перечисление.ТипыАкцийПоТоварам.СкидкаПоБонуснойКарте)
+					ТОГДА ЕСТЬNULL(ВЫРАЗИТЬ(ЦеныНоменклатурыСрезПоследних.Цена - НоменклатураАкции.ДействуетЦена_Скидка * ЦеныНоменклатурыСрезПоследних.Цена / 100 КАК ЧИСЛО(15, 0)), 0)
+				ИНАЧЕ НоменклатураАкции.ДействуетЦена_Скидка
+			КОНЕЦ КАК ЦенаПоАкции,
+			НоменклатураАкции.КомментарийНаЦенник КАК КомментарийНаЦенник
+		ИЗ
+			Справочник.Номенклатура.Акции КАК НоменклатураАкции
+				ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЦеныНоменклатуры.СрезПоследних(
+						&amp;ДатаОтчета,
+						ТорговаяТочка = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+							И ТипЦен = ЗНАЧЕНИЕ(Справочник.ТипыЦен.ОсновнойТипЦенПродаж)) КАК ЦеныНоменклатурыСрезПоследних
+				ПО НоменклатураАкции.Ссылка = ЦеныНоменклатурыСрезПоследних.Номенклатура
+		ГДЕ
+			НоменклатураАкции.ДатаНачала &lt;= &amp;ДатаОтчета
+			И НоменклатураАкции.ДатаОкончания &gt;= &amp;ДатаОтчета
+		
+		ОБЪЕДИНИТЬ ВСЕ
+		
+		ВЫБРАТЬ
+			НоменклатураУсловияДляПодарка.Ссылка,
+			НоменклатураУсловияДляПодарка.ДействуетВМагазине,
+			"Подарок",
+			"",
+			НоменклатураУсловияДляПодарка.ДатаНачала,
+			ВЫБОР
+				КОГДА НоменклатураУсловияДляПодарка.ДатаОкончания &gt; ДАТАВРЕМЯ(2050, 1, 1)
+					ТОГДА "бессрочная"
+				ИНАЧЕ НоменклатураУсловияДляПодарка.ДатаОкончания
+			КОНЕЦ,
+			НоменклатураУсловияДляПодарка.ПриСуммеЧекаОт,
+			НоменклатураУсловияДляПодарка.МожноПодаритьШтук,
+			0,
+			""
+		ИЗ
+			Справочник.Номенклатура.УсловияДляПодарка КАК НоменклатураУсловияДляПодарка
+		ГДЕ
+			НоменклатураУсловияДляПодарка.ДатаНачала &lt;= &amp;ДатаОтчета
+			И НоменклатураУсловияДляПодарка.ДатаОкончания &gt;= &amp;ДатаОтчета
+		
+		ОБЪЕДИНИТЬ ВСЕ
+		
+		ВЫБРАТЬ
+			НоменклатураСпр.Ссылка,
+			ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка),
+			"СИНИЙ ЦЕННИК",
+			"",
+			НоменклатураСпр.ДатаНачалаВыводаНаСинийЦенник,
+			ВЫБОР
+				КОГДА РАЗНОСТЬДАТ(НоменклатураСпр.ДатаНачалаВыводаНаСинийЦенник, НоменклатураСпр.ДатаОкончанияВыводаНаСинийЦенник, МЕСЯЦ) &gt; 10
+					ТОГДА "Будет определена после начала продаж"
+				ИНАЧЕ НоменклатураСпр.ДатаОкончанияВыводаНаСинийЦенник
+			КОНЕЦ,
+			0,
+			0,
+			0,
+			НоменклатураСпр.ТекстВместоФишки
+		ИЗ
+			Справочник.Номенклатура КАК НоменклатураСпр
+				ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+					ТоварныйАссортиментТочекСрезПоследних.Номенклатура КАК Номенклатура,
+					МИНИМУМ(ТоварныйАссортиментТочекСрезПоследних.Выведена) КАК Выведена
+				ИЗ
+					РегистрСведений.ТоварныйАссортиментТочек.СрезПоследних(&amp;ДатаОтчета, ) КАК ТоварныйАссортиментТочекСрезПоследних
+				
+				СГРУППИРОВАТЬ ПО
+					ТоварныйАссортиментТочекСрезПоследних.Номенклатура
+				
+				ИМЕЮЩИЕ
+					МИНИМУМ(ТоварныйАссортиментТочекСрезПоследних.Выведена) = ЛОЖЬ) КАК ВложенныйЗапрос
+				ПО НоменклатураСпр.Ссылка = ВложенныйЗапрос.Номенклатура
+		ГДЕ
+			НоменклатураСпр.ДатаНачалаВыводаНаСинийЦенник &lt;= &amp;ДатаОтчета
+			И НоменклатураСпр.ДатаОкончанияВыводаНаСинийЦенник &gt;= &amp;ДатаОтчета
+			И НоменклатураСпр.ВидНоменклатуры = ЗНАЧЕНИЕ(Перечисление.ВидыНоменклатуры.Товар)
+			И НоменклатураСпр.ПометкаУдаления = ЛОЖЬ) КАК ВЗ_Запрос
+		ПО АналогиНоменклатурыТовары.Номенклатура = ВЗ_Запрос.Ссылка
+ГДЕ
+	АналогиНоменклатурыТовары.Ссылка.ПолностьюЗаменяемыйТовар = ИСТИНА
+	И АналогиНоменклатурыТовары.Номенклатура.ПометкаУдаления = ЛОЖЬ</query>
+	</dataSet>
+	<parameter>
+		<name>ДатаОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата отчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ГруппаАналогов</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТипСкидки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>НазваниеАкции</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДействуетВМагазине</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаНачала</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаОкончания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПриПокупкеШтук</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДействуетЦена_Скидка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЦенаПоАкции</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ДатаОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>21744288-c901-4144-8510-7d1313937a54</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Ссылка.Наименование</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ГруппаАналогов</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

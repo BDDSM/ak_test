@@ -1,0 +1,794 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:ikar="http://api.vetrf.ru/schema/cdm/ikar"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/ikar/ws-definitions"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/ikar/ws-definitions"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/ikar"
+			schemaLocation="file://5.xsd"/>
+	<element name="getAllCountryListRequest">
+		<annotation>
+			<documentation>Запрос на получения списка активных записей стран.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<annotation>
+						<documentation>Параметры запрашиваемого списка.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getAllCountryListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения актуального списка
+                стран.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:countryList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список актуальных записей стран.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getCountryByGuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения объекта страны по
+                глобальному идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:guid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор, по которому
+                            проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getCountryByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос на получения объекта страны по
+                глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:country"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Найденный по guid-у объект страны.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getCountryByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения объекта страны по
+                идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>идентификатор, по которому
+                            проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getCountryByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос на получения объекта страны по
+                идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:country"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Найденный по uuid-у объект страны.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getCountryChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение изменений в списке стран,
+                начиная с указанной даты.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getCountryChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения изменений в списке
+                стран.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:countryList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список стран, в не зависимости от статуса.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getRegionListByCountryRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка регионов по стране.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:countryGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор страны, для которой
+                            запрашивается список регионов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getRegionListByCountryResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка регионов по
+                стране.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:regionList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список регионов указанной страны в заданном
+                            формате.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getRegionByGuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения объекта региона по
+                глобальному идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:guid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор, по которому
+                            проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getRegionByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос на получения объекта региона по
+                глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:region"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Найденный по guid-у объект региона.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getRegionByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения объекта региона по
+                идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор, по которому
+                            проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getRegionByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос на получения объекта региона по
+                идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:region"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Найденный по uuid-у объект региона.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getRegionChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение изменений в списке регионов,
+                начиная с указанной даты.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getRegionChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения изменений в списке
+                регионов.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:regionList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список регионов, в не зависимости от статуса.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getDistrictListByRegionRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка районов указанного
+                региона.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:regionGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор региона, для которой
+                            запрашивается список регионов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getDistrictListByRegionResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка районов
+                региона.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:districtList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список районов указанного региона в заданном
+                            формате.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getDistrictByGuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получения объекта района по
+                глобальному идентификатору.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:guid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор, по которому
+                            проводится поиск записи.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getDistrictByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос на получения объекта района по
+                глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:district"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Найденный по guid-у объект района.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getDistrictChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение изменений в списке районов,
+                начиная с указанной даты.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getDistrictChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения изменений в списке
+                районов.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:districtList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список районов, в не зависимости от статуса
+                            объекта.
+                  </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getLocalityListByRegionRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка населенных пунктов по региону.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:regionGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор региона, для которой
+                            запрашивается список населенных пунктов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getLocalityListByRegionResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка населенных пунктов по
+                региону.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:localityList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список населенных пунктов указанного региона.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getLocalityListByDistrictRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка населенных пунктов по району.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:districtGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор районы, для которой
+                            запрашивается список населенных пунктов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getLocalityListByDistrictResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка населенных пунктов по
+                району.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:localityList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список населенных пунктов указанного района.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getLocalityListByLocalityRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка зависимых населенных пунктов по
+                населенному пункту.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:localityGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор населенного пункта, для которой
+                            запрашивается список зависимых населенных пунктов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getLocalityListByLocalityResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка зависимых населенных пунктов по
+                населенному пункту.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:localityList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список завимиых населенных пунктов указанного населенного пункта.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getStreetListByLocalityRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка улиц по
+                населенному пункту.
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:localityGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор населенного пункта, для которой
+                            запрашивается список улиц.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getStreetListByLocalityResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка улиц по
+                населенному пункту.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:streetList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список улиц указанного населенного пункта.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="findLocalityListByNameRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка населенных пунктов по шаблону и родителю(региону).
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:regionGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор региона, для которой
+                            запрашивается список населенных пунктов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element name="pattern"
+						type="default:string"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Шаблон для поиска в именах населенных пунктов.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="findLocalityListByNameResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка населенных пунктов по
+                региону.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:localityList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список населенных пунктов указанного региона.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="findStreetListByNameRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка улиц по шаблону и родителю(населенному пункту).
+            </default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ikar:localityGuid"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Глобальный идентификатор населенного пункта, для которой
+                            запрашивается список улиц.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element name="pattern"
+						type="default:string"
+						maxOccurs="1"
+						minOccurs="1">
+					<default:annotation>
+						<default:documentation>Шаблон для поиска в именах улиц.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="findStreetListByNameResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка улиц по населенному пункту.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ikar:streetList"
+						maxOccurs="1"
+						minOccurs="1">
+					<annotation>
+						<documentation>Список улиц указанного населенного пункта.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

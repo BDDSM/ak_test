@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Дата</dataPath>
+			<field>Дата</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ссылка</dataPath>
+			<field>Ссылка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОсновноеСредство</dataPath>
+			<field>ОсновноеСредство</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сумма</dataPath>
+			<field>Сумма</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Счет</dataPath>
+			<field>Счет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСчет</dataPath>
+			<field>КорСчет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСубконто1</dataPath>
+			<field>КорСубконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСубконто2</dataPath>
+			<field>КорСубконто2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КорСубконто3</dataPath>
+			<field>КорСубконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто1</dataPath>
+			<field>Субконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто2</dataPath>
+			<field>Субконто2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто3</dataPath>
+			<field>Субконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЗаводскойНомер</dataPath>
+			<field>ЗаводскойНомер</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ИнвентарныйНомер</dataPath>
+			<field>ИнвентарныйНомер</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>[Счет БУ]</dataPath>
+			<field>СчетБУ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>[Счет ФИН]</dataPath>
+			<field>СчетФин</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаВводаВЭксплуатацию</dataPath>
+			<field>ДатаВводаВЭксплуатацию</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СчетУчета</dataPath>
+			<field>СчетУчета</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПоступлениеТоваровУслугОборудование.Ссылка.Ссылка,
+	ПоступлениеТоваровУслугОборудование.Ссылка.Дата,
+	ПоступлениеТоваровУслугОборудование.ОсновноеСредство,
+	ПоступлениеТоваровУслугОборудование.ОсновноеСредство.ИнвентарныйНомер,
+	ПоступлениеТоваровУслугОборудование.ОсновноеСредство.ЗаводскойНомер,
+	ПоступлениеТоваровУслугОборудование.СчетУчета,
+	ПоступлениеТоваровУслугОборудование.СчетУчетаБУ,
+	ВЫБОР
+		КОГДА ПоступлениеТоваровУслугОборудование.Ссылка.ВариантРасчетаНДС = ЗНАЧЕНИЕ(Перечисление.ВариантыРасчетаНДС.НДСвТомЧисле)
+			ТОГДА ПоступлениеТоваровУслугОборудование.Сумма - ПоступлениеТоваровУслугОборудование.СуммаНДС
+		ИНАЧЕ ПоступлениеТоваровУслугОборудование.Сумма
+	КОНЕЦ КАК Сумма,
+	ВЫБОР
+		КОГДА ПоступлениеТоваровУслугОборудование.Ссылка.ВариантРасчетаНДС = ЗНАЧЕНИЕ(Перечисление.ВариантыРасчетаНДС.НДСвТомЧисле)
+			ТОГДА ПоступлениеТоваровУслугОборудование.Сумма - ПоступлениеТоваровУслугОборудование.СуммаНДС
+		ИНАЧЕ ПоступлениеТоваровУслугОборудование.Сумма
+	КОНЕЦ КАК Факт
+ПОМЕСТИТЬ втПТиУ
+ИЗ
+	Документ.ПоступлениеТоваровУслуг.Оборудование КАК ПоступлениеТоваровУслугОборудование
+ГДЕ
+	ПоступлениеТоваровУслугОборудование.Ссылка.Проведен = ИСТИНА
+	И ПоступлениеТоваровУслугОборудование.Ссылка.Дата &gt;= &amp;ДатаНачала
+	И ПоступлениеТоваровУслугОборудование.Ссылка.Дата &lt;= &amp;ДатаОкончания
+	И ПоступлениеТоваровУслугОборудование.СчетУчета = &amp;СчетУчета
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ПоступлениеДопРасходовТовары.Ссылка,
+	ПоступлениеДопРасходовТовары.Ссылка.Дата,
+	ПоступлениеДопРасходовТовары.ОсновноеСредство,
+	ПоступлениеДопРасходовТовары.ОсновноеСредство.ИнвентарныйНомер,
+	ПоступлениеДопРасходовТовары.ОсновноеСредство.ЗаводскойНомер,
+	ПоступлениеДопРасходовТовары.СчетЗатрат,
+	ПоступлениеДопРасходовТовары.СчетУчета,
+	ВЫБОР
+		КОГДА ПоступлениеДопРасходовТовары.Ссылка.ВариантРасчетаНДС = ЗНАЧЕНИЕ(Перечисление.ВариантыРасчетаНДС.НДСвТомЧисле)
+			ТОГДА ПоступлениеДопРасходовТовары.Сумма - ПоступлениеДопРасходовТовары.СуммаНДС
+		ИНАЧЕ ПоступлениеДопРасходовТовары.Сумма
+	КОНЕЦ КАК Сумма
+ПОМЕСТИТЬ втДопРасходы
+ИЗ
+	Документ.ПоступлениеДопРасходов.Товары КАК ПоступлениеДопРасходовТовары
+ГДЕ
+	ПоступлениеДопРасходовТовары.Ссылка.Проведен = ИСТИНА
+	И ПоступлениеДопРасходовТовары.Ссылка.Дата &gt;= &amp;ДатаНачала
+	И ПоступлениеДопРасходовТовары.Ссылка.Дата &lt;= &amp;ДатаОкончания
+	И ПоступлениеДопРасходовТовары.СчетЗатрат = &amp;СчетУчета
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ФинансовыйОбороты.Субконто1,
+	СУММА(ФинансовыйОбороты.СуммаОборот) КАК СуммаОборот,
+	ФинансовыйОбороты.Регистратор
+ПОМЕСТИТЬ втФактСписаниеДР
+ИЗ
+	РегистрБухгалтерии.Финансовый.Обороты(
+			&amp;ДатаНачала,
+			&amp;ДатаОкончания,
+			Регистратор,
+			Счет = &amp;СчетУчета,
+			,
+			Субконто1 В
+				(ВЫБРАТЬ
+					втДопРасходы.ОсновноеСредство
+				ИЗ
+					втДопРасходы),
+			,
+			) КАК ФинансовыйОбороты
+
+СГРУППИРОВАТЬ ПО
+	ФинансовыйОбороты.Субконто1,
+	ФинансовыйОбороты.Регистратор
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втДопРасходы.Ссылка,
+	втДопРасходы.Дата,
+	втДопРасходы.ОсновноеСредство,
+	втДопРасходы.ОсновноеСредствоИнвентарныйНомер,
+	втДопРасходы.ОсновноеСредствоЗаводскойНомер,
+	втДопРасходы.СчетЗатрат,
+	втДопРасходы.СчетУчета,
+	втФактСписаниеДР.СуммаОборот КАК Факт,
+	втДопРасходы.Сумма
+ПОМЕСТИТЬ втДопРасходыФакт
+ИЗ
+	втДопРасходы КАК втДопРасходы
+		ЛЕВОЕ СОЕДИНЕНИЕ втФактСписаниеДР КАК втФактСписаниеДР
+		ПО втДопРасходы.Ссылка = втФактСписаниеДР.Регистратор
+			И втДопРасходы.ОсновноеСредство = втФактСписаниеДР.Субконто1
+
+СГРУППИРОВАТЬ ПО
+	втФактСписаниеДР.СуммаОборот,
+	втДопРасходы.Ссылка,
+	втДопРасходы.Дата,
+	втДопРасходы.ОсновноеСредство,
+	втДопРасходы.ОсновноеСредствоИнвентарныйНомер,
+	втДопРасходы.ОсновноеСредствоЗаводскойНомер,
+	втДопРасходы.СчетЗатрат,
+	втДопРасходы.СчетУчета,
+	втДопРасходы.Сумма
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втДопРасходыФакт.Ссылка,
+	втДопРасходыФакт.Дата,
+	втДопРасходыФакт.ОсновноеСредство,
+	втДопРасходыФакт.ОсновноеСредствоИнвентарныйНомер КАК ИнвентарныйНомер,
+	втДопРасходыФакт.ОсновноеСредствоЗаводскойНомер КАК ЗаводскойНомер,
+	втДопРасходыФакт.СчетЗатрат КАК СчетФин,
+	втДопРасходыФакт.СчетУчета КАК СчетБУ,
+	втДопРасходыФакт.Факт КАК Сумма
+ПОМЕСТИТЬ втРезультат
+ИЗ
+	втДопРасходыФакт КАК втДопРасходыФакт
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	втПТиУ.Ссылка,
+	втПТиУ.Дата,
+	втПТиУ.ОсновноеСредство,
+	втПТиУ.ОсновноеСредствоИнвентарныйНомер,
+	втПТиУ.ОсновноеСредствоЗаводскойНомер,
+	втПТиУ.СчетУчета,
+	втПТиУ.СчетУчетаБУ,
+	втПТиУ.Факт
+ИЗ
+	втПТиУ КАК втПТиУ
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втРезультат.Ссылка,
+	втРезультат.Дата,
+	втРезультат.ОсновноеСредство,
+	втРезультат.ИнвентарныйНомер,
+	втРезультат.ЗаводскойНомер,
+	втРезультат.СчетФин,
+	втРезультат.СчетБУ,
+	втРезультат.Сумма,
+	ПринятыеКУчетуОССрезПоследних.ДатаВводаВЭксплуатацию,
+	ПринятыеКУчетуОССрезПоследних.СчетУчета
+ИЗ
+	втРезультат КАК втРезультат
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ПринятыеКУчетуОС.СрезПоследних КАК ПринятыеКУчетуОССрезПоследних
+		ПО втРезультат.ОсновноеСредство = ПринятыеКУчетуОССрезПоследних.ОсновноеСредство</query>
+	</dataSet>
+	<totalField>
+		<dataPath>Сумма</dataPath>
+		<expression>Сумма(Сумма)</expression>
+	</totalField>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>СчетУчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Счет учета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:ChartOfAccountsRef.Финансовый</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.ПриобретениеОсновныхСредств</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ПериодОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период отчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОсновноеСредство</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Ссылка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:field>Дата</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сумма</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ИнвентарныйНомер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЗаводскойНомер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>[Счет БУ]</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>[Счет ФИН]</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СчетУчета</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаВводаВЭксплуатацию</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">[Счет БУ]</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>b36cf7f5-3f34-4b45-8b68-df8250b7db6c</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:userSettingID>d3537d49-9967-4825-8e52-52e4eab660ac</dcsset:userSettingID>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>СчетУчета</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.ПриобретениеОсновныхСредств</dcscor:value>
+					<dcsset:userSettingID>a2494703-84a2-4103-b57d-dc3b3d089220</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">ThisMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>1de5b78a-ba85-4467-bf9b-b74f64b45264</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Сумма</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:userSettingID>c2bf1f2f-42aa-4cd2-9a0e-68750e5cdcf6</dcsset:userSettingID>
+				<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+					<v8:item>
+						<v8:lang>ru</v8:lang>
+						<v8:content>Сортировка</v8:content>
+					</v8:item>
+				</dcsset:userSettingPresentation>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ОсновноеСредство</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ИнвентарныйНомер</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ЗаводскойНомер</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ДатаВводаВЭксплуатацию</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

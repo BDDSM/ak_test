@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаПоЛисту</dataPath>
+			<field>СуммаПоЛисту</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаПоПоступлению</dataPath>
+			<field>СуммаПоПоступлению</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Разница</dataPath>
+			<field>Разница</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ВЗ_Запрос.ТорговаяТочка,
+	ВЗ_Запрос.Организация,
+	СУММА(ВЗ_Запрос.СуммаПоЛисту) КАК СуммаПоЛисту,
+	СУММА(ВЗ_Запрос.СуммаПоПоступлению) КАК СуммаПоПоступлению,
+	СУММА(ВЗ_Запрос.СуммаПоЛисту - ВЗ_Запрос.СуммаПоПоступлению) КАК Разница
+ИЗ
+	(ВЫБРАТЬ
+		ЛистУчетаZОтчеты.Ссылка.ТорговаяТочка КАК ТорговаяТочка,
+		ЛистУчетаZОтчеты.Ссылка.Организация КАК Организация,
+		ЛистУчетаZОтчеты.Ссылка.Дата КАК Дата,
+		ЛистУчетаZОтчеты.СуммаПоБезнал КАК СуммаПоЛисту,
+		0 КАК СуммаПоПоступлению
+	ИЗ
+		Документ.ЛистУчета.ZОтчеты КАК ЛистУчетаZОтчеты
+	ГДЕ
+		ЛистУчетаZОтчеты.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+		И ЛистУчетаZОтчеты.Ссылка.Проведен = ИСТИНА
+	
+	ОБЪЕДИНИТЬ ВСЕ
+	
+	ВЫБРАТЬ
+		ПоступлениеВБанкЭквайрингРасшифровка.ТорговаяТочка,
+		ПоступлениеВБанкЭквайрингРасшифровка.Ссылка.Организация,
+		ПоступлениеВБанкЭквайрингРасшифровка.Ссылка.Дата,
+		0,
+		ПоступлениеВБанкЭквайрингРасшифровка.СуммаДокумента + ПоступлениеВБанкЭквайрингРасшифровка.СуммаКомиссииБанка
+	ИЗ
+		Документ.ПоступлениеВБанк.ЭквайрингРасшифровка КАК ПоступлениеВБанкЭквайрингРасшифровка
+	ГДЕ
+		ДОБАВИТЬКДАТЕ(ПоступлениеВБанкЭквайрингРасшифровка.Ссылка.Дата, ДЕНЬ, -1) МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+		И ПоступлениеВБанкЭквайрингРасшифровка.Ссылка.Проведен = ИСТИНА
+		И ПоступлениеВБанкЭквайрингРасшифровка.Ссылка.ВидОперации = ЗНАЧЕНИЕ(Перечисление.ВидыОперацийПоступлениеБезналичныхДенежныхСредств.ЭквайрингСводно)) КАК ВЗ_Запрос
+
+СГРУППИРОВАТЬ ПО
+	ВЗ_Запрос.ТорговаяТочка,
+	ВЗ_Запрос.Организация</query>
+	</dataSet>
+	<totalField>
+		<dataPath>СуммаПоЛисту</dataPath>
+		<expression>Сумма(СуммаПоЛисту)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>СуммаПоПоступлению</dataPath>
+		<expression>Сумма(СуммаПоПоступлению)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Разница</dataPath>
+		<expression>Сумма(Разница)</expression>
+	</totalField>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата кон</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>ДатаНач</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата нач</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Организация</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаПоЛисту</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаПоПоступлению</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Разница</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Организация</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>cfb655e8-f3b5-4397-9a84-4b0eca16042e</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>feeb01c6-4d07-4cc3-9f72-80923d45088c</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>85b13f81-7486-40f4-bbe6-371654ee9868</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ТорговаяТочка.НомерТочки</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

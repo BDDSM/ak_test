@@ -1,0 +1,828 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТекстОбещания</dataPath>
+			<field>ТекстОбещания</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Текст обещания</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаИзменения</dataPath>
+			<field>ДатаИзменения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Оценка</dataPath>
+			<field>Оценка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Заказчик</dataPath>
+			<field>Заказчик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДокументОбещания</dataPath>
+			<field>ДокументОбещания</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Документ обещания</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Исполнитель</dataPath>
+			<field>Исполнитель</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВозрастОбещанияВДнях</dataPath>
+			<field>ВозрастОбещанияВДнях</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Возраст обещания в днях</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВозрастКратен7</dataPath>
+			<field>ВозрастКратен7</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Возраст кратен7</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТЧ</dataPath>
+			<field>ТЧ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ТЧ</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номерстроки</dataPath>
+			<field>Номерстроки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВозрастКратен30</dataPath>
+			<field>ВозрастКратен30</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Возраст кратен30</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Описание</dataPath>
+			<field>Описание</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Описание</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ОбещаниеИсполнители.Ссылка КАК ДокументОбещания,
+	ВЫБОР
+		КОГДА ОбещаниеИсполнители.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Исполнитель
+		ИНАЧЕ ОбещаниеИсполнители.Исполнитель
+	КОНЕЦ КАК Исполнитель,
+	ВЫБОР
+		КОГДА ОбещаниеИсполнители.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Заказчик
+		ИНАЧЕ ОбещаниеИсполнители.Заказчик
+	КОНЕЦ КАК Заказчик,
+	ОбещаниеИсполнители.Оценка,
+	ВЫБОР
+		КОГДА ОбещаниеИсполнители.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ВЫБОР
+					КОГДА ДокОбещание.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА ДокОбещание.Дата
+					ИНАЧЕ ДокОбещание.ДатаИзменения
+				КОНЕЦ
+		ИНАЧЕ ОбещаниеИсполнители.ДатаИзменения
+	КОНЕЦ КАК ДатаИзменения,
+	ОбещаниеИсполнители.Дата,
+	"ОбъектыПривязки" КАК ТЧ,
+	МАКСИМУМ(ОбещаниеИсполнители.НомерСтроки) КАК НомерСтроки
+ПОМЕСТИТЬ втОбъекты
+ИЗ
+	Документ.Обещание.ОбъектыПривязки КАК ОбещаниеИсполнители
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.Обещание КАК ДокОбещание
+		ПО ОбещаниеИсполнители.Ссылка = ДокОбещание.Ссылка
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Справочник.ФизическиеЛица КАК ФизическиеЛица
+		ПО (ВЫБОР
+				КОГДА ОбещаниеИсполнители.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+					ТОГДА ДокОбещание.Заказчик
+				ИНАЧЕ ОбещаниеИсполнители.Заказчик
+			КОНЕЦ = ФизическиеЛица.Ссылка)
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Справочник.ФизическиеЛица КАК ФизическиеЛица1
+		ПО (ВЫБОР
+				КОГДА ОбещаниеИсполнители.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+					ТОГДА ДокОбещание.Исполнитель
+				ИНАЧЕ ОбещаниеИсполнители.Исполнитель
+			КОНЕЦ = ФизическиеЛица1.Ссылка)
+ГДЕ
+	ДокОбещание.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусОбещания.ДостигнутаяДоговоренность)
+
+	И ДокОбещание.Проведен И Выбор когда ОбещаниеИсполнители.Дата=ДатаВремя(1,1,1) тогда Истина Иначе ОбещаниеИсполнители.Дата&gt;=ДобавитьКДате(&amp;ДатаОтчета,Месяц,-1) Конец
+	И ФизическиеЛица.Активный
+	И ФизическиеЛица1.Активный
+
+СГРУППИРОВАТЬ ПО
+	ОбещаниеИсполнители.Ссылка,
+	ОбещаниеИсполнители.Оценка,
+	ВЫБОР
+		КОГДА ОбещаниеИсполнители.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ВЫБОР
+					КОГДА ДокОбещание.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА ДокОбещание.Дата
+					ИНАЧЕ ДокОбещание.ДатаИзменения
+				КОНЕЦ
+		ИНАЧЕ ОбещаниеИсполнители.ДатаИзменения
+	КОНЕЦ,
+	ОбещаниеИсполнители.Дата,
+	ВЫБОР
+		КОГДА ОбещаниеИсполнители.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Исполнитель
+		ИНАЧЕ ОбещаниеИсполнители.Исполнитель
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ОбещаниеИсполнители.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Заказчик
+		ИНАЧЕ ОбещаниеИсполнители.Заказчик
+	КОНЕЦ
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втОбъекты.ДокументОбещания,
+	втОбъекты.Исполнитель,
+	втОбъекты.Заказчик,
+	МАКСИМУМ(втОбъекты.Дата) КАК Дата
+ПОМЕСТИТЬ втОбъектыМакс
+ИЗ
+	втОбъекты КАК втОбъекты
+
+СГРУППИРОВАТЬ ПО
+	втОбъекты.ДокументОбещания,
+	втОбъекты.Исполнитель,
+	втОбъекты.Заказчик
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втОбъекты.ДокументОбещания,
+	втОбъекты.Исполнитель,
+	втОбъекты.Заказчик,
+	втОбъекты.Оценка,
+	втОбъекты.ДатаИзменения,
+	втОбъекты.Дата,
+	втОбъекты.ТЧ,
+	втОбъекты.НомерСтроки
+ПОМЕСТИТЬ втОбъектыИтог
+ИЗ
+	втОбъекты КАК втОбъекты
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ втОбъектыМакс КАК втОбъектыМакс
+		ПО втОбъекты.ДокументОбещания = втОбъектыМакс.ДокументОбещания
+			И втОбъекты.Исполнитель = втОбъектыМакс.Исполнитель
+			И втОбъекты.Заказчик = втОбъектыМакс.Заказчик
+			И втОбъекты.Дата = втОбъектыМакс.Дата
+			где 	 втОбъекты.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПолностьюИсполняется)
+	И втОбъекты.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПустаяСсылка)
+
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ОбещаниеЗаказчики.Ссылка КАК ДокументОбещания,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Исполнитель
+		ИНАЧЕ ОбещаниеЗаказчики.Исполнитель
+	КОНЕЦ КАК Исполнитель,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Заказчик
+		ИНАЧЕ ОбещаниеЗаказчики.Заказчик
+	КОНЕЦ КАК Заказчик,
+	ОбещаниеЗаказчики.Оценка,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ВЫБОР
+					КОГДА ДокОбещание.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА ДокОбещание.Дата
+					ИНАЧЕ ДокОбещание.ДатаИзменения
+				КОНЕЦ
+		ИНАЧЕ ОбещаниеЗаказчики.ДатаИзменения
+	КОНЕЦ КАК ДатаИзменения,
+	"Заказчики" КАК ТЧ,
+	МАКСИМУМ(ОбещаниеЗаказчики.НомерСтроки) КАК Номерстроки
+ПОМЕСТИТЬ Предварительно1
+ИЗ
+	Документ.Обещание.Заказчики КАК ОбещаниеЗаказчики
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.Обещание КАК ДокОбещание
+		ПО ОбещаниеЗаказчики.Ссылка = ДокОбещание.Ссылка
+ГДЕ
+	ДокОбещание.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусОбещания.ДостигнутаяДоговоренность)
+	И ОбещаниеЗаказчики.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПолностьюИсполняется)
+	И ОбещаниеЗаказчики.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПустаяСсылка)
+	И ДокОбещание.Проведен
+
+СГРУППИРОВАТЬ ПО
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Заказчик
+		ИНАЧЕ ОбещаниеЗаказчики.Заказчик
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ВЫБОР
+					КОГДА ДокОбещание.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА ДокОбещание.Дата
+					ИНАЧЕ ДокОбещание.ДатаИзменения
+				КОНЕЦ
+		ИНАЧЕ ОбещаниеЗаказчики.ДатаИзменения
+	КОНЕЦ,
+	ОбещаниеЗаказчики.Ссылка,
+	ОбещаниеЗаказчики.Оценка,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Исполнитель
+		ИНАЧЕ ОбещаниеЗаказчики.Исполнитель
+	КОНЕЦ
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбещаниеЗаказчики.Ссылка,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Исполнитель
+		ИНАЧЕ ОбещаниеЗаказчики.Исполнитель
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Заказчик
+		ИНАЧЕ ОбещаниеЗаказчики.Заказчик
+	КОНЕЦ,
+	ОбещаниеЗаказчики.Оценка,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ВЫБОР
+					КОГДА ДокОбещание.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА ДокОбещание.Дата
+					ИНАЧЕ ДокОбещание.ДатаИзменения
+				КОНЕЦ
+		ИНАЧЕ ОбещаниеЗаказчики.ДатаИзменения
+	КОНЕЦ,
+	"Исполнители",
+	МАКСИМУМ(ОбещаниеЗаказчики.НомерСтроки)
+ИЗ
+	Документ.Обещание.Исполнители КАК ОбещаниеЗаказчики
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.Обещание КАК ДокОбещание
+		ПО ОбещаниеЗаказчики.Ссылка = ДокОбещание.Ссылка
+ГДЕ
+	ДокОбещание.Номер = "000000006"
+	И ДокОбещание.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусОбещания.ДостигнутаяДоговоренность)
+	И ОбещаниеЗаказчики.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПолностьюИсполняется)
+	И ОбещаниеЗаказчики.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПустаяСсылка)
+	И ДокОбещание.Проведен
+
+СГРУППИРОВАТЬ ПО
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Заказчик = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Заказчик
+		ИНАЧЕ ОбещаниеЗаказчики.Заказчик
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.Исполнитель = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+			ТОГДА ДокОбещание.Исполнитель
+		ИНАЧЕ ОбещаниеЗаказчики.Исполнитель
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА ОбещаниеЗаказчики.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+			ТОГДА ВЫБОР
+					КОГДА ДокОбещание.ДатаИзменения = ДАТАВРЕМЯ(1, 1, 1)
+						ТОГДА ДокОбещание.Дата
+					ИНАЧЕ ДокОбещание.ДатаИзменения
+				КОНЕЦ
+		ИНАЧЕ ОбещаниеЗаказчики.ДатаИзменения
+	КОНЕЦ,
+	ОбещаниеЗаказчики.Оценка,
+	ОбещаниеЗаказчики.Ссылка
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ДокОбещание.Ссылка,
+	ДокОбещание.Исполнитель,
+	ДокОбещание.Заказчик,
+	ДокОбещание.Оценка,
+	ДокОбещание.ДатаИзменения,
+	"Документ",
+	NULL
+ИЗ
+	Документ.Обещание КАК ДокОбещание
+ГДЕ
+	ДокОбещание.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусОбещания.ДостигнутаяДоговоренность)
+	И ДокОбещание.Проведен
+	И ДокОбещание.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПолностьюИсполняется)
+	И ДокОбещание.Оценка &lt;&gt; ЗНАЧЕНИЕ(Перечисление.ОценкаКачестваИсполнения.ПустаяСсылка)
+	И (ДокОбещание.Заказчик ССЫЛКА Справочник.ФизическиеЛица
+			ИЛИ ДокОбещание.Заказчик ССЫЛКА Справочник.КорневыеЗаказчикиОбещаний)
+	И ДокОбещание.Исполнитель ССЫЛКА Справочник.ФизическиеЛица
+
+СГРУППИРОВАТЬ ПО
+	ДокОбещание.Ссылка,
+	ДокОбещание.Исполнитель,
+	ДокОбещание.Заказчик,
+	ДокОбещание.Оценка,
+	ДокОбещание.ДатаИзменения
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	втОбъектыИтог.ДокументОбещания,
+	втОбъектыИтог.Исполнитель,
+	втОбъектыИтог.Заказчик,
+	втОбъектыИтог.Оценка,
+	втОбъектыИтог.ДатаИзменения,
+	втОбъектыИтог.ТЧ,
+	втОбъектыИтог.НомерСтроки
+ИЗ
+	втОбъектыИтог КАК втОбъектыИтог
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	Предварительно.ДокументОбещания,
+	Предварительно.Исполнитель,
+	Предварительно.Заказчик,
+	Предварительно.Оценка,
+	НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ) КАК ДатаИзменения,
+	Предварительно.ТЧ,
+	Предварительно.Номерстроки
+ПОМЕСТИТЬ Предварительно
+ИЗ
+	Предварительно1 КАК Предварительно
+
+СГРУППИРОВАТЬ ПО
+	Предварительно.Оценка,
+	Предварительно.Заказчик,
+	Предварительно.ДокументОбещания,
+	НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ),
+	Предварительно.Исполнитель,
+	Предварительно.ТЧ,
+	Предварительно.Номерстроки
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втОбещания.ДатаИзменения КАК ДатаИзменения,
+	втОбещания.ДокументОбещания,
+	втОбещания.Заказчик,
+	втОбещания.Исполнитель
+ПОМЕСТИТЬ втОбещанияНачалоДня
+ИЗ
+	Предварительно1 КАК втОбещания
+
+СГРУППИРОВАТЬ ПО
+	втОбещания.ДатаИзменения,
+	втОбещания.ДокументОбещания,
+	втОбещания.Заказчик,
+	втОбещания.Исполнитель
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	МИНИМУМ(втОбещания.ДатаИзменения) КАК ДатаИзменения
+ПОМЕСТИТЬ втОбещанияМин
+ИЗ
+	втОбещанияНачалоДня КАК втОбещания
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втОбещания.ДокументОбещания КАК Ссылка,
+	втОбещания.Заказчик,
+	втОбещания.Исполнитель,
+	НАЧАЛОПЕРИОДА(втОбещания.ДатаИзменения, ДЕНЬ) КАК ДатаИзменения
+ПОМЕСТИТЬ втОбещанияСМиндатой
+ИЗ
+	втОбещанияНачалоДня КАК втОбещания
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ втОбещанияМин КАК втОбещанияМин
+		ПО втОбещания.ДатаИзменения = втОбещанияМин.ДатаИзменения
+
+СГРУППИРОВАТЬ ПО
+	втОбещания.ДокументОбещания,
+	втОбещания.Заказчик,
+	втОбещания.Исполнитель,
+	НАЧАЛОПЕРИОДА(втОбещания.ДатаИзменения, ДЕНЬ)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	Предварительно.ДокументОбещания,
+	Предварительно.Исполнитель,
+	Предварительно.Заказчик,
+	Предварительно.Оценка,
+	Предварительно.ДатаИзменения,
+	ВЫРАЗИТЬ(Предварительно.ДокументОбещания.Обещание КАК СТРОКА(500)) КАК ТекстОбещания,
+	РАЗНОСТЬДАТ(НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ), &amp;ДатаОтчета, ДЕНЬ) КАК ВозрастОбещанияВДнях,
+	РАЗНОСТЬДАТ(НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ), &amp;ДатаОтчета, ДЕНЬ) В (&amp;Список7) КАК ВозрастКратен7,
+	РАЗНОСТЬДАТ(НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ), &amp;ДатаОтчета, ДЕНЬ) В (&amp;Список7)
+		И НЕ втОбещанияСМиндатой.Ссылка ЕСТЬ NULL КАК ВозрастКратен30,
+	Предварительно.ТЧ,
+	МАКСИМУМ(Предварительно.Номерстроки) КАК Номерстроки
+ПОМЕСТИТЬ втРез
+ИЗ
+	Предварительно КАК Предварительно
+		ЛЕВОЕ СОЕДИНЕНИЕ втОбещанияСМиндатой КАК втОбещанияСМиндатой
+		ПО Предварительно.ДокументОбещания = втОбещанияСМиндатой.Ссылка
+			И Предварительно.Заказчик = втОбещанияСМиндатой.Заказчик
+			И Предварительно.Исполнитель = втОбещанияСМиндатой.Исполнитель
+			И Предварительно.ДатаИзменения = втОбещанияСМиндатой.ДатаИзменения
+
+СГРУППИРОВАТЬ ПО
+	Предварительно.Исполнитель,
+	Предварительно.ДокументОбещания,
+	Предварительно.Заказчик,
+	Предварительно.Оценка,
+	Предварительно.ДатаИзменения,
+	ВЫРАЗИТЬ(Предварительно.ДокументОбещания.Обещание КАК СТРОКА(500)),
+	РАЗНОСТЬДАТ(НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ), &amp;ДатаОтчета, ДЕНЬ) В (&amp;Список7),
+	РАЗНОСТЬДАТ(НАЧАЛОПЕРИОДА(Предварительно.ДатаИзменения, ДЕНЬ), &amp;ДатаОтчета, ДЕНЬ) В (&amp;Список7)
+		И НЕ втОбещанияСМиндатой.Ссылка ЕСТЬ NULL,
+	Предварительно.ТЧ
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втРез.ДокументОбещания,
+	втРез.Исполнитель,
+	втРез.Заказчик,
+	втРез.Оценка,
+	втРез.ДатаИзменения,
+	втРез.ТекстОбещания,
+	втРез.ВозрастОбещанияВДнях,
+	втРез.ВозрастКратен7,
+	втРез.ВозрастКратен30,
+	втРез.ТЧ,
+	втРез.Номерстроки,
+	ВЫБОР
+		КОГДА втРез.ТЧ = "ОбъектыПривязки"
+			ТОГДА ОбещаниеОбъектыПривязки.Описание
+		КОГДА втРез.ТЧ = "Исполнители"
+			ТОГДА ОбещаниеИсполнители.Описание
+		КОГДА втРез.ТЧ = "Заказчики"
+			ТОГДА ОбещаниеЗаказчики.Описание
+		ИНАЧЕ втРез.ДокументОбещания.Описание
+	КОНЕЦ КАК Описание
+ИЗ
+	втРез КАК втРез
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.Обещание.Заказчики КАК ОбещаниеЗаказчики
+		ПО втРез.ДокументОбещания = ОбещаниеЗаказчики.Ссылка
+			И втРез.Номерстроки = ОбещаниеЗаказчики.НомерСтроки
+			И (втРез.ТЧ = "Заказчики")
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.Обещание.Исполнители КАК ОбещаниеИсполнители
+		ПО втРез.ДокументОбещания = ОбещаниеИсполнители.Ссылка
+			И втРез.Номерстроки = ОбещаниеИсполнители.НомерСтроки
+			И (втРез.ТЧ = "Исполнители")
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.Обещание.ОбъектыПривязки КАК ОбещаниеОбъектыПривязки
+		ПО втРез.ДокументОбещания = ОбещаниеОбъектыПривязки.Ссылка
+			И втРез.Номерстроки = ОбещаниеОбъектыПривязки.НомерСтроки
+			И (втРез.ТЧ = "ОбъектыПривязки")</query>
+	</dataSet>
+	<parameter>
+		<name>ДатаОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата отчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>НачалоПериода(ТекущаяДата(),"День")</expression>
+	</parameter>
+	<parameter>
+		<name>ПолучательОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Получатель отчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.ФизическиеЛица</v8:Type>
+		</valueType>
+		<value xsi:type="xs:string">4821367a-1814-11e6-b284-005056a00106</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Список7</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Список7</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:decimal</v8:Type>
+			<v8:NumberQualifiers>
+				<v8:Digits>0</v8:Digits>
+				<v8:FractionDigits>0</v8:FractionDigits>
+				<v8:AllowedSign>Any</v8:AllowedSign>
+			</v8:NumberQualifiers>
+		</valueType>
+		<value xsi:type="xs:decimal">7</value>
+		<useRestriction>true</useRestriction>
+		<valueListAllowed>true</valueListAllowed>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>РассылкаПолучателю</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Вариант рассылки получателю</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Заказчик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Исполнитель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДокументОбещания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаИзменения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВозрастОбещанияВДнях</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Оценка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТекстОбещания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВозрастКратен30</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВозрастКратен7</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Описание</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemGroup">
+					<dcsset:groupType>AndGroup</dcsset:groupType>
+					<dcsset:item xsi:type="dcsset:FilterItemGroup">
+						<dcsset:groupType>OrGroup</dcsset:groupType>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Заказчик</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:Field">ПараметрыДанных.ПолучательОтчета</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Исполнитель</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:Field">ПараметрыДанных.ПолучательОтчета</dcsset:right>
+						</dcsset:item>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemGroup">
+						<dcsset:groupType>OrGroup</dcsset:groupType>
+						<dcsset:item xsi:type="dcsset:FilterItemGroup">
+							<dcsset:groupType>AndGroup</dcsset:groupType>
+							<dcsset:item xsi:type="dcsset:FilterItemComparison">
+								<dcsset:left xsi:type="dcscor:Field">ВозрастКратен30</dcsset:left>
+								<dcsset:comparisonType>Equal</dcsset:comparisonType>
+								<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:FilterItemGroup">
+								<dcsset:groupType>OrGroup</dcsset:groupType>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оценка</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ОценкаКачестваИсполнения.ПолностьюНеИсполняется</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оценка</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ОценкаКачестваИсполнения.ЧастичноИсполняется</dcsset:right>
+								</dcsset:item>
+							</dcsset:item>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemGroup">
+							<dcsset:groupType>AndGroup</dcsset:groupType>
+							<dcsset:item xsi:type="dcsset:FilterItemComparison">
+								<dcsset:left xsi:type="dcscor:Field">ВозрастКратен7</dcsset:left>
+								<dcsset:comparisonType>Equal</dcsset:comparisonType>
+								<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:FilterItemGroup">
+								<dcsset:groupType>OrGroup</dcsset:groupType>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оценка</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ОценкаКачестваИсполнения.ПолностьюНеИсполняется</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оценка</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ОценкаКачестваИсполнения.ЧастичноИсполняется</dcsset:right>
+								</dcsset:item>
+							</dcsset:item>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ПолучательОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">9556ea0e-e75f-11e5-8658-005056a00106</dcscor:value>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ВозрастОбещанияВДнях</dcsset:field>
+					<dcsset:orderType>Desc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьПараметрыДанных</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">DontOutput</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьОтбор</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">DontOutput</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Заказчик</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Исполнитель</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Все невыполненные обещания</v8:content>
+			</v8:item>
+		</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Заказчик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Исполнитель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДокументОбещания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаИзменения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВозрастОбещанияВДнях</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Оценка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТекстОбещания</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВозрастКратен7</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВозрастКратен30</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Описание</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ВозрастОбещанияВДнях</dcsset:field>
+					<dcsset:orderType>Desc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Заказчик</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Исполнитель</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Вес</dataPath>
+			<field>Вес</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вес, кг</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Размещение</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTextPlacementType">Cut</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МинимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">40</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>МаксимальнаяШирина</dcscor:parameter>
+					<dcscor:value xsi:type="xs:decimal">40</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтоимостьДоставки</dataPath>
+			<field>СтоимостьДоставки</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Стоимость доставки, руб</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ РАЗЛИЧНЫЕ
+	МаршрутныйЛист.Ссылка КАК Ссылка
+ПОМЕСТИТЬ втМаршрутныеЛисты
+ИЗ
+	Документ.МаршрутныйЛист КАК МаршрутныйЛист
+ГДЕ
+	МаршрутныйЛист.ВидПеревозки = ЗНАЧЕНИЕ(Справочник.АК_ВидыПеревозки.ДоставкаНаТТ)
+	И МаршрутныйЛист.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И МаршрутныйЛист.Проведен = ИСТИНА
+
+ИНДЕКСИРОВАТЬ ПО
+	Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ РАЗЛИЧНЫЕ
+	МаршрутныйЛистРасходныеОрдера.Документ КАК Документ,
+	МаршрутныйЛистРасходныеОрдера.Документ.Получатель КАК ТорговаяТочка,
+	втМаршрутныеЛисты.Ссылка.Маршрут КАК Маршрут,
+	втМаршрутныеЛисты.Ссылка.Перевозчик КАК Перевозчик
+ПОМЕСТИТЬ втДокРО
+ИЗ
+	втМаршрутныеЛисты КАК втМаршрутныеЛисты
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.МаршрутныйЛист.РасходныеОрдера КАК МаршрутныйЛистРасходныеОрдера
+		ПО (МаршрутныйЛистРасходныеОрдера.Ссылка = втМаршрутныеЛисты.Ссылка)
+ГДЕ
+	МаршрутныйЛистРасходныеОрдера.Документ.ВидОперации = ЗНАЧЕНИЕ(Перечисление.ВидыОперацийРасходСкладскойУчет.ОтгрузкаВТорговуюТочку)
+
+ИНДЕКСИРОВАТЬ ПО
+	Документ,
+	Перевозчик,
+	Маршрут,
+	ТорговаяТочка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ РАЗЛИЧНЫЕ
+	СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.ТТ КАК ТорговаяТочка,
+	СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.Контрагент КАК Перевозчик,
+	СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.Маршрут КАК Маршрут,
+	СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.Ставка + СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.СтавкаДопТарифа КАК ТарифДоставки
+ПОМЕСТИТЬ втСтоимостьДоставки
+ИЗ
+	втДокРО КАК втДокРО
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СтоимостьУслугПоДоставкеТовараНаТТ.СрезПоследних(&amp;ДатаКон, ) КАК СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних
+		ПО втДокРО.ТорговаяТочка = СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.ТТ
+			И втДокРО.Маршрут = СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.Маршрут
+			И втДокРО.Перевозчик = СтоимостьУслугПоДоставкеТовараНаТТСрезПоследних.Контрагент
+
+ИНДЕКСИРОВАТЬ ПО
+	ТорговаяТочка,
+	Перевозчик,
+	Маршрут
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	втДокРО.ТорговаяТочка КАК ТорговаяТочка,
+	втДокРО.Маршрут КАК Маршрут,
+	втДокРО.Перевозчик КАК Перевозчик,
+	СУММА(РасходныйОрдерСкладТовары.Количество * РасходныйОрдерСкладТовары.ЕдиницаИзмерения.Вес) КАК Вес
+ПОМЕСТИТЬ втВес
+ИЗ
+	втДокРО КАК втДокРО
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.РасходныйОрдерСклад.Товары КАК РасходныйОрдерСкладТовары
+		ПО втДокРО.Документ = РасходныйОрдерСкладТовары.Ссылка
+
+СГРУППИРОВАТЬ ПО
+	втДокРО.ТорговаяТочка,
+	втДокРО.Маршрут,
+	втДокРО.Перевозчик
+
+ИНДЕКСИРОВАТЬ ПО
+	ТорговаяТочка,
+	Маршрут,
+	Перевозчик
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	МаршрутныйЛистРасходныеОрдера.Документ.Получатель КАК ТорговаяТочка,
+	втМаршрутныеЛисты.Ссылка.Маршрут КАК Маршрут,
+	КОЛИЧЕСТВО(РАЗЛИЧНЫЕ МаршрутныйЛистРасходныеОрдера.Ссылка) КАК КоличествоРейсов,
+	втМаршрутныеЛисты.Ссылка.Перевозчик КАК Перевозчик
+ПОМЕСТИТЬ втКоличествоРейсов
+ИЗ
+	втМаршрутныеЛисты КАК втМаршрутныеЛисты
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.МаршрутныйЛист.РасходныеОрдера КАК МаршрутныйЛистРасходныеОрдера
+		ПО (МаршрутныйЛистРасходныеОрдера.Ссылка = втМаршрутныеЛисты.Ссылка)
+
+СГРУППИРОВАТЬ ПО
+	МаршрутныйЛистРасходныеОрдера.Документ.Получатель,
+	втМаршрутныеЛисты.Ссылка.Маршрут,
+	втМаршрутныеЛисты.Ссылка.Перевозчик
+
+ИНДЕКСИРОВАТЬ ПО
+	ТорговаяТочка,
+	Маршрут,
+	Перевозчик
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втВес.ТорговаяТочка,
+	втВес.Вес,
+	ЕСТЬNULL(втСтоимостьДоставки.ТарифДоставки * втКоличествоРейсов.КоличествоРейсов, 0) КАК СтоимостьДоставки
+ИЗ
+	втКоличествоРейсов КАК втКоличествоРейсов
+		ЛЕВОЕ СОЕДИНЕНИЕ втСтоимостьДоставки КАК втСтоимостьДоставки
+		ПО втКоличествоРейсов.ТорговаяТочка = втСтоимостьДоставки.ТорговаяТочка
+			И втКоличествоРейсов.Маршрут = втСтоимостьДоставки.Маршрут
+			И втКоличествоРейсов.Перевозчик = втСтоимостьДоставки.Перевозчик
+		ЛЕВОЕ СОЕДИНЕНИЕ втВес КАК втВес
+		ПО втКоличествоРейсов.ТорговаяТочка = втВес.ТорговаяТочка
+			И втКоличествоРейсов.Маршрут = втВес.Маршрут
+			И втКоличествоРейсов.Перевозчик = втВес.Перевозчик</query>
+	</dataSet>
+	<totalField>
+		<dataPath>Вес</dataPath>
+		<expression>Сумма(Вес)</expression>
+		<group>ТорговаяТочка</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>СтоимостьДоставки</dataPath>
+		<expression>Сумма(СтоимостьДоставки)</expression>
+	</totalField>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаНач</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата конца</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<expression>КонецПериода(&amp;ДатаКон,"День")</expression>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СистемныеПоля.НомерПоПорядку</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Вес</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтоимостьДоставки</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>16961a06-f791-423d-b810-6c10874a2f0f</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаНач</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>2018-09-08T00:00:00</v8:date>
+					</dcscor:value>
+					<dcsset:userSettingID>4b105c36-8642-4510-9b48-00f14486d81a</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаКон</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>2018-09-09T00:00:00</v8:date>
+					</dcscor:value>
+					<dcsset:userSettingID>40100192-51ed-4e4a-ae4e-661db70e0957</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отчет по весу и стоимости доставки груза</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>ТорговаяТочка</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>СистемныеПоля.НомерПоПорядку</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ТорговаяТочка</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>Вес</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>СтоимостьДоставки</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

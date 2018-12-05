@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="AfterWriteAtServer">ПослеЗаписиНаСервере</Event>
+		<Event name="BeforeWrite">ПередЗаписью</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+		<Event name="BeforeWriteAtServer">ПередЗаписьюНаСервере</Event>
+		<Event name="OnWriteAtServer">ПриЗаписиНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="Дата" id="1">
+			<DataPath>Запись.Дата</DataPath>
+			<AutoMarkIncomplete>true</AutoMarkIncomplete>
+			<ContextMenu name="ДатаКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="29"/>
+		</InputField>
+		<UsualGroup name="Группа2" id="25">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа2РасширеннаяПодсказка" id="30"/>
+			<ChildItems>
+				<InputField name="Номенклатура" id="3">
+					<DataPath>Запись.Номенклатура</DataPath>
+					<HorizontalStretch>false</HorizontalStretch>
+					<ContextMenu name="НоменклатураКонтекстноеМеню" id="4"/>
+					<ExtendedTooltip name="НоменклатураРасширеннаяПодсказка" id="31"/>
+				</InputField>
+				<InputField name="Характеристика" id="10">
+					<DataPath>Запись.Характеристика</DataPath>
+					<HorizontalStretch>false</HorizontalStretch>
+					<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+					<TextEdit>false</TextEdit>
+					<ChoiceParameterLinks>
+						<xr:Link>
+							<xr:Name>Отбор.Владелец</xr:Name>
+							<xr:DataPath xsi:type="xs:string">Запись.Номенклатура</xr:DataPath>
+							<xr:ValueChange>Clear</xr:ValueChange>
+						</xr:Link>
+					</ChoiceParameterLinks>
+					<ContextMenu name="ХарактеристикаКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="ХарактеристикаРасширеннаяПодсказка" id="32"/>
+					<Events>
+						<Event name="StartChoice">ХарактеристикаНачалоВыбора</Event>
+					</Events>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="ТорговаяТочка" id="5">
+			<DataPath>Запись.ТорговаяТочка</DataPath>
+			<HorizontalStretch>false</HorizontalStretch>
+			<AutoMarkIncomplete>true</AutoMarkIncomplete>
+			<ContextMenu name="ТорговаяТочкаКонтекстноеМеню" id="6"/>
+			<ExtendedTooltip name="ТорговаяТочкаРасширеннаяПодсказка" id="33"/>
+		</InputField>
+		<InputField name="Расчетчик" id="12">
+			<DataPath>Запись.Расчетчик</DataPath>
+			<Enabled>false</Enabled>
+			<ChoiceButton>false</ChoiceButton>
+			<ContextMenu name="РасчетчикКонтекстноеМеню" id="13"/>
+			<ExtendedTooltip name="РасчетчикРасширеннаяПодсказка" id="34"/>
+		</InputField>
+		<UsualGroup name="ГруппаРесурсы" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа ресурсы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа ресурсы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Vertical</Group>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаРесурсыРасширеннаяПодсказка" id="35"/>
+			<ChildItems>
+				<InputField name="Количество" id="7">
+					<DataPath>Запись.Количество</DataPath>
+					<DefaultItem>true</DefaultItem>
+					<Width>10</Width>
+					<ContextMenu name="КоличествоКонтекстноеМеню" id="8"/>
+					<ExtendedTooltip name="КоличествоРасширеннаяПодсказка" id="36"/>
+				</InputField>
+				<UsualGroup name="Группа1" id="18">
+					<Group>Horizontal</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="37"/>
+					<ChildItems>
+						<InputField name="Нужно" id="16">
+							<DataPath>Запись.Нужно</DataPath>
+							<Enabled>false</Enabled>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Макс Веч остаток</v8:content>
+								</v8:item>
+							</Title>
+							<Width>10</Width>
+							<HorizontalStretch>false</HorizontalStretch>
+							<ContextMenu name="НужноКонтекстноеМеню" id="17"/>
+							<ExtendedTooltip name="НужноРасширеннаяПодсказка" id="38"/>
+						</InputField>
+						<InputField name="План" id="19">
+							<DataPath>Запись.План</DataPath>
+							<Enabled>false</Enabled>
+							<Width>10</Width>
+							<HorizontalStretch>false</HorizontalStretch>
+							<ContextMenu name="ПланКонтекстноеМеню" id="20"/>
+							<ExtendedTooltip name="ПланРасширеннаяПодсказка" id="39"/>
+						</InputField>
+						<InputField name="Избыток" id="21">
+							<DataPath>Запись.Избыток</DataPath>
+							<Enabled>false</Enabled>
+							<Width>10</Width>
+							<HorizontalStretch>false</HorizontalStretch>
+							<ContextMenu name="ИзбытокКонтекстноеМеню" id="22"/>
+							<ExtendedTooltip name="ИзбытокРасширеннаяПодсказка" id="40"/>
+						</InputField>
+						<InputField name="Запас" id="23">
+							<DataPath>Запись.Запас</DataPath>
+							<Enabled>false</Enabled>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Мин утр остаток</v8:content>
+								</v8:item>
+							</Title>
+							<Width>10</Width>
+							<ContextMenu name="ЗапасКонтекстноеМеню" id="24"/>
+							<ExtendedTooltip name="ЗапасРасширеннаяПодсказка" id="41"/>
+						</InputField>
+					</ChildItems>
+				</UsualGroup>
+				<InputField name="ОстатокНаСкладе" id="14">
+					<DataPath>Запись.ОстатокНаСкладе</DataPath>
+					<Enabled>false</Enabled>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Остаток (склад)</v8:content>
+						</v8:item>
+					</Title>
+					<Width>10</Width>
+					<HorizontalStretch>false</HorizontalStretch>
+					<ContextMenu name="ОстатокНаСкладеКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="ОстатокНаСкладеРасширеннаяПодсказка" id="42"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="Группа3" id="26">
+			<Group>Vertical</Group>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="Группа3РасширеннаяПодсказка" id="43"/>
+			<ChildItems>
+				<InputField name="Автор" id="27">
+					<DataPath>Запись.Автор</DataPath>
+					<ReadOnly>true</ReadOnly>
+					<ContextMenu name="АвторКонтекстноеМеню" id="28"/>
+					<ExtendedTooltip name="АвторРасширеннаяПодсказка" id="44"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Запись" id="1">
+			<Type>
+				<v8:Type>cfg:InformationRegisterRecordManager.ОстаткиРаспределенныеПоТТ</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<SavedData>true</SavedData>
+		</Attribute>
+		<Attribute name="СтруктурнаяЕдиница" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Склад</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="СписокТТ" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Список ТТ</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueListType</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ТекущееКоличество" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Текущее количество</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>25</v8:Digits>
+					<v8:FractionDigits>3</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Parameters>
+		<Parameter name="п_Склад">
+			<Type>
+				<v8:Type>cfg:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</Type>
+		</Parameter>
+		<Parameter name="СписокТТ">
+			<Type>
+				<v8:Type>v8:ValueListType</v8:Type>
+			</Type>
+		</Parameter>
+	</Parameters>
+</Form>

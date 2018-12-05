@@ -1,0 +1,332 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:ent="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/argus/production"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/argus/production"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+			schemaLocation="file://4.xsd"/>
+	<element name="productType"
+			type="tns:ProductType"/>
+	<element name="productGuid"
+			type="bs:UUID"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="subProductGuid"
+			type="bs:UUID"/>
+	<element name="product"
+			type="tns:Product"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="productList"
+			type="tns:ProductList"/>
+	<element name="subProduct"
+			type="tns:SubProduct"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="subProductList"
+			type="tns:SubProductList"/>
+	<element name="productItem"
+			type="tns:ProductItem"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="productItemList"
+			type="tns:ProductItemList"/>
+	<complexType name="ProductItem">
+		<annotation>
+			<documentation>Тип, описывающий cведения о наименовании продукции.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Наименование продукции.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="code"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Артикул (код) продукции.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="productType"
+							type="tns:ProductType"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Тип продукции.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="product"
+							type="tns:Product"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Продукция.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="subProduct"
+							type="tns:SubProduct"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Вид продукции.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="correspondToGost"
+							type="default:boolean"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Соответствует ли ГОСТу.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="gost"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>ГОСТ.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="ProductType">
+		<annotation>
+			<documentation>Тип, описывающий тип продукции.</documentation>
+		</annotation>
+		<restriction base="xs:integer">
+			<enumeration value="1">
+				<annotation>
+					<documentation>Мясо и мясопродукты</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="2">
+				<annotation>
+					<documentation>Корма и кормовые добавки</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="3">
+				<annotation>
+					<documentation>Живые животные</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="4">
+				<annotation>
+					<documentation>Лекарственные средства</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="5">
+				<annotation>
+					<documentation>Пищевые продукты</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="6">
+				<annotation>
+					<documentation>Непищевые продукты и другое</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="7">
+				<annotation>
+					<documentation>Рыба и морепродукты</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="8">
+				<annotation>
+					<documentation>Продукция, не требующая разрешения</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<complexType name="Product">
+		<annotation>
+			<documentation>Тип, описывающий продукцию.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="code"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Код ТНВЭД.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="englishName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Английское название.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="productType"
+							type="tns:ProductType"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Тип продукции, которому относится данная продукция.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SubProduct">
+		<annotation>
+			<documentation>Тип, описывающий вид продукции.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="code"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Код ТНВЭД.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="englishName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Английское название.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="productGuid"
+							type="bs:UUID"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Глобальный идентификатор продукции, которому относится
+                                данный вид продукции.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ProductList">
+		<annotation>
+			<documentation>Тип, описывающий список продукции.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="product"
+							type="tns:Product"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SubProductList">
+		<annotation>
+			<documentation>Тип, описывающий список видов продукции.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="subProduct"
+							type="tns:SubProduct"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="ProductItemList">
+		<default:annotation>
+			<default:documentation>Тип, описывающий список наименование продукции.</default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:EntityList">
+				<default:sequence>
+					<default:element name="productItem"
+							type="tns:ProductItem"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<complexType name="PSLModificationOperation">
+		<annotation>
+			<documentation>Операция внесения изменений в реестр наименований продукции производителя.
+            </documentation>
+		</annotation>
+		<sequence>
+			<element name="type"
+					type="bs:RegisterModificationType"
+					minOccurs="1"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Тип операции</documentation>
+				</annotation>
+			</element>
+			<element name="enterprise"
+					type="ent:Enterprise"
+					minOccurs="1"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Производитель.</documentation>
+				</annotation>
+			</element>
+			<element name="affectedList"
+					type="tns:ProductItemList"
+					minOccurs="0"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Входящие записи для операции.</documentation>
+				</annotation>
+			</element>
+			<element name="resultingList"
+					type="tns:ProductItemList"
+					minOccurs="0"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Получаемые в результате операции записи.</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+</schema>

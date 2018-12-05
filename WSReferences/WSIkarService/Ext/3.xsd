@@ -1,0 +1,252 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:ent="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/cerberus/enterprise/ws-definitions"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise/ws-definitions"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+			schemaLocation="file://4.xsd"/>
+	<element name="getEnterpriseByGuidRequest">
+		<annotation>
+			<documentation>Запрос на получение записи предприятия по глобальномуидентификатору.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="bs:guid"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Глобальный идентификатор, по которому проводится поиск записи.
+                        </documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getEnterpriseByGuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи предприятия по глобальному идентификатору.
+            </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ent:enterprise"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Запись ХС.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getEnterpriseByUuidRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение записи предприятия по идентфикатору.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:uuid"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Идентификатор, по которому производится поиск записи.</default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getEnterpriseByUuidResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения записи предприятия по идентификатору.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ent:enterprise"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Запись ХС.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getForeignEnterpriseListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка зарубежныйх предприятий.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.</default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ent:enterpriseGroup"
+						minOccurs="0"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Параметр запроса предприятий.</default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ent:enterprise"
+						minOccurs="0"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Параметр запроса предприятий.</default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getForeignEnterpriseListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка зарубежных предприятий.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ent:enterpriseList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список предприятий.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getRussianEnterpriseListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка российских предприятий.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.</default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="ent:enterprise"
+						minOccurs="0"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Параметр запроса предприятий.</default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getRussianEnterpriseListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка российских предприятий.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ent:enterpriseList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список предприятий.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getForeignEnterpriseChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей предприятий.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.</default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getForeignEnterpriseChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей предприятий.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ent:enterpriseList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей предприятий.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="getRussianEnterpriseChangesListRequest">
+		<default:annotation>
+			<default:documentation>Запрос на получение списка изменившихся записей предприятий.</default:documentation>
+		</default:annotation>
+		<default:complexType>
+			<default:sequence>
+				<default:element ref="bs:listOptions"
+						maxOccurs="1"
+						minOccurs="0">
+					<default:annotation>
+						<default:documentation>Параметры запрашиваемого списка.</default:documentation>
+					</default:annotation>
+				</default:element>
+				<default:element ref="bs:updateDateInterval"
+						minOccurs="1"
+						maxOccurs="1">
+					<default:annotation>
+						<default:documentation>Интервал времени обновления. В список попадают
+                            все записи, дата обновлений которых попадает в указанный интервал.
+                        </default:documentation>
+					</default:annotation>
+				</default:element>
+			</default:sequence>
+		</default:complexType>
+	</default:element>
+	<element name="getRussianEnterpriseChangesListResponse">
+		<annotation>
+			<documentation>Ответ на запрос получения списка изменений записей предприятий.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ent:enterpriseList"
+						minOccurs="1"
+						maxOccurs="1">
+					<annotation>
+						<documentation>Список записей предприятий.</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

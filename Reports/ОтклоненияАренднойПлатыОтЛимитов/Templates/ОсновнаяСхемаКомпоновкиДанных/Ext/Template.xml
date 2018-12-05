@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных4</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛимитыЛимит</dataPath>
+			<field>ЛимитыЛимит</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Лимит</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛимитыОтклонение</dataPath>
+			<field>ЛимитыОтклонение</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отклонение</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛимитыСуммаНачисления</dataPath>
+			<field>ЛимитыСуммаНачисления</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Начислено</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛимитыТипАренднойПлаты</dataPath>
+			<field>ЛимитыТипАренднойПлаты</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Тип арендной платы</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЛимитыТорговаяТочка</dataPath>
+			<field>ЛимитыТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	МАКСИМУМ(ЛимитыАренднойПлатыСрезПоследних.Период) КАК Период,
+	ЛимитыАренднойПлатыСрезПоследних.ТорговаяТочка
+ПОМЕСТИТЬ ВТ_МеткиПоследнегоИзменения
+ИЗ
+	РегистрСведений.ЛимитыАренднойПлаты.СрезПоследних(, МесяцАренды &lt;= &amp;ПериодАренды) КАК ЛимитыАренднойПлатыСрезПоследних
+
+СГРУППИРОВАТЬ ПО
+	ЛимитыАренднойПлатыСрезПоследних.ТорговаяТочка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	НачислениеАренднойПлатыОтАрендодателейНачислениеАренды.СтруктурнаяЕдиница КАК ТорговаяТочка,
+	НачислениеАренднойПлатыОтАрендодателейНачислениеАренды.ТипАренднойПлаты,
+	НачислениеАренднойПлатыОтАрендодателейНачислениеАренды.Сумма КАК Сумма,
+	0 КАК Лимит
+ПОМЕСТИТЬ ВТ_Результат
+ИЗ
+	Документ.НачислениеАренднойПлатыОтАрендодателей.НачислениеАренды КАК НачислениеАренднойПлатыОтАрендодателейНачислениеАренды
+ГДЕ
+	НачислениеАренднойПлатыОтАрендодателейНачислениеАренды.Ссылка.Проведен
+	И НачислениеАренднойПлатыОтАрендодателейНачислениеАренды.ПериодРегистрации = &amp;ПериодАренды
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ЛимитыАренднойПлатыСрезПоследних.ТорговаяТочка,
+	ЗНАЧЕНИЕ(Перечисление.ТипыАренднойПлаты.ПостояннаяЧасть),
+	0,
+	ЛимитыАренднойПлатыСрезПоследних.СуммаАрендаПостоянная
+ИЗ
+	РегистрСведений.ЛимитыАренднойПлаты.СрезПоследних(, ) КАК ЛимитыАренднойПлатыСрезПоследних
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТ_МеткиПоследнегоИзменения КАК ВТ_МеткиПоследнегоИзменения
+		ПО ЛимитыАренднойПлатыСрезПоследних.Период = ВТ_МеткиПоследнегоИзменения.Период
+			И ЛимитыАренднойПлатыСрезПоследних.ТорговаяТочка = ВТ_МеткиПоследнегоИзменения.ТорговаяТочка
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ЛимитыАренднойПлатыСрезПоследних.ТорговаяТочка,
+	ЗНАЧЕНИЕ(Перечисление.ТипыАренднойПлаты.ПеременнаяЧасть),
+	0,
+	ЛимитыАренднойПлатыСрезПоследних.СуммаАрендаПеременная
+ИЗ
+	РегистрСведений.ЛимитыАренднойПлаты.СрезПоследних(, ) КАК ЛимитыАренднойПлатыСрезПоследних
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТ_МеткиПоследнегоИзменения КАК ВТ_МеткиПоследнегоИзменения
+		ПО ЛимитыАренднойПлатыСрезПоследних.Период = ВТ_МеткиПоследнегоИзменения.Период
+			И ЛимитыАренднойПлатыСрезПоследних.ТорговаяТочка = ВТ_МеткиПоследнегоИзменения.ТорговаяТочка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_Результат.ТорговаяТочка КАК ЛимитыТорговаяТочка,
+	ВТ_Результат.ТипАренднойПлаты КАК ЛимитыТипАренднойПлаты,
+	СУММА(ВТ_Результат.Сумма) КАК ЛимитыСуммаНачисления,
+	СУММА(ВТ_Результат.Лимит) КАК ЛимитыЛимит,
+	СУММА(ВТ_Результат.Сумма) - СУММА(ВТ_Результат.Лимит) КАК ЛимитыОтклонение
+ИЗ
+	ВТ_Результат КАК ВТ_Результат
+
+СГРУППИРОВАТЬ ПО
+	ВТ_Результат.ТорговаяТочка,
+	ВТ_Результат.ТипАренднойПлаты
+	имеющие СУММА(ВТ_Результат.Сумма)&lt;&gt;СУММА(ВТ_Результат.Лимит) </query>
+	</dataSet>
+	<totalField>
+		<dataPath>ЛимитыСуммаНачисления</dataPath>
+		<expression>Сумма(ЛимитыСуммаНачисления)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ЛимитыОтклонение</dataPath>
+		<expression>Сумма(ЛимитыОтклонение)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ЛимитыЛимит</dataPath>
+		<expression>Сумма(ЛимитыЛимит)</expression>
+	</totalField>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ПериодАренды</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период аренды</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>Date</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<expression>НачалоПериода(&amp;ПериодАренды, "Месяц")</expression>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодАренды</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfThisMonth</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>271be40f-29e2-47a0-9104-a1fe5fcd7701</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Заголовок</dcscor:parameter>
+					<dcscor:value xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Начисления и оплаты</v8:content>
+						</v8:item>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЛимитыТорговаяТочка</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЛимитыТипАренднойПлаты</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЛимитыСуммаНачисления</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЛимитыЛимит</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЛимитыОтклонение</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

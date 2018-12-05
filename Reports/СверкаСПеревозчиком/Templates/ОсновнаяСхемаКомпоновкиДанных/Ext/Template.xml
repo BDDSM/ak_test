@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Маршрут</dataPath>
+			<field>Маршрут</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Маршрут</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сумма</dataPath>
+			<field>Сумма</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Вес</dataPath>
+			<field>Вес</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вес</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Рейс</dataPath>
+			<field>Рейс</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Рейс</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЦенаЗаКг</dataPath>
+			<field>ЦенаЗаКг</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Цена за кг</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Поставщик</dataPath>
+			<field>Поставщик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Перевозчик</dataPath>
+			<field>Перевозчик</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Перевозчик</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаИзРейса</dataPath>
+			<field>СуммаИзРейса</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма из рейса</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РазницаВСумме</dataPath>
+			<field>РазницаВСумме</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Разница в сумме</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВесИзРейса</dataPath>
+			<field>ВесИзРейса</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вес из рейса</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Дата</dataPath>
+			<field>Дата</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>РазницаВВесе</dataPath>
+			<field>РазницаВВесе</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Разница в весе</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	МаршрутныйЛистПриходныеОрдера.Ссылка КАК МаршрутныйЛист,
+	СУММА(ЕСТЬNULL(ПриходныйОрдерСкладТовары.ЕдиницаИзмерения.Вес, 0) * ЕСТЬNULL(ПриходныйОрдерСкладТовары.Количество, 0)) КАК Вес
+		
+		ПОМЕСТИТЬ втСписокРейсовСВесами
+
+ИЗ Документ.МаршрутныйЛист.ПриходныеОрдера КАК МаршрутныйЛистПриходныеОрдера
+
+	ЛЕВОЕ СОЕДИНЕНИЕ Документ.ПриходныйОрдерСклад.Товары КАК ПриходныйОрдерСкладТовары ПО
+		ПриходныйОрдерСкладТовары.Ссылка = МаршрутныйЛистПриходныеОрдера.ПриходныйОрдер
+
+ГДЕ
+		МаршрутныйЛистПриходныеОрдера.Ссылка.ВидПеревозки = ЗНАЧЕНИЕ(Справочник.АК_ВидыПеревозки.ДоставкаНаСклад)
+	И	МаршрутныйЛистПриходныеОрдера.Ссылка.Дата &gt;= &amp;ДатаНачала  
+	И	МаршрутныйЛистПриходныеОрдера.Ссылка.Дата &lt; &amp;ДатаОкончания
+	И	НЕ МаршрутныйЛистПриходныеОрдера.Ссылка.ПометкаУдаления
+
+СГРУППИРОВАТЬ ПО 
+	МаршрутныйЛистПриходныеОрдера.Ссылка
+
+ИНДЕКСИРОВАТЬ ПО МаршрутныйЛистПриходныеОрдера.Ссылка
+
+;
+///////////////////////////////////////////////////////////	
+ВЫБРАТЬ
+	втСписокРейсовСВесами.МаршрутныйЛист.Дата КАК Дата, 
+	втСписокРейсовСВесами.МаршрутныйЛист.Организация КАК Организация,
+	втСписокРейсовСВесами.МаршрутныйЛист.Перевозчик КАК Перевозчик,
+	МаршрутыТранспортныхКомпанийПоставщики.Поставщик,
+	втСписокРейсовСВесами.МаршрутныйЛист КАК Рейс,
+	втСписокРейсовСВесами.МаршрутныйЛист.МаршрутТранспортныхКомпаний КАК Маршрут,
+	втСписокРейсовСВесами.МаршрутныйЛист.Сумма КАК СуммаИзРейса,	
+	втСписокРейсовСВесами.Вес КАК ВесИзРейса,
+	ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Сумма, 0) КАК Сумма,
+	ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Вес, 0) КАК Вес,
+	
+	ВЫБОР		
+		КОГДА ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Вес, 0) &lt;&gt; 0
+			ТОГДА ВЫРАЗИТЬ(ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Сумма, 0) / ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Вес, 0) КАК Число(15,2)) 
+		ИНАЧЕ 0
+	КОНЕЦ КАК ЦенаЗаКг,
+	
+	ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Сумма, 0) - втСписокРейсовСВесами.МаршрутныйЛист.Сумма КАК РазницаВСумме,
+	ЕСТЬNULL(ИтогиПоАктамСверкиСПеревозчиком.Вес, 0) - втСписокРейсовСВесами.Вес КАК РазницаВВесе
+	
+	
+ИЗ втСписокРейсовСВесами
+	ЛЕВОЕ СОЕДИНЕНИЕ Справочник.МаршрутыТранспортныхКомпаний.Поставщики КАК МаршрутыТранспортныхКомпанийПоставщики ПО
+			МаршрутыТранспортныхКомпанийПоставщики.Ссылка = втСписокРейсовСВесами.МаршрутныйЛист.МаршрутТранспортныхКомпаний
+		И	МаршрутыТранспортныхКомпанийПоставщики.НомерСтроки = 1
+	
+	ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ИтогиПоАктамСверкиСПеревозчиком КАК ИтогиПоАктамСверкиСПеревозчиком ПО
+				ИтогиПоАктамСверкиСПеревозчиком.Дата = втСписокРейсовСВесами.МаршрутныйЛист.Дата
+			И	ИтогиПоАктамСверкиСПеревозчиком.Перевозчик = втСписокРейсовСВесами.МаршрутныйЛист.Перевозчик
+			И	ИтогиПоАктамСверкиСПеревозчиком.Поставщик = МаршрутыТранспортныхКомпанийПоставщики.Поставщик</query>
+	</dataSet>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+		<denyIncompleteValues>true</denyIncompleteValues>
+	</parameter>
+	<parameter>
+		<name>ДатаНачала</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начала</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаНачала</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>ДатаОкончания</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата окончания</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаОкончания</expression>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Дата</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Организация</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Перевозчик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Поставщик</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Рейс</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаИзРейса</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВесИзРейса</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сумма</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Вес</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЦенаЗаКг</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>РазницаВСумме</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>РазницаВВесе</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">Организация</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>babaa7b8-eb4d-4f52-ba87-aa02e3f1814d</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">Перевозчик</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>6785aa8c-a9b3-4a56-816d-b33005eb7064</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:left xsi:type="dcscor:Field">Поставщик</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>a022d444-b7a0-40cb-99c3-dc37b353fbdb</dcsset:userSettingID>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>9cd86467-c3d1-48ef-891b-0c77f127361f</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

@@ -1,0 +1,1404 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>ТЗ_Продавцы</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НачалаРаботы</dataPath>
+			<field>НачалаРаботы</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Продавец</dataPath>
+			<field>Продавец</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>id_TT</dataPath>
+			<field>id_TT</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодДень</dataPath>
+			<field>ПериодДень</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодМесяц</dataPath>
+			<field>ПериодМесяц</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ЛистУчетаПродавцы.Продавец,
+	ЛистУчетаПродавцы.Продавец.ДатаНачалаРаботы КАК НачалаРаботы,
+	ЛистУчетаПродавцы.Ссылка.ТорговаяТочка,
+	НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ) КАК ПериодДень,
+	НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, МЕСЯЦ) КАК ПериодМесяц
+ПОМЕСТИТЬ ТЗ_Продавцы
+ИЗ
+	Документ.ЛистУчета.Продавцы КАК ЛистУчетаПродавцы
+ГДЕ
+	ЛистУчетаПродавцы.Ссылка.Дата МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И ЛистУчетаПродавцы.Ссылка.Проведен
+{ГДЕ
+	ЛистУчетаПродавцы.Продавец.*,
+	ЛистУчетаПродавцы.Ссылка.ТорговаяТочка.*}
+
+СГРУППИРОВАТЬ ПО
+	ЛистУчетаПродавцы.Продавец,
+	ЛистУчетаПродавцы.Продавец.ДатаНачалаРаботы,
+	ЛистУчетаПродавцы.Ссылка.ТорговаяТочка,
+	НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, ДЕНЬ),
+	НАЧАЛОПЕРИОДА(ЛистУчетаПродавцы.Ссылка.Дата, МЕСЯЦ)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_Продавцы.Продавец КАК Продавец,
+	ТЗ_Продавцы.НачалаРаботы КАК НачалаРаботы,
+	ТЗ_Продавцы.ТорговаяТочка,
+	ТЗ_Продавцы.ТорговаяТочка.id_TT КАК id_TT,
+	ТЗ_Продавцы.ПериодДень,
+	ТЗ_Продавцы.ПериодМесяц
+ИЗ
+	ТЗ_Продавцы КАК ТЗ_Продавцы
+{ГДЕ
+	ТЗ_Продавцы.Продавец.*,
+	ТЗ_Продавцы.ТорговаяТочка.*}
+
+УПОРЯДОЧИТЬ ПО
+	ТЗ_Продавцы.Продавец.Наименование</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetObject">
+		<name>НаборДанных2</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТТ</dataPath>
+			<field>ТТ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ТТ</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Продажа</dataPath>
+			<field>Продажа</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Скидка 50%</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</valueType>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Выручка</dataPath>
+			<field>Выручка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Выручка</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</valueType>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КодПродавца</dataPath>
+			<field>КодПродавца</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Код продавца</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>10</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</valueType>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодДень</dataPath>
+			<field>ПериодДень</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период день</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодМесяц</dataPath>
+			<field>ПериодМесяц</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период месяц</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<objectName>ТаблицаДанныхПоПродажам</objectName>
+	</dataSet>
+	<dataSet xsi:type="DataSetObject">
+		<name>НаборДанных3</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТТ</dataPath>
+			<field>ТТ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ТТ</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>План</dataPath>
+			<field>План</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>План</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</valueType>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Факт</dataPath>
+			<field>Факт</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Факт</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</valueType>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Процент</dataPath>
+			<field>Процент</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Процент</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</valueType>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Акция</dataPath>
+			<field>Акция</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Акция</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДнейВыходаПродавца</dataPath>
+			<field>ДнейВыходаПродавца</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дней выхода продавца</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДнейАкции</dataPath>
+			<field>ДнейАкции</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дней акции</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КодПродавца</dataPath>
+			<field>КодПродавца</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Код продавца</v8:content>
+				</v8:item>
+			</title>
+			<valueType>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>10</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</valueType>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодДень</dataPath>
+			<field>ПериодДень</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период день</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодМесяц</dataPath>
+			<field>ПериодМесяц</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период месяц</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<objectName>ПромоАкции</objectName>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>ТайникИВыкладка</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Продавец</dataPath>
+			<field>Продавец</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПроцентТайника</dataPath>
+			<field>ПроцентТайника</field>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПроцентВыкладки</dataPath>
+			<field>ПроцентВыкладки</field>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодДеньТ</dataPath>
+			<field>ПериодДеньТ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период день</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодМесяцТ</dataPath>
+			<field>ПериодМесяцТ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период месяц</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочкаТ</dataPath>
+			<field>ТорговаяТочкаТ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЗаписейВыкладки</dataPath>
+			<field>КоличествоЗаписейВыкладки</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЗаписейТайника</dataPath>
+			<field>КоличествоЗаписейТайника</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПроцентыТайногоПокупателя.Продавец,
+	ПроцентыТайногоПокупателя.СтруктурнаяЕдиница КАК ТорговаяТочка,
+	СУММА(ПроцентыТайногоПокупателя.Процент) КАК ПроцентВыкладки,
+	СУММА(1) КАК КоличествоЗаписей,
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, ДЕНЬ) КАК ПериодДень,
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, МЕСЯЦ) КАК ПериодМесяц
+ПОМЕСТИТЬ ТЗ_ТайныйПокупательВыкладка
+ИЗ
+	РегистрСведений.ПроцентыТайногоПокупателя КАК ПроцентыТайногоПокупателя
+ГДЕ
+	ПроцентыТайногоПокупателя.ДатаПроверки МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И (ПроцентыТайногоПокупателя.ТипАнкет = "Выкладка"
+			ИЛИ ПроцентыТайногоПокупателя.ТипАнкет = "Фотоотчет")
+{ГДЕ
+	ПроцентыТайногоПокупателя.Продавец.*}
+
+СГРУППИРОВАТЬ ПО
+	ПроцентыТайногоПокупателя.Продавец,
+	ПроцентыТайногоПокупателя.СтруктурнаяЕдиница,
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, ДЕНЬ),
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, МЕСЯЦ)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_ТайныйПокупательВыкладка.Продавец,
+	ТЗ_ТайныйПокупательВыкладка.ТорговаяТочка,
+	ТЗ_ТайныйПокупательВыкладка.ПериодДень,
+	ТЗ_ТайныйПокупательВыкладка.ПериодМесяц,
+	ТЗ_ТайныйПокупательВыкладка.ПроцентВыкладки / ТЗ_ТайныйПокупательВыкладка.КоличествоЗаписей КАК ПроцентВыкладки,
+	ТЗ_ТайныйПокупательВыкладка.КоличествоЗаписей КАК КоличествоЗаписейВыкладки
+ПОМЕСТИТЬ ТЗ_ТайныйПокупательВыкладкаСвернуть
+ИЗ
+	ТЗ_ТайныйПокупательВыкладка КАК ТЗ_ТайныйПокупательВыкладка
+{ГДЕ
+	ТЗ_ТайныйПокупательВыкладка.Продавец.*,
+	ТЗ_ТайныйПокупательВыкладка.ТорговаяТочка.*}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ПроцентыТайногоПокупателя.Продавец,
+	ПроцентыТайногоПокупателя.СтруктурнаяЕдиница КАК ТорговаяТочка,
+	СУММА(ПроцентыТайногоПокупателя.Процент) КАК ПроцентТайник,
+	СУММА(1) КАК КоличествоЗаписей,
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, ДЕНЬ) КАК ПериодДень,
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, МЕСЯЦ) КАК ПериодМесяц
+ПОМЕСТИТЬ ТЗ_ТайныйПокупательТайник
+ИЗ
+	РегистрСведений.ПроцентыТайногоПокупателя КАК ПроцентыТайногоПокупателя
+ГДЕ
+	ПроцентыТайногоПокупателя.ДатаПроверки МЕЖДУ &amp;ДатаНач И &amp;ДатаКон
+	И ПроцентыТайногоПокупателя.ТипАнкет = "Тайник"
+{ГДЕ
+	ПроцентыТайногоПокупателя.Продавец.*}
+
+СГРУППИРОВАТЬ ПО
+	ПроцентыТайногоПокупателя.Продавец,
+	ПроцентыТайногоПокупателя.СтруктурнаяЕдиница,
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, ДЕНЬ),
+	НАЧАЛОПЕРИОДА(ПроцентыТайногоПокупателя.ДатаПроверки, МЕСЯЦ)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_ТайныйПокупательТайник.Продавец,
+	ТЗ_ТайныйПокупательТайник.ТорговаяТочка,
+	ТЗ_ТайныйПокупательТайник.ПериодДень,
+	ТЗ_ТайныйПокупательТайник.ПериодМесяц,
+	ТЗ_ТайныйПокупательТайник.ПроцентТайник / ТЗ_ТайныйПокупательТайник.КоличествоЗаписей КАК ПроцентТайника,
+	ТЗ_ТайныйПокупательТайник.КоличествоЗаписей КАК КоличествоЗаписейТайника
+ПОМЕСТИТЬ ТЗ_ТайныйПокупательТайникСвернуть
+ИЗ
+	ТЗ_ТайныйПокупательТайник КАК ТЗ_ТайныйПокупательТайник
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_ТайныйПокупательВыкладкаСвернуть.Продавец КАК Продавец,
+	ТЗ_ТайныйПокупательВыкладкаСвернуть.ТорговаяТочка КАК ТорговаяТочкаТ,
+	ТЗ_ТайныйПокупательВыкладкаСвернуть.ПериодДень КАК ПериодДеньТ,
+	ТЗ_ТайныйПокупательВыкладкаСвернуть.ПериодМесяц КАК ПериодМесяцТ,
+	ТЗ_ТайныйПокупательВыкладкаСвернуть.ПроцентВыкладки,
+	NULL КАК ПроцентТайника,
+	ТЗ_ТайныйПокупательВыкладкаСвернуть.КоличествоЗаписейВыкладки,
+	NULL КАК КоличествоЗаписейТайника
+ИЗ
+	ТЗ_ТайныйПокупательВыкладкаСвернуть КАК ТЗ_ТайныйПокупательВыкладкаСвернуть
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ТЗ_ТайныйПокупательТайникСвернуть.Продавец,
+	ТЗ_ТайныйПокупательТайникСвернуть.ТорговаяТочка,
+	ТЗ_ТайныйПокупательТайникСвернуть.ПериодДень,
+	ТЗ_ТайныйПокупательТайникСвернуть.ПериодМесяц,
+	NULL,
+	ТЗ_ТайныйПокупательТайникСвернуть.ПроцентТайника,
+	NULL,
+	ТЗ_ТайныйПокупательТайникСвернуть.КоличествоЗаписейТайника
+ИЗ
+	ТЗ_ТайныйПокупательТайникСвернуть КАК ТЗ_ТайныйПокупательТайникСвернуть</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Жалобы</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Продавец</dataPath>
+			<field>Продавец</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоБлагодарностей</dataPath>
+			<field>КоличествоБлагодарностей</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоНеПодтвержденныхЖалоб</dataPath>
+			<field>КоличествоНеПодтвержденныхЖалоб</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоПодтвержденныхЖалоб</dataPath>
+			<field>КоличествоПодтвержденныхЖалоб</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодДеньЖ</dataPath>
+			<field>ПериодДеньЖ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период день</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПериодМесяцЖ</dataPath>
+			<field>ПериодМесяцЖ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период месяц</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочкаЖ</dataPath>
+			<field>ТорговаяТочкаЖ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОтветПокупателю</dataPath>
+			<field>ОтветПокупателю</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Примечание</dataPath>
+			<field>Примечание</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВидОбращения</dataPath>
+			<field>ВидОбращения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ИсточникОбращения</dataPath>
+			<field>ИсточникОбращения</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Источник обращения</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец1 КАК Продавец,
+	1 КАК Количество,
+	ОбращенияПокупателей.СтруктурнаяЕдиница КАК ТорговаяТочка,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ПОМЕСТИТЬ ТЗ_ПодтвержденныеЖалобы
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И НЕ ОбращенияПокупателей.РезультатОбращения = &amp;НеПодтвердилось
+	И НЕ ОбращенияПокупателей.Продавец1 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И НЕ ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец2,
+	1,
+	ОбращенияПокупателей.СтруктурнаяЕдиница,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И НЕ ОбращенияПокупателей.РезультатОбращения = &amp;НеПодтвердилось
+	И НЕ ОбращенияПокупателей.Продавец2 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И НЕ ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец3,
+	1,
+	ОбращенияПокупателей.СтруктурнаяЕдиница,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И НЕ ОбращенияПокупателей.РезультатОбращения = &amp;НеПодтвердилось
+	И НЕ ОбращенияПокупателей.Продавец3 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И НЕ ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_ПодтвержденныеЖалобы.Продавец КАК Продавец,
+	ТЗ_ПодтвержденныеЖалобы.Количество КАК КоличествоПодтвержденныхЖалоб,
+	ТЗ_ПодтвержденныеЖалобы.ТорговаяТочка КАК ТорговаяТочка,
+	НАЧАЛОПЕРИОДА(ТЗ_ПодтвержденныеЖалобы.ДатаСобытия, ДЕНЬ) КАК ПериодДень,
+	НАЧАЛОПЕРИОДА(ТЗ_ПодтвержденныеЖалобы.ДатаСобытия, МЕСЯЦ) КАК ПериодМесяц,
+	ТЗ_ПодтвержденныеЖалобы.Примечание,
+	ТЗ_ПодтвержденныеЖалобы.ОтветПокупателю,
+	ТЗ_ПодтвержденныеЖалобы.ИсточникОбращения
+ПОМЕСТИТЬ ТЗ_ПодтвержденныеЖалобыСвернутые
+ИЗ
+	ТЗ_ПодтвержденныеЖалобы КАК ТЗ_ПодтвержденныеЖалобы
+{ГДЕ
+	ТЗ_ПодтвержденныеЖалобы.Продавец.*}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец1 КАК Продавец,
+	1 КАК Количество,
+	ОбращенияПокупателей.СтруктурнаяЕдиница КАК ТорговаяТочка,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ПОМЕСТИТЬ ТЗ_НеПодтвержденныеЖалобы
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И ОбращенияПокупателей.РезультатОбращения = &amp;НеПодтвердилось
+	И НЕ ОбращенияПокупателей.Продавец1 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И НЕ ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец2,
+	1,
+	ОбращенияПокупателей.СтруктурнаяЕдиница,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И ОбращенияПокупателей.РезультатОбращения = &amp;НеПодтвердилось
+	И НЕ ОбращенияПокупателей.Продавец2 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И НЕ ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец3,
+	1,
+	ОбращенияПокупателей.СтруктурнаяЕдиница,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И ОбращенияПокупателей.РезультатОбращения = &amp;НеПодтвердилось
+	И НЕ ОбращенияПокупателей.Продавец3 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И НЕ ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_НеПодтвержденныеЖалобы.Продавец,
+	ТЗ_НеПодтвержденныеЖалобы.Количество КАК КоличествоНеПодтвержденныхЖалоб,
+	ТЗ_НеПодтвержденныеЖалобы.ТорговаяТочка,
+	НАЧАЛОПЕРИОДА(ТЗ_НеПодтвержденныеЖалобы.ДатаСобытия, ДЕНЬ) КАК ПериодДень,
+	НАЧАЛОПЕРИОДА(ТЗ_НеПодтвержденныеЖалобы.ДатаСобытия, МЕСЯЦ) КАК ПериодМесяц,
+	ТЗ_НеПодтвержденныеЖалобы.Примечание,
+	ТЗ_НеПодтвержденныеЖалобы.ОтветПокупателю,
+	ТЗ_НеПодтвержденныеЖалобы.ИсточникОбращения
+ПОМЕСТИТЬ ТЗ_НеПодтвержденныеЖалобыСвернутые
+ИЗ
+	ТЗ_НеПодтвержденныеЖалобы КАК ТЗ_НеПодтвержденныеЖалобы
+{ГДЕ
+	ТЗ_НеПодтвержденныеЖалобы.Продавец.*}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец1 КАК Продавец,
+	1 КАК Количество,
+	ОбращенияПокупателей.СтруктурнаяЕдиница КАК ТорговаяТочка,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ПОМЕСТИТЬ ТЗ_Благдарности
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И НЕ ОбращенияПокупателей.Продавец1 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец2,
+	1,
+	ОбращенияПокупателей.СтруктурнаяЕдиница,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И НЕ ОбращенияПокупателей.Продавец2 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ОбращенияПокупателей.Продавец3,
+	1,
+	ОбращенияПокупателей.СтруктурнаяЕдиница,
+	ОбращенияПокупателей.ДатаСобытия,
+	ОбращенияПокупателей.Примечание,
+	ОбращенияПокупателей.ОтветПокупателю,
+	ОбращенияПокупателей.ИсточникОбращения
+ИЗ
+	РегистрСведений.ОбращенияПокупателей КАК ОбращенияПокупателей
+ГДЕ
+	ОбращенияПокупателей.ТипОбращения = &amp;КачествоСервиса
+	И НЕ ОбращенияПокупателей.Продавец3 = ЗНАЧЕНИЕ(Справочник.ФизическиеЛица.ПустаяСсылка)
+	И ОбращенияПокупателей.ТипЖалобы = &amp;ВсеОтлично
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_Благдарности.Продавец,
+	ТЗ_Благдарности.Количество КАК КоличествоБлагодарностей,
+	ТЗ_Благдарности.ТорговаяТочка,
+	НАЧАЛОПЕРИОДА(ТЗ_Благдарности.ДатаСобытия, ДЕНЬ) КАК ПериодДень,
+	НАЧАЛОПЕРИОДА(ТЗ_Благдарности.ДатаСобытия, МЕСЯЦ) КАК ПериодМесяц,
+	ТЗ_Благдарности.Примечание,
+	ТЗ_Благдарности.ОтветПокупателю,
+	ТЗ_Благдарности.ИсточникОбращения
+ПОМЕСТИТЬ ТЗ_БлагдарностиСвернутые
+ИЗ
+	ТЗ_Благдарности КАК ТЗ_Благдарности
+{ГДЕ
+	ТЗ_Благдарности.Продавец.*}
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТЗ_ПодтвержденныеЖалобыСвернутые.Продавец КАК Продавец,
+	ТЗ_ПодтвержденныеЖалобыСвернутые.ТорговаяТочка КАК ТорговаяТочкаЖ,
+	ТЗ_ПодтвержденныеЖалобыСвернутые.ПериодДень КАК ПериодДеньЖ,
+	ТЗ_ПодтвержденныеЖалобыСвернутые.ПериодМесяц КАК ПериодМесяцЖ,
+	ТЗ_ПодтвержденныеЖалобыСвернутые.КоличествоПодтвержденныхЖалоб,
+	NULL КАК КоличествоНеПодтвержденныхЖалоб,
+	NULL КАК КоличествоБлагодарностей,
+	ВЫРАЗИТЬ(ТЗ_ПодтвержденныеЖалобыСвернутые.Примечание КАК СТРОКА(1000)) КАК Примечание,
+	ВЫРАЗИТЬ(ТЗ_ПодтвержденныеЖалобыСвернутые.ОтветПокупателю КАК СТРОКА(1000)) КАК ОтветПокупателю,
+	"Подтвержденные жалобы" КАК ВидОбращения,
+	ТЗ_ПодтвержденныеЖалобыСвернутые.ИсточникОбращения
+ИЗ
+	ТЗ_ПодтвержденныеЖалобыСвернутые КАК ТЗ_ПодтвержденныеЖалобыСвернутые
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ТЗ_НеПодтвержденныеЖалобыСвернутые.Продавец,
+	ТЗ_НеПодтвержденныеЖалобыСвернутые.ТорговаяТочка,
+	ТЗ_НеПодтвержденныеЖалобыСвернутые.ПериодДень,
+	ТЗ_НеПодтвержденныеЖалобыСвернутые.ПериодМесяц,
+	NULL,
+	ТЗ_НеПодтвержденныеЖалобыСвернутые.КоличествоНеПодтвержденныхЖалоб,
+	NULL,
+	ВЫРАЗИТЬ(ТЗ_НеПодтвержденныеЖалобыСвернутые.Примечание КАК СТРОКА(1000)),
+	ВЫРАЗИТЬ(ТЗ_НеПодтвержденныеЖалобыСвернутые.ОтветПокупателю КАК СТРОКА(1000)),
+	"Неподтвержденные жалобы",
+	ТЗ_НеПодтвержденныеЖалобыСвернутые.ИсточникОбращения
+ИЗ
+	ТЗ_НеПодтвержденныеЖалобыСвернутые КАК ТЗ_НеПодтвержденныеЖалобыСвернутые
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ТЗ_БлагдарностиСвернутые.Продавец,
+	ТЗ_БлагдарностиСвернутые.ТорговаяТочка,
+	ТЗ_БлагдарностиСвернутые.ПериодДень,
+	ТЗ_БлагдарностиСвернутые.ПериодМесяц,
+	NULL,
+	NULL,
+	ТЗ_БлагдарностиСвернутые.КоличествоБлагодарностей,
+	ВЫРАЗИТЬ(ТЗ_БлагдарностиСвернутые.Примечание КАК СТРОКА(1000)),
+	ВЫРАЗИТЬ(ТЗ_БлагдарностиСвернутые.ОтветПокупателю КАК СТРОКА(1000)),
+	"Благодарности",
+	ТЗ_БлагдарностиСвернутые.ИсточникОбращения
+ИЗ
+	ТЗ_БлагдарностиСвернутые КАК ТЗ_БлагдарностиСвернутые</query>
+	</dataSet>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>НаборДанных2</destinationDataSet>
+		<sourceExpression>id_TT</sourceExpression>
+		<destinationExpression>ТТ</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>НаборДанных2</destinationDataSet>
+		<sourceExpression>Продавец.Код</sourceExpression>
+		<destinationExpression>КодПродавца</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>НаборДанных3</destinationDataSet>
+		<sourceExpression>id_TT</sourceExpression>
+		<destinationExpression>ТТ</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>НаборДанных3</destinationDataSet>
+		<sourceExpression>Продавец.Код</sourceExpression>
+		<destinationExpression>КодПродавца</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>НаборДанных2</destinationDataSet>
+		<sourceExpression>ПериодДень</sourceExpression>
+		<destinationExpression>ПериодДень</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>НаборДанных3</destinationDataSet>
+		<sourceExpression>ПериодДень</sourceExpression>
+		<destinationExpression>ПериодДень</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>ТайникИВыкладка</destinationDataSet>
+		<sourceExpression>Продавец</sourceExpression>
+		<destinationExpression>Продавец</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>ТЗ_Продавцы</sourceDataSet>
+		<destinationDataSet>Жалобы</destinationDataSet>
+		<sourceExpression>Продавец</sourceExpression>
+		<destinationExpression>Продавец</destinationExpression>
+	</dataSetLink>
+	<calculatedField>
+		<dataPath>ПланПоДням</dataPath>
+		<expression>План / ДнейАкции * ДнейВыходаПродавца</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>План</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+			</dcscor:item>
+		</appearance>
+		<valueType>
+			<v8:Type>xs:decimal</v8:Type>
+			<v8:NumberQualifiers>
+				<v8:Digits>15</v8:Digits>
+				<v8:FractionDigits>2</v8:FractionDigits>
+				<v8:AllowedSign>Any</v8:AllowedSign>
+			</v8:NumberQualifiers>
+		</valueType>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>ПроцентПродаж</dataPath>
+		<expression>Продажа / Выручка * 100</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Процент 50% скидки</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧЦ=15; ЧДЦ=2</dcscor:value>
+			</dcscor:item>
+		</appearance>
+		<valueType>
+			<v8:Type>xs:decimal</v8:Type>
+			<v8:NumberQualifiers>
+				<v8:Digits>15</v8:Digits>
+				<v8:FractionDigits>2</v8:FractionDigits>
+				<v8:AllowedSign>Any</v8:AllowedSign>
+			</v8:NumberQualifiers>
+		</valueType>
+	</calculatedField>
+	<totalField>
+		<dataPath>Продажа</dataPath>
+		<expression>Сумма(Продажа)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Выручка</dataPath>
+		<expression>Сумма(Выручка)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Факт</dataPath>
+		<expression>Сумма(Факт)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>План</dataPath>
+		<expression>Сумма(План)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Процент</dataPath>
+		<expression>Выбор Когда Сумма(План) = 0 ИЛИ Сумма(ДнейАкции) = 0 Тогда 0 Иначе (Сумма(Факт) / Сумма(ДнейВыходаПродавца)) / (Сумма(План) / Сумма(ДнейАкции)) * 100 Конец</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ДнейАкции</dataPath>
+		<expression>Максимум(ДнейАкции)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ДнейВыходаПродавца</dataPath>
+		<expression>Сумма(ДнейВыходаПродавца)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ПланПоДням</dataPath>
+		<expression>Сумма(ПланПоДням)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ПроцентТайника</dataPath>
+		<expression>Сумма(ПроцентТайника) / Количество(КоличествоЗаписейТайника)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>КоличествоБлагодарностей</dataPath>
+		<expression>Сумма(КоличествоБлагодарностей)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>КоличествоНеПодтвержденныхЖалоб</dataPath>
+		<expression>Сумма(КоличествоНеПодтвержденныхЖалоб)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>КоличествоПодтвержденныхЖалоб</dataPath>
+		<expression>Сумма(КоличествоПодтвержденныхЖалоб)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Примечание</dataPath>
+		<expression>Примечание</expression>
+		<group>ПериодДеньЖ</group>
+		<group>ПериодМесяцЖ</group>
+	</totalField>
+	<totalField>
+		<dataPath>ОтветПокупателю</dataPath>
+		<expression>ОтветПокупателю</expression>
+		<group>ПериодДеньЖ</group>
+		<group>ПериодМесяцЖ</group>
+	</totalField>
+	<totalField>
+		<dataPath>ПроцентВыкладки</dataPath>
+		<expression>Сумма(ПроцентВыкладки) / Количество(КоличествоЗаписейВыкладки)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>КоличествоЗаписейТайника</dataPath>
+		<expression>Сумма(КоличествоЗаписейТайника)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>КоличествоЗаписейВыкладки</dataPath>
+		<expression>Сумма(КоличествоЗаписейВыкладки)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ПроцентПродаж</dataPath>
+		<expression>Сумма(Продажа) / Сумма(Выручка) * 100</expression>
+	</totalField>
+	<totalField>
+		<dataPath>ИсточникОбращения</dataPath>
+		<expression>ИсточникОбращения</expression>
+		<group>ПериодДеньЖ</group>
+		<group>ПериодМесяцЖ</group>
+	</totalField>
+	<parameter>
+		<name>ПериодОтчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период отчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата кон</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>ДатаНач</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата нач</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;ПериодОтчета.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>КачествоСервиса</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Качество сервиса</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.ТипыОбращенийПокупателей</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ВсеОтлично</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Все отлично</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.ТипыЖалоб</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>НеПодтвердилось</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Не подтвердилось</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.РезультатыРассмотренияОбращений</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>InList</dcsset:comparisonType>
+					<dcsset:userSettingID>c9d79109-00a6-4ec1-8d7b-00a50799e244</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Торговая точка</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Продавец</dcsset:left>
+					<dcsset:comparisonType>InList</dcsset:comparisonType>
+					<dcsset:userSettingID>86c0bf3c-05a0-443a-86b5-2ced115923c3</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Продавец</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Акция</dcsset:left>
+					<dcsset:comparisonType>Contains</dcsset:comparisonType>
+					<dcsset:right xsi:type="dcscor:Field"/>
+					<dcsset:userSettingID>e029b9b0-0085-4a2d-a9f0-63247002c5ff</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">КоличествоНеПодтвержденныхЖалоб</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">КоличествоПодтвержденныхЖалоб</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ПериодОтчета</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">ThisYear</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>5e450652-d51f-4400-8a5d-76fcdfc9dfc9</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ДатаНач</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfThisDay</v8:variant>
+					</dcscor:value>
+					<dcsset:userSettingID>b661cbe6-f5eb-438d-9778-90ab15eabebb</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>КачествоСервиса</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>5ef31be9-bd11-4314-ad53-0f03986b00b1</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВсеОтлично</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>8146cfeb-fef8-46f9-8360-70b86a02b2f2</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>НеПодтвердилось</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>48a49235-e2b9-4179-9be2-d96f36c58ce1</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:use>false</dcsset:use>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>КоличествоБлагодарностей</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>КоличествоНеПодтвержденныхЖалоб</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>КоличествоПодтвержденныхЖалоб</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ПроцентВыкладки</dcsset:field>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:field>ПроцентТайника</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">СистемныеПоля.Уровень</dcsset:left>
+							<dcsset:comparisonType>Greater</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:decimal">2</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>Текст</dcscor:parameter>
+							<dcscor:value xsi:type="xs:string"/>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Продавец</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemTable">
+					<dcsset:row>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ВидОбращения</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item>
+							<dcsset:groupItems>
+								<dcsset:item xsi:type="dcsset:GroupItemField">
+									<dcsset:field>ПериодДеньЖ</dcsset:field>
+									<dcsset:groupType>Items</dcsset:groupType>
+									<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+									<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+									<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:GroupItemField">
+									<dcsset:field>ТорговаяТочкаЖ</dcsset:field>
+									<dcsset:groupType>Items</dcsset:groupType>
+									<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+									<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+									<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+								</dcsset:item>
+							</dcsset:groupItems>
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:row>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ИсточникОбращения</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>Примечание</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ОтветПокупателю</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:outputParameters>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:use>false</dcscor:use>
+							<dcscor:parameter>РасположениеИтогов</dcscor:parameter>
+							<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+						</dcscor:item>
+					</dcsset:outputParameters>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:StructureItemTable">
+					<dcsset:row>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ПериодДеньТ</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item>
+							<dcsset:groupItems>
+								<dcsset:item xsi:type="dcsset:GroupItemField">
+									<dcsset:field>ТорговаяТочкаТ</dcsset:field>
+									<dcsset:groupType>Items</dcsset:groupType>
+									<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+									<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+									<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+								</dcsset:item>
+							</dcsset:groupItems>
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:row>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ПроцентТайника</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ПроцентВыкладки</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:StructureItemTable">
+					<dcsset:row>
+						<dcsset:groupItems>
+							<dcsset:item xsi:type="dcsset:GroupItemField">
+								<dcsset:field>ТорговаяТочка</dcsset:field>
+								<dcsset:groupType>Items</dcsset:groupType>
+								<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+								<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+								<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+							</dcsset:item>
+						</dcsset:groupItems>
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+						</dcsset:selection>
+						<dcsset:item>
+							<dcsset:groupItems>
+								<dcsset:item xsi:type="dcsset:GroupItemField">
+									<dcsset:field>Акция</dcsset:field>
+									<dcsset:groupType>Items</dcsset:groupType>
+									<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+									<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+									<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+								</dcsset:item>
+							</dcsset:groupItems>
+							<dcsset:order>
+								<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+							</dcsset:order>
+							<dcsset:selection>
+								<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+							</dcsset:selection>
+						</dcsset:item>
+					</dcsset:row>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ПланПоДням</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>Факт</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>Процент</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ПроцентПродаж</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

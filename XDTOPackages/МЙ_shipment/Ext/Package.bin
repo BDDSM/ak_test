@@ -1,0 +1,55 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://api.vetrf.ru/schema/cdm/argus/shipment">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/argus/common"/>
+	<valueType name="TransportType" base="xs:integer" variety="Atomic">
+		<enumeration>1</enumeration>
+		<enumeration>2</enumeration>
+		<enumeration>3</enumeration>
+		<enumeration>4</enumeration>
+		<enumeration>5</enumeration>
+	</valueType>
+	<valueType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="TransportationStorageType" base="d2p1:String255" variety="Atomic">
+		<enumeration>FROZEN</enumeration>
+		<enumeration>CHILLED</enumeration>
+		<enumeration>COOLED</enumeration>
+		<enumeration>VENTILATED</enumeration>
+	</valueType>
+	<valueType name="WaybillType" base="xs:integer" variety="Atomic">
+		<enumeration>1</enumeration>
+		<enumeration>2</enumeration>
+		<enumeration>3</enumeration>
+		<enumeration>4</enumeration>
+	</valueType>
+	<objectType name="CargoReloadingPoint">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="name" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="nextTransport" type="d3p1:TransportInfo" lowerBound="0"/>
+	</objectType>
+	<objectType name="ShipmentRoute">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="cargoReloadingPoint" type="d3p1:CargoReloadingPoint" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType name="TransportInfo">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="transportType" type="d3p1:TransportType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="transportNumber" type="d3p1:TransportNumber" lowerBound="0"/>
+	</objectType>
+	<objectType name="TransportNumber">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="containerNumber" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="wagonNumber" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="vehicleNumber" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="trailerNumber" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="shipName" type="d3p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="flightNumber" type="d3p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Waybill" base="d2p1:GenericEntity">
+		<property name="issueSeries" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueNumber" type="d2p1:String255" lowerBound="0"/>
+		<property name="issueDate" type="xs:date" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="type" type="d3p1:WaybillType"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="consignor" type="d3p1:BusinessMember" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="consignee" type="d3p1:BusinessMember" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="broker" type="d3p1:BusinessEntity" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="transportInfo" type="d3p1:TransportInfo" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="transportStorageType" type="d3p1:TransportationStorageType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/shipment" name="cargoReloadingPointList" type="d3p1:ShipmentRoute" lowerBound="0"/>
+	</objectType>
+</package>

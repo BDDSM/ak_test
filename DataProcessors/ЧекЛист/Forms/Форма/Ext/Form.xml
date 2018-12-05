@@ -1,0 +1,795 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<AutoSaveDataInSettings>Use</AutoSaveDataInSettings>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<Autofill>false</Autofill>
+		<ChildItems>
+			<Button name="ИзменитьФорму" id="92">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.StandardCommand.CustomizeForm</CommandName>
+				<ExtendedTooltip name="ИзменитьФормуРасширеннаяПодсказка" id="93"/>
+			</Button>
+			<Button name="УдалитьВсеОтметкиЗаПериод" id="94">
+				<Type>CommandBarButton</Type>
+				<Representation>PictureAndText</Representation>
+				<OnlyInAllActions>false</OnlyInAllActions>
+				<CommandName>Form.Command.УдалитьВсеОтметкиЗаПериод</CommandName>
+				<Picture>
+					<xr:Ref>StdPicture.Delete</xr:Ref>
+					<xr:LoadTransparent>true</xr:LoadTransparent>
+				</Picture>
+				<Title>
+					<v8:item>
+						<v8:lang>ru</v8:lang>
+						<v8:content>Удалить все отметки за период</v8:content>
+					</v8:item>
+				</Title>
+				<ExtendedTooltip name="УдалитьВсеОтметкиЗаПериодРасширеннаяПодсказка" id="95"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ГруппаШапка" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа шапка</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа шапка</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаШапкаРасширеннаяПодсказка" id="2"/>
+			<ChildItems>
+				<UsualGroup name="ГруппаПериод" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа период</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа период</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Group>Horizontal</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПериодРасширеннаяПодсказка" id="4"/>
+					<ChildItems>
+						<Button name="УменьшитьПериод" id="5">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.УменьшитьПериод</CommandName>
+							<ExtendedTooltip name="УменьшитьПериодРасширеннаяПодсказка" id="6"/>
+						</Button>
+						<InputField name="ПредставлениеПериодаРегистрации" id="9">
+							<DataPath>ПредставлениеПериодаРегистрации</DataPath>
+							<TitleLocation>None</TitleLocation>
+							<Width>15</Width>
+							<HorizontalStretch>false</HorizontalStretch>
+							<ChoiceButton>true</ChoiceButton>
+							<AutoMarkIncomplete>true</AutoMarkIncomplete>
+							<ContextMenu name="ПредставлениеПериодаРегистрацииКонтекстноеМеню" id="10"/>
+							<ExtendedTooltip name="ПредставлениеПериодаРегистрацииРасширеннаяПодсказка" id="11"/>
+							<Events>
+								<Event name="OnChange">ПредставлениеПериодаРегистрацииПриИзменении</Event>
+								<Event name="StartChoice">ПредставлениеПериодаРегистрацииНачалоВыбора</Event>
+								<Event name="Clearing">ПредставлениеПериодаРегистрацииОчистка</Event>
+							</Events>
+						</InputField>
+						<Button name="УвеличитьПериод" id="7">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.УвеличитьПериод</CommandName>
+							<ExtendedTooltip name="УвеличитьПериодРасширеннаяПодсказка" id="8"/>
+						</Button>
+					</ChildItems>
+				</UsualGroup>
+				<InputField name="Организация" id="12">
+					<DataPath>Объект.Организация</DataPath>
+					<Width>30</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<HorizontalStretch>false</HorizontalStretch>
+					<AutoMarkIncomplete>true</AutoMarkIncomplete>
+					<ContextMenu name="ОрганизацияКонтекстноеМеню" id="13"/>
+					<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="14"/>
+					<Events>
+						<Event name="OnChange">ОрганизацияПриИзменении</Event>
+					</Events>
+				</InputField>
+				<InputField name="НастройкаЧекЛиста" id="67">
+					<DataPath>НастройкаЧекЛиста</DataPath>
+					<Width>30</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<HorizontalStretch>false</HorizontalStretch>
+					<ChoiceButton>false</ChoiceButton>
+					<ContextMenu name="НастройкаЧекЛистаКонтекстноеМеню" id="68"/>
+					<ExtendedTooltip name="НастройкаЧекЛистаРасширеннаяПодсказка" id="69"/>
+				</InputField>
+				<LabelDecoration name="Статус" id="61">
+					<Width>30</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<HorizontalStretch>false</HorizontalStretch>
+					<TextColor>web:ForestGreen</TextColor>
+					<Font ref="style:NormalTextFont" height="10" bold="true" italic="false" underline="true" strikeout="false" kind="StyleItem"/>
+					<ContextMenu name="СтатусКонтекстноеМеню" id="62"/>
+					<ExtendedTooltip name="СтатусРасширеннаяПодсказка" id="63"/>
+				</LabelDecoration>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаТаблица" id="70">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа таблица</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа таблица</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаТаблицаРасширеннаяПодсказка" id="71"/>
+			<ChildItems>
+				<Table name="ОперацииЧекЛиста" id="18">
+					<Representation>Tree</Representation>
+					<ChangeRowOrder>false</ChangeRowOrder>
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<InitialTreeView>ExpandAllLevels</InitialTreeView>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>ОперацииЧекЛиста</DataPath>
+					<CommandSet>
+						<ExcludedCommand>HierarchicalList</ExcludedCommand>
+						<ExcludedCommand>Tree</ExcludedCommand>
+						<ExcludedCommand>Copy</ExcludedCommand>
+						<ExcludedCommand>List</ExcludedCommand>
+						<ExcludedCommand>SortListAsc</ExcludedCommand>
+						<ExcludedCommand>MoveUp</ExcludedCommand>
+						<ExcludedCommand>OutputList</ExcludedCommand>
+						<ExcludedCommand>SelectAll</ExcludedCommand>
+						<ExcludedCommand>SortListDesc</ExcludedCommand>
+						<ExcludedCommand>CopyToClipboard</ExcludedCommand>
+						<ExcludedCommand>ShowRowRearrangement</ExcludedCommand>
+						<ExcludedCommand>Delete</ExcludedCommand>
+						<ExcludedCommand>EndEdit</ExcludedCommand>
+						<ExcludedCommand>Add</ExcludedCommand>
+						<ExcludedCommand>Change</ExcludedCommand>
+						<ExcludedCommand>ShowMultipleSelection</ExcludedCommand>
+						<ExcludedCommand>MoveDown</ExcludedCommand>
+					</CommandSet>
+					<ContextMenu name="ОперацииЧекЛистаКонтекстноеМеню" id="19"/>
+					<AutoCommandBar name="ОперацииЧекЛистаКоманднаяПанель" id="20">
+						<Autofill>false</Autofill>
+					</AutoCommandBar>
+					<ExtendedTooltip name="ОперацииЧекЛистаРасширеннаяПодсказка" id="21"/>
+					<SearchStringAddition name="ОперацииЧекЛистаСтрокаПоиска" id="22">
+						<AdditionSource>
+							<Item>ОперацииЧекЛиста</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ОперацииЧекЛистаСтрокаПоискаКонтекстноеМеню" id="23"/>
+						<ExtendedTooltip name="ОперацииЧекЛистаСтрокаПоискаРасширеннаяПодсказка" id="24"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="ОперацииЧекЛистаСостояниеПросмотра" id="25">
+						<AdditionSource>
+							<Item>ОперацииЧекЛиста</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="ОперацииЧекЛистаСостояниеПросмотраКонтекстноеМеню" id="26"/>
+						<ExtendedTooltip name="ОперацииЧекЛистаСостояниеПросмотраРасширеннаяПодсказка" id="27"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="ОперацииЧекЛистаУправлениеПоиском" id="28">
+						<AdditionSource>
+							<Item>ОперацииЧекЛиста</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="ОперацииЧекЛистаУправлениеПоискомКонтекстноеМеню" id="29"/>
+						<ExtendedTooltip name="ОперацииЧекЛистаУправлениеПоискомРасширеннаяПодсказка" id="30"/>
+					</SearchControlAddition>
+					<Events>
+						<Event name="OnActivateRow">ОперацииЧекЛистаПриАктивизацииСтроки</Event>
+					</Events>
+					<ChildItems>
+						<InputField name="ОперацииЧекЛистаОперацияЧекЛиста" id="31">
+							<DataPath>ОперацииЧекЛиста.ОперацияЧекЛиста</DataPath>
+							<ReadOnly>true</ReadOnly>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Операция</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОперацииЧекЛистаОперацияЧекЛистаКонтекстноеМеню" id="32"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаОперацияЧекЛистаРасширеннаяПодсказка" id="33"/>
+						</InputField>
+						<InputField name="ОперацииЧекЛистаСрокВыполнения" id="50">
+							<DataPath>ОперацииЧекЛиста.СрокВыполнения</DataPath>
+							<ReadOnly>true</ReadOnly>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>День месяца, до которого должна быть выполнена операция</v8:content>
+								</v8:item>
+							</ToolTip>
+							<HorizontalAlign>Center</HorizontalAlign>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОперацииЧекЛистаСрокВыполненияКонтекстноеМеню" id="51"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаСрокВыполненияРасширеннаяПодсказка" id="52"/>
+						</InputField>
+						<InputField name="ОперацииЧекЛистаИсполнители" id="96">
+							<DataPath>ОперацииЧекЛиста.Исполнители</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОперацииЧекЛистаИсполнителиКонтекстноеМеню" id="97"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаИсполнителиРасширеннаяПодсказка" id="98"/>
+						</InputField>
+						<CheckBoxField name="ОперацииЧекЛистаВыполнена" id="34">
+							<DataPath>ОперацииЧекЛиста.Выполнена</DataPath>
+							<HorizontalAlign>Center</HorizontalAlign>
+							<EditMode>EnterOnInput</EditMode>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="ОперацииЧекЛистаВыполненаКонтекстноеМеню" id="35"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаВыполненаРасширеннаяПодсказка" id="36"/>
+							<Events>
+								<Event name="OnChange">ОперацииЧекЛистаВыполненаПриИзменении</Event>
+							</Events>
+						</CheckBoxField>
+						<InputField name="ОперацииЧекЛистаОтветственный" id="37">
+							<DataPath>ОперацииЧекЛиста.Ответственный</DataPath>
+							<ReadOnly>true</ReadOnly>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОперацииЧекЛистаОтветственныйКонтекстноеМеню" id="38"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаОтветственныйРасширеннаяПодсказка" id="39"/>
+						</InputField>
+						<InputField name="ОперацииЧекЛистаДатаВыполнения" id="40">
+							<DataPath>ОперацииЧекЛиста.ДатаВыполнения</DataPath>
+							<ReadOnly>true</ReadOnly>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОперацииЧекЛистаДатаВыполненияКонтекстноеМеню" id="41"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаДатаВыполненияРасширеннаяПодсказка" id="42"/>
+						</InputField>
+						<InputField name="ОперацииЧекЛистаПользовательСДоступом" id="47">
+							<DataPath>ОперацииЧекЛиста.ПользователиСДоступом</DataPath>
+							<Visible>false</Visible>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОперацииЧекЛистаПользовательСДоступомКонтекстноеМеню" id="48"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаПользовательСДоступомРасширеннаяПодсказка" id="49"/>
+						</InputField>
+						<CheckBoxField name="ОперацииЧекЛистаДоступенТекущемуПользователю" id="64">
+							<DataPath>ОперацииЧекЛиста.ДоступенТекущемуПользователю</DataPath>
+							<Visible>false</Visible>
+							<EditMode>EnterOnInput</EditMode>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="ОперацииЧекЛистаДоступенТекущемуПользователюКонтекстноеМеню" id="65"/>
+							<ExtendedTooltip name="ОперацииЧекЛистаДоступенТекущемуПользователюРасширеннаяПодсказка" id="66"/>
+						</CheckBoxField>
+					</ChildItems>
+				</Table>
+				<InputField name="ПолеСправка" id="72">
+					<DataPath>СправкаОбОперации</DataPath>
+					<ReadOnly>true</ReadOnly>
+					<TitleLocation>None</TitleLocation>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Информация о текущей операции</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Width>30</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<HorizontalStretch>false</HorizontalStretch>
+					<VerticalStretch>true</VerticalStretch>
+					<MultiLine>true</MultiLine>
+					<ContextMenu name="ПолеСправкаКонтекстноеМеню" id="73"/>
+					<ExtendedTooltip name="ПолеСправкаРасширеннаяПодсказка" id="74"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаКнопки" id="82">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа кнопки</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа кнопки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаКнопкиРасширеннаяПодсказка" id="83"/>
+			<ChildItems>
+				<Button name="КнопкаОперацииЧекЛистов" id="55">
+					<Type>Hyperlink</Type>
+					<Representation>PictureAndText</Representation>
+					<Width>15</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<CommandName>Form.Command.ОткрытьСписокОпераций</CommandName>
+					<Picture>
+						<xr:Ref>StdPicture.Catalog</xr:Ref>
+						<xr:LoadTransparent>true</xr:LoadTransparent>
+					</Picture>
+					<ExtendedTooltip name="КнопкаОперацииЧекЛистовРасширеннаяПодсказка" id="56"/>
+				</Button>
+				<Button name="КнопкаНастройкиЧекЛистов" id="57">
+					<Type>Hyperlink</Type>
+					<Representation>PictureAndText</Representation>
+					<Width>15</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<CommandName>Form.Command.ОткрытьСписокНастроек</CommandName>
+					<Picture>
+						<xr:Ref>StdPicture.Catalog</xr:Ref>
+						<xr:LoadTransparent>true</xr:LoadTransparent>
+					</Picture>
+					<ExtendedTooltip name="КнопкаНастройкиЧекЛистовРасширеннаяПодсказка" id="58"/>
+				</Button>
+				<Button name="КнопкаСписокОперацийЗакрытияМесяца" id="59">
+					<Type>Hyperlink</Type>
+					<Representation>PictureAndText</Representation>
+					<Width>30</Width>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<AutoMaxHeight>false</AutoMaxHeight>
+					<CommandName>Form.Command.ОткрытьСписокОперацийПоЗакрытиюМесяца</CommandName>
+					<Picture>
+						<xr:Ref>CommonPicture.СписокМаркированный</xr:Ref>
+						<xr:LoadTransparent>true</xr:LoadTransparent>
+					</Picture>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Список операций по закрытию месяца</v8:content>
+						</v8:item>
+					</Title>
+					<ExtendedTooltip name="КнопкаСписокОперацийЗакрытияМесяцаРасширеннаяПодсказка" id="60"/>
+				</Button>
+				<LabelDecoration name="ДекорацияЛожная" id="87">
+					<HorizontalStretch>true</HorizontalStretch>
+					<ContextMenu name="ДекорацияЛожнаяКонтекстноеМеню" id="88"/>
+					<ExtendedTooltip name="ДекорацияЛожнаяРасширеннаяПодсказка" id="89"/>
+				</LabelDecoration>
+				<LabelDecoration name="ДекорацияПоказатьСправку" id="84">
+					<Title formatted="false">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Показать информацию об операции</v8:content>
+						</v8:item>
+					</Title>
+					<Hyperlink>true</Hyperlink>
+					<ContextMenu name="ДекорацияПоказатьСправкуКонтекстноеМеню" id="85"/>
+					<ExtendedTooltip name="ДекорацияПоказатьСправкуРасширеннаяПодсказка" id="86"/>
+					<Events>
+						<Event name="Click">ДекорацияПоказатьСправкуНажатие</Event>
+					</Events>
+				</LabelDecoration>
+				<LabelDecoration name="ДекорацияЗакрытьСправку" id="77">
+					<HorizontalStretch>true</HorizontalStretch>
+					<Title formatted="false">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Скрыть информацию об операции</v8:content>
+						</v8:item>
+					</Title>
+					<Hyperlink>true</Hyperlink>
+					<HorizontalAlign>Right</HorizontalAlign>
+					<ContextMenu name="ДекорацияЗакрытьСправкуКонтекстноеМеню" id="78"/>
+					<ExtendedTooltip name="ДекорацияЗакрытьСправкуРасширеннаяПодсказка" id="79"/>
+					<Events>
+						<Event name="Click">ДекорацияЗакрытьСправкуНажатие</Event>
+					</Events>
+				</LabelDecoration>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.ЧекЛист</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="ПредставлениеПериодаРегистрации" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>100</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ОперацииЧекЛиста" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Операции чек-листа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTree</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="ОперацияЧекЛиста" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Операция чек листа</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.ОперацииЧекЛиста</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Выполнена" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Выполнена</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Ответственный" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Ответственный</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>cfg:CatalogRef.Пользователи</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ДатаВыполнения" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата выполнения</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type>
+						<v8:DateQualifiers>
+							<v8:DateFractions>DateTime</v8:DateFractions>
+						</v8:DateQualifiers>
+					</Type>
+				</Column>
+				<Column name="ПользователиСДоступом" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Пользователи с доступом</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>v8:ValueListType</v8:Type>
+					</Type>
+				</Column>
+				<Column name="СрокВыполнения" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Срок выполнения до</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>2</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="ДоступенТекущемуПользователю" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Доступен текущему пользователю</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ПлановаяДатаВыполнения" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Плановая дата выполнения</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type>
+						<v8:DateQualifiers>
+							<v8:DateFractions>Date</v8:DateFractions>
+						</v8:DateQualifiers>
+					</Type>
+				</Column>
+				<Column name="Исполнители" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Исполнители</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ТекПользователь" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Текущий пользователь</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.Пользователи</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="РазрешеныЛюбыеОперации" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Разрешены любые операции</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="НастройкаЧекЛиста" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Настройка чек-листа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.НастройкиЧекЛиста</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="СправкаОбОперации" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Справка об операции</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ПоказыватьСправку" id="12">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показывать справку</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+			<Save>
+				<Field>ПоказыватьСправку</Field>
+			</Save>
+		</Attribute>
+		<ConditionalAppearance>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ОперацииЧекЛиста</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ОперацииЧекЛиста.ДоступенТекущемуПользователю</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="sys:DefaultGUIFont" bold="true" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ОперацииЧекЛиста</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ОперацииЧекЛиста.ДоступенТекущемуПользователю</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>Доступность</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ОперацииЧекЛиста</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ОперацииЧекЛиста.Выполнена</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ОперацииЧекЛиста.ПлановаяДатаВыполнения</dcsset:left>
+						<dcsset:comparisonType>Less</dcsset:comparisonType>
+						<dcsset:right xsi:type="v8:StandardBeginningDate">
+							<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfThisDay</v8:variant>
+						</dcsset:right>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ОперацииЧекЛиста.ПлановаяДатаВыполнения</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="v8:StandardBeginningDate">
+							<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+							<v8:date>0001-01-01T00:00:00</v8:date>
+						</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветФона</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">style:СтатусОтклонен</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+		</ConditionalAppearance>
+	</Attributes>
+	<Commands>
+		<Command name="УменьшитьПериод" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>&lt;</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Уменьшить период</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УменьшитьПериод</Action>
+		</Command>
+		<Command name="УвеличитьПериод" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>&gt;</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Увеличить период</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УвеличитьПериод</Action>
+		</Command>
+		<Command name="УдалитьВсеОтметкиЗаПериод" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Удалить все отметки за период</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Удалить все отметки за период</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УдалитьВсеОтметкиЗаПериод</Action>
+		</Command>
+		<Command name="ОткрытьСписокОпераций" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Список операций</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Открыть список операций</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ОткрытьСписокОпераций</Action>
+		</Command>
+		<Command name="ОткрытьСписокНастроек" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Список настроек</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Открыть список настроек</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ОткрытьСписокНастроек</Action>
+		</Command>
+		<Command name="ОткрытьСписокОперацийПоЗакрытиюМесяца" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Список операций по закрытию месяца</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Открыть список операций по закрытию месяца</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ОткрытьСписокОперацийПоЗакрытиюМесяца</Action>
+		</Command>
+	</Commands>
+</Form>

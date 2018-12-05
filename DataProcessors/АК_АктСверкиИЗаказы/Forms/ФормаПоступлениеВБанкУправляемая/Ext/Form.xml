@@ -1,0 +1,4121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<Title>
+		<v8:item>
+			<v8:lang>ru</v8:lang>
+			<v8:content>Поступление в банк</v8:content>
+		</v8:item>
+	</Title>
+	<AutoTitle>false</AutoTitle>
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<Autofill>false</Autofill>
+		<ChildItems>
+			<Button name="ФормаСправка" id="523">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.StandardCommand.Help</CommandName>
+				<ExtendedTooltip name="ФормаСправкаРасширеннаяПодсказка" id="898"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="047d4d09-961c-4bdc-8519-eef10674c35b">ПослеЗаписи</Event>
+		<Event name="213d1900-dcad-4616-9f20-3f077156a40f">ПослеЗаписиНаСервере</Event>
+		<Event name="NotificationProcessing">ОбработкаОповещения</Event>
+		<Event name="390d5e4b-e732-4c88-8748-9e211a416984">ПриЧтенииНаСервере</Event>
+		<Event name="8a5894c9-d2ff-4c1d-b433-89cc352bbfbc">ПередЗаписью</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ГруппаШапка" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Шапка</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ChildItemsWidth>Equal</ChildItemsWidth>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаШапкаРасширеннаяПодсказка" id="899"/>
+			<ChildItems>
+				<UsualGroup name="ГруппаШапкаЛевая" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Шапка (левая колонка)</v8:content>
+						</v8:item>
+					</Title>
+					<Group>Vertical</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаШапкаЛеваяРасширеннаяПодсказка" id="900"/>
+					<ChildItems>
+						<UsualGroup name="ГруппаВидОперации" id="671">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Вид операции</v8:content>
+								</v8:item>
+							</Title>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаВидОперацииРасширеннаяПодсказка" id="901"/>
+							<ChildItems>
+								<InputField name="ВидОперации" id="9">
+									<DataPath>ВидОперации</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ListChoiceMode>true</ListChoiceMode>
+									<DropListWidth>50</DropListWidth>
+									<ContextMenu name="ВидОперацииКонтекстноеМеню" id="10"/>
+									<ExtendedTooltip name="ВидОперацииРасширеннаяПодсказка" id="902"/>
+									<Events>
+										<Event name="OnChange">ВидОперацииПриИзменении</Event>
+									</Events>
+								</InputField>
+							</ChildItems>
+						</UsualGroup>
+						<UsualGroup name="ГруппаНомерДата" id="143">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Номер/дата</v8:content>
+								</v8:item>
+							</Title>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаНомерДатаРасширеннаяПодсказка" id="903"/>
+							<ChildItems>
+								<PictureField name="СостояниеДокумента" id="807">
+									<DataPath>СостояниеДокумента</DataPath>
+									<TitleLocation>None</TitleLocation>
+									<Width>3</Width>
+									<Height>1</Height>
+									<HorizontalStretch>false</HorizontalStretch>
+									<VerticalStretch>false</VerticalStretch>
+									<ValuesPicture>
+										<xr:Ref>CommonPicture.СостоянияДокумента</xr:Ref>
+										<xr:LoadTransparent>true</xr:LoadTransparent>
+									</ValuesPicture>
+									<Border width="1">
+										<v8ui:style xsi:type="v8ui:ControlBorderType">WithoutBorder</v8ui:style>
+									</Border>
+									<ContextMenu name="СостояниеДокументаКонтекстноеМеню" id="808">
+										<Autofill>false</Autofill>
+									</ContextMenu>
+									<ExtendedTooltip name="СостояниеДокументаРасширеннаяПодсказка" id="904"/>
+								</PictureField>
+								<InputField name="Номер" id="3">
+									<DataPath>Номер</DataPath>
+									<SkipOnInput>true</SkipOnInput>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Рег. номер</v8:content>
+										</v8:item>
+									</Title>
+									<EditMode>EnterOnInput</EditMode>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ContextMenu name="НомерКонтекстноеМеню" id="4"/>
+									<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="905"/>
+								</InputField>
+								<InputField name="Дата" id="5">
+									<DataPath>Дата</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>от</v8:content>
+										</v8:item>
+									</Title>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>16</Width>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ContextMenu name="ДатаКонтекстноеМеню" id="6"/>
+									<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="906"/>
+									<Events>
+										<Event name="OnChange">ДатаПриИзменении</Event>
+									</Events>
+								</InputField>
+							</ChildItems>
+						</UsualGroup>
+						<InputField name="Контрагент" id="21">
+							<DataPath>Контрагент</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Плательщик</v8:content>
+								</v8:item>
+							</Title>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="КонтрагентКонтекстноеМеню" id="22"/>
+							<ExtendedTooltip name="КонтрагентРасширеннаяПодсказка" id="907"/>
+							<Events>
+								<Event name="OnChange">КонтрагентПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="СчетКонтрагента" id="37">
+							<DataPath>СчетКонтрагента</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="СчетКонтрагентаКонтекстноеМеню" id="38"/>
+							<ExtendedTooltip name="СчетКонтрагентаРасширеннаяПодсказка" id="908"/>
+						</InputField>
+						<UsualGroup name="ГруппаСуммаДокументаВалютаДокумента" id="390">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Сумма / валюта документа</v8:content>
+								</v8:item>
+							</Title>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаСуммаДокументаВалютаДокументаРасширеннаяПодсказка" id="909"/>
+							<ChildItems>
+								<InputField name="СуммаДокумента" id="35">
+									<DataPath>СуммаДокумента</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="СуммаДокументаКонтекстноеМеню" id="36"/>
+									<ExtendedTooltip name="СуммаДокументаРасширеннаяПодсказка" id="910"/>
+									<Events>
+										<Event name="OnChange">СуммаДокументаПриИзменении</Event>
+									</Events>
+								</InputField>
+								<LabelField name="ВалютаДокумента" id="7">
+									<TitleLocation>None</TitleLocation>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="ВалютаДокументаКонтекстноеМеню" id="8"/>
+									<ExtendedTooltip name="ВалютаДокументаРасширеннаяПодсказка" id="911"/>
+								</LabelField>
+							</ChildItems>
+						</UsualGroup>
+					</ChildItems>
+				</UsualGroup>
+				<UsualGroup name="ГруппаПраваяКолонка" id="41">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Правая колонка</v8:content>
+						</v8:item>
+					</Title>
+					<Group>Vertical</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПраваяКолонкаРасширеннаяПодсказка" id="912"/>
+					<ChildItems>
+						<UsualGroup name="ГруппаСчет" id="746">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа счет</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа счет</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаСчетРасширеннаяПодсказка" id="913"/>
+							<ChildItems>
+								<InputField name="СчетБанк" id="62">
+									<DataPath>СчетБанк</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ChooseType>false</ChooseType>
+									<ContextMenu name="СчетБанкКонтекстноеМеню" id="63"/>
+									<ExtendedTooltip name="СчетБанкРасширеннаяПодсказка" id="914"/>
+									<Events>
+										<Event name="OnChange">СчетБанкПриИзменении</Event>
+									</Events>
+								</InputField>
+								<CheckBoxField name="ОплатаАренды" id="751">
+									<Visible>false</Visible>
+									<TitleLocation>Right</TitleLocation>
+									<CheckBoxType>Auto</CheckBoxType>
+									<ContextMenu name="ОплатаАрендыКонтекстноеМеню" id="752"/>
+									<ExtendedTooltip name="ОплатаАрендыРасширеннаяПодсказка" id="915"/>
+									<Events>
+										<Event name="OnChange">ОплатаАрендыПриИзменении</Event>
+									</Events>
+								</CheckBoxField>
+							</ChildItems>
+						</UsualGroup>
+						<UsualGroup name="ГруппаНомерВхДатаВх" id="144">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Номер вх./дата вх.</v8:content>
+								</v8:item>
+							</Title>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаНомерВхДатаВхРасширеннаяПодсказка" id="916"/>
+							<ChildItems>
+								<InputField name="НомерВходящегоДокумента" id="11">
+									<DataPath>НомерВходящегоДокумента</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Вх. номер</v8:content>
+										</v8:item>
+									</Title>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>14</Width>
+									<ContextMenu name="НомерВходящегоДокументаКонтекстноеМеню" id="12"/>
+									<ExtendedTooltip name="НомерВходящегоДокументаРасширеннаяПодсказка" id="917"/>
+								</InputField>
+								<InputField name="ДатаВходящегоДокумента" id="13">
+									<DataPath>ДатаВходящегоДокумента</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Вх. дата</v8:content>
+										</v8:item>
+									</Title>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="ДатаВходящегоДокументаКонтекстноеМеню" id="14"/>
+									<ExtendedTooltip name="ДатаВходящегоДокументаРасширеннаяПодсказка" id="918"/>
+								</InputField>
+							</ChildItems>
+						</UsualGroup>
+						<UsualGroup name="ГруппаОрганизация" id="799">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Организация</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа организация</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаОрганизацияРасширеннаяПодсказка" id="919"/>
+							<ChildItems>
+								<InputField name="Организация" id="23">
+									<DataPath>Организация</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="ОрганизацияКонтекстноеМеню" id="24"/>
+									<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="920"/>
+									<Events>
+										<Event name="OnChange">ОрганизацияПриИзменении</Event>
+									</Events>
+								</InputField>
+								<LabelField name="ПолеОрганизацияПустое" id="804">
+									<DataPath>ПолеОрганизацияПустое</DataPath>
+									<TitleLocation>None</TitleLocation>
+									<Width>1</Width>
+									<ContextMenu name="ПолеОрганизацияПустоеКонтекстноеМеню" id="805"/>
+									<ExtendedTooltip name="ПолеОрганизацияПустоеРасширеннаяПодсказка" id="921"/>
+								</LabelField>
+							</ChildItems>
+						</UsualGroup>
+						<InputField name="СчетОрганизации" id="39">
+							<DataPath>СчетОрганизации</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="СчетОрганизацииКонтекстноеМеню" id="40"/>
+							<ExtendedTooltip name="СчетОрганизацииРасширеннаяПодсказка" id="922"/>
+							<Events>
+								<Event name="OnChange">СчетОрганизацииПриИзменении</Event>
+							</Events>
+						</InputField>
+						<InputField name="СтатьяДвиженияДенежныхСредств" id="878">
+							<DataPath>СтатьяДвиженияДенежныхСредств</DataPath>
+							<ContextMenu name="СтатьяДвиженияДенежныхСредствКонтекстноеМеню" id="879"/>
+							<ExtendedTooltip name="СтатьяДвиженияДенежныхСредствРасширеннаяПодсказка" id="923"/>
+						</InputField>
+						<InputField name="СтатьяДвиженияДенежныхСредствБУ" id="881">
+							<DataPath>СтатьяДвиженияДенежныхСредствБУ</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Стать ДДС БУ</v8:content>
+								</v8:item>
+							</Title>
+							<ContextMenu name="СтатьяДвиженияДенежныхСредствБУКонтекстноеМеню" id="882"/>
+							<ExtendedTooltip name="СтатьяДвиженияДенежныхСредствБУРасширеннаяПодсказка" id="924"/>
+						</InputField>
+					</ChildItems>
+				</UsualGroup>
+			</ChildItems>
+		</UsualGroup>
+		<Pages name="ГруппаСтраницы" id="419">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Страницы</v8:content>
+				</v8:item>
+			</Title>
+			<PagesRepresentation>None</PagesRepresentation>
+			<ExtendedTooltip name="ГруппаСтраницыРасширеннаяПодсказка" id="925"/>
+			<ChildItems>
+				<Page name="ГруппаРасчетыСКонтрагентами" id="134">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Расчеты с контрагентами</v8:content>
+						</v8:item>
+					</Title>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаРасчетыСКонтрагентамиРасширеннаяПодсказка" id="926"/>
+					<ChildItems>
+						<Table name="РасшифровкаПлатежа" id="152">
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="РасшифровкаПлатежаКонтекстноеМеню" id="153"/>
+							<AutoCommandBar name="РасшифровкаПлатежаКоманднаяПанель" id="154">
+								<ChildItems>
+									<Popup name="РасшифровкаПлатежаПодменюЗаполнить" id="793">
+										<Title>
+											<v8:item>
+												<v8:lang>ru</v8:lang>
+												<v8:content>Заполнить</v8:content>
+											</v8:item>
+										</Title>
+										<ToolTip>
+											<v8:item>
+												<v8:lang>ru</v8:lang>
+												<v8:content>Расшифровка платежа подменю заполнить</v8:content>
+											</v8:item>
+										</ToolTip>
+										<ExtendedTooltip name="РасшифровкаПлатежаПодменюЗаполнитьРасширеннаяПодсказка" id="927"/>
+										<ChildItems>
+											<Button name="КнопкаЗаполнитьПоОстаткам" id="795">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.ЗаполнитьПоОстаткам</CommandName>
+												<ExtendedTooltip name="КнопкаЗаполнитьПоОстаткамРасширеннаяПодсказка" id="928"/>
+											</Button>
+											<Button name="КнопкаЗаполнитьПоСчетам" id="797">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.ЗаполнитьПоСчетам</CommandName>
+												<ExtendedTooltip name="КнопкаЗаполнитьПоСчетамРасширеннаяПодсказка" id="929"/>
+											</Button>
+										</ChildItems>
+									</Popup>
+								</ChildItems>
+							</AutoCommandBar>
+							<ExtendedTooltip name="РасшифровкаПлатежаРасширеннаяПодсказка" id="930"/>
+							<SearchStringAddition name="РасшифровкаПлатежаСтрокаПоиска" id="931">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежа</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаСтрокаПоискаКонтекстноеМеню" id="932"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаСтрокаПоискаРасширеннаяПодсказка" id="933"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="РасшифровкаПлатежаСостояниеПросмотра" id="934">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежа</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаСостояниеПросмотраКонтекстноеМеню" id="935"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаСостояниеПросмотраРасширеннаяПодсказка" id="936"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="РасшифровкаПлатежаУправлениеПоиском" id="937">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежа</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаУправлениеПоискомКонтекстноеМеню" id="938"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаУправлениеПоискомРасширеннаяПодсказка" id="939"/>
+							</SearchControlAddition>
+							<Events>
+								<Event name="01d80ddd-dce5-4db3-beb5-f63c97cb05b9">РасшифровкаПлатежаПриОкончанииРедактирования</Event>
+								<Event name="2ccfdec5-583d-4eca-8319-e55de492665a">РасшифровкаПлатежаПередУдалением</Event>
+								<Event name="b3c10170-c5ff-4cba-b537-679e1c872b45">РасшифровкаПлатежаПриНачалеРедактирования</Event>
+								<Event name="OnChange">РасшифровкаПлатежаПриИзменении</Event>
+							</Events>
+							<ChildItems>
+								<LabelField name="РасшифровкаПлатежаНомерСтроки" id="155">
+									<EditMode>EnterOnInput</EditMode>
+									<Width>3</Width>
+									<ContextMenu name="РасшифровкаПлатежаНомерСтрокиКонтекстноеМеню" id="156"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаНомерСтрокиРасширеннаяПодсказка" id="940"/>
+								</LabelField>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаДоговор" id="428">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: договор</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаДоговорРасширеннаяПодсказка" id="941"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаДоговорКонтрагента" id="157">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Договор / Статья ДДС</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Договор контрагента</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаДоговорКонтрагентаКонтекстноеМеню" id="158"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаДоговорКонтрагентаРасширеннаяПодсказка" id="942"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаДоговорКонтрагентаПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаСтатьяДвиженияДенежныхСредств" id="173">
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Статья движения денежных средств</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаСтатьяДвиженияДенежныхСредствКонтекстноеМеню" id="174"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСтатьяДвиженияДенежныхСредствРасширеннаяПодсказка" id="943"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаУслугаОбъект" id="769">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа группа услуга объект</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаУслугаОбъектРасширеннаяПодсказка" id="944"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаАР_УслугаАренды" id="771">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Услуга / Объект аренды</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<ContextMenu name="РасшифровкаПлатежаАР_УслугаАрендыКонтекстноеМеню" id="772"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаАР_УслугаАрендыРасширеннаяПодсказка" id="945"/>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаАР_ОбъектАренды" id="774">
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<ContextMenu name="РасшифровкаПлатежаАР_ОбъектАрендыКонтекстноеМеню" id="775"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаАР_ОбъектАрендыРасширеннаяПодсказка" id="946"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаПериодСчет" id="777">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа группа период счет</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Период оплаты / Счет на аренду</v8:content>
+										</v8:item>
+									</ToolTip>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаПериодСчетРасширеннаяПодсказка" id="947"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаАР_ПериодАренды" id="779">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Период оплаты / Счет на аренду</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>25</Width>
+											<ContextMenu name="РасшифровкаПлатежаАР_ПериодАрендыКонтекстноеМеню" id="780"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаАР_ПериодАрендыРасширеннаяПодсказка" id="948"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаАР_ПериодАрендыПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаАР_СчетНаАренду" id="782">
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<ContextMenu name="РасшифровкаПлатежаАР_СчетНаАрендуКонтекстноеМеню" id="783"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаАР_СчетНаАрендуРасширеннаяПодсказка" id="949"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаДепозитПени" id="785">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа группа депозит пени</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа группа депозит пени</v8:content>
+										</v8:item>
+									</ToolTip>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаДепозитПениРасширеннаяПодсказка" id="950"/>
+									<ChildItems>
+										<CheckBoxField name="РасшифровкаПлатежаАР_Депозит" id="787">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Депозит / Пени</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<CheckBoxType>Auto</CheckBoxType>
+											<ContextMenu name="РасшифровкаПлатежаАР_ДепозитКонтекстноеМеню" id="788"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаАР_ДепозитРасширеннаяПодсказка" id="951"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаАР_ДепозитПриИзменении</Event>
+											</Events>
+										</CheckBoxField>
+										<CheckBoxField name="РасшифровкаПлатежаАР_Пени" id="790">
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<CheckBoxType>Auto</CheckBoxType>
+											<ContextMenu name="РасшифровкаПлатежаАР_ПениКонтекстноеМеню" id="791"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаАР_ПениРасширеннаяПодсказка" id="952"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаАР_ПениПриИзменении</Event>
+											</Events>
+										</CheckBoxField>
+									</ChildItems>
+								</ColumnGroup>
+								<InputField name="РасшифровкаПлатежаСуммаПлатежа" id="163">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма платежа</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<FooterHorizontalAlign>Right</FooterHorizontalAlign>
+									<Width>10</Width>
+									<ContextMenu name="РасшифровкаПлатежаСуммаПлатежаКонтекстноеМеню" id="164"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаСуммаПлатежаРасширеннаяПодсказка" id="953"/>
+									<Events>
+										<Event name="OnChange">РасшифровкаПлатежаСуммаПлатежаПриИзменении</Event>
+									</Events>
+								</InputField>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаПогашениеЗадолженности" id="429">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: погашение задолженности</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаПогашениеЗадолженностиРасширеннаяПодсказка" id="954"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаСпособПогашенияЗадолженности" id="189">
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Способ погашения</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>19</Width>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="РасшифровкаПлатежаСпособПогашенияЗадолженностиКонтекстноеМеню" id="190"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСпособПогашенияЗадолженностиРасширеннаяПодсказка" id="955"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаСпособПогашенияЗадолженностиПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаСделка" id="159">
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Документ расчетов</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>19</Width>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="РасшифровкаПлатежаСделкаКонтекстноеМеню" id="160"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСделкаРасширеннаяПодсказка" id="956"/>
+											<Events>
+												<Event name="StartChoice">РасшифровкаПлатежаСделкаНачалоВыбора</Event>
+											</Events>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаРасчеты" id="430">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: расчеты с контрагентом</v8:content>
+										</v8:item>
+									</Title>
+									<Group>Horizontal</Group>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаРасчетыРасширеннаяПодсказка" id="957"/>
+									<ChildItems>
+										<ColumnGroup name="РасшифровкаПлатежаГруппаНадписи" id="703">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Расшифровка платежа: валюта (надписи)</v8:content>
+												</v8:item>
+											</Title>
+											<ExtendedTooltip name="РасшифровкаПлатежаГруппаНадписиРасширеннаяПодсказка" id="958"/>
+											<ChildItems>
+												<InputField name="РасшифровкаПлатежаНадписьВалюта" id="708">
+													<Visible>false</Visible>
+													<ReadOnly>true</ReadOnly>
+													<SkipOnInput>true</SkipOnInput>
+													<EditMode>EnterOnInput</EditMode>
+													<ShowInHeader>false</ShowInHeader>
+													<ShowInFooter>false</ShowInFooter>
+													<Width>7</Width>
+													<HorizontalStretch>false</HorizontalStretch>
+													<ContextMenu name="РасшифровкаПлатежаНадписьВалютаКонтекстноеМеню" id="709"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаНадписьВалютаРасширеннаяПодсказка" id="959"/>
+												</InputField>
+												<InputField name="РасшифровкаПлатежаНадписьКурс" id="705">
+													<ReadOnly>true</ReadOnly>
+													<SkipOnInput>true</SkipOnInput>
+													<EditMode>EnterOnInput</EditMode>
+													<ShowInHeader>false</ShowInHeader>
+													<ShowInFooter>false</ShowInFooter>
+													<Width>7</Width>
+													<HorizontalStretch>false</HorizontalStretch>
+													<ContextMenu name="РасшифровкаПлатежаНадписьКурсКонтекстноеМеню" id="706"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаНадписьКурсРасширеннаяПодсказка" id="960"/>
+												</InputField>
+												<InputField name="РасшифровкаПлатежаНадписьСумма" id="711">
+													<ReadOnly>true</ReadOnly>
+													<SkipOnInput>true</SkipOnInput>
+													<EditMode>EnterOnInput</EditMode>
+													<ShowInHeader>false</ShowInHeader>
+													<ShowInFooter>false</ShowInFooter>
+													<Width>7</Width>
+													<HorizontalStretch>false</HorizontalStretch>
+													<ContextMenu name="РасшифровкаПлатежаНадписьСуммаКонтекстноеМеню" id="712"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаНадписьСуммаРасширеннаяПодсказка" id="961"/>
+												</InputField>
+											</ChildItems>
+										</ColumnGroup>
+										<ColumnGroup name="РасшифровкаПлатежаГруппа" id="701">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Расшифровка платежа: валюта</v8:content>
+												</v8:item>
+											</Title>
+											<ExtendedTooltip name="РасшифровкаПлатежаГруппаРасширеннаяПодсказка" id="962"/>
+											<ChildItems>
+												<ColumnGroup name="РасшифровкаПлатежаГруппаКурсРасчетов" id="435">
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Расшифровка платежа: курс расчетов</v8:content>
+														</v8:item>
+													</Title>
+													<Group>Horizontal</Group>
+													<ExtendedTooltip name="РасшифровкаПлатежаГруппаКурсРасчетовРасширеннаяПодсказка" id="963"/>
+													<ChildItems>
+														<InputField name="РасшифровкаПлатежаДоговорКонтрагентаВалютаВзаиморасчетов" id="433">
+															<Visible>false</Visible>
+															<ReadOnly>true</ReadOnly>
+															<SkipOnInput>true</SkipOnInput>
+															<ToolTip>
+																<v8:item>
+																	<v8:lang>ru</v8:lang>
+																	<v8:content>Валюта расчетов с контрагентом</v8:content>
+																</v8:item>
+															</ToolTip>
+															<EditMode>EnterOnInput</EditMode>
+															<ShowInHeader>false</ShowInHeader>
+															<ShowInFooter>false</ShowInFooter>
+															<Width>5</Width>
+															<ContextMenu name="РасшифровкаПлатежаДоговорКонтрагентаВалютаВзаиморасчетовКонтекстноеМеню" id="434"/>
+															<ExtendedTooltip name="РасшифровкаПлатежаДоговорКонтрагентаВалютаВзаиморасчетовРасширеннаяПодсказка" id="964"/>
+														</InputField>
+														<InputField name="РасшифровкаПлатежаКурсВзаиморасчетов" id="161">
+															<EditMode>EnterOnInput</EditMode>
+															<ShowInHeader>false</ShowInHeader>
+															<ShowInFooter>false</ShowInFooter>
+															<Width>9</Width>
+															<ContextMenu name="РасшифровкаПлатежаКурсВзаиморасчетовКонтекстноеМеню" id="162"/>
+															<ExtendedTooltip name="РасшифровкаПлатежаКурсВзаиморасчетовРасширеннаяПодсказка" id="965"/>
+															<Events>
+																<Event name="OnChange">РасшифровкаПлатежаКурсВзаиморасчетовПриИзменении</Event>
+																<Event name="StartChoice">РасшифровкаПлатежаКурсВзаиморасчетовНачалоВыбора</Event>
+															</Events>
+														</InputField>
+													</ChildItems>
+												</ColumnGroup>
+												<InputField name="РасшифровкаПлатежаСуммаВзаиморасчетов" id="167">
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Расчеты в у.е.</v8:content>
+														</v8:item>
+													</Title>
+													<EditMode>EnterOnInput</EditMode>
+													<FooterHorizontalAlign>Right</FooterHorizontalAlign>
+													<Width>15</Width>
+													<ContextMenu name="РасшифровкаПлатежаСуммаВзаиморасчетовКонтекстноеМеню" id="168"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаСуммаВзаиморасчетовРасширеннаяПодсказка" id="966"/>
+													<Events>
+														<Event name="OnChange">РасшифровкаПлатежаСуммаВзаиморасчетовПриИзменении</Event>
+													</Events>
+												</InputField>
+											</ChildItems>
+										</ColumnGroup>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаНДС" id="431">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: НДС</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаНДСРасширеннаяПодсказка" id="967"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаСтавкаНДС" id="169">
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>10</Width>
+											<ContextMenu name="РасшифровкаПлатежаСтавкаНДСКонтекстноеМеню" id="170"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСтавкаНДСРасширеннаяПодсказка" id="968"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаСтавкаНДСПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаСуммаНДС" id="171">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>НДС</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<FooterHorizontalAlign>Right</FooterHorizontalAlign>
+											<Width>10</Width>
+											<ContextMenu name="РасшифровкаПлатежаСуммаНДСКонтекстноеМеню" id="172"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСуммаНДСРасширеннаяПодсказка" id="969"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<InputField name="РасшифровкаПлатежаСчетНаОплату" id="187">
+									<EditMode>EnterOnInput</EditMode>
+									<Width>15</Width>
+									<ChoiceParameterLinks>
+										<xr:Link>
+											<xr:Name>Отбор.Контрагент</xr:Name>
+											<xr:DataPath xsi:type="xs:string">1/0:18c22d7e-e419-4e4e-a7c6-77b7690da1c7</xr:DataPath>
+											<xr:ValueChange>DontChange</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.Организация</xr:Name>
+											<xr:DataPath xsi:type="xs:string">1/0:87403f7b-df96-4227-8892-21e1b3301dd5</xr:DataPath>
+											<xr:ValueChange>DontChange</xr:ValueChange>
+										</xr:Link>
+										<xr:Link>
+											<xr:Name>Отбор.ДоговорКонтрагента</xr:Name>
+											<xr:DataPath xsi:type="xs:string">152:02023637-7868-4a5f-8576-835a76e0c9ba/0:c256c996-1337-4bf4-b3db-00b529af1525</xr:DataPath>
+											<xr:ValueChange>DontChange</xr:ValueChange>
+										</xr:Link>
+									</ChoiceParameterLinks>
+									<ChoiceParameters>
+										<app:item name="Отбор.СтатусОплаты">
+											<app:value xsi:type="FormChoiceListDesTimeValue">
+												<Presentation/>
+												<Value xsi:type="v8:FixedArray">
+													<v8:Value xsi:type="FormChoiceListDesTimeValue">
+														<Presentation/>
+														<Value xsi:type="xr:DesignTimeRef">2bf28c6f-ce12-447a-bb29-843b51b3f483.74ec58f0-42e0-4c6c-a511-b13d534e9e02</Value>
+													</v8:Value>
+													<v8:Value xsi:type="FormChoiceListDesTimeValue">
+														<Presentation/>
+														<Value xsi:type="xr:DesignTimeRef">2bf28c6f-ce12-447a-bb29-843b51b3f483.20cf82a8-4c93-4b8c-9fd5-c4d9c70c6c18</Value>
+													</v8:Value>
+												</Value>
+											</app:value>
+										</app:item>
+									</ChoiceParameters>
+									<ContextMenu name="РасшифровкаПлатежаСчетНаОплатуКонтекстноеМеню" id="188"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаСчетНаОплатуРасширеннаяПодсказка" id="970"/>
+								</InputField>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаСчетаРасчетов" id="432">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: счета расчетов</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаСчетаРасчетовРасширеннаяПодсказка" id="971"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентом" id="175">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счета расчетов</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет расчетов</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>13</Width>
+											<HorizontalStretch>false</HorizontalStretch>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентомКонтекстноеМеню" id="176"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентомРасширеннаяПодсказка" id="972"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентомПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаСчетУчетаРасчетовПоАвансам" id="177">
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет авансов</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>13</Width>
+											<HorizontalStretch>false</HorizontalStretch>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="РасшифровкаПлатежаСчетУчетаРасчетовПоАвансамКонтекстноеМеню" id="178"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСчетУчетаРасчетовПоАвансамРасширеннаяПодсказка" id="973"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаОтражениеАванса" id="714">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: отражение аванса</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа: отражение аванса</v8:content>
+										</v8:item>
+									</ToolTip>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаОтражениеАвансаРасширеннаяПодсказка" id="974"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаСчетУчетаРасчетовПоАвансамПриУСН" id="716">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Учет авансов</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет авансов</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>16</Width>
+											<HorizontalStretch>false</HorizontalStretch>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="РасшифровкаПлатежаСчетУчетаРасчетовПоАвансамПриУСНКонтекстноеМеню" id="717"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаСчетУчетаРасчетовПоАвансамПриУСНРасширеннаяПодсказка" id="975"/>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаПолеОтражениеАванса" id="719">
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>16</Width>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ListChoiceMode>true</ListChoiceMode>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="РасшифровкаПлатежаПолеОтражениеАвансаКонтекстноеМеню" id="720"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПолеОтражениеАвансаРасширеннаяПодсказка" id="976"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаПолеОтражениеАвансаПриИзменении</Event>
+												<Event name="ChoiceProcessing">РасшифровкаПлатежаПолеОтражениеАвансаОбработкаВыбора</Event>
+											</Events>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<InputField name="РасшифровкаПлатежаДоходыУСН" id="722">
+									<EditMode>EnterOnInput</EditMode>
+									<Width>14</Width>
+									<ContextMenu name="РасшифровкаПлатежаДоходыУСНКонтекстноеМеню" id="723"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаДоходыУСНРасширеннаяПодсказка" id="977"/>
+								</InputField>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаИнкассация" id="436">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Инкассация</v8:content>
+						</v8:item>
+					</Title>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаИнкассацияРасширеннаяПодсказка" id="978"/>
+					<ChildItems>
+						<Table name="РасшифровкаПлатежаИнкассация" id="437">
+							<Footer>true</Footer>
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="РасшифровкаПлатежаИнкассацияКонтекстноеМеню" id="438"/>
+							<AutoCommandBar name="РасшифровкаПлатежаИнкассацияКоманднаяПанель" id="439"/>
+							<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияРасширеннаяПодсказка" id="979"/>
+							<SearchStringAddition name="РасшифровкаПлатежаИнкассацияСтрокаПоиска" id="980">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаИнкассация</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаИнкассацияСтрокаПоискаКонтекстноеМеню" id="981"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСтрокаПоискаРасширеннаяПодсказка" id="982"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="РасшифровкаПлатежаИнкассацияСостояниеПросмотра" id="983">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаИнкассация</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаИнкассацияСостояниеПросмотраКонтекстноеМеню" id="984"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСостояниеПросмотраРасширеннаяПодсказка" id="985"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="РасшифровкаПлатежаИнкассацияУправлениеПоиском" id="986">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаИнкассация</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаИнкассацияУправлениеПоискомКонтекстноеМеню" id="987"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияУправлениеПоискомРасширеннаяПодсказка" id="988"/>
+							</SearchControlAddition>
+							<Events>
+								<Event name="01d80ddd-dce5-4db3-beb5-f63c97cb05b9">РасшифровкаПлатежаИнкассацияПриОкончанииРедактирования</Event>
+								<Event name="2ccfdec5-583d-4eca-8319-e55de492665a">РасшифровкаПлатежаИнкассацияПередУдалением</Event>
+								<Event name="ab930362-ff94-4dcb-ad16-188805d23e3c">РасшифровкаПлатежаИнкассацияПередНачаломИзменения</Event>
+								<Event name="b3c10170-c5ff-4cba-b537-679e1c872b45">РасшифровкаПлатежаИнкассацияПриНачалеРедактирования</Event>
+								<Event name="OnChange">РасшифровкаПлатежаИнкассацияПриИзменении</Event>
+							</Events>
+							<ChildItems>
+								<InputField name="РасшифровкаПлатежаИнкассацияСтатьяДвиженияДенежныхСредств" id="260">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Статья ДДС</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Статья движения денежных средств</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<ContextMenu name="РасшифровкаПлатежаИнкассацияСтатьяДвиженияДенежныхСредствКонтекстноеМеню" id="261"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСтатьяДвиженияДенежныхСредствРасширеннаяПодсказка" id="989"/>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаИнкассацияСуммаПлатежа" id="262">
+									<EditMode>EnterOnInput</EditMode>
+									<FooterHorizontalAlign>Right</FooterHorizontalAlign>
+									<Width>12</Width>
+									<ContextMenu name="РасшифровкаПлатежаИнкассацияСуммаПлатежаКонтекстноеМеню" id="263"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСуммаПлатежаРасширеннаяПодсказка" id="990"/>
+								</InputField>
+								<ColumnGroup name="ГруппаРасшифровкаПлатежаИнкассацияГруппаСчетКредитаПодразделение" id="268">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Счет кредита \ подразделение</v8:content>
+										</v8:item>
+									</Title>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ExtendedTooltip name="ГруппаРасшифровкаПлатежаИнкассацияГруппаСчетКредитаПодразделениеРасширеннаяПодсказка" id="991"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаИнкассацияСчетУчетаРасчетовСКонтрагентом" id="266">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет кредита</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>21</Width>
+											<ChoiceButton>true</ChoiceButton>
+											<ChoiceListButton>false</ChoiceListButton>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="РасшифровкаПлатежаИнкассацияСчетУчетаРасчетовСКонтрагентомКонтекстноеМеню" id="267"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСчетУчетаРасчетовСКонтрагентомРасширеннаяПодсказка" id="992"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаИнкассацияСчетУчетаРасчетовСКонтрагентомПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаИнкассацияПодразделениеКт" id="252">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Подразделение</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Подразделение</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаИнкассацияПодразделениеКтКонтекстноеМеню" id="253"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияПодразделениеКтРасширеннаяПодсказка" id="993"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<ColumnGroup name="ГруппаРасшифровкаПлатежаИнкассацияГруппаСубконто" id="269">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Субконто</v8:content>
+										</v8:item>
+									</Title>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ExtendedTooltip name="ГруппаРасшифровкаПлатежаИнкассацияГруппаСубконтоРасширеннаяПодсказка" id="994"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаИнкассацияСубконтоКт1" id="258">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Субконто</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<ContextMenu name="РасшифровкаПлатежаИнкассацияСубконтоКт1КонтекстноеМеню" id="259"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСубконтоКт1РасширеннаяПодсказка" id="995"/>
+											<Events>
+												<Event name="OnChange">СубконтоКтПриИзменении</Event>
+												<Event name="StartChoice">РасшифровкаПлатежаИнкассацияСубконтоКтНачалоВыбора</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаИнкассацияСубконтоКт2" id="256">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Субконто 2</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<ContextMenu name="РасшифровкаПлатежаИнкассацияСубконтоКт2КонтекстноеМеню" id="257"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСубконтоКт2РасширеннаяПодсказка" id="996"/>
+											<Events>
+												<Event name="OnChange">СубконтоКтПриИзменении</Event>
+												<Event name="StartChoice">РасшифровкаПлатежаИнкассацияСубконтоКтНачалоВыбора</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаИнкассацияСубконтоКт3" id="254">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Субконто 3</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<ContextMenu name="РасшифровкаПлатежаИнкассацияСубконтоКт3КонтекстноеМеню" id="255"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаИнкассацияСубконтоКт3РасширеннаяПодсказка" id="997"/>
+											<Events>
+												<Event name="OnChange">СубконтоКтПриИзменении</Event>
+												<Event name="StartChoice">РасшифровкаПлатежаИнкассацияСубконтоКтНачалоВыбора</Event>
+											</Events>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаПокупкаВалюты" id="139">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Покупка валюты</v8:content>
+						</v8:item>
+					</Title>
+					<ChildItemsWidth>Equal</ChildItemsWidth>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПокупкаВалютыРасширеннаяПодсказка" id="998"/>
+					<ChildItems>
+						<Table name="РасшифровкаПлатежаПокупкаВалюты" id="440">
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыКонтекстноеМеню" id="441"/>
+							<AutoCommandBar name="РасшифровкаПлатежаПокупкаВалютыКоманднаяПанель" id="442"/>
+							<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыРасширеннаяПодсказка" id="999"/>
+							<SearchStringAddition name="РасшифровкаПлатежаПокупкаВалютыСтрокаПоиска" id="1000">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаПокупкаВалюты</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыСтрокаПоискаКонтекстноеМеню" id="1001"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыСтрокаПоискаРасширеннаяПодсказка" id="1002"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="РасшифровкаПлатежаПокупкаВалютыСостояниеПросмотра" id="1003">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаПокупкаВалюты</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыСостояниеПросмотраКонтекстноеМеню" id="1004"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыСостояниеПросмотраРасширеннаяПодсказка" id="1005"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="РасшифровкаПлатежаПокупкаВалютыУправлениеПоиском" id="1006">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаПокупкаВалюты</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыУправлениеПоискомКонтекстноеМеню" id="1007"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыУправлениеПоискомРасширеннаяПодсказка" id="1008"/>
+							</SearchControlAddition>
+							<Events>
+								<Event name="01d80ddd-dce5-4db3-beb5-f63c97cb05b9">РасшифровкаПлатежаПокупкаВалютыПриОкончанииРедактирования</Event>
+								<Event name="2ccfdec5-583d-4eca-8319-e55de492665a">РасшифровкаПлатежаПокупкаВалютыПередУдалением</Event>
+								<Event name="b3c10170-c5ff-4cba-b537-679e1c872b45">РасшифровкаПлатежаПокупкаВалютыПриНачалеРедактирования</Event>
+								<Event name="OnChange">РасшифровкаПлатежаПокупкаВалютыПриИзменении</Event>
+							</Events>
+							<ChildItems>
+								<ColumnGroup name="РасшифровкаПлатежаПокупкаВалютыГруппаДоговор" id="687">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Договор / Статья ДДС</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыГруппаДоговорРасширеннаяПодсказка" id="1009"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаПокупкаВалютыДоговорКонтрагента" id="443">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Договор / Статья ДДС</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Договор с банком на приобретение валюты</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыДоговорКонтрагентаКонтекстноеМеню" id="444"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыДоговорКонтрагентаРасширеннаяПодсказка" id="1010"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаПокупкаВалютыДоговорКонтрагентаПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаПокупкаВалютыСтатьяДвиженияДенежныхСредств" id="453">
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Статья движения денежных средств</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыСтатьяДвиженияДенежныхСредствКонтекстноеМеню" id="454"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыСтатьяДвиженияДенежныхСредствРасширеннаяПодсказка" id="1011"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<InputField name="РасшифровкаПлатежаПокупкаВалютыСуммаПлатежа" id="445">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма (вал.)</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма приобретенной валюты</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>12</Width>
+									<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыСуммаПлатежаКонтекстноеМеню" id="446"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыСуммаПлатежаРасширеннаяПодсказка" id="1012"/>
+									<Events>
+										<Event name="OnChange">РасшифровкаПлатежаПокупкаВалютыСуммаПлатежаПриИзменении</Event>
+									</Events>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаПокупкаВалютыВалюта" id="503">
+									<ReadOnly>true</ReadOnly>
+									<SkipOnInput>true</SkipOnInput>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Вал.</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Валюта</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>5</Width>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыВалютаКонтекстноеМеню" id="504"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыВалютаРасширеннаяПодсказка" id="1013"/>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаПокупкаВалютыКурсВзаиморасчетов" id="447">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Курс банка</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Курс валюты расчетов с банком</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>12</Width>
+									<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыКурсВзаиморасчетовКонтекстноеМеню" id="448"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыКурсВзаиморасчетовРасширеннаяПодсказка" id="1014"/>
+									<Events>
+										<Event name="OnChange">РасшифровкаПлатежаПокупкаВалютыКурсВзаиморасчетовПриИзменении</Event>
+										<Event name="StartChoice">РасшифровкаПлатежаПокупкаВалютыКурсВзаиморасчетовНачалоВыбора</Event>
+									</Events>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаПокупкаВалютыСуммаВзаиморасчетов" id="449">
+									<ReadOnly>true</ReadOnly>
+									<SkipOnInput>true</SkipOnInput>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма в руб.</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма в рублях по курсу приобретения</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>12</Width>
+									<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыСуммаВзаиморасчетовКонтекстноеМеню" id="450"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыСуммаВзаиморасчетовРасширеннаяПодсказка" id="1015"/>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаПокупкаВалютыСчетУчетаРасчетовСКонтрагентом" id="451">
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Счет расчетов с банком</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>11</Width>
+									<HorizontalStretch>false</HorizontalStretch>
+									<DropListWidth>40</DropListWidth>
+									<ContextMenu name="РасшифровкаПлатежаПокупкаВалютыСчетУчетаРасчетовСКонтрагентомКонтекстноеМеню" id="452"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПокупкаВалютыСчетУчетаРасчетовСКонтрагентомРасширеннаяПодсказка" id="1016"/>
+								</InputField>
+							</ChildItems>
+						</Table>
+						<UsualGroup name="ГруппаПокупкаВалютыКурсЦБ" id="455">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Покупка валюты: курс ЦБ</v8:content>
+								</v8:item>
+							</Title>
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаПокупкаВалютыКурсЦБРасширеннаяПодсказка" id="1017"/>
+							<ChildItems>
+								<InputField name="КурсНаДатуПриобретенияРеализацииВалютыПокупкаВалюты" id="237">
+									<ReadOnly>true</ReadOnly>
+									<SkipOnInput>true</SkipOnInput>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Курс ЦБ РФ на дату приобретения валюты</v8:content>
+										</v8:item>
+									</ToolTip>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ContextMenu name="КурсНаДатуПриобретенияРеализацииВалютыПокупкаВалютыКонтекстноеМеню" id="238"/>
+									<ExtendedTooltip name="КурсНаДатуПриобретенияРеализацииВалютыПокупкаВалютыРасширеннаяПодсказка" id="1018"/>
+								</InputField>
+								<Button name="ОбновитьКурсВалютыЦБРФ" id="505">
+									<Type>UsualButton</Type>
+									<CommandName>Form.Command.ОбновитьКурсВалютыЦБРФ</CommandName>
+									<ExtendedTooltip name="ОбновитьКурсВалютыЦБРФРасширеннаяПодсказка" id="1019"/>
+								</Button>
+								<CheckBoxField name="ОтражатьРазницуВКурсеВСоставеОперационныхРасходовПокупкаВалюты" id="245">
+									<SkipOnInput>true</SkipOnInput>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Отражать разницу в курсе в составе расходов</v8:content>
+										</v8:item>
+									</Title>
+									<TitleLocation>Right</TitleLocation>
+									<CheckBoxType>Auto</CheckBoxType>
+									<ContextMenu name="ОтражатьРазницуВКурсеВСоставеОперационныхРасходовПокупкаВалютыКонтекстноеМеню" id="246"/>
+									<ExtendedTooltip name="ОтражатьРазницуВКурсеВСоставеОперационныхРасходовПокупкаВалютыРасширеннаяПодсказка" id="1020"/>
+									<Events>
+										<Event name="OnChange">ОтражатьРазницуВКурсеВСоставеОперационныхРасходовПокупкаВалютыПриИзменении</Event>
+									</Events>
+								</CheckBoxField>
+							</ChildItems>
+						</UsualGroup>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаПродажаВалюты" id="398">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Продажа валюты</v8:content>
+						</v8:item>
+					</Title>
+					<ChildItemsWidth>Equal</ChildItemsWidth>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПродажаВалютыРасширеннаяПодсказка" id="1021"/>
+					<ChildItems>
+						<Table name="РасшифровкаПлатежаПродажаВалюты" id="458">
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<SearchStringLocation>None</SearchStringLocation>
+							<ViewStatusLocation>None</ViewStatusLocation>
+							<SearchControlLocation>None</SearchControlLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="РасшифровкаПлатежаПродажаВалютыКонтекстноеМеню" id="459"/>
+							<AutoCommandBar name="РасшифровкаПлатежаПродажаВалютыКоманднаяПанель" id="460"/>
+							<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыРасширеннаяПодсказка" id="1022"/>
+							<SearchStringAddition name="РасшифровкаПлатежаПродажаВалютыСтрокаПоиска" id="1023">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаПродажаВалюты</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаПродажаВалютыСтрокаПоискаКонтекстноеМеню" id="1024"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыСтрокаПоискаРасширеннаяПодсказка" id="1025"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="РасшифровкаПлатежаПродажаВалютыСостояниеПросмотра" id="1026">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаПродажаВалюты</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаПродажаВалютыСостояниеПросмотраКонтекстноеМеню" id="1027"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыСостояниеПросмотраРасширеннаяПодсказка" id="1028"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="РасшифровкаПлатежаПродажаВалютыУправлениеПоиском" id="1029">
+								<AdditionSource>
+									<Item>РасшифровкаПлатежаПродажаВалюты</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="РасшифровкаПлатежаПродажаВалютыУправлениеПоискомКонтекстноеМеню" id="1030"/>
+								<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыУправлениеПоискомРасширеннаяПодсказка" id="1031"/>
+							</SearchControlAddition>
+							<Events>
+								<Event name="01d80ddd-dce5-4db3-beb5-f63c97cb05b9">РасшифровкаПлатежаПродажаВалютыПриОкончанииРедактирования</Event>
+								<Event name="2ccfdec5-583d-4eca-8319-e55de492665a">РасшифровкаПлатежаПродажаВалютыПередУдалением</Event>
+								<Event name="b3c10170-c5ff-4cba-b537-679e1c872b45">РасшифровкаПлатежаПродажаВалютыПриНачалеРедактирования</Event>
+								<Event name="OnChange">РасшифровкаПлатежаПродажаВалютыПриИзменении</Event>
+							</Events>
+							<ChildItems>
+								<ColumnGroup name="РасшифровкаПлатежаГруппаДоговорСтатьяДДС" id="685">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Договор / Статья ДДС</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаГруппаДоговорСтатьяДДСРасширеннаяПодсказка" id="1032"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаПродажаВалютыДоговорКонтрагента" id="461">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Договор / Статья ДДС</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Договор с банком на продажу валюты</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаПродажаВалютыДоговорКонтрагентаКонтекстноеМеню" id="462"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыДоговорКонтрагентаРасширеннаяПодсказка" id="1033"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаПродажаВалютыДоговорКонтрагентаПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаПродажаВалютыСтатьяДвиженияДенежныхСредств" id="463">
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Статья движения денежных средств</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>21</Width>
+											<ContextMenu name="РасшифровкаПлатежаПродажаВалютыСтатьяДвиженияДенежныхСредствКонтекстноеМеню" id="464"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыСтатьяДвиженияДенежныхСредствРасширеннаяПодсказка" id="1034"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<InputField name="РасшифровкаПлатежаПродажаВалютыСуммаВзаиморасчетов" id="471">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма (вал.)</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма реализованной валюты (в валюте расчетов с банком)</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>12</Width>
+									<ContextMenu name="РасшифровкаПлатежаПродажаВалютыСуммаВзаиморасчетовКонтекстноеМеню" id="472"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыСуммаВзаиморасчетовРасширеннаяПодсказка" id="1035"/>
+									<Events>
+										<Event name="OnChange">РасшифровкаПлатежаПродажаВалютыСуммаВзаиморасчетовПриИзменении</Event>
+									</Events>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаПродажаВалютыДоговорКонтрагентаВалютаВзаиморасчетов" id="467">
+									<ReadOnly>true</ReadOnly>
+									<SkipOnInput>true</SkipOnInput>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Вал.</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Валюта расчетов с банком</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>6</Width>
+									<HorizontalStretch>false</HorizontalStretch>
+									<ContextMenu name="РасшифровкаПлатежаПродажаВалютыДоговорКонтрагентаВалютаВзаиморасчетовКонтекстноеМеню" id="468"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыДоговорКонтрагентаВалютаВзаиморасчетовРасширеннаяПодсказка" id="1036"/>
+								</InputField>
+								<ColumnGroup name="РасшифровкаПлатежаПродажаВалютыКурсыВалюты" id="502">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Курсы валюты</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыКурсыВалютыРасширеннаяПодсказка" id="1037"/>
+									<ChildItems>
+										<InputField name="РасшифровкаПлатежаПродажаВалютыКурсВзаиморасчетов" id="469">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Курс расчетов / ЦБ РФ</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Курс валюты расчетов с банком</v8:content>
+												</v8:item>
+											</ToolTip>
+											<EditMode>EnterOnInput</EditMode>
+											<Width>17</Width>
+											<ContextMenu name="РасшифровкаПлатежаПродажаВалютыКурсВзаиморасчетовКонтекстноеМеню" id="470"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыКурсВзаиморасчетовРасширеннаяПодсказка" id="1038"/>
+											<Events>
+												<Event name="OnChange">РасшифровкаПлатежаПродажаВалютыКурсВзаиморасчетовПриИзменении</Event>
+												<Event name="StartChoice">РасшифровкаПлатежаПродажаВалютыКурсВзаиморасчетовНачалоВыбора</Event>
+											</Events>
+										</InputField>
+										<InputField name="РасшифровкаПлатежаПродажаВалютыКурсЦБНаДатуРеализацииВалюты" id="500">
+											<ReadOnly>true</ReadOnly>
+											<SkipOnInput>true</SkipOnInput>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Курс ЦБ РФ на дату продажи валюты</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<Width>17</Width>
+											<ContextMenu name="РасшифровкаПлатежаПродажаВалютыКурсЦБНаДатуРеализацииВалютыКонтекстноеМеню" id="501"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыКурсЦБНаДатуРеализацииВалютыРасширеннаяПодсказка" id="1039"/>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+								<InputField name="РасшифровкаПлатежаПродажаВалютыСуммаПлатежа" id="465">
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Сумма проданной валюты</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>12</Width>
+									<ContextMenu name="РасшифровкаПлатежаПродажаВалютыСуммаПлатежаКонтекстноеМеню" id="466"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыСуммаПлатежаРасширеннаяПодсказка" id="1040"/>
+									<Events>
+										<Event name="OnChange">РасшифровкаПлатежаПродажаВалютыСуммаПлатежаПриИзменении</Event>
+									</Events>
+								</InputField>
+								<InputField name="РасшифровкаПлатежаПродажаВалютыСчетУчетаРасчетовСКонтрагентом" id="473">
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Счет расчетов с банком</v8:content>
+										</v8:item>
+									</ToolTip>
+									<EditMode>EnterOnInput</EditMode>
+									<Width>11</Width>
+									<HorizontalStretch>false</HorizontalStretch>
+									<DropListWidth>40</DropListWidth>
+									<ContextMenu name="РасшифровкаПлатежаПродажаВалютыСчетУчетаРасчетовСКонтрагентомКонтекстноеМеню" id="474"/>
+									<ExtendedTooltip name="РасшифровкаПлатежаПродажаВалютыСчетУчетаРасчетовСКонтрагентомРасширеннаяПодсказка" id="1041"/>
+								</InputField>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаПлатежПрочие" id="136">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Платеж прочие</v8:content>
+						</v8:item>
+					</Title>
+					<Group>Horizontal</Group>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПлатежПрочиеРасширеннаяПодсказка" id="1042"/>
+					<ChildItems>
+						<UsualGroup name="ГруппаОтражениеВБУ" id="680">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Отражение в учете</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Отражение в бухгалтерском учете</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Horizontal</Group>
+							<ExtendedTooltip name="ГруппаОтражениеВБУРасширеннаяПодсказка" id="1043"/>
+							<ChildItems>
+								<UsualGroup name="ГруппаЗаголовкиСубконтоПрочие" id="360">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Заголовки полей субконто</v8:content>
+										</v8:item>
+									</Title>
+									<Group>Vertical</Group>
+									<Representation>None</Representation>
+									<ShowTitle>false</ShowTitle>
+									<ExtendedTooltip name="ГруппаЗаголовкиСубконтоПрочиеРасширеннаяПодсказка" id="1044"/>
+									<ChildItems>
+										<LabelDecoration name="НадписьЗаголовокСчетаПрочие" id="363">
+											<SkipOnInput>false</SkipOnInput>
+											<Title formatted="false">
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет кредита:</v8:content>
+												</v8:item>
+											</Title>
+											<ContextMenu name="НадписьЗаголовокСчетаПрочиеКонтекстноеМеню" id="364"/>
+											<ExtendedTooltip name="НадписьЗаголовокСчетаПрочиеРасширеннаяПодсказка" id="1045"/>
+										</LabelDecoration>
+										<LabelField name="ЗаголовокСубконто1Прочие" id="365">
+											<DataPath>ЗаголовокСубконто1</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content> </v8:content>
+												</v8:item>
+											</Title>
+											<TitleLocation>None</TitleLocation>
+											<TitleHeight>1</TitleHeight>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="ЗаголовокСубконто1ПрочиеКонтекстноеМеню" id="366"/>
+											<ExtendedTooltip name="ЗаголовокСубконто1ПрочиеРасширеннаяПодсказка" id="1046"/>
+										</LabelField>
+										<LabelField name="ЗаголовокСубконто2Прочие" id="367">
+											<DataPath>ЗаголовокСубконто2</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content> </v8:content>
+												</v8:item>
+											</Title>
+											<TitleLocation>None</TitleLocation>
+											<TitleHeight>1</TitleHeight>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="ЗаголовокСубконто2ПрочиеКонтекстноеМеню" id="368"/>
+											<ExtendedTooltip name="ЗаголовокСубконто2ПрочиеРасширеннаяПодсказка" id="1047"/>
+										</LabelField>
+										<LabelField name="ЗаголовокСубконто3Прочие" id="369">
+											<DataPath>ЗаголовокСубконто3</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content> </v8:content>
+												</v8:item>
+											</Title>
+											<TitleLocation>None</TitleLocation>
+											<TitleHeight>1</TitleHeight>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="ЗаголовокСубконто3ПрочиеКонтекстноеМеню" id="370"/>
+											<ExtendedTooltip name="ЗаголовокСубконто3ПрочиеРасширеннаяПодсказка" id="1048"/>
+										</LabelField>
+										<LabelField name="ЗаголовокПодразделениеПрочие" id="422">
+											<DataPath>ЗаголовокПодразделение</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content> </v8:content>
+												</v8:item>
+											</Title>
+											<TitleLocation>None</TitleLocation>
+											<TitleHeight>1</TitleHeight>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="ЗаголовокПодразделениеПрочиеКонтекстноеМеню" id="423"/>
+											<ExtendedTooltip name="ЗаголовокПодразделениеПрочиеРасширеннаяПодсказка" id="1049"/>
+										</LabelField>
+										<LabelField name="ЗаголовокСтатьяДДСПрочие" id="426">
+											<DataPath>ЗаголовокСтатьяДДС</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<HorizontalStretch>false</HorizontalStretch>
+											<ContextMenu name="ЗаголовокСтатьяДДСПрочиеКонтекстноеМеню" id="427"/>
+											<ExtendedTooltip name="ЗаголовокСтатьяДДСПрочиеРасширеннаяПодсказка" id="1050"/>
+										</LabelField>
+									</ChildItems>
+								</UsualGroup>
+								<UsualGroup name="ГруппаПоляСчетСубконтоПрочие" id="371">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Поля счет/субконто</v8:content>
+										</v8:item>
+									</Title>
+									<Group>Vertical</Group>
+									<Representation>None</Representation>
+									<ShowTitle>false</ShowTitle>
+									<ExtendedTooltip name="ГруппаПоляСчетСубконтоПрочиеРасширеннаяПодсказка" id="1051"/>
+									<ChildItems>
+										<InputField name="СчетУчетаПрочие" id="374">
+											<DataPath>СчетУчетаРасчетовСКонтрагентом</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<HorizontalStretch>false</HorizontalStretch>
+											<AutoMarkIncomplete>true</AutoMarkIncomplete>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="СчетУчетаПрочиеКонтекстноеМеню" id="375"/>
+											<ExtendedTooltip name="СчетУчетаПрочиеРасширеннаяПодсказка" id="1052"/>
+											<Events>
+												<Event name="OnChange">СчетУчетаПрочиеПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="СубконтоКт1Прочие" id="376">
+											<DataPath>СубконтоКт1</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<EditMode>EnterOnInput</EditMode>
+											<ContextMenu name="СубконтоКт1ПрочиеКонтекстноеМеню" id="377"/>
+											<ExtendedTooltip name="СубконтоКт1ПрочиеРасширеннаяПодсказка" id="1053"/>
+											<Events>
+												<Event name="OnChange">СубконтоКтПриИзменении</Event>
+												<Event name="StartChoice">СубконтоКтПрочиеНачалоВыбора</Event>
+											</Events>
+										</InputField>
+										<InputField name="СубконтоКт2Прочие" id="378">
+											<DataPath>СубконтоКт2</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<EditMode>EnterOnInput</EditMode>
+											<ContextMenu name="СубконтоКт2ПрочиеКонтекстноеМеню" id="379"/>
+											<ExtendedTooltip name="СубконтоКт2ПрочиеРасширеннаяПодсказка" id="1054"/>
+											<Events>
+												<Event name="OnChange">СубконтоКтПриИзменении</Event>
+												<Event name="StartChoice">СубконтоКтПрочиеНачалоВыбора</Event>
+											</Events>
+										</InputField>
+										<InputField name="СубконтоКт3Прочие" id="380">
+											<DataPath>СубконтоКт3</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<EditMode>EnterOnInput</EditMode>
+											<ContextMenu name="СубконтоКт3ПрочиеКонтекстноеМеню" id="381"/>
+											<ExtendedTooltip name="СубконтоКт3ПрочиеРасширеннаяПодсказка" id="1055"/>
+											<Events>
+												<Event name="OnChange">СубконтоКтПриИзменении</Event>
+												<Event name="StartChoice">СубконтоКтПрочиеНачалоВыбора</Event>
+											</Events>
+										</InputField>
+									</ChildItems>
+								</UsualGroup>
+								<UsualGroup name="ГруппаПоляСчетСубконтоПрочие1" id="855">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Поля счет/субконто</v8:content>
+										</v8:item>
+									</Title>
+									<Group>Vertical</Group>
+									<Representation>None</Representation>
+									<ShowTitle>false</ShowTitle>
+									<ExtendedTooltip name="ГруппаПоляСчетСубконтоПрочие1РасширеннаяПодсказка" id="1056"/>
+									<ChildItems>
+										<InputField name="СчетУчетаПрочие1" id="857">
+											<DataPath>СчетУчетаРасчетовСКонтрагентомБУ</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет учета БУ</v8:content>
+												</v8:item>
+											</Title>
+											<TitleLocation>Left</TitleLocation>
+											<HorizontalStretch>false</HorizontalStretch>
+											<AutoMarkIncomplete>true</AutoMarkIncomplete>
+											<DropListWidth>40</DropListWidth>
+											<ContextMenu name="СчетУчетаПрочие1КонтекстноеМеню" id="858"/>
+											<ExtendedTooltip name="СчетУчетаПрочие1РасширеннаяПодсказка" id="1057"/>
+											<Events>
+												<Event name="OnChange">СчетУчетаПрочиеПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="СчетУчетаРасчетовПоАвансамБУ" id="875">
+											<DataPath>СчетУчетаРасчетовПоАвансамБУ</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Счет авансов БУ</v8:content>
+												</v8:item>
+											</Title>
+											<ContextMenu name="СчетУчетаРасчетовПоАвансамБУКонтекстноеМеню" id="876"/>
+											<ExtendedTooltip name="СчетУчетаРасчетовПоАвансамБУРасширеннаяПодсказка" id="1058"/>
+										</InputField>
+										<InputField name="ДоговорКонтрагента" id="884">
+											<DataPath>ДоговорКонтрагента</DataPath>
+											<ContextMenu name="ДоговорКонтрагентаКонтекстноеМеню" id="885"/>
+											<ExtendedTooltip name="ДоговорКонтрагентаРасширеннаяПодсказка" id="1059"/>
+										</InputField>
+										<InputField name="ПериодРегистрации" id="887">
+											<DataPath>ПериодРегистрации</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Период аренды</v8:content>
+												</v8:item>
+											</Title>
+											<ContextMenu name="ПериодРегистрацииКонтекстноеМеню" id="888"/>
+											<ExtendedTooltip name="ПериодРегистрацииРасширеннаяПодсказка" id="1060"/>
+										</InputField>
+										<InputField name="ВидПлатежаВГосБюджет" id="890">
+											<DataPath>ВидПлатежаВГосБюджет</DataPath>
+											<ContextMenu name="ВидПлатежаВГосБюджетКонтекстноеМеню" id="891"/>
+											<ExtendedTooltip name="ВидПлатежаВГосБюджетРасширеннаяПодсказка" id="1061"/>
+										</InputField>
+										<InputField name="СтавкаНДС" id="893">
+											<DataPath>СтавкаНДС</DataPath>
+											<ContextMenu name="СтавкаНДСКонтекстноеМеню" id="894"/>
+											<ExtendedTooltip name="СтавкаНДСРасширеннаяПодсказка" id="1062"/>
+										</InputField>
+										<InputField name="СуммаНДС" id="896">
+											<DataPath>СуммаНДС</DataPath>
+											<ContextMenu name="СуммаНДСКонтекстноеМеню" id="897"/>
+											<ExtendedTooltip name="СуммаНДСРасширеннаяПодсказка" id="1063"/>
+										</InputField>
+									</ChildItems>
+								</UsualGroup>
+							</ChildItems>
+						</UsualGroup>
+						<UsualGroup name="ГруппаОтражениеВУСН" id="728">
+							<Visible>false</Visible>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Отражение в УСН</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Отражение в налоговом учете УСН</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Vertical</Group>
+							<ExtendedTooltip name="ГруппаОтражениеВУСНРасширеннаяПодсказка" id="1064"/>
+							<ChildItems>
+								<UsualGroup name="ГруппаНастройкаКУДиР" id="730">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Настройка КУДиР</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Группа настройка КУДи Р</v8:content>
+										</v8:item>
+									</ToolTip>
+									<Group>Vertical</Group>
+									<Representation>None</Representation>
+									<ShowTitle>false</ShowTitle>
+									<ExtendedTooltip name="ГруппаНастройкаКУДиРРасширеннаяПодсказка" id="1065"/>
+									<ChildItems>
+										<UsualGroup name="ГруппаДоходы" id="732">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Доходы</v8:content>
+												</v8:item>
+											</Title>
+											<TitleFont ref="sys:DefaultGUIFont" bold="true" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
+											<Group>Horizontal</Group>
+											<Representation>None</Representation>
+											<ShowTitle>false</ShowTitle>
+											<ExtendedTooltip name="ГруппаДоходыРасширеннаяПодсказка" id="1066"/>
+											<ChildItems>
+												<InputField name="ДоходыУСН" id="734">
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Доходы УСН</v8:content>
+														</v8:item>
+													</Title>
+													<EditFormat>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>ЧЦ=15; ЧДЦ=2; ЧРД=,; ЧРГ=' '; ЧН='&lt;Не принимаются&gt;'; ЧГ=3,0</v8:content>
+														</v8:item>
+													</EditFormat>
+													<ContextMenu name="ДоходыУСНКонтекстноеМеню" id="735"/>
+													<ExtendedTooltip name="ДоходыУСНРасширеннаяПодсказка" id="1067"/>
+													<Events>
+														<Event name="OnChange">ПрочееДоходыУСНПриИзменении</Event>
+													</Events>
+												</InputField>
+												<LabelField name="НадписьВалютаРеглПрочие" id="737">
+													<DataPath>ВалютаРегламентированногоУчета</DataPath>
+													<TitleLocation>None</TitleLocation>
+													<Width>4</Width>
+													<ContextMenu name="НадписьВалютаРеглПрочиеКонтекстноеМеню" id="738"/>
+													<ExtendedTooltip name="НадписьВалютаРеглПрочиеРасширеннаяПодсказка" id="1068"/>
+												</LabelField>
+											</ChildItems>
+										</UsualGroup>
+										<LabelField name="ПрочееТекстДоходыУСН" id="740">
+											<DataPath>ПрочееТекстДоходыУСН</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<HorizontalAlign>Left</HorizontalAlign>
+											<VerticalAlign>Top</VerticalAlign>
+											<HorizontalStretch>true</HorizontalStretch>
+											<TextColor>style:ТекстИнформационнойНадписи</TextColor>
+											<ContextMenu name="ПрочееТекстДоходыУСНКонтекстноеМеню" id="741"/>
+											<ExtendedTooltip name="ПрочееТекстДоходыУСНРасширеннаяПодсказка" id="1069"/>
+										</LabelField>
+									</ChildItems>
+								</UsualGroup>
+								<InputField name="СодержаниеУСН" id="743">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Содержание записи КУДиР</v8:content>
+										</v8:item>
+									</Title>
+									<Height>3</Height>
+									<VerticalStretch>false</VerticalStretch>
+									<MultiLine>true</MultiLine>
+									<ContextMenu name="СодержаниеУСНКонтекстноеМеню" id="744"/>
+									<ExtendedTooltip name="СодержаниеУСНРасширеннаяПодсказка" id="1070"/>
+								</InputField>
+							</ChildItems>
+						</UsualGroup>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаПлатежныеКарты" id="421">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Платежные карты</v8:content>
+						</v8:item>
+					</Title>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПлатежныеКартыРасширеннаяПодсказка" id="1071"/>
+					<ChildItems>
+						<Pages name="ГруппаПлатежныеКартыСтраницы" id="391">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Платежные карты (страницы)</v8:content>
+								</v8:item>
+							</Title>
+							<HorizontalStretch>true</HorizontalStretch>
+							<ExtendedTooltip name="ГруппаПлатежныеКартыСтраницыРасширеннаяПодсказка" id="1072"/>
+							<ChildItems>
+								<Page name="ГруппаПлатежныеКартыРасшифровкаПлатежа" id="392">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Расшифровка платежа</v8:content>
+										</v8:item>
+									</Title>
+									<VerticalStretch>true</VerticalStretch>
+									<ExtendedTooltip name="ГруппаПлатежныеКартыРасшифровкаПлатежаРасширеннаяПодсказка" id="1073"/>
+									<ChildItems>
+										<Table name="РасшифровкаПлатежаПлатежныеКарты" id="479">
+											<AutoInsertNewRow>true</AutoInsertNewRow>
+											<EnableStartDrag>true</EnableStartDrag>
+											<EnableDrag>true</EnableDrag>
+											<SearchStringLocation>None</SearchStringLocation>
+											<ViewStatusLocation>None</ViewStatusLocation>
+											<SearchControlLocation>None</SearchControlLocation>
+											<RowFilter xsi:nil="true"/>
+											<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыКонтекстноеМеню" id="480"/>
+											<AutoCommandBar name="РасшифровкаПлатежаПлатежныеКартыКоманднаяПанель" id="481"/>
+											<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыРасширеннаяПодсказка" id="1074"/>
+											<SearchStringAddition name="РасшифровкаПлатежаПлатежныеКартыСтрокаПоиска" id="1075">
+												<AdditionSource>
+													<Item>РасшифровкаПлатежаПлатежныеКарты</Item>
+													<Type>SearchStringRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыСтрокаПоискаКонтекстноеМеню" id="1076"/>
+												<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыСтрокаПоискаРасширеннаяПодсказка" id="1077"/>
+											</SearchStringAddition>
+											<ViewStatusAddition name="РасшифровкаПлатежаПлатежныеКартыСостояниеПросмотра" id="1078">
+												<AdditionSource>
+													<Item>РасшифровкаПлатежаПлатежныеКарты</Item>
+													<Type>ViewStatusRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыСостояниеПросмотраКонтекстноеМеню" id="1079"/>
+												<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыСостояниеПросмотраРасширеннаяПодсказка" id="1080"/>
+											</ViewStatusAddition>
+											<SearchControlAddition name="РасшифровкаПлатежаПлатежныеКартыУправлениеПоиском" id="1081">
+												<AdditionSource>
+													<Item>РасшифровкаПлатежаПлатежныеКарты</Item>
+													<Type>SearchControl</Type>
+												</AdditionSource>
+												<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыУправлениеПоискомКонтекстноеМеню" id="1082"/>
+												<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыУправлениеПоискомРасширеннаяПодсказка" id="1083"/>
+											</SearchControlAddition>
+											<Events>
+												<Event name="01d80ddd-dce5-4db3-beb5-f63c97cb05b9">РасшифровкаПлатежаПлатежныеКартыПриОкончанииРедактирования</Event>
+												<Event name="2ccfdec5-583d-4eca-8319-e55de492665a">РасшифровкаПлатежаПокупкаВалютыПередУдалением</Event>
+												<Event name="b3c10170-c5ff-4cba-b537-679e1c872b45">РасшифровкаПлатежаПлатежныеКартыПриНачалеРедактирования</Event>
+												<Event name="OnChange">РасшифровкаПлатежаПлатежныеКартыПриИзменении</Event>
+											</Events>
+											<ChildItems>
+												<InputField name="РасшифровкаПлатежаПлатежныеКартыДоговорКонтрагента" id="482">
+													<ToolTip>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Договор с банком на приобретение валюты</v8:content>
+														</v8:item>
+													</ToolTip>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыДоговорКонтрагентаКонтекстноеМеню" id="483"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыДоговорКонтрагентаРасширеннаяПодсказка" id="1084"/>
+													<Events>
+														<Event name="OnChange">РасшифровкаПлатежаПлатежныеКартыДоговорКонтрагентаПриИзменении</Event>
+													</Events>
+												</InputField>
+												<InputField name="РасшифровкаПлатежаПлатежныеКартыСуммаПлатежа" id="486">
+													<ToolTip>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Сумма приобретенной валюты</v8:content>
+														</v8:item>
+													</ToolTip>
+													<EditMode>EnterOnInput</EditMode>
+													<Width>12</Width>
+													<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыСуммаПлатежаКонтекстноеМеню" id="487"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыСуммаПлатежаРасширеннаяПодсказка" id="1085"/>
+													<Events>
+														<Event name="OnChange">РасшифровкаПлатежаПлатежныеКартыСуммаПлатежаПриИзменении</Event>
+													</Events>
+												</InputField>
+												<InputField name="РасшифровкаПлатежаПлатежныеКартыСчетУчетаРасчетовСКонтрагентом" id="494">
+													<ToolTip>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Счет расчетов с банком</v8:content>
+														</v8:item>
+													</ToolTip>
+													<EditMode>EnterOnInput</EditMode>
+													<HorizontalStretch>false</HorizontalStretch>
+													<DropListWidth>40</DropListWidth>
+													<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыСчетУчетаРасчетовСКонтрагентомКонтекстноеМеню" id="495"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыСчетУчетаРасчетовСКонтрагентомРасширеннаяПодсказка" id="1086"/>
+												</InputField>
+												<InputField name="РасшифровкаПлатежаПлатежныеКартыСуммаУслуг" id="498">
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыСуммаУслугКонтекстноеМеню" id="499"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыСуммаУслугРасширеннаяПодсказка" id="1087"/>
+													<Events>
+														<Event name="OnChange">РасшифровкаПлатежаПлатежныеКартыСуммаУслугПриИзменении</Event>
+													</Events>
+												</InputField>
+												<InputField name="РасшифровкаПлатежаПлатежныеКартыСтатьяДвиженияДенежныхСредств" id="484">
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Статья ДДС</v8:content>
+														</v8:item>
+													</Title>
+													<ToolTip>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Статья движения денежных средств</v8:content>
+														</v8:item>
+													</ToolTip>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="РасшифровкаПлатежаПлатежныеКартыСтатьяДвиженияДенежныхСредствКонтекстноеМеню" id="485"/>
+													<ExtendedTooltip name="РасшифровкаПлатежаПлатежныеКартыСтатьяДвиженияДенежныхСредствРасширеннаяПодсказка" id="1088"/>
+												</InputField>
+											</ChildItems>
+										</Table>
+									</ChildItems>
+								</Page>
+								<Page name="ГруппаПлатежныеКартыУслугиБанка" id="141">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Учет услуг банка</v8:content>
+										</v8:item>
+									</Title>
+									<VerticalStretch>true</VerticalStretch>
+									<Group>Horizontal</Group>
+									<ExtendedTooltip name="ГруппаПлатежныеКартыУслугиБанкаРасширеннаяПодсказка" id="1089"/>
+									<ChildItems>
+										<UsualGroup name="ГруппаЗаголовкиСубконтоУслугиБанка" id="271">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Заголовки полей субконто</v8:content>
+												</v8:item>
+											</Title>
+											<Group>Vertical</Group>
+											<Representation>None</Representation>
+											<ShowTitle>false</ShowTitle>
+											<ExtendedTooltip name="ГруппаЗаголовкиСубконтоУслугиБанкаРасширеннаяПодсказка" id="1090"/>
+											<ChildItems>
+												<LabelDecoration name="НадписьЗаголовокСуммаУслугУслугиБанка" id="326">
+													<SkipOnInput>false</SkipOnInput>
+													<Title formatted="false">
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Сумма услуг:</v8:content>
+														</v8:item>
+													</Title>
+													<ContextMenu name="НадписьЗаголовокСуммаУслугУслугиБанкаКонтекстноеМеню" id="327"/>
+													<ExtendedTooltip name="НадписьЗаголовокСуммаУслугУслугиБанкаРасширеннаяПодсказка" id="1091"/>
+												</LabelDecoration>
+												<LabelDecoration name="НадписьЗаголовокСчетаУслугиБанка" id="272">
+													<SkipOnInput>false</SkipOnInput>
+													<Title formatted="false">
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Счет затрат:</v8:content>
+														</v8:item>
+													</Title>
+													<ContextMenu name="НадписьЗаголовокСчетаУслугиБанкаКонтекстноеМеню" id="273"/>
+													<ExtendedTooltip name="НадписьЗаголовокСчетаУслугиБанкаРасширеннаяПодсказка" id="1092"/>
+												</LabelDecoration>
+												<LabelField name="ЗаголовокСубконто1УслугиБанка" id="274">
+													<DataPath>ЗаголовокСубконто1</DataPath>
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content> </v8:content>
+														</v8:item>
+													</Title>
+													<TitleLocation>None</TitleLocation>
+													<TitleHeight>1</TitleHeight>
+													<HorizontalStretch>false</HorizontalStretch>
+													<ContextMenu name="ЗаголовокСубконто1УслугиБанкаКонтекстноеМеню" id="275"/>
+													<ExtendedTooltip name="ЗаголовокСубконто1УслугиБанкаРасширеннаяПодсказка" id="1093"/>
+												</LabelField>
+												<LabelField name="ЗаголовокСубконто2УслугиБанка" id="276">
+													<DataPath>ЗаголовокСубконто2</DataPath>
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content> </v8:content>
+														</v8:item>
+													</Title>
+													<TitleLocation>None</TitleLocation>
+													<TitleHeight>1</TitleHeight>
+													<HorizontalStretch>false</HorizontalStretch>
+													<ContextMenu name="ЗаголовокСубконто2УслугиБанкаКонтекстноеМеню" id="277"/>
+													<ExtendedTooltip name="ЗаголовокСубконто2УслугиБанкаРасширеннаяПодсказка" id="1094"/>
+												</LabelField>
+												<LabelField name="ЗаголовокСубконто3УслугиБанка" id="278">
+													<DataPath>ЗаголовокСубконто3</DataPath>
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content> </v8:content>
+														</v8:item>
+													</Title>
+													<TitleLocation>None</TitleLocation>
+													<TitleHeight>1</TitleHeight>
+													<HorizontalStretch>false</HorizontalStretch>
+													<ContextMenu name="ЗаголовокСубконто3УслугиБанкаКонтекстноеМеню" id="279"/>
+													<ExtendedTooltip name="ЗаголовокСубконто3УслугиБанкаРасширеннаяПодсказка" id="1095"/>
+												</LabelField>
+												<LabelDecoration name="НадписьЗаголовокПодразделениеКт" id="496">
+													<SkipOnInput>false</SkipOnInput>
+													<Title formatted="false">
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Подразделение затрат:</v8:content>
+														</v8:item>
+													</Title>
+													<ContextMenu name="НадписьЗаголовокПодразделениеКтКонтекстноеМеню" id="497"/>
+													<ExtendedTooltip name="НадписьЗаголовокПодразделениеКтРасширеннаяПодсказка" id="1096"/>
+												</LabelDecoration>
+											</ChildItems>
+										</UsualGroup>
+										<UsualGroup name="ГруппаПоляСчетСубконтоУслугиБанка" id="284">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Поля счет/субконто</v8:content>
+												</v8:item>
+											</Title>
+											<Group>Vertical</Group>
+											<Representation>None</Representation>
+											<ShowTitle>false</ShowTitle>
+											<ExtendedTooltip name="ГруппаПоляСчетСубконтоУслугиБанкаРасширеннаяПодсказка" id="1097"/>
+											<ChildItems>
+												<InputField name="СуммаУслуг" id="324">
+													<ReadOnly>true</ReadOnly>
+													<TitleLocation>None</TitleLocation>
+													<ChoiceButton>false</ChoiceButton>
+													<DropListWidth>40</DropListWidth>
+													<ContextMenu name="СуммаУслугКонтекстноеМеню" id="325"/>
+													<ExtendedTooltip name="СуммаУслугРасширеннаяПодсказка" id="1098"/>
+												</InputField>
+												<InputField name="СчетУчетаУслугиБанка" id="285">
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Счет затрат</v8:content>
+														</v8:item>
+													</Title>
+													<TitleLocation>None</TitleLocation>
+													<HorizontalStretch>false</HorizontalStretch>
+													<AutoMarkIncomplete>true</AutoMarkIncomplete>
+													<DropListWidth>40</DropListWidth>
+													<ContextMenu name="СчетУчетаУслугиБанкаКонтекстноеМеню" id="286"/>
+													<ExtendedTooltip name="СчетУчетаУслугиБанкаРасширеннаяПодсказка" id="1099"/>
+													<Events>
+														<Event name="OnChange">СчетУчетаУслугиБанкаПриИзменении</Event>
+													</Events>
+												</InputField>
+												<InputField name="СубконтоКт1УслугиБанка" id="287">
+													<TitleLocation>None</TitleLocation>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="СубконтоКт1УслугиБанкаКонтекстноеМеню" id="288"/>
+													<ExtendedTooltip name="СубконтоКт1УслугиБанкаРасширеннаяПодсказка" id="1100"/>
+													<Events>
+														<Event name="OnChange">СубконтоКтПриИзменении</Event>
+														<Event name="StartChoice">СубконтоКтУслугиБанкаНачалоВыбора</Event>
+													</Events>
+												</InputField>
+												<InputField name="СубконтоКт2УслугиБанка" id="289">
+													<TitleLocation>None</TitleLocation>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="СубконтоКт2УслугиБанкаКонтекстноеМеню" id="290"/>
+													<ExtendedTooltip name="СубконтоКт2УслугиБанкаРасширеннаяПодсказка" id="1101"/>
+													<Events>
+														<Event name="OnChange">СубконтоКтПриИзменении</Event>
+														<Event name="StartChoice">СубконтоКтУслугиБанкаНачалоВыбора</Event>
+													</Events>
+												</InputField>
+												<InputField name="СубконтоКт3УслугиБанка" id="291">
+													<TitleLocation>None</TitleLocation>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="СубконтоКт3УслугиБанкаКонтекстноеМеню" id="292"/>
+													<ExtendedTooltip name="СубконтоКт3УслугиБанкаРасширеннаяПодсказка" id="1102"/>
+													<Events>
+														<Event name="OnChange">СубконтоКтПриИзменении</Event>
+														<Event name="StartChoice">СубконтоКтУслугиБанкаНачалоВыбора</Event>
+													</Events>
+												</InputField>
+												<InputField name="ПодразделениеКтПлатежныеКарты" id="229">
+													<TitleLocation>None</TitleLocation>
+													<ContextMenu name="ПодразделениеКтПлатежныеКартыКонтекстноеМеню" id="230"/>
+													<ExtendedTooltip name="ПодразделениеКтПлатежныеКартыРасширеннаяПодсказка" id="1103"/>
+												</InputField>
+											</ChildItems>
+										</UsualGroup>
+									</ChildItems>
+								</Page>
+							</ChildItems>
+						</Pages>
+					</ChildItems>
+				</Page>
+				<Page name="ГруппаВозвратЗаймаРаботником" id="525">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Возврат займа работником</v8:content>
+						</v8:item>
+					</Title>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаВозвратЗаймаРаботникомРасширеннаяПодсказка" id="1104"/>
+					<ChildItems>
+						<InputField name="ФизЛицоВыдачаЗайма" id="532">
+							<AutoMarkIncomplete>true</AutoMarkIncomplete>
+							<ContextMenu name="ФизЛицоВыдачаЗаймаКонтекстноеМеню" id="533"/>
+							<ExtendedTooltip name="ФизЛицоВыдачаЗаймаРасширеннаяПодсказка" id="1105"/>
+						</InputField>
+						<InputField name="СтатьяДвиженияДенежныхСредствВозвратЗаймаРаботником" id="528">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Статья движения ден. средств</v8:content>
+								</v8:item>
+							</Title>
+							<TitleLocation>Left</TitleLocation>
+							<ContextMenu name="СтатьяДвиженияДенежныхСредствВозвратЗаймаРаботникомКонтекстноеМеню" id="529"/>
+							<ExtendedTooltip name="СтатьяДвиженияДенежныхСредствВозвратЗаймаРаботникомРасширеннаяПодсказка" id="1106"/>
+						</InputField>
+					</ChildItems>
+				</Page>
+			</ChildItems>
+		</Pages>
+		<UsualGroup name="ГруппаПодвал" id="142">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Подвал</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаПодвалРасширеннаяПодсказка" id="1107"/>
+			<ChildItems>
+				<InputField name="НазначениеПлатежа" id="70">
+					<DataPath>НазначениеПлатежа</DataPath>
+					<TitleLocation>Left</TitleLocation>
+					<TitleHeight>2</TitleHeight>
+					<EditMode>EnterOnInput</EditMode>
+					<Height>2</Height>
+					<VerticalStretch>false</VerticalStretch>
+					<MultiLine>true</MultiLine>
+					<ContextMenu name="НазначениеПлатежаКонтекстноеМеню" id="71"/>
+					<ExtendedTooltip name="НазначениеПлатежаРасширеннаяПодсказка" id="1108"/>
+				</InputField>
+				<UsualGroup name="ГруппаКомментарий" id="673">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Комментарий</v8:content>
+						</v8:item>
+					</Title>
+					<Group>Horizontal</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаКомментарийРасширеннаяПодсказка" id="1109"/>
+					<ChildItems>
+						<InputField name="Комментарий" id="677">
+							<DataPath>Комментарий</DataPath>
+							<TitleLocation>Left</TitleLocation>
+							<Height>1</Height>
+							<VerticalStretch>false</VerticalStretch>
+							<ContextMenu name="КомментарийКонтекстноеМеню" id="678"/>
+							<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="1110"/>
+						</InputField>
+						<InputField name="Ответственный" id="25">
+							<DataPath>Ответственный</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ContextMenu name="ОтветственныйКонтекстноеМеню" id="26"/>
+							<ExtendedTooltip name="ОтветственныйРасширеннаяПодсказка" id="1111"/>
+						</InputField>
+					</ChildItems>
+				</UsualGroup>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ИнформационныеСсылки" id="524">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Информационные ссылки</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<ExtendedTooltip name="ИнформационныеСсылкиРасширеннаяПодсказка" id="1112"/>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="ЗаголовокСубконто1" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заголовок субконто 1</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ЗаголовокСубконто2" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заголовок субконто 1</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ЗаголовокСубконто3" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заголовок субконто 1</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ВалютаРегламентированногоУчета" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Валюта регламентированного учета</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.Валюты</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="КратностьДокумента" id="18">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Кратность документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="КурсДокумента" id="19">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Курс документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>4</v8:FractionDigits>
+					<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ЗаголовокПодразделение" id="26">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заголовок подразделение</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<FunctionalOptions>
+				<Item>f525461b-f4cc-416e-b4fb-d5896d686dda</Item>
+			</FunctionalOptions>
+		</Attribute>
+		<Attribute name="ЗаголовокСтатьяДДС" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья движения ден. средств</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<FunctionalOptions>
+				<Item>586ff290-8a8d-4bde-9cfc-e9d933b95904</Item>
+			</FunctionalOptions>
+		</Attribute>
+		<Attribute name="ЕстьРасчетыВУсловныхЕдиницах" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Есть расчеты в условных единицах</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОплатаВВалюте" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Оплата в валюте</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="СвойстваПлатежа" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Свойства платежа</v8:content>
+				</v8:item>
+			</Title>
+			<Type/>
+		</Attribute>
+		<Attribute name="ПрименениеУСНДоходы" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Применение УСН доходы</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ПрименениеУСН" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Применение УСН</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоВсегоНДС" id="12">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>НДС (в т.ч.)</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ИтогоСуммаПлатежа" id="13">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма платежа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>15</v8:Digits>
+					<v8:FractionDigits>2</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ПрименяетсяОсобыйПорядокНалогообложения" id="15">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Применяется особый порядок налогообложения</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ТекущаяДатаДокумента" id="16">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Предыдущая дата документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:dateTime</v8:Type>
+				<v8:DateQualifiers>
+					<v8:DateFractions>DateTime</v8:DateFractions>
+				</v8:DateQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ПрименяетсяУСНПатент" id="17">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Применяется УСН Патент</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="НастройкиПредупреждений" id="20">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Настройки предупреждений</v8:content>
+				</v8:item>
+			</Title>
+			<Type/>
+		</Attribute>
+		<Attribute name="ПорядокОтраженияАвансаСоответствиеЗначений" id="14">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Порядок отражения аванса соответствие значений</v8:content>
+				</v8:item>
+			</Title>
+			<Type/>
+			<FunctionalOptions>
+				<Item>a9e0e590-ffea-400e-b684-71a5aea0811c</Item>
+				<Item>9ff87a90-998a-491d-9bd8-2712c2260d69</Item>
+			</FunctionalOptions>
+		</Attribute>
+		<Attribute name="ПрочееТекстДоходыУСН" id="21">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Прочее текст доходы УСН</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>200</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ПолеОрганизацияПустое" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<FunctionalOptions>
+				<Item>76186beb-9fd8-4ee5-8bc1-ad8f5ea7267e</Item>
+			</FunctionalOptions>
+		</Attribute>
+		<Attribute name="СостояниеДокумента" id="23">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Состояние документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ВалютаДокумента" id="27">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Валюта документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ВидОперации" id="28">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вид операции</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ВидПлатежаВГосБюджет" id="29">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вид платежа в гос бюджет</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ДатаВходящегоДокумента" id="30">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата входящего документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Депозит" id="31">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Депозит</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ДоговорКонтрагента" id="32">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Договор контрагента</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Комментарий" id="33">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Комментарий</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Контрагент" id="34">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Контрагент</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="НазначениеПлатежа" id="35">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Назначение платежа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="НомерВходящегоДокумента" id="36">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Номер входящего документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Организация" id="37">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Ответственный" id="38">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Ответственный</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ПериодРегистрации" id="39">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период регистрации</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ПроцентКомиссииБанка" id="40">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Процент комиссии банка</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="РучнаяКорректировка" id="41">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Ручная корректировка</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СтавкаНДС" id="42">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Ставка НДС</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СтатьяДвиженияДенежныхСредств" id="43">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья ДДС</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СубконтоКт1" id="44">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Субконто кт1</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СубконтоКт2" id="45">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Субконто кт1</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СубконтоКт3" id="46">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Субконто кт1</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СуммаДокумента" id="47">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма документа</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СуммаКомиссииБанка" id="48">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма комиссии банка</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СуммаНДС" id="49">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма НДС</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СчетБанк" id="50">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Счет банк</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СчетКонтрагента" id="51">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Счет контрагента</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СчетОрганизации" id="52">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Счет организации</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СчетУчетаРасчетовПоАвансамБУ" id="53">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Счет учета расчетов по авансам БУ</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СчетУчетаРасчетовСКонтрагентом" id="54">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Счет учета расчетов с контрагентом</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СчетУчетаРасчетовСКонтрагентомБУ" id="55">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Счет учета расчетов с контрагентом БУ</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Терминал" id="56">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Терминал</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ТорговаяТочка" id="57">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="СтатьяДвиженияДенежныхСредствБУ" id="58">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья движения денежных средств БУ</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Номер" id="59">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Номер</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="Дата" id="60">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<ConditionalAppearance>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентом</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СпособПогашенияЗадолженности</dcsset:left>
+						<dcsset:comparisonType>InList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СпособыПогашенияЗадолженности.НеПогашать</dcsset:right>
+						<dcsset:right xsi:nil="true"/>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ОплатаПокупателя</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ОтметкаНезаполненного</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Нет&gt;</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">текст = &lt;Нет&gt; для Счета расчетов с контрагентом</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетУчетаРасчетовПоАвансам</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СпособПогашенияЗадолженности</dcsset:left>
+						<dcsset:comparisonType>InList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СпособыПогашенияЗадолженности.НеПогашать</dcsset:right>
+						<dcsset:right xsi:nil="true"/>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ВозвратОтПоставщика</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ОтметкаНезаполненного</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Нет&gt;</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">текст = &lt;Нет&gt; для Счета расчета по авансам</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСпособПогашенияЗадолженности</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСделка</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСтавкаНДС</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСуммаНДС</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетУчетаРасчетовПоАвансам</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаНадписьВалюта</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаНадписьКурс</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаНадписьСумма</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаДоговорКонтрагентаВалютаВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаКурсВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСуммаВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>InList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.РасчетыПоКредитамИЗаймам</dcsset:right>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ПрочиеРасчетыСКонтрагентами</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетНаОплату</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>NotInList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ОплатаПокупателя</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаНадписьВалюта</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаНадписьКурс</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаНадписьСумма</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаКурсВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСуммаВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаДоговорКонтрагентаВалютаВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemGroup">
+						<dcsset:groupType>OrGroup</dcsset:groupType>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ЕстьРасчетыВУсловныхЕдиницах</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ДоговорКонтрагента</dcsset:left>
+							<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаКурсВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСуммаВзаиморасчетов</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ДоговорКонтрагентаРасчетыВУсловныхЕдиницах</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияСубконтоКт1</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СубконтоКт1Доступность</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Доступность</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияСубконтоКт2</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СубконтоКт2Доступность</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>Доступность</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияСубконтоКт3</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СубконтоКт3Доступность</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>Доступность</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСуммаНДС</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemGroup">
+						<dcsset:groupType>OrGroup</dcsset:groupType>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СтавкаНДС</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СтавкиНДС.НДС0</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СтавкаНДС</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СтавкиНДС.БезНДС</dcsset:right>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>Контрагент</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>InList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.Инкассация</dcsset:right>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ПрочееПоступление</dcsset:right>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ВозвратЗаймаРаботником</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ОтметкаНезаполненного</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСделка</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemGroup">
+						<dcsset:groupType>AndGroup</dcsset:groupType>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СпособПогашенияЗадолженности</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СпособыПогашенияЗадолженности.ПоДокументу</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.Сделка</dcsset:left>
+							<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+						</dcsset:item>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ОтметкаНезаполненного</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСделка</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СпособПогашенияЗадолженности</dcsset:left>
+						<dcsset:comparisonType>InList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СпособыПогашенияЗадолженности.Автоматически</dcsset:right>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.СпособыПогашенияЗадолженности.НеПогашать</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСпособПогашенияЗадолженности</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СпособПогашенияЗадолженности</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Способ погашения&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода РасшифровкаПлатежаСпособПогашенияЗадолженности</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСделка</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СпособПогашенияЗадолженности</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ОплатаПокупателя</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Документ&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода РасшифровкаПлатежаСделка</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияПодразделениеКт</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ПодразделениеКт</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Подразделение&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода РасшифровкаПлатежаИнкассацияПодразделениеКт</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияПодразделениеКт</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ПодразделениеКтДоступность</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>Доступность</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСтатьяДвиженияДенежныхСредств</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаПокупкаВалютыСтатьяДвиженияДенежныхСредств</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаПродажаВалютыСтатьяДвиженияДенежныхСредств</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СтатьяДвиженияДенежныхСредств</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Статья движения ден. средств&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода СтатьяДвиженияДенежныхСредств</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаДоговорКонтрагента</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаПокупкаВалютыДоговорКонтрагента</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаПродажаВалютыДоговорКонтрагента</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ДоговорКонтрагента</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Договор&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода ДоговорКонтрагента</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентом</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СчетУчетаРасчетовСКонтрагентом</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Счет расчетов&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода РасшифровкаПлатежаСчетУчетаРасчетовСКонтрагентом</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетУчетаРасчетовПоАвансам</dcsset:field>
+					</dcsset:item>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаСчетУчетаРасчетовПоАвансамПриУСН</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СчетУчетаРасчетовПоАвансам</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Счет авансов&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">Подсказка ввода РасшифровкаПлатежаСчетУчетаРасчетовПоАвансам</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияСубконтоКт1</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СубконтоКт1</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;...&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияСубконтоКт2</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СубконтоКт2</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;...&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаИнкассацияСубконтоКт3</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.СубконтоКт3</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;...&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаДоходыУСН</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ПрименениеУСН</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.ВидОперации</dcsset:left>
+						<dcsset:comparisonType>InList</dcsset:comparisonType>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.РасчетыПоКредитамИЗаймам</dcsset:right>
+						<dcsset:right xsi:type="dcscor:DesignTimeValue">Перечисление.ВидыОперацийПоступлениеДенежныхСредств.ПрочиеРасчетыСКонтрагентами</dcsset:right>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ДоходыУСН</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Не принимаются&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаПолеОтражениеАванса</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ПолеОтражениеАванса</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Отражение аванса в НУ&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаАР_УслугаАренды</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.АР_УслугаАренды</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ВестиВзаиморасчетыПоУслугам</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Авто&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">текст = &lt;Авто&gt; для Услуги аренды</dcsset:presentation>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>РасшифровкаПлатежаАР_ОбъектАренды</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.АР_ОбъектАренды</dcsset:left>
+						<dcsset:comparisonType>NotFilled</dcsset:comparisonType>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">Объект.РасшифровкаПлатежа.ВестиВзаиморасчетыПоОбъектам</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Текст</dcscor:parameter>
+						<dcscor:value xsi:type="xs:string">&lt;Авто&gt;</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+				<dcsset:presentation xsi:type="xs:string">текст = &lt;Авто&gt; для Объекта аренды</dcsset:presentation>
+			</dcsset:item>
+		</ConditionalAppearance>
+	</Attributes>
+	<Commands>
+		<Command name="ОбновитьКурсВалютыЦБРФ" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Обновить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Обновить курс валюты ЦБ РФ</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Refresh</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>ОбновитьКурсВалютыЦБРФ</Action>
+			<Representation>Picture</Representation>
+			<ModifiesSavedData>true</ModifiesSavedData>
+		</Command>
+		<Command name="ЗаполнитьПоОстаткам" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить по остаткам</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить по остаткам</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьПоОстаткам</Action>
+			<ModifiesSavedData>true</ModifiesSavedData>
+		</Command>
+		<Command name="ЗаполнитьПоСчетам" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить по счетам</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить по счетам</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьПоСчетам</Action>
+			<ModifiesSavedData>true</ModifiesSavedData>
+		</Command>
+	</Commands>
+	<CommandInterface>
+		<NavigationPanel>
+			<Item>
+				<Command>0</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>0</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>0</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>0</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+			<Item>
+				<Command>0</Command>
+				<Type>Auto</Type>
+				<DefaultVisible>false</DefaultVisible>
+				<Visible>
+					<xr:Common>false</xr:Common>
+				</Visible>
+			</Item>
+		</NavigationPanel>
+	</CommandInterface>
+</Form>

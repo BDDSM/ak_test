@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаВсехДокументовПТУПоЗаявке</dataPath>
+			<field>СуммаВсехДокументовПТУПоЗаявке</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма всех документов ПТУПо заявке</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Бухгалтер</dataPath>
+			<field>Бухгалтер</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Бухгалтер</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПТУ</dataPath>
+			<field>ПТУ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ПТУ</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаЗаявки</dataPath>
+			<field>СуммаЗаявки</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма заявки</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВидРасхождения</dataPath>
+			<field>ВидРасхождения</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вид расхождения</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЗаявкаСтатьяДДС</dataPath>
+			<field>ЗаявкаСтатьяДДС</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья ДДС (Заявка/Субконто ПТУ)</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтатьяДДС</dataPath>
+			<field>СтатьяДДС</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статья ДДС (ПТУ)</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Заявка</dataPath>
+			<field>Заявка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заявка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДокументОснованиеСтатьяДДС</dataPath>
+			<field>ДокументОснованиеСтатьяДДС</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПоступлениеТоваровУслуг.ДокументОснование КАК Заявка,
+	СУММА(ПоступлениеТоваровУслуг.СуммаДокумента) КАК СуммаДокументовПТУ
+ПОМЕСТИТЬ СуммыПТУПоЗаявкам
+ИЗ
+	Документ.ПоступлениеТоваровУслуг КАК ПоступлениеТоваровУслуг
+ГДЕ
+	ПоступлениеТоваровУслуг.Дата &gt;= &amp;Дата
+	И ТИПЗНАЧЕНИЯ(ПоступлениеТоваровУслуг.ДокументОснование) = ТИП(Документ.ЗаявкаНаУслугиМатериалы)
+	И ПоступлениеТоваровУслуг.Проведен
+	И ПоступлениеТоваровУслуг.ПометкаУдаления = ЛОЖЬ
+
+СГРУППИРОВАТЬ ПО
+	ПоступлениеТоваровУслуг.ДокументОснование
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ПоступлениеТоваровУслуг.Контрагент.ОсновнойБухгалтерПокупателя КАК Бухгалтер,
+	ПоступлениеТоваровУслуг.Контрагент,
+	ПоступлениеТоваровУслуг.ДокументОснование КАК Заявка,
+	ПоступлениеТоваровУслуг.ДокументОснование.СтатьяДДС КАК ЗаявкаСтатьяДДС,
+	ПоступлениеТоваровУслуг.Ссылка КАК ПТУ,
+	ПоступлениеТоваровУслуг.СтатьяДДС,
+	1 КАК ВидРасхождения,
+	ПоступлениеТоваровУслуг.ДокументОснование.СуммаДокумента КАК СуммаЗаявки,
+	СуммыПТУПоЗаявкам.СуммаДокументовПТУ КАК СуммаВсехДокументовПТУПоЗаявке,
+	NULL КАК ДокументОснованиеСтатьяДДС
+ИЗ
+	Документ.ПоступлениеТоваровУслуг КАК ПоступлениеТоваровУслуг
+		ЛЕВОЕ СОЕДИНЕНИЕ СуммыПТУПоЗаявкам КАК СуммыПТУПоЗаявкам
+		ПО ПоступлениеТоваровУслуг.ДокументОснование = СуммыПТУПоЗаявкам.Заявка
+ГДЕ
+	ТИПЗНАЧЕНИЯ(ПоступлениеТоваровУслуг.ДокументОснование) = ТИП(Документ.ЗаявкаНаУслугиМатериалы)
+	И ПоступлениеТоваровУслуг.СтатьяДДС &lt;&gt; ПоступлениеТоваровУслуг.ДокументОснование.СтатьяДДС
+	И ПоступлениеТоваровУслуг.Дата &gt;= &amp;Дата
+	И ПоступлениеТоваровУслуг.Проведен
+	И ПоступлениеТоваровУслуг.ПометкаУдаления = ЛОЖЬ
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ПоступлениеТоваровУслугУслуги.Ссылка.Контрагент.ОсновнойБухгалтерПокупателя,
+	ПоступлениеТоваровУслугУслуги.Ссылка.Контрагент,
+	ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование,
+	ПоступлениеТоваровУслугУслуги.Субконто2.ОсновнаяСтатьяДвиженияДенежныхСредств,
+	ПоступлениеТоваровУслугУслуги.Ссылка,
+	ПоступлениеТоваровУслугУслуги.Ссылка.СтатьяДДС,
+	2,
+	ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование.СуммаДокумента,
+	СуммыПТУПоЗаявкам.СуммаДокументовПТУ,
+	ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование.СтатьяДДС
+ИЗ
+	Документ.ПоступлениеТоваровУслуг.Услуги КАК ПоступлениеТоваровУслугУслуги
+		ЛЕВОЕ СОЕДИНЕНИЕ СуммыПТУПоЗаявкам КАК СуммыПТУПоЗаявкам
+		ПО ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование = СуммыПТУПоЗаявкам.Заявка
+ГДЕ
+	ПоступлениеТоваровУслугУслуги.Ссылка.Дата &gt;= &amp;Дата
+	И ПоступлениеТоваровУслугУслуги.СчетЗатрат В ИЕРАРХИИ (ЗНАЧЕНИЕ(Плансчетов.Финансовый.ЗатратыДляРаспределения))
+	И ТИПЗНАЧЕНИЯ(ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование) = ТИП(Документ.ЗаявкаНаУслугиМатериалы)
+	И ПоступлениеТоваровУслугУслуги.Субконто2.ОсновнаяСтатьяДвиженияДенежныхСредств &lt;&gt; ПоступлениеТоваровУслугУслуги.Ссылка.СтатьяДДС
+	И ПоступлениеТоваровУслугУслуги.Ссылка.Проведен
+	И ПоступлениеТоваровУслугУслуги.Ссылка.ПометкаУдаления = ЛОЖЬ
+
+СГРУППИРОВАТЬ ПО
+	ПоступлениеТоваровУслугУслуги.Ссылка,
+	ПоступлениеТоваровУслугУслуги.Субконто2.ОсновнаяСтатьяДвиженияДенежныхСредств,
+	ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование.СтатьяДДС,
+	ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование,
+	ПоступлениеТоваровУслугУслуги.Ссылка.Контрагент,
+	ПоступлениеТоваровУслугУслуги.Ссылка.Контрагент.ОсновнойБухгалтерПокупателя,
+	ПоступлениеТоваровУслугУслуги.Ссылка.ДокументОснование.СуммаДокумента,
+	СуммыПТУПоЗаявкам.СуммаДокументовПТУ,
+	ПоступлениеТоваровУслугУслуги.Ссылка.СтатьяДДС</query>
+	</dataSet>
+	<parameter>
+		<name>Дата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата начиная с которой отбираются ПТУ </v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Бухгалтер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Контрагент</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Заявка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЗаявкаСтатьяДДС</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПТУ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтатьяДДС</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаЗаявки</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаВсехДокументовПТУПоЗаявке</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВидРасхождения</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ВидРасхождения</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:decimal">0</dcsset:right>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Дата</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">BeginningOfLastYear</v8:variant>
+					</dcscor:value>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

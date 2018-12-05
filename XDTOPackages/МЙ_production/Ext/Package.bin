@@ -1,0 +1,59 @@
+﻿<package xmlns="http://v8.1c.ru/8.1/xdto" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://api.vetrf.ru/schema/cdm/argus/production">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"/>
+	<import namespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="product" type="d2p1:Product"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="productGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productItem" type="d2p1:ProductItem"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productItemList" type="d2p1:ProductItemList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productList" type="d2p1:ProductList"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productType" type="d2p1:ProductType"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="subProduct" type="d2p1:SubProduct"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="subProductGuid" type="d2p1:UUID"/>
+	<property xmlns:d2p1="http://api.vetrf.ru/schema/cdm/argus/production" name="subProductList" type="d2p1:SubProductList"/>
+	<valueType name="ProductType" base="xs:integer" variety="Atomic">
+		<enumeration>1</enumeration>
+		<enumeration>2</enumeration>
+		<enumeration>3</enumeration>
+		<enumeration>4</enumeration>
+		<enumeration>5</enumeration>
+		<enumeration>6</enumeration>
+		<enumeration>7</enumeration>
+		<enumeration>8</enumeration>
+	</valueType>
+	<objectType name="PSLModificationOperation">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/base" name="type" type="d3p1:RegisterModificationType"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/cerberus/enterprise" name="enterprise" type="d3p1:Enterprise"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="affectedList" type="d3p1:ProductItemList" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="resultingList" type="d3p1:ProductItemList" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="Product" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="code" type="d2p1:String255" lowerBound="0"/>
+		<property name="englishName" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productType" type="d3p1:ProductType" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="ProductItem" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="code" type="d2p1:String255" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productType" type="d3p1:ProductType" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="product" type="d3p1:Product" lowerBound="0"/>
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="subProduct" type="d3p1:SubProduct" lowerBound="0"/>
+		<property name="correspondToGost" type="xs:boolean" lowerBound="0"/>
+		<property name="gost" type="d2p1:String255" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="ProductItemList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="productItem" type="d3p1:ProductItem" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="ProductList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="product" type="d3p1:Product" lowerBound="0" upperBound="-1"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="SubProduct" base="d2p1:GenericVersioningEntity">
+		<property name="name" type="d2p1:String255" lowerBound="0"/>
+		<property name="code" type="d2p1:String255" lowerBound="0"/>
+		<property name="englishName" type="d2p1:String255" lowerBound="0"/>
+		<property name="productGuid" type="d2p1:UUID" lowerBound="0"/>
+	</objectType>
+	<objectType xmlns:d2p1="http://api.vetrf.ru/schema/cdm/base" name="SubProductList" base="d2p1:EntityList">
+		<property xmlns:d3p1="http://api.vetrf.ru/schema/cdm/argus/production" name="subProduct" type="d3p1:SubProduct" lowerBound="0" upperBound="-1"/>
+	</objectType>
+</package>

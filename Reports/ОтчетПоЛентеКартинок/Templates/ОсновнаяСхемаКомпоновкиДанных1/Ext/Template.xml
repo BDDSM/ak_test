@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВАрхиве</dataPath>
+			<field>ВАрхиве</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаДобавления</dataPath>
+			<field>ДатаДобавления</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номенклатура</dataPath>
+			<field>Номенклатура</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Объект</dataPath>
+			<field>Объект</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОтносительноеИмяФайла</dataPath>
+			<field>ОтносительноеИмяФайла</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Расширение</dataPath>
+			<field>Расширение</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтруктурнаяЕдиница</dataPath>
+			<field>СтруктурнаяЕдиница</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Текст</dataPath>
+			<field>Текст</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипЗаписи</dataPath>
+			<field>ТипЗаписи</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТипОперацииМагазина</dataPath>
+			<field>ТипОперацииМагазина</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>УинЗаписи</dataPath>
+			<field>УинЗаписи</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Характеристика</dataPath>
+			<field>Характеристика</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Роль</dataPath>
+			<field>Роль</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПрикрепленныеФотоКОбъектам.УинЗаписи
+ПОМЕСТИТЬ вт
+ИЗ
+	РегистрСведений.ПрикрепленныеФотоКОбъектам КАК ПрикрепленныеФотоКОбъектам
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СоответствиеОбъектРоль.СрезПоследних КАК СоответствиеОбъектРольСрезПоследних
+		ПО (ВЫБОР
+				КОГДА &amp;Роль = ЗНАЧЕНИЕ(Справочник.ролипользователей.пустаяссылка)
+					ТОГДА ЛОЖЬ
+				ИНАЧЕ (ПрикрепленныеФотоКОбъектам.Номенклатура = СоответствиеОбъектРольСрезПоследних.Объект
+						ИЛИ ПрикрепленныеФотоКОбъектам.Характеристика = СоответствиеОбъектРольСрезПоследних.Объект
+						ИЛИ ПрикрепленныеФотоКОбъектам.Объект = СоответствиеОбъектРольСрезПоследних.Объект
+						ИЛИ ПрикрепленныеФотоКОбъектам.СтруктурнаяЕдиница = СоответствиеОбъектРольСрезПоследних.Объект)
+						И &amp;Роль = СоответствиеОбъектРольСрезПоследних.РольПользователя
+			КОНЕЦ)
+ГДЕ
+	(НЕ СоответствиеОбъектРольСрезПоследних.РольПользователя ЕСТЬ NULL 
+			ИЛИ &amp;Роль = ЗНАЧЕНИЕ(Справочник.ролипользователей.пустаяссылка))
+			И НЕ ПрикрепленныеФотоКОбъектам.УинЗаписи В (&amp;МассивУин)
+			И (ПрикрепленныеФотоКОбъектам.Номенклатура.Наименование ПОДОБНО &amp;Наименование
+				ИЛИ ПрикрепленныеФотоКОбъектам.Характеристика.Наименование ПОДОБНО &amp;Наименование
+				ИЛИ ПрикрепленныеФотоКОбъектам.СтруктурнаяЕдиница.Наименование ПОДОБНО &amp;Наименование
+				ИЛИ ВЫРАЗИТЬ(ПрикрепленныеФотоКОбъектам.Текст КАК СТРОКА(300)) ПОДОБНО &amp;Наименование)
+
+СГРУППИРОВАТЬ ПО
+	ПрикрепленныеФотоКОбъектам.УинЗаписи
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ПрикрепленныеФотоКОбъектам.Номенклатура,
+	ПрикрепленныеФотоКОбъектам.Характеристика,
+	ПрикрепленныеФотоКОбъектам.Объект,
+	ПрикрепленныеФотоКОбъектам.ТипЗаписи,
+	ПрикрепленныеФотоКОбъектам.УинЗаписи,
+	ПрикрепленныеФотоКОбъектам.ОтносительноеИмяФайла,
+	ПрикрепленныеФотоКОбъектам.ДатаДобавления КАК ДатаДобавления,
+	ПрикрепленныеФотоКОбъектам.Расширение,
+	ПрикрепленныеФотоКОбъектам.ТипОперацииМагазина,
+	ПрикрепленныеФотоКОбъектам.ВАрхиве,
+	ПрикрепленныеФотоКОбъектам.СтруктурнаяЕдиница,
+	ВЫРАЗИТЬ(ПрикрепленныеФотоКОбъектам.Текст КАК СТРОКА(300)) КАК Текст,
+	РолиПользователей.Ссылка КАК Роль
+ИЗ
+	РегистрСведений.ПрикрепленныеФотоКОбъектам КАК ПрикрепленныеФотоКОбъектам
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ вт КАК вт
+		ПО ПрикрепленныеФотоКОбъектам.УинЗаписи = вт.УинЗаписи
+		ЛЕВОЕ СОЕДИНЕНИЕ Справочник.РолиПользователей КАК РолиПользователей
+		ПО (&amp;Роль = РолиПользователей.Ссылка)
+ГДЕ
+	ПрикрепленныеФотоКОбъектам.ВАрхиве = ЛОЖЬ
+	И НЕ ПрикрепленныеФотоКОбъектам.УинЗаписи В (&amp;МассивУин)
+	И (ПрикрепленныеФотоКОбъектам.Номенклатура.Наименование ПОДОБНО &amp;Наименование
+			ИЛИ ПрикрепленныеФотоКОбъектам.Характеристика.Наименование ПОДОБНО &amp;Наименование
+			ИЛИ ПрикрепленныеФотоКОбъектам.СтруктурнаяЕдиница.Наименование ПОДОБНО &amp;Наименование
+			ИЛИ ВЫРАЗИТЬ(ПрикрепленныеФотоКОбъектам.Текст КАК СТРОКА(300)) ПОДОБНО &amp;Наименование)
+
+УПОРЯДОЧИТЬ ПО
+	ДатаДобавления УБЫВ</query>
+	</dataSet>
+	<parameter>
+		<name>МассивУин</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Массив уин</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:string</v8:Type>
+			<v8:StringQualifiers>
+				<v8:Length>36</v8:Length>
+				<v8:AllowedLength>Variable</v8:AllowedLength>
+			</v8:StringQualifiers>
+		</valueType>
+		<useRestriction>false</useRestriction>
+		<valueListAllowed>true</valueListAllowed>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>Роль</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Роль</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.РолиПользователей</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+		<availableAsField>false</availableAsField>
+	</parameter>
+	<parameter>
+		<name>Наименование</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Наименование</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:string</v8:Type>
+			<v8:StringQualifiers>
+				<v8:Length>0</v8:Length>
+				<v8:AllowedLength>Variable</v8:AllowedLength>
+			</v8:StringQualifiers>
+		</valueType>
+		<value xsi:type="xs:string"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ВАрхиве</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаДобавления</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Объект</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОтносительноеИмяФайла</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Расширение</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтруктурнаяЕдиница</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Текст</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТипЗаписи</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТипОперацииМагазина</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>УИНЗаписи</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Характеристика</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Номенклатура</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Характеристика</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ДатаДобавления</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:right xsi:type="v8:StandardBeginningDate">
+						<v8:variant xsi:type="v8:StandardBeginningDateVariant">Custom</v8:variant>
+						<v8:date>0001-01-01T00:00:00</v8:date>
+					</dcsset:right>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">СтруктурнаяЕдиница</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Роль</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>МассивУин</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string"/>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ДатаДобавления</dcsset:field>
+					<dcsset:orderType>Desc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

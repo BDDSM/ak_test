@@ -1,0 +1,992 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4">
+	<VerticalScroll>useIfNecessary</VerticalScroll>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<ChildItems>
+			<Button name="СписокНастройкаСписка" id="56">
+				<Type>CommandBarButton</Type>
+				<Representation>Picture</Representation>
+				<OnlyInAllActions>true</OnlyInAllActions>
+				<CommandName>Form.Item.Список.StandardCommand.ListSettings</CommandName>
+				<ExtendedTooltip name="СписокНастройкаСпискаРасширеннаяПодсказка" id="74"/>
+			</Button>
+			<Button name="ФормаОбновить" id="49">
+				<Type>CommandBarButton</Type>
+				<OnlyInAllActions>true</OnlyInAllActions>
+				<CommandName>Form.StandardCommand.Refresh</CommandName>
+				<ExtendedTooltip name="ФормаОбновитьРасширеннаяПодсказка" id="75"/>
+			</Button>
+			<Button name="ФормаОбщаяКомандаСтруктураПодчиненности" id="29">
+				<Type>CommandBarButton</Type>
+				<CommandName>CommonCommand.СтруктураПодчиненности</CommandName>
+				<DataPath>Items.Список.CurrentData.Ref</DataPath>
+				<ExtendedTooltip name="ФормаОбщаяКомандаСтруктураПодчиненностиРасширеннаяПодсказка" id="76"/>
+			</Button>
+			<Button name="ФормаУправлениеАкцептантами" id="28">
+				<Type>CommandBarButton</Type>
+				<Representation>PictureAndText</Representation>
+				<CommandName>Form.Command.УправлениеАкцептантами</CommandName>
+				<Picture>
+					<xr:Ref>CommonPicture.Важно</xr:Ref>
+					<xr:LoadTransparent>true</xr:LoadTransparent>
+					<xr:TransparentPixel x="16" y="1"/>
+				</Picture>
+				<ExtendedTooltip name="ФормаУправлениеАкцептантамиРасширеннаяПодсказка" id="77"/>
+			</Button>
+			<Button name="ФормаВывестиСписокРейсов" id="67">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.ВывестиСписокРейсов</CommandName>
+				<ExtendedTooltip name="ФормаВывестиСписокРейсовРасширеннаяПодсказка" id="78"/>
+			</Button>
+			<Button name="ФормаКомплектация" id="126">
+				<Type>CommandBarButton</Type>
+				<Representation>Text</Representation>
+				<OnlyInAllActions>true</OnlyInAllActions>
+				<CommandName>Form.Command.Комплектация</CommandName>
+				<ExtendedTooltip name="ФормаКомплектацияРасширеннаяПодсказка" id="127"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="Группа1" id="36">
+			<Group>Horizontal</Group>
+			<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="79"/>
+			<ChildItems>
+				<InputField name="ОтборПоПользователю" id="20">
+					<DataPath>ОтборПоПользователю</DataPath>
+					<ContextMenu name="ОтборПоПользователюКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="ОтборПоПользователюРасширеннаяПодсказка" id="80"/>
+					<Events>
+						<Event name="OnChange">ОтборПоПользователюПриИзменении</Event>
+					</Events>
+				</InputField>
+				<CheckBoxField name="ОтборТолькоОплаченные" id="37">
+					<DataPath>ОтборТолькоОплаченные</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоОплаченныеКонтекстноеМеню" id="38"/>
+					<ExtendedTooltip name="ОтборТолькоОплаченныеРасширеннаяПодсказка" id="81"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоОплаченныеПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоНеоплаченные" id="32">
+					<DataPath>ОтборТолькоНеоплаченные</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоНеоплаченныеКонтекстноеМеню" id="33"/>
+					<ExtendedTooltip name="ОтборТолькоНеоплаченныеРасширеннаяПодсказка" id="82"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоНеоплаченныеПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоАкцептованные" id="39">
+					<DataPath>ОтборТолькоАкцептованные</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоАкцептованныеКонтекстноеМеню" id="40"/>
+					<ExtendedTooltip name="ОтборТолькоАкцептованныеРасширеннаяПодсказка" id="83"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоАкцептованныеПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоНеАкцептованные" id="41">
+					<DataPath>ОтборТолькоНеАкцептованные</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоНеАкцептованныеКонтекстноеМеню" id="42"/>
+					<ExtendedTooltip name="ОтборТолькоНеАкцептованныеРасширеннаяПодсказка" id="84"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоНеАкцептованныеПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоПодтвержденные" id="43">
+					<DataPath>ОтборТолькоПодтвержденные</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоПодтвержденныеКонтекстноеМеню" id="44"/>
+					<ExtendedTooltip name="ОтборТолькоПодтвержденныеРасширеннаяПодсказка" id="85"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоПодтвержденныеПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоНеПодтвержденные" id="45">
+					<DataPath>ОтборТолькоНеПодтвержденные</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоНеПодтвержденныеКонтекстноеМеню" id="46"/>
+					<ExtendedTooltip name="ОтборТолькоНеПодтвержденныеРасширеннаяПодсказка" id="86"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоНеПодтвержденныеПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоСАвансами" id="70">
+					<DataPath>ОтборТолькоСАвансами</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоСАвансамиКонтекстноеМеню" id="71"/>
+					<ExtendedTooltip name="ОтборТолькоСАвансамиРасширеннаяПодсказка" id="87"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоСАвансамиПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+				<CheckBoxField name="ОтборТолькоБезАвансов" id="72">
+					<DataPath>ОтборТолькоБезАвансов</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОтборТолькоБезАвансовКонтекстноеМеню" id="73"/>
+					<ExtendedTooltip name="ОтборТолькоБезАвансовРасширеннаяПодсказка" id="88"/>
+					<Events>
+						<Event name="OnChange">ОтборТолькоБезАвансовПриИзменении</Event>
+					</Events>
+				</CheckBoxField>
+			</ChildItems>
+		</UsualGroup>
+		<Table name="Список" id="1">
+			<Representation>List</Representation>
+			<CommandBarLocation>None</CommandBarLocation>
+			<DefaultItem>true</DefaultItem>
+			<UseAlternationRowColor>true</UseAlternationRowColor>
+			<InitialTreeView>ExpandTopLevel</InitialTreeView>
+			<EnableStartDrag>true</EnableStartDrag>
+			<DataPath>Список</DataPath>
+			<RowPictureDataPath>Список.DefaultPicture</RowPictureDataPath>
+			<SearchStringLocation>None</SearchStringLocation>
+			<ViewStatusLocation>None</ViewStatusLocation>
+			<SearchControlLocation>None</SearchControlLocation>
+			<AutoRefresh>false</AutoRefresh>
+			<AutoRefreshPeriod>60</AutoRefreshPeriod>
+			<Period>
+				<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+				<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+				<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+			</Period>
+			<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+			<RestoreCurrentRow>false</RestoreCurrentRow>
+			<TopLevelParent xsi:nil="true"/>
+			<ShowRoot>true</ShowRoot>
+			<AllowRootChoice>false</AllowRootChoice>
+			<UpdateOnDataChange>Auto</UpdateOnDataChange>
+			<ContextMenu name="СписокКонтекстноеМеню" id="2"/>
+			<AutoCommandBar name="СписокКоманднаяПанель" id="3">
+				<Autofill>false</Autofill>
+			</AutoCommandBar>
+			<ExtendedTooltip name="СписокРасширеннаяПодсказка" id="89"/>
+			<SearchStringAddition name="СписокСтрокаПоиска" id="90">
+				<AdditionSource>
+					<Item>Список</Item>
+					<Type>SearchStringRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="СписокСтрокаПоискаКонтекстноеМеню" id="91"/>
+				<ExtendedTooltip name="СписокСтрокаПоискаРасширеннаяПодсказка" id="92"/>
+			</SearchStringAddition>
+			<ViewStatusAddition name="СписокСостояниеПросмотра" id="93">
+				<AdditionSource>
+					<Item>Список</Item>
+					<Type>ViewStatusRepresentation</Type>
+				</AdditionSource>
+				<ContextMenu name="СписокСостояниеПросмотраКонтекстноеМеню" id="94"/>
+				<ExtendedTooltip name="СписокСостояниеПросмотраРасширеннаяПодсказка" id="95"/>
+			</ViewStatusAddition>
+			<SearchControlAddition name="СписокУправлениеПоиском" id="96">
+				<AdditionSource>
+					<Item>Список</Item>
+					<Type>SearchControl</Type>
+				</AdditionSource>
+				<ContextMenu name="СписокУправлениеПоискомКонтекстноеМеню" id="97"/>
+				<ExtendedTooltip name="СписокУправлениеПоискомРасширеннаяПодсказка" id="98"/>
+			</SearchControlAddition>
+			<ChildItems>
+				<LabelField name="Дата" id="4">
+					<DataPath>Список.Date</DataPath>
+					<DefaultItem>true</DefaultItem>
+					<ContextMenu name="ДатаКонтекстноеМеню" id="5"/>
+					<ExtendedTooltip name="ДатаРасширеннаяПодсказка" id="99"/>
+				</LabelField>
+				<LabelField name="Номер" id="6">
+					<DataPath>Список.Number</DataPath>
+					<ContextMenu name="НомерКонтекстноеМеню" id="7"/>
+					<ExtendedTooltip name="НомерРасширеннаяПодсказка" id="100"/>
+				</LabelField>
+				<LabelField name="ВидОперации" id="57">
+					<DataPath>Список.ВидОперации</DataPath>
+					<ContextMenu name="ВидОперацииКонтекстноеМеню" id="58"/>
+					<ExtendedTooltip name="ВидОперацииРасширеннаяПодсказка" id="101"/>
+				</LabelField>
+				<LabelField name="Организация" id="10">
+					<DataPath>Список.Организация</DataPath>
+					<ContextMenu name="ОрганизацияКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="102"/>
+				</LabelField>
+				<LabelField name="Контрагент" id="12">
+					<DataPath>Список.Контрагент</DataPath>
+					<ContextMenu name="КонтрагентКонтекстноеМеню" id="13"/>
+					<ExtendedTooltip name="КонтрагентРасширеннаяПодсказка" id="103"/>
+				</LabelField>
+				<LabelField name="СуммаДокумента" id="16">
+					<DataPath>Список.СуммаДокумента</DataPath>
+					<ContextMenu name="СуммаДокументаКонтекстноеМеню" id="17"/>
+					<ExtendedTooltip name="СуммаДокументаРасширеннаяПодсказка" id="104"/>
+				</LabelField>
+				<LabelField name="Комментарий" id="14">
+					<DataPath>Список.Комментарий</DataPath>
+					<ContextMenu name="КомментарийКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="КомментарийРасширеннаяПодсказка" id="106"/>
+				</LabelField>
+				<LabelField name="СтатьяДДС" id="65">
+					<DataPath>Список.СтатьяДДС</DataPath>
+					<ContextMenu name="СтатьяДДСКонтекстноеМеню" id="66"/>
+					<ExtendedTooltip name="СтатьяДДСРасширеннаяПодсказка" id="118"/>
+				</LabelField>
+				<LabelField name="Ответственный" id="8">
+					<DataPath>Список.Ответственный</DataPath>
+					<ContextMenu name="ОтветственныйКонтекстноеМеню" id="9"/>
+					<ExtendedTooltip name="ОтветственныйРасширеннаяПодсказка" id="107"/>
+				</LabelField>
+				<LabelField name="Акцептант" id="30">
+					<DataPath>Список.Акцептант</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Акцептант (основной)</v8:content>
+						</v8:item>
+					</Title>
+					<ContextMenu name="АкцептантКонтекстноеМеню" id="31"/>
+					<ExtendedTooltip name="АкцептантРасширеннаяПодсказка" id="108"/>
+				</LabelField>
+				<CheckBoxField name="Оплачен" id="22">
+					<DataPath>Список.Оплачен</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОплаченКонтекстноеМеню" id="23"/>
+					<ExtendedTooltip name="ОплаченРасширеннаяПодсказка" id="109"/>
+				</CheckBoxField>
+				<CheckBoxField name="ОжидаетАкцепт" id="24">
+					<DataPath>Список.ОжидаетАкцепт</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОжидаетАкцептКонтекстноеМеню" id="25"/>
+					<ExtendedTooltip name="ОжидаетАкцептРасширеннаяПодсказка" id="110"/>
+				</CheckBoxField>
+				<CheckBoxField name="ОжидаетПодтверждения" id="26">
+					<DataPath>Список.ОжидаетПодтверждения</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ОжидаетПодтвержденияКонтекстноеМеню" id="27"/>
+					<ExtendedTooltip name="ОжидаетПодтвержденияРасширеннаяПодсказка" id="111"/>
+				</CheckBoxField>
+				<CheckBoxField name="ВсеДокументыВНаличии" id="47">
+					<DataPath>Список.ВсеДокументыВНаличии</DataPath>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="ВсеДокументыВНаличииКонтекстноеМеню" id="48"/>
+					<ExtendedTooltip name="ВсеДокументыВНаличииРасширеннаяПодсказка" id="112"/>
+				</CheckBoxField>
+				<LabelField name="ДатаДокументаПоступления" id="120">
+					<DataPath>Список.МесяцПоступления</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Месяц поступления</v8:content>
+						</v8:item>
+					</Title>
+					<Format>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ДФ='MMMM yyyy'</v8:content>
+						</v8:item>
+					</Format>
+					<ContextMenu name="ДатаДокументаПоступленияКонтекстноеМеню" id="121"/>
+					<ExtendedTooltip name="ДатаДокументаПоступленияРасширеннаяПодсказка" id="122"/>
+				</LabelField>
+				<LabelField name="ДатаПоступления" id="128">
+					<DataPath>Список.ДатаПоступленияФакт</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата поступления</v8:content>
+						</v8:item>
+					</Title>
+					<Format>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ДЛФ=D</v8:content>
+						</v8:item>
+					</Format>
+					<ContextMenu name="ДатаПоступленияКонтекстноеМеню" id="129"/>
+					<ExtendedTooltip name="ДатаПоступленияРасширеннаяПодсказка" id="130"/>
+				</LabelField>
+				<LabelField name="СуммаПоступления" id="131">
+					<DataPath>Список.СуммаПоступления</DataPath>
+					<ContextMenu name="СуммаПоступленияКонтекстноеМеню" id="132"/>
+					<ExtendedTooltip name="СуммаПоступленияРасширеннаяПодсказка" id="133"/>
+				</LabelField>
+				<LabelField name="Бухгалтер" id="123">
+					<DataPath>Список.Бухгалтер</DataPath>
+					<ContextMenu name="БухгалтерКонтекстноеМеню" id="124"/>
+					<ExtendedTooltip name="БухгалтерРасширеннаяПодсказка" id="125"/>
+				</LabelField>
+				<LabelField name="ПроцентВыполнения" id="18">
+					<DataPath>Список.ПроцентВыполнения</DataPath>
+					<ContextMenu name="ПроцентВыполненияКонтекстноеМеню" id="19"/>
+					<ExtendedTooltip name="ПроцентВыполненияРасширеннаяПодсказка" id="105"/>
+				</LabelField>
+				<LabelField name="НачалоПериодаАренды" id="52">
+					<DataPath>Список.НачалоПериодаАренды</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период аренды</v8:content>
+						</v8:item>
+					</Title>
+					<Format>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ДФ=ММMM.yyyy</v8:content>
+						</v8:item>
+					</Format>
+					<ContextMenu name="НачалоПериодаАрендыКонтекстноеМеню" id="53"/>
+					<ExtendedTooltip name="НачалоПериодаАрендыРасширеннаяПодсказка" id="113"/>
+				</LabelField>
+				<LabelField name="ТорговыеТочкиСписок" id="54">
+					<DataPath>Список.ТорговыеТочкиСписок</DataPath>
+					<ContextMenu name="ТорговыеТочкиСписокКонтекстноеМеню" id="55"/>
+					<ExtendedTooltip name="ТорговыеТочкиСписокРасширеннаяПодсказка" id="114"/>
+				</LabelField>
+				<LabelField name="ДатаСчета" id="63">
+					<DataPath>Список.ДатаСчета</DataPath>
+					<ContextMenu name="ДатаСчетаКонтекстноеМеню" id="64"/>
+					<ExtendedTooltip name="ДатаСчетаРасширеннаяПодсказка" id="115"/>
+				</LabelField>
+				<LabelField name="НомерСчета" id="61">
+					<DataPath>Список.НомерСчета</DataPath>
+					<ContextMenu name="НомерСчетаКонтекстноеМеню" id="62"/>
+					<ExtendedTooltip name="НомерСчетаРасширеннаяПодсказка" id="116"/>
+				</LabelField>
+				<LabelField name="СчетНаОплату" id="59">
+					<DataPath>Список.СчетНаОплату</DataPath>
+					<ContextMenu name="СчетНаОплатуКонтекстноеМеню" id="60"/>
+					<ExtendedTooltip name="СчетНаОплатуРасширеннаяПодсказка" id="117"/>
+				</LabelField>
+				<LabelField name="Ссылка" id="68">
+					<DataPath>Список.Ref</DataPath>
+					<Visible>false</Visible>
+					<ContextMenu name="СсылкаКонтекстноеМеню" id="69"/>
+					<ExtendedTooltip name="СсылкаРасширеннаяПодсказка" id="119"/>
+				</LabelField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Список" id="1">
+			<Type>
+				<v8:Type>cfg:DynamicList</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+			<Settings xsi:type="DynamicList">
+				<ManualQuery>true</ManualQuery>
+				<DynamicDataRead>true</DynamicDataRead>
+				<QueryText>ВЫБРАТЬ
+	ДокументЗаявкаНаУслугиМатериалы.Ссылка,
+	ДокументЗаявкаНаУслугиМатериалы.ВерсияДанных,
+	ДокументЗаявкаНаУслугиМатериалы.ПометкаУдаления,
+	ДокументЗаявкаНаУслугиМатериалы.Номер,
+	ДокументЗаявкаНаУслугиМатериалы.Дата,
+	ДокументЗаявкаНаУслугиМатериалы.Проведен,
+	ДокументЗаявкаНаУслугиМатериалы.Ответственный,
+	ДокументЗаявкаНаУслугиМатериалы.Организация,
+	ДокументЗаявкаНаУслугиМатериалы.Контрагент,
+	ДокументЗаявкаНаУслугиМатериалы.ДоговорКонтрагента,
+	ДокументЗаявкаНаУслугиМатериалы.ВариантРасчетаНДС,
+	ДокументЗаявкаНаУслугиМатериалы.СчетУчетаРасчетов,
+	ДокументЗаявкаНаУслугиМатериалы.Комментарий,
+	ДокументЗаявкаНаУслугиМатериалы.СуммаДокумента,
+	ДокументЗаявкаНаУслугиМатериалы.ПроцентВыполнения,
+	ДокументЗаявкаНаУслугиМатериалы.СтатьяДДС,
+	ДокументЗаявкаНаУслугиМатериалы.ЦФО,
+	ДокументЗаявкаНаУслугиМатериалы.ДатаПоступления,
+	ДокументЗаявкаНаУслугиМатериалы.СтатусыПолученныхДокументов,
+	ДокументЗаявкаНаУслугиМатериалы.ПоступлениеОднойДатой,
+	ДокументЗаявкаНаУслугиМатериалы.РольПодтверждения,
+	ДокументЗаявкаНаУслугиМатериалы.ВидОперации,
+	ДокументЗаявкаНаУслугиМатериалы.НачалоПериодаАренды,
+	ДокументЗаявкаНаУслугиМатериалы.МоментВремени,
+	ВЫБОР
+		КОГДА ОжидающиеПодтверждения.Ссылка ЕСТЬ NULL
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК ОжидаетПодтверждения,
+	ВЫБОР
+		КОГДА ОжидающиеОплату.Заявка ЕСТЬ NULL
+				И ДокументЗаявкаНаУслугиМатериалы.Проведен
+				И ДокументЗаявкаНаУслугиМатериалы.СуммаДокумента &gt; 0
+				И ВЫБОР
+					КОГДА ОжидающиеАкцепта.Ссылка ЕСТЬ NULL
+						ТОГДА ИСТИНА
+					ИНАЧЕ ЛОЖЬ
+				КОНЕЦ
+			ТОГДА ИСТИНА
+		ИНАЧЕ ЛОЖЬ
+	КОНЕЦ КАК Оплачен,
+	ВЫБОР
+		КОГДА ОжидающиеАкцепта.Ссылка ЕСТЬ NULL
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК ОжидаетАкцепт,
+	ДокументЗаявкаНаУслугиМатериалы.Акцептант,
+	ДокументЗаявкаНаУслугиМатериалы.ВсеДокументыВНаличии,
+	ДокументЗаявкаНаУслугиМатериалы.ТорговыеТочкиСписок,
+	ДокументЗаявкаНаУслугиМатериалы.СчетНаОплату,
+	ДокументЗаявкаНаУслугиМатериалы.НомерСчета,
+	ДокументЗаявкаНаУслугиМатериалы.ДатаСчета,
+	ВЫБОР
+		КОГДА Авансовые.Ссылка ЕСТЬ NULL
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ КАК Аванс,
+	ДокументЗаявкаНаУслугиМатериалы.Акт,
+	ДокументЗаявкаНаУслугиМатериалы.СчетФактура,
+	ДокументЗаявкаНаУслугиМатериалы.УПД,
+	ДокументЗаявкаНаУслугиМатериалы.Приложение,
+	ДокументЗаявкаНаУслугиМатериалы.Контрагент.ОсновнойБухгалтерПокупателя КАК Бухгалтер,
+	ДокументыПоступления.МесяцПоступления,
+	ДокументыПоступления.СуммаПоступления,
+	ДокументыПоступления.ДатаПоступления КАК ДатаПоступленияФакт
+ИЗ
+	Документ.ЗаявкаНаУслугиМатериалы КАК ДокументЗаявкаНаУслугиМатериалы
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ЗаявкаНаУслугиМатериалыУслуги.Ссылка КАК Ссылка
+		ИЗ
+			Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+		ГДЕ
+			ЗаявкаНаУслугиМатериалыУслуги.Ссылка.Проведен
+			И ЗаявкаНаУслугиМатериалыУслуги.Сумма &gt; 0
+			И ЗаявкаНаУслугиМатериалыУслуги.Подтверждено = ЛОЖЬ
+		
+		СГРУППИРОВАТЬ ПО
+			ЗаявкаНаУслугиМатериалыУслуги.Ссылка) КАК ОжидающиеПодтверждения
+		ПО ДокументЗаявкаНаУслугиМатериалы.Ссылка = ОжидающиеПодтверждения.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			РасчетыПоЗаявкамНаУслугиМатериалыОстатки.Заявка КАК Заявка
+		ИЗ
+			РегистрНакопления.РасчетыПоЗаявкамНаУслугиМатериалы.Остатки КАК РасчетыПоЗаявкамНаУслугиМатериалыОстатки
+		ГДЕ
+			РасчетыПоЗаявкамНаУслугиМатериалыОстатки.СуммаОстаток &gt; 0
+		
+		СГРУППИРОВАТЬ ПО
+			РасчетыПоЗаявкамНаУслугиМатериалыОстатки.Заявка) КАК ОжидающиеОплату
+		ПО ДокументЗаявкаНаУслугиМатериалы.Ссылка = ОжидающиеОплату.Заявка
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ЗаявкаНаУслугиМатериалыУслуги.Ссылка КАК Ссылка
+		ИЗ
+			Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+		ГДЕ
+			ЗаявкаНаУслугиМатериалыУслуги.Ссылка.Проведен
+			И ЗаявкаНаУслугиМатериалыУслуги.Акцептована = ЛОЖЬ
+		
+		СГРУППИРОВАТЬ ПО
+			ЗаявкаНаУслугиМатериалыУслуги.Ссылка) КАК ОжидающиеАкцепта
+		ПО ДокументЗаявкаНаУслугиМатериалы.Ссылка = ОжидающиеАкцепта.Ссылка
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ВложенныйЗапрос.Ссылка КАК Ссылка
+		ИЗ
+			(ВЫБРАТЬ
+				ЗаявкаНаУслугиМатериалы.Акцептант КАК АкцептантЗаявки,
+				ЗаявкаНаУслугиМатериалы.Ссылка КАК Ссылка
+			ИЗ
+				Документ.ЗаявкаНаУслугиМатериалы КАК ЗаявкаНаУслугиМатериалы
+			{ГДЕ
+				ЗаявкаНаУслугиМатериалы.Акцептант.* КАК АкцептантЗаявки}
+			
+			ОБЪЕДИНИТЬ ВСЕ
+			
+			ВЫБРАТЬ
+				ЗаявкаНаУслугиМатериалыУслуги.Акцептант,
+				ЗаявкаНаУслугиМатериалыУслуги.Ссылка
+			ИЗ
+				Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+			{ГДЕ
+				ЗаявкаНаУслугиМатериалыУслуги.Акцептант.* КАК АкцептантЗаявки}) КАК ВложенныйЗапрос
+		
+		СГРУППИРОВАТЬ ПО
+			ВложенныйЗапрос.Ссылка) КАК Акцептанты
+		ПО ДокументЗаявкаНаУслугиМатериалы.Ссылка = Акцептанты.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			ЗаявкаНаУслугиМатериалыОплата.Ссылка КАК Ссылка
+		ИЗ
+			Документ.ЗаявкаНаУслугиМатериалы.Оплата КАК ЗаявкаНаУслугиМатериалыОплата
+		ГДЕ
+			ЗаявкаНаУслугиМатериалыОплата.Аванс
+			И ЗаявкаНаУслугиМатериалыОплата.СуммаОплаты &lt;&gt; 0
+		
+		СГРУППИРОВАТЬ ПО
+			ЗаявкаНаУслугиМатериалыОплата.Ссылка) КАК Авансовые
+		ПО ДокументЗаявкаНаУслугиМатериалы.Ссылка = Авансовые.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			Объединение.Заявка КАК Заявка,
+			МАКСИМУМ(НАЧАЛОПЕРИОДА(Объединение.ДатаПоступления, МЕСЯЦ)) КАК МесяцПоступления,
+			СУММА(Объединение.СуммаДокумента) КАК СуммаПоступления,
+			МАКСИМУМ(Объединение.ДатаПоступления) КАК ДатаПоступления
+		ИЗ
+			(ВЫБРАТЬ
+				ПоступлениеТоваровУслуг.Дата КАК ДатаПоступления,
+				ПоступлениеТоваровУслуг.Заявка КАК Заявка,
+				ПоступлениеТоваровУслуг.СуммаДокумента КАК СуммаДокумента
+			ИЗ
+				Документ.ПоступлениеТоваровУслуг КАК ПоступлениеТоваровУслуг
+			ГДЕ
+				ПоступлениеТоваровУслуг.ДокументыПолучены
+				И ПоступлениеТоваровУслуг.Проведен
+			
+			ОБЪЕДИНИТЬ ВСЕ
+			
+			ВЫБРАТЬ
+				ПоступлениеДопРасходов.Дата,
+				ПоступлениеДопРасходов.ЗаявкаНаРсходованиеСредств,
+				ПоступлениеДопРасходов.СуммаДокумента
+			ИЗ
+				Документ.ПоступлениеДопРасходов КАК ПоступлениеДопРасходов
+			ГДЕ
+				ПоступлениеДопРасходов.ДокументыПолучены
+				И ПоступлениеДопРасходов.Проведен
+			
+			ОБЪЕДИНИТЬ ВСЕ
+			
+			ВЫБРАТЬ
+				ОбщиеТранспортныеРасходы.Дата,
+				ОбщиеТранспортныеРасходы.Заявка,
+				ОбщиеТранспортныеРасходы.Сумма + ВЫБОР
+					КОГДА ОбщиеТранспортныеРасходы.ВариантРасчетаНДС = ЗНАЧЕНИЕ(Перечисление.ВариантыРасчетаНДС.НДССверху)
+						ТОГДА ОбщиеТранспортныеРасходы.СуммаНДС
+					ИНАЧЕ 0
+				КОНЕЦ
+			ИЗ
+				Документ.ОбщиеТранспортныеРасходы КАК ОбщиеТранспортныеРасходы
+			ГДЕ
+				ОбщиеТранспортныеРасходы.ДокументыПолучены
+				И ОбщиеТранспортныеРасходы.Проведен
+			
+			ОБЪЕДИНИТЬ ВСЕ
+			
+			ВЫБРАТЬ
+				ДоставкаНаТТ.Дата,
+				ДоставкаНаТТ.Заявка,
+				ДоставкаНаТТ.СуммаДокумента
+			ИЗ
+				Документ.ДоставкаНаТТ КАК ДоставкаНаТТ
+			ГДЕ
+				ДоставкаНаТТ.ДокументыПолучены
+				И ДоставкаНаТТ.Проведен
+			
+			ОБЪЕДИНИТЬ ВСЕ
+			
+			ВЫБРАТЬ
+				МаршрутныйЛист.Дата,
+				МаршрутныйЛист.Заявка,
+				МаршрутныйЛист.Сумма + ВЫБОР
+					КОГДА МаршрутныйЛист.ВариантРасчетаНДС = ЗНАЧЕНИЕ(Перечисление.ВариантыРасчетаНДС.НДССверху)
+						ТОГДА МаршрутныйЛист.СуммаНДС
+					ИНАЧЕ 0
+				КОНЕЦ
+			ИЗ
+				Документ.МаршрутныйЛист КАК МаршрутныйЛист
+			ГДЕ
+				МаршрутныйЛист.ДокументыПолучены
+				И МаршрутныйЛист.Проведен) КАК Объединение
+		
+		СГРУППИРОВАТЬ ПО
+			Объединение.Заявка) КАК ДокументыПоступления
+		ПО ДокументЗаявкаНаУслугиМатериалы.Ссылка = ДокументыПоступления.Заявка
+ГДЕ
+	(&amp;ВсеДокументы
+			ИЛИ ДокументЗаявкаНаУслугиМатериалы.Ссылка В
+				(ВЫБРАТЬ
+					ЗаявкаНаУслугиМатериалы.Ссылка КАК Ссылка
+				ИЗ
+					Документ.ЗаявкаНаУслугиМатериалы КАК ЗаявкаНаУслугиМатериалы
+				ГДЕ
+					ЗаявкаНаУслугиМатериалы.Ответственный = &amp;Пользователь
+		
+				ОБЪЕДИНИТЬ ВСЕ
+		
+				ВЫБРАТЬ
+					ЗаявкаНаУслугиМатериалы.Ссылка
+				ИЗ
+					Документ.ЗаявкаНаУслугиМатериалы КАК ЗаявкаНаУслугиМатериалы
+				ГДЕ
+					ЗаявкаНаУслугиМатериалы.Контрагент.ОсновнойБухгалтерПокупателя = &amp;Пользователь
+		
+				ОБЪЕДИНИТЬ ВСЕ
+		
+				ВЫБРАТЬ
+					ЗаявкаНаУслугиМатериалыУслуги.Ссылка
+				ИЗ
+					Документ.ЗаявкаНаУслугиМатериалы.Услуги КАК ЗаявкаНаУслугиМатериалыУслуги
+				ГДЕ
+					(ЗаявкаНаУслугиМатериалыУслуги.Подтверждающий = &amp;Пользователь
+						ИЛИ ЗаявкаНаУслугиМатериалыУслуги.ПодтвердилПользователь = &amp;Пользователь
+						ИЛИ ЗаявкаНаУслугиМатериалыУслуги.Акцептант = &amp;Пользователь
+						ИЛИ ЗаявкаНаУслугиМатериалыУслуги.Акцептовал = &amp;Пользователь)
+		
+				ОБЪЕДИНИТЬ ВСЕ
+		
+				ВЫБРАТЬ
+					ЗаявкаНаУслугиМатериалы.Ссылка
+				ИЗ
+					Документ.ЗаявкаНаУслугиМатериалы КАК ЗаявкаНаУслугиМатериалы
+				ГДЕ
+					ЗаявкаНаУслугиМатериалы.Акцептант = &amp;Пользователь
+		
+				ОБЪЕДИНИТЬ ВСЕ
+		
+				ВЫБРАТЬ
+					ЗаявкаНаУслугиМатериалыОплата.Ссылка
+				ИЗ
+					Документ.ЗаявкаНаУслугиМатериалы.Оплата КАК ЗаявкаНаУслугиМатериалыОплата
+				ГДЕ
+					(ЗаявкаНаУслугиМатериалыОплата.Акцептант = &amp;Пользователь
+						ИЛИ ЗаявкаНаУслугиМатериалыОплата.Акцептовал = &amp;Пользователь)))</QueryText>
+				<MainTable>Document.ЗаявкаНаУслугиМатериалы</MainTable>
+				<ListSettings>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">АкцептантЗаявки</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">Контрагент</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ТорговыеТочкиСписок</dcsset:left>
+							<dcsset:comparisonType>Contains</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string"/>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">Комментарий</dcsset:left>
+							<dcsset:comparisonType>Contains</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:string"/>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">Оплачен</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+							<dcsset:viewMode>Inaccessible</dcsset:viewMode>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ОжидаетПодтверждения</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+							<dcsset:viewMode>Inaccessible</dcsset:viewMode>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">ОжидаетАкцепт</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+							<dcsset:viewMode>Inaccessible</dcsset:viewMode>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:use>false</dcsset:use>
+							<dcsset:left xsi:type="dcscor:Field">Аванс</dcsset:left>
+							<dcsset:comparisonType>Equal</dcsset:comparisonType>
+							<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+						</dcsset:item>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>dfcece9d-5077-440b-b6b3-45a5cb4538eb</dcsset:userSettingID>
+					</dcsset:filter>
+					<dcsset:order>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>88619765-ccb3-46c6-ac52-38e9c992ebd4</dcsset:userSettingID>
+					</dcsset:order>
+					<dcsset:conditionalAppearance>
+						<dcsset:item>
+							<dcsset:selection/>
+							<dcsset:filter>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оплачен</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+								</dcsset:item>
+							</dcsset:filter>
+							<dcsset:appearance>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:parameter>ЦветФона</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">#CCFFCC</dcscor:value>
+								</dcscor:item>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:use>false</dcscor:use>
+									<dcscor:parameter>ЦветТекста</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">#339966</dcscor:value>
+								</dcscor:item>
+							</dcsset:appearance>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:selection/>
+							<dcsset:filter>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">ОжидаетАкцепт</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">ОжидаетПодтверждения</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Проведен</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оплачен</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">ВсеДокументыВНаличии</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+							</dcsset:filter>
+							<dcsset:appearance>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:parameter>ЦветФона</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">#CCFFFF</dcscor:value>
+								</dcscor:item>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:use>false</dcscor:use>
+									<dcscor:parameter>ЦветТекста</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">#00FF00</dcscor:value>
+								</dcscor:item>
+							</dcsset:appearance>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:selection/>
+							<dcsset:filter>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">ОжидаетАкцепт</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">ОжидаетПодтверждения</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Проведен</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Оплачен</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">ВсеДокументыВНаличии</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+								</dcsset:item>
+							</dcsset:filter>
+							<dcsset:appearance>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:parameter>ЦветФона</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">#FFFF99</dcscor:value>
+								</dcscor:item>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:use>false</dcscor:use>
+									<dcscor:parameter>ЦветТекста</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">#00FF00</dcscor:value>
+								</dcscor:item>
+							</dcsset:appearance>
+						</dcsset:item>
+						<dcsset:item>
+							<dcsset:selection/>
+							<dcsset:filter>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Ссылка.Услуги.Акцептована</dcsset:left>
+									<dcsset:comparisonType>Equal</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:boolean">false</dcsset:right>
+								</dcsset:item>
+								<dcsset:item xsi:type="dcsset:FilterItemComparison">
+									<dcsset:left xsi:type="dcscor:Field">Ссылка.Услуги.КомментарийАкцептанта</dcsset:left>
+									<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+									<dcsset:right xsi:type="xs:string"/>
+								</dcsset:item>
+							</dcsset:filter>
+							<dcsset:appearance>
+								<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+									<dcscor:parameter>ЦветФона</dcscor:parameter>
+									<dcscor:value xsi:type="v8ui:Color">style:СтатусОтклонен</dcscor:value>
+								</dcscor:item>
+							</dcsset:appearance>
+						</dcsset:item>
+						<dcsset:viewMode>Normal</dcsset:viewMode>
+						<dcsset:userSettingID>b75fecce-942b-4aed-abc9-e6a02e460fb3</dcsset:userSettingID>
+					</dcsset:conditionalAppearance>
+				</ListSettings>
+			</Settings>
+		</Attribute>
+		<Attribute name="ОтборПоПользователю" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отбор по пользователю</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>cfg:CatalogRef.Пользователи</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="АкцептированиеДоступно" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Акцептирование доступно</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоНеоплаченные" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Неоплаченные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоОплаченные" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Оплаченные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоПодтвержденные" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Подтвержденные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоНеПодтвержденные" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Не подтвержденные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоАкцептованные" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Акцептованные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоНеАкцептованные" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Не акцептованные</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоСАвансами" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>С авансами</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ОтборТолькоБезАвансов" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Без авансов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="УправлениеАкцептантами" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Управление акцептантами</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Управление акцептантами</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УправлениеАкцептантами</Action>
+		</Command>
+		<Command name="ВывестиСписокРейсов" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Список рейсов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Вывести список рейсов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ВывестиСписокРейсов</Action>
+		</Command>
+		<Command name="Комплектация" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Комплектация</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Комплектация</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>CommonPicture.СтруктураОтчета</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>Комплектация</Action>
+		</Command>
+	</Commands>
+</Form>

@@ -1,0 +1,583 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:bs="http://api.vetrf.ru/schema/cdm/base"
+		xmlns:ikar="http://api.vetrf.ru/schema/cdm/ikar"
+		xmlns:tns="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://api.vetrf.ru/schema/cdm/cerberus/enterprise"
+		elementFormDefault="qualified"
+		version="1.3">
+	<import namespace="http://api.vetrf.ru/schema/cdm/base"
+			schemaLocation="file://2.xsd"/>
+	<default:import xmlns:default="http://www.w3.org/2001/XMLSchema"
+			namespace="http://api.vetrf.ru/schema/cdm/ikar"
+			schemaLocation="file://5.xsd"/>
+	<element name="businessEntity"
+			type="tns:BusinessEntity"/>
+	<element name="businessEntityList"
+			type="tns:BusinessEntityList"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="enterpriseGuid"
+			type="bs:UUID"/>
+	<element name="enterprise"
+			type="tns:Enterprise"/>
+	<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="enterpriseList"
+			type="tns:EnterpriseList"/>
+	<element name="enterpriseGroup"
+			type="tns:EnterpriseGroup"/>
+	<complexType name="Enterprise">
+		<annotation>
+			<documentation>Тип, описывающий предприятия.
+            </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Название предприятия.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="englishName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Название предприятия на английском языке.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="type"
+							type="tns:EnterpriseType"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Тип российского предприятия.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="numberList"
+							type="tns:EnterpriseNumberList"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Список номеров предприятия.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="address"
+							type="ikar:Address"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Адрес предприятия.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="activityList"
+							type="tns:EnterpriseActivityList"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Деятельность, осуществляемая предприятием.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="owner"
+							type="tns:BusinessEntity"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>ХС-владелец.</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ActivityLocation">
+		<annotation>
+			<documentation>Место осуществления деятельности</documentation>
+		</annotation>
+		<sequence>
+			<element name="enterprise"
+					type="tns:Enterprise"
+					minOccurs="1"
+					maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="EnterpriseActivityList">
+		<annotation>
+			<documentation>Тип, описывающий список видов деятельности.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:EntityList">
+				<sequence>
+					<element name="activity"
+							type="tns:EnterpriseActivity"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="EnterpriseActivity">
+		<annotation>
+			<documentation>Вид деятельности.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericEntity">
+				<sequence>
+					<element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="Producer">
+		<default:annotation>
+			<default:documentation>Производитель продукции</default:documentation>
+		</default:annotation>
+		<default:sequence>
+			<default:element name="enterprise"
+					type="tns:Enterprise"
+					minOccurs="1"
+					maxOccurs="1"/>
+			<default:element name="role"
+					type="tns:EnterpriseRole"
+					minOccurs="0"
+					maxOccurs="1"/>
+		</default:sequence>
+	</default:complexType>
+	<complexType name="ProducerList">
+		<annotation>
+			<documentation>Тип, описывающий список производителей продукции.</documentation>
+		</annotation>
+		<sequence>
+			<element name="producer"
+					type="tns:Producer"
+					minOccurs="0"
+					maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="EnterpriseNumberList">
+		<default:annotation>
+			<default:documentation>Тип, описывающий список номеров предприятий.</default:documentation>
+		</default:annotation>
+		<default:sequence>
+			<default:element name="enterpriseNumber"
+					type="bs:String255"
+					minOccurs="0"
+					maxOccurs="unbounded"/>
+		</default:sequence>
+	</default:complexType>
+	<simpleType name="EnterpriseGroup">
+		<annotation>
+			<documentation>Тип, описывающий параметра запроса зарубежных пердприятий.
+            </documentation>
+		</annotation>
+		<restriction base="xs:integer">
+			<enumeration value="0">
+				<annotation>
+					<documentation>ALL - все предприятия.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="1">
+				<annotation>
+					<documentation>LICENSED - аттестованные предприятия.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="2">
+				<annotation>
+					<documentation>NOTLICENSED - неаттестованные предприятия.</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<simpleType name="EnterpriseType">
+		<annotation>
+			<documentation>Тип, описывающий тип российских предприятий.</documentation>
+		</annotation>
+		<restriction base="xs:integer"/>
+	</simpleType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="EnterpriseList">
+		<default:annotation>
+			<default:documentation>Тип, описывающий список предприятий.</default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:EntityList">
+				<default:sequence>
+					<default:element name="enterprise"
+							type="tns:Enterprise"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<simpleType name="EnterpriseRole">
+		<annotation>
+			<documentation>Тип, описывающий роль пердприятия.</documentation>
+		</annotation>
+		<restriction base="bs:String255">
+			<enumeration value="UNKNOWN">
+				<annotation>
+					<documentation>Роль не определена.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="PRODUCER">
+				<annotation>
+					<documentation>Является производителем продукции (в том числе выращивание).</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="SLAUGHTER_HOUSE">
+				<annotation>
+					<documentation>Бойня (мясокомбинат).</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="CUTTING_PLANT">
+				<annotation>
+					<documentation>Разделочное предприятие.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="COLD_STORE">
+				<annotation>
+					<documentation>Холодильник.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="PACKAGING_PLANT">
+				<annotation>
+					<documentation>Упаковочное предприятие.</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="BusinessMember">
+		<default:annotation>
+			<default:documentation>Тип, описывающий бизнес-сторону.</default:documentation>
+		</default:annotation>
+		<default:sequence>
+			<default:element name="businessEntity"
+					type="tns:BusinessEntity"
+					minOccurs="1"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Хозяйствующий субъект</default:documentation>
+				</default:annotation>
+			</default:element>
+			<default:element name="enterprise"
+					type="tns:Enterprise"
+					minOccurs="1"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Предприятие (площадка)</default:documentation>
+				</default:annotation>
+			</default:element>
+		</default:sequence>
+	</default:complexType>
+	<complexType name="BusinessEntity">
+		<annotation>
+			<documentation>Тип, описывающий ХС.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bs:GenericVersioningEntity">
+				<sequence>
+					<element name="type"
+							type="tns:BusinessEntityType"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Тип ХС</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Наименование хозяйствующего субъекта без ОПФ.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="incorporationForm"
+							type="tns:IncorporationForm"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Организационно-правовая форма.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="fullName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Полное наименование хозяйствующего субъекта.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="fio"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>ФИО хозяйствующего субъекта.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="passport"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Паспортные данные.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="inn"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>Идентификационный номер ХС (ИНН, БИН или ИИН).
+                            </documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="kpp"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>КПП субъекта.</default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="ogrn"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1">
+						<annotation>
+							<documentation>ОГРН(ИП) субъекта.</documentation>
+						</annotation>
+					</element>
+					<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+							name="juridicalAddress"
+							type="ikar:Address"
+							minOccurs="0"
+							maxOccurs="1">
+						<default:annotation>
+							<default:documentation>Юридический адрес или адрес регистрации ХС.
+                            </default:documentation>
+						</default:annotation>
+					</default:element>
+					<element name="activityLocation"
+							type="tns:ActivityLocation"
+							minOccurs="0"
+							maxOccurs="unbounded">
+						<annotation>
+							<documentation>Место осуществления деятельности.
+                            </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="IncorporationForm">
+		<default:annotation>
+			<default:documentation>Тип, описывающий элементы справочника ОПФ</default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:GenericEntity">
+				<default:sequence>
+					<default:element name="name"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1"/>
+					<default:element name="code"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1"/>
+					<default:element name="shortName"
+							type="bs:String255"
+							minOccurs="0"
+							maxOccurs="1"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<simpleType name="BusinessEntityType">
+		<annotation>
+			<documentation>Тип, описывающий тип ХС.</documentation>
+		</annotation>
+		<restriction base="xs:integer">
+			<enumeration value="1">
+				<annotation>
+					<documentation>JURIDICAL - юридическое лицо.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="2">
+				<annotation>
+					<documentation>PHYSICAL - физическое лицо.</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="3">
+				<annotation>
+					<documentation>SELF_EMPLOYED - индивидуальный предприниматель.</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<default:complexType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="BusinessEntityList">
+		<default:annotation>
+			<default:documentation>Тип, описывающий список ХС.</default:documentation>
+		</default:annotation>
+		<default:complexContent>
+			<default:extension base="bs:EntityList">
+				<default:sequence>
+					<default:element name="businessEntity"
+							type="tns:BusinessEntity"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</default:sequence>
+			</default:extension>
+		</default:complexContent>
+	</default:complexType>
+	<complexType name="BEModificationOperation">
+		<annotation>
+			<documentation>Операция внесения изменений в реестр ХС.</documentation>
+		</annotation>
+		<sequence>
+			<element name="type"
+					type="bs:RegisterModificationType"
+					minOccurs="1"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Тип операции</documentation>
+				</annotation>
+			</element>
+			<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+					name="affectedList"
+					type="tns:BusinessEntityList"
+					minOccurs="0"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Входящие записи для операции.</default:documentation>
+				</default:annotation>
+			</default:element>
+			<element name="resultingList"
+					type="tns:BusinessEntityList"
+					minOccurs="0"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Получаемые в результате операции записи.</documentation>
+				</annotation>
+			</element>
+			<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+					name="reason"
+					type="tns:BEModificationReason"
+					minOccurs="0"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Причина изменений записи в реестре ХС.</default:documentation>
+				</default:annotation>
+			</default:element>
+		</sequence>
+	</complexType>
+	<default:simpleType xmlns:default="http://www.w3.org/2001/XMLSchema"
+			name="BEModificationReason">
+		<default:annotation>
+			<default:documentation>Причина изменений записи в реестре ХС.</default:documentation>
+		</default:annotation>
+		<default:restriction base="default:string"/>
+	</default:simpleType>
+	<complexType name="BEActivityLocationsModificationOperation">
+		<annotation>
+			<documentation>Операция изменения связи между хозяйствующим субъектом и предприятиями.</documentation>
+		</annotation>
+		<sequence>
+			<element name="type"
+					type="bs:RegisterModificationType"
+					minOccurs="1"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Тип операции</documentation>
+				</annotation>
+			</element>
+			<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+					name="businessEntity"
+					type="tns:BusinessEntity"
+					minOccurs="1"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Хозяйствующий субъект.</default:documentation>
+				</default:annotation>
+			</default:element>
+			<element name="enterpriseList"
+					type="tns:EnterpriseList"
+					minOccurs="0"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Список предприятий, для которых должна измениться привязка к хозяйствующему субъекту.</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="ENTModificationOperation">
+		<annotation>
+			<documentation>Операция внесения изменений в реестр предприятий.</documentation>
+		</annotation>
+		<sequence>
+			<element name="type"
+					type="bs:RegisterModificationType"
+					minOccurs="1"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Тип операции</documentation>
+				</annotation>
+			</element>
+			<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+					name="affectedList"
+					type="tns:EnterpriseList"
+					minOccurs="0"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Входящие записи для операции.</default:documentation>
+				</default:annotation>
+			</default:element>
+			<element name="resultingList"
+					type="tns:EnterpriseList"
+					minOccurs="0"
+					maxOccurs="1">
+				<annotation>
+					<documentation>Получаемые в результате операции записи.</documentation>
+				</annotation>
+			</element>
+			<default:element xmlns:default="http://www.w3.org/2001/XMLSchema"
+					name="reason"
+					type="tns:ENTModificationReason"
+					minOccurs="0"
+					maxOccurs="1">
+				<default:annotation>
+					<default:documentation>Причина изменений записи в реестре предприятий.</default:documentation>
+				</default:annotation>
+			</default:element>
+		</sequence>
+	</complexType>
+	<simpleType name="ENTModificationReason">
+		<annotation>
+			<documentation>Причина изменений записи в реестре предприятий.</documentation>
+		</annotation>
+		<restriction base="xs:string"/>
+	</simpleType>
+</schema>

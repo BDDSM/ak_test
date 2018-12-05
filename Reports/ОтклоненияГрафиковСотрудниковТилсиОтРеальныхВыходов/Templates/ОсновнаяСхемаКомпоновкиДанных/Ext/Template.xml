@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Уход</dataPath>
+			<field>Уход</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Уход</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Приход</dataPath>
+			<field>Приход</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Приход</v8:content>
+				</v8:item>
+			</title>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ОтработаноДень</dataPath>
+			<field>ОтработаноДень</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отработано день</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сотрудник</dataPath>
+			<field>Сотрудник</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сотрудник</v8:content>
+				</v8:item>
+			</title>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ТорговаяТочка</dataPath>
+			<field>ТорговаяТочка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Торговая точка</v8:content>
+				</v8:item>
+			</title>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Период</dataPath>
+			<field>Период</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Период</v8:content>
+				</v8:item>
+			</title>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПоГрафику</dataPath>
+			<field>ПоГрафику</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>По графику</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Отработано</dataPath>
+			<field>Отработано</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отработано</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЕстьФото</dataPath>
+			<field>ЕстьФото</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Есть фото</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаДорожных</dataPath>
+			<field>СуммаДорожных</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Подтверждено</dataPath>
+			<field>Подтверждено</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Подтверждено</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ РАЗРЕШЕННЫЕ
+	НАЧАЛОПЕРИОДА(ОтметкиТилсиРег.Приход, ДЕНЬ) КАК Период,
+	ОтметкиТилсиРег.Сотрудник,
+	МИНИМУМ(ОтметкиТилсиРег.Приход) КАК Приход,
+	ОтметкиТилсиРег.НомерТочки,
+	МАКСИМУМ(ОтметкиТилсиРег.Уход) КАК Уход,
+	СУММА(ВЫБОР
+			КОГДА ОтметкиТилсиРег.Приход &lt;&gt; &amp;ПустаяДата
+					И ОтметкиТилсиРег.Уход &lt;&gt; &amp;ПустаяДата
+				ТОГДА ВЫРАЗИТЬ(РАЗНОСТЬДАТ(ОтметкиТилсиРег.Приход, ОтметкиТилсиРег.Уход, СЕКУНДА) / 3600 КАК ЧИСЛО(15, 2))
+			ИНАЧЕ 0
+		КОНЕЦ) КАК ОтработаноФакт,
+	МАКСИМУМ(ВЫБОР
+			КОГДА ОтметкиТилсиРег.Приход &gt; ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(ОтметкиТилсиРег.Приход, ДЕНЬ), ЧАС, 11)
+					ИЛИ ОтметкиТилсиРег.Уход &gt; ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(ОтметкиТилсиРег.Уход, ДЕНЬ), ЧАС, 11)
+				ТОГДА 1
+			КОГДА ОтметкиТилсиРег.Приход &lt; ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(ОтметкиТилсиРег.Приход, ДЕНЬ), ЧАС, 9)
+					ИЛИ ОтметкиТилсиРег.Уход &lt; ДОБАВИТЬКДАТЕ(НАЧАЛОПЕРИОДА(ОтметкиТилсиРег.Уход, ДЕНЬ), ЧАС, 9)
+				ТОГДА 0
+			ИНАЧЕ 0
+		КОНЕЦ) КАК ИндексБонуса,
+	МАКСИМУМ(ВЫБОР
+			КОГДА ОтметкиТилсиРег.МассивФото &lt;&gt; ""
+				ТОГДА ИСТИНА
+			ИНАЧЕ ЛОЖЬ
+		КОНЕЦ) КАК ЕстьФото,
+	МАКСИМУМ(ОтметкиТилсиРег.СуммаДорожных) КАК СуммаДорожных,
+	МАКСИМУМ(ОтметкиТилсиРег.Подтверждено) КАК Подтверждено
+ПОМЕСТИТЬ ВТ_ОтметкиПоТТ
+ИЗ
+	РегистрСведений.ОтметкиТилси КАК ОтметкиТилсиРег
+ГДЕ
+	ОтметкиТилсиРег.Приход МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И ОтметкиТилсиРег.Сотрудник.СотрудникТилси
+
+СГРУППИРОВАТЬ ПО
+	НАЧАЛОПЕРИОДА(ОтметкиТилсиРег.Приход, ДЕНЬ),
+	ОтметкиТилсиРег.Сотрудник,
+	ОтметкиТилсиРег.НомерТочки
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_ОтметкиПоТТ.Период,
+	ВТ_ОтметкиПоТТ.Сотрудник,
+	МИНИМУМ(ВТ_ОтметкиПоТТ.Приход) КАК Приход,
+	МАКСИМУМ(ВТ_ОтметкиПоТТ.Уход) КАК Уход,
+	МАКСИМУМ(ВТ_ОтметкиПоТТ.ИндексБонуса) КАК ИндексБонуса,
+	СУММА(ВТ_ОтметкиПоТТ.ОтработаноФакт) КАК ОтработаноФакт,
+	СтруктурныеЕдиницы.Ссылка КАК ТорговаяТочка,
+	МАКСИМУМ(ВТ_ОтметкиПоТТ.ЕстьФото) КАК ЕстьФото,
+	МАКСИМУМ(ВТ_ОтметкиПоТТ.СуммаДорожных) КАК СуммаДорожных,
+	МАКСИМУМ(ВТ_ОтметкиПоТТ.Подтверждено) КАК Подтверждено
+ПОМЕСТИТЬ ВТ_ОтработаноФакт
+ИЗ
+	ВТ_ОтметкиПоТТ КАК ВТ_ОтметкиПоТТ
+		ЛЕВОЕ СОЕДИНЕНИЕ Справочник.СтруктурныеЕдиницы КАК СтруктурныеЕдиницы
+		ПО ВТ_ОтметкиПоТТ.НомерТочки = СтруктурныеЕдиницы.НомерТочки
+
+СГРУППИРОВАТЬ ПО
+	ВТ_ОтметкиПоТТ.Период,
+	ВТ_ОтметкиПоТТ.Сотрудник,
+	СтруктурныеЕдиницы.Ссылка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ_ОтработаноФакт.Период,
+	ВТ_ОтработаноФакт.Сотрудник,
+	ВТ_ОтработаноФакт.Приход,
+	ВТ_ОтработаноФакт.Уход,
+	ВТ_ОтработаноФакт.ИндексБонуса,
+	ВТ_ОтработаноФакт.ОтработаноФакт,
+	ВЫБОР
+		КОГДА ВТ_ОтработаноФакт.Приход &lt;&gt; &amp;ПустаяДата
+				И ВТ_ОтработаноФакт.Уход &lt;&gt; &amp;ПустаяДата
+			ТОГДА ВЫРАЗИТЬ(РАЗНОСТЬДАТ(ВТ_ОтработаноФакт.Приход, ВТ_ОтработаноФакт.Уход, СЕКУНДА) / 3600 КАК ЧИСЛО(15, 2))
+		ИНАЧЕ 0
+	КОНЕЦ КАК ОтработаноДень,
+	ВТ_ОтработаноФакт.ТорговаяТочка,
+	ВТ_ОтработаноФакт.ЕстьФото,
+	ВТ_ОтработаноФакт.СуммаДорожных,
+	ВТ_ОтработаноФакт.Подтверждено
+ПОМЕСТИТЬ ВТ_ОтработаноИтог
+ИЗ
+	ВТ_ОтработаноФакт КАК ВТ_ОтработаноФакт
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ТабельРаботыТилси.Период,
+	ТабельРаботыТилси.Сотрудник,
+	ТабельРаботыТилси.ТорговаяТочка,
+	ТабельРаботыТилси.КоличествоЧасов КАК ПоГрафику
+ПОМЕСТИТЬ ВТ_ТабельработИтог
+ИЗ
+	РегистрСведений.ТабельРаботыТилси КАК ТабельРаботыТилси
+ГДЕ
+	ТабельРаботыТилси.Период МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И ТабельРаботыТилси.Сотрудник.СотрудникТилси
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ЕСТЬNULL(ВТ_ТабельработИтог.Период, ВТ_ОтработаноИтог.Период) КАК Период,
+	ЕСТЬNULL(ВТ_ТабельработИтог.Сотрудник, ВТ_ОтработаноИтог.Сотрудник) КАК Сотрудник,
+	ЕСТЬNULL(ВТ_ТабельработИтог.ТорговаяТочка, ВТ_ОтработаноИтог.ТорговаяТочка) КАК ТорговаяТочка,
+	ЕСТЬNULL(ВТ_ТабельработИтог.ПоГрафику, 0) КАК ПоГрафику,
+	ЕСТЬNULL(ВТ_ОтработаноИтог.ОтработаноФакт, 0) КАК Отработано,
+	ЕСТЬNULL(ВТ_ОтработаноИтог.ОтработаноДень, 0) КАК ОтработаноДень,
+	ЕСТЬNULL(ВТ_ОтработаноИтог.Приход, ДАТАВРЕМЯ(1, 1, 1)) КАК Приход,
+	ЕСТЬNULL(ВТ_ОтработаноИтог.Уход, ДАТАВРЕМЯ(1, 1, 1)) КАК Уход,
+	ВТ_ОтработаноИтог.ЕстьФото,
+	ЕСТЬNULL(ВТ_ОтработаноИтог.СуммаДорожных, 0) КАК СуммаДорожных,
+	ЕСТЬNULL(ВТ_ОтработаноИтог.Подтверждено, ЛОЖЬ) КАК Подтверждено
+ИЗ
+	ВТ_ОтработаноИтог КАК ВТ_ОтработаноИтог
+		ПОЛНОЕ СОЕДИНЕНИЕ ВТ_ТабельработИтог КАК ВТ_ТабельработИтог
+		ПО ВТ_ОтработаноИтог.Период = ВТ_ТабельработИтог.Период
+			И ВТ_ОтработаноИтог.ТорговаяТочка = ВТ_ТабельработИтог.ТорговаяТочка
+			И ВТ_ОтработаноИтог.Сотрудник = ВТ_ТабельработИтог.Сотрудник</query>
+	</dataSet>
+	<calculatedField>
+		<dataPath>Приход1</dataPath>
+		<expression>Приход</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Приход1</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:boolean</v8:Type>
+		</valueType>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>Уход1</dataPath>
+		<expression>Уход</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Уход1</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:boolean</v8:Type>
+		</valueType>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>СуммаДорожных1</dataPath>
+		<expression>СуммаДорожных</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Сумма дорожных1</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:decimal</v8:Type>
+			<v8:NumberQualifiers>
+				<v8:Digits>0</v8:Digits>
+				<v8:FractionDigits>0</v8:FractionDigits>
+				<v8:AllowedSign>Any</v8:AllowedSign>
+			</v8:NumberQualifiers>
+		</valueType>
+	</calculatedField>
+	<calculatedField>
+		<dataPath>Подтверждено1</dataPath>
+		<expression>Подтверждено</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Подтверждено1</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:boolean</v8:Type>
+		</valueType>
+	</calculatedField>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаНачала</expression>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаОкончания</expression>
+	</parameter>
+	<parameter>
+		<name>ПустаяДата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Пустая дата</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>v8:StandardPeriod</v8:Type>
+		</valueType>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Период</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Приход</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Уход</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПоГрафику</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Отработано</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ОтработаноДень</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаДорожных</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Подтверждено</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Приход1</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Уход1</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЕстьФото</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаДорожных1</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Подтверждено1</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:filter>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">ТорговаяТочка</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>6f84c06f-1494-4f2c-ba30-b066f875c317</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Торговая точка</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Сотрудник</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>ac79a5e8-bd10-452f-8b0f-c7a482983139</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сотрудник</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+			</dcsset:filter>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>1ca6da4e-1338-4a68-96f0-309f33cdbc25</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Период</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:order>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Период</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>Приход</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:OrderItemField">
+					<dcsset:field>ТорговаяТочка</dcsset:field>
+					<dcsset:orderType>Asc</dcsset:orderType>
+				</dcsset:item>
+			</dcsset:order>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

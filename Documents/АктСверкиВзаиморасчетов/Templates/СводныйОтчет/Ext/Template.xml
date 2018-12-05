@@ -1,0 +1,699 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Счет</dataPath>
+			<field>Счет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто1</dataPath>
+			<field>Субконто1</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто2</dataPath>
+			<field>Субконто2</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Субконто3</dataPath>
+			<field>Субконто3</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Бухгалтер</dataPath>
+			<field>Бухгалтер</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЕстьВложения</dataPath>
+			<field>ЕстьВложения</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сальдо</dataPath>
+			<field>Сальдо</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СвереноСБухгалтерией</dataPath>
+			<field>СвереноСБухгалтерией</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СверкаСогласована</dataPath>
+			<field>СверкаСогласована</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Организация</dataPath>
+			<field>Организация</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КонПредДня</dataPath>
+			<field>КонПредДня</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КонТекДня</dataPath>
+			<field>КонТекДня</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НачПредДня</dataPath>
+			<field>НачПредДня</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>НачТекДня</dataPath>
+			<field>НачТекДня</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КолвоКонтрагентов</dataPath>
+			<field>КолвоКонтрагентов</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+				<dcscom:ignoreNullValues>true</dcscom:ignoreNullValues>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КолвоУтверждено</dataPath>
+			<field>КолвоУтверждено</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ФинансовыйОстатки.Субконто1 КАК Контрагент,
+	СУММА(ФинансовыйОстатки.СуммаОстаток) КАК СуммаОстаток,
+	ВЫРАЗИТЬ(ФинансовыйОстатки.Субконто1 КАК Справочник.Контрагенты).ОсновнойБухгалтерПокупателя КАК Бухгалтер
+ПОМЕСТИТЬ ВТ_Сальдо
+ИЗ
+	РегистрБухгалтерии.Финансовый.Остатки({(&amp;ДатаКон)}, Счет В ИЕРАРХИИ (&amp;Счета), &amp;Субконто, ) КАК ФинансовыйОстатки
+
+СГРУППИРОВАТЬ ПО
+	ФинансовыйОстатки.Субконто1,
+	ВЫРАЗИТЬ(ФинансовыйОстатки.Субконто1 КАК Справочник.Контрагенты).ОсновнойБухгалтерПокупателя
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВЗ_КолвоКонтрагентов.Бухгалтер,
+	ЕСТЬNULL(ВЗ_Акты.КолвоУтверждено, 0) КАК КолвоУтверждено,
+	ЕСТЬNULL(ВЗ_КолвоКонтрагентов.КолвоКонтрагентов, 1) КАК КолвоКонтрагентов
+	//ЕСТЬNULL(ВЗ_Акты.КолвоУтверждено, 0) / ВЗ_КолвоКонтрагентов.КолвоКонтрагентов * 100 КАК ПроцентУтвержденных
+ПОМЕСТИТЬ ВТ_Проценты
+ИЗ
+	(ВЫБРАТЬ
+		ВЗ_Все.Бухгалтер КАК Бухгалтер,
+		КОЛИЧЕСТВО(РАЗЛИЧНЫЕ ВЗ_Все.Контрагент) КАК КолвоКонтрагентов
+	ИЗ
+		(ВЫБРАТЬ
+			ВТ_Сальдо.Контрагент КАК Контрагент,
+			ВТ_Сальдо.Бухгалтер КАК Бухгалтер
+		ИЗ
+			ВТ_Сальдо КАК ВТ_Сальдо
+		
+		ОБЪЕДИНИТЬ ВСЕ
+		
+		ВЫБРАТЬ
+			АктСверкиВзаиморасчетов.Контрагент,
+			АктСверкиВзаиморасчетов.Контрагент.ОсновнойБухгалтерПокупателя
+		ИЗ
+			Документ.АктСверкиВзаиморасчетов КАК АктСверкиВзаиморасчетов
+		ГДЕ
+			(АктСверкиВзаиморасчетов.ДатаНачала МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+					ИЛИ АктСверкиВзаиморасчетов.ДатаОкончания МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+					ИЛИ &amp;ДатаНачДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания
+					ИЛИ &amp;ДатаКонДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания)
+			И НЕ АктСверкиВзаиморасчетов.ПометкаУдаления) КАК ВЗ_Все
+	
+	СГРУППИРОВАТЬ ПО
+		ВЗ_Все.Бухгалтер) КАК ВЗ_КолвоКонтрагентов
+		ЛЕВОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+			АктСверкиВзаиморасчетов.Контрагент.ОсновнойБухгалтерПокупателя КАК Бухгалтер,
+			КОЛИЧЕСТВО(РАЗЛИЧНЫЕ АктСверкиВзаиморасчетов.Контрагент) КАК КолвоУтверждено
+		ИЗ
+			Документ.АктСверкиВзаиморасчетов КАК АктСверкиВзаиморасчетов
+		ГДЕ
+			(АктСверкиВзаиморасчетов.ДатаНачала МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+					ИЛИ АктСверкиВзаиморасчетов.ДатаОкончания МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+					ИЛИ &amp;ДатаНачДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания
+					ИЛИ &amp;ДатаКонДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания)
+			И АктСверкиВзаиморасчетов.СверкаСогласована
+			И НЕ АктСверкиВзаиморасчетов.ПометкаУдаления
+		
+		СГРУППИРОВАТЬ ПО
+			АктСверкиВзаиморасчетов.Контрагент.ОсновнойБухгалтерПокупателя) КАК ВЗ_Акты
+		ПО ВЗ_КолвоКонтрагентов.Бухгалтер = ВЗ_Акты.Бухгалтер
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВЗ_Полный.Контрагент,
+	ВЗ_Полный.Бухгалтер,
+	ВЗ_Полный.Сальдо,
+	ВЗ_Полный.СверкаСогласована,
+	ВЗ_Полный.СвереноСБухгалтерией,
+	ВЗ_Полный.ЕстьВложения,
+	ВТ_Проценты.КолвоУтверждено,
+	ВТ_Проценты.КолвоКонтрагентов,
+	//ВТ_Проценты.ПроцентУтвержденных,
+	&amp;НачТекДня КАК НачТекДня,
+	&amp;КонТекДня КАК КонТекДня,
+	&amp;НачПредДня КАК НачПредДня,
+	&amp;КонПредДня КАК КонПредДня
+ИЗ
+	(ВЫБРАТЬ
+		ЕСТЬNULL(ВТ_Сальдо.Контрагент, ВЗ_Акты.Контрагент) КАК Контрагент,
+		ЕСТЬNULL(ВТ_Сальдо.Бухгалтер, ВЗ_Акты.КонтрагентОсновнойБухгалтерПокупателя) КАК Бухгалтер,
+		ВТ_Сальдо.СуммаОстаток КАК Сальдо,
+		ВЗ_Акты.СверкаСогласована КАК СверкаСогласована,
+		ВЗ_Акты.СвереноСБухгалтерией КАК СвереноСБухгалтерией,
+		ВЗ_Акты.ЕстьВложения КАК ЕстьВложения
+	ИЗ
+		ВТ_Сальдо КАК ВТ_Сальдо
+			ПОЛНОЕ СОЕДИНЕНИЕ (ВЫБРАТЬ
+				АктСверкиВзаиморасчетов.Контрагент КАК Контрагент,
+				АктСверкиВзаиморасчетов.Контрагент.ОсновнойБухгалтерПокупателя КАК КонтрагентОсновнойБухгалтерПокупателя,
+				МАКСИМУМ(АктСверкиВзаиморасчетов.СверкаСогласована) КАК СверкаСогласована,
+				МАКСИМУМ(АктСверкиВзаиморасчетов.СвереноСБухгалтерией) КАК СвереноСБухгалтерией,
+				МАКСИМУМ(АктСверкиВзаиморасчетов.ЕстьВложения) КАК ЕстьВложения
+			ИЗ
+				Документ.АктСверкиВзаиморасчетов КАК АктСверкиВзаиморасчетов
+			ГДЕ
+				(АктСверкиВзаиморасчетов.ДатаНачала МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+						ИЛИ АктСверкиВзаиморасчетов.ДатаОкончания МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+						ИЛИ &amp;ДатаНачДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания
+						ИЛИ &amp;ДатаКонДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания)
+				И АктСверкиВзаиморасчетов.ПометкаУдаления = ЛОЖЬ
+			
+			СГРУППИРОВАТЬ ПО
+				АктСверкиВзаиморасчетов.Контрагент,
+				АктСверкиВзаиморасчетов.Контрагент.ОсновнойБухгалтерПокупателя) КАК ВЗ_Акты
+			ПО ВТ_Сальдо.Контрагент = ВЗ_Акты.Контрагент
+				И ВТ_Сальдо.Бухгалтер = ВЗ_Акты.КонтрагентОсновнойБухгалтерПокупателя) КАК ВЗ_Полный
+		ЛЕВОЕ СОЕДИНЕНИЕ ВТ_Проценты КАК ВТ_Проценты
+		ПО ВЗ_Полный.Бухгалтер = ВТ_Проценты.Бухгалтер</query>
+	</dataSet>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных2</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Акт</dataPath>
+			<field>Акт</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Комментарий</dataPath>
+			<field>Комментарий</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+			<useRestriction>
+				<field>true</field>
+				<condition>true</condition>
+				<group>true</group>
+				<order>true</order>
+			</useRestriction>
+			<attributeUseRestriction>
+				<field>true</field>
+				<condition>true</condition>
+				<group>true</group>
+				<order>true</order>
+			</attributeUseRestriction>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КонтрагентОсновнойБухгалтерПокупателя</dataPath>
+			<field>КонтрагентОсновнойБухгалтерПокупателя</field>
+			<useRestriction>
+				<field>true</field>
+				<condition>true</condition>
+				<group>true</group>
+				<order>true</order>
+			</useRestriction>
+			<attributeUseRestriction>
+				<field>true</field>
+				<condition>true</condition>
+				<group>true</group>
+				<order>true</order>
+			</attributeUseRestriction>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачала</dataPath>
+			<field>ДатаНачала</field>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ДФ=dd.MM.yyyy</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОкончания</dataPath>
+			<field>ДатаОкончания</field>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ДФ=dd.MM.yyyy</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаУстановкиСверено</dataPath>
+			<field>ДатаУстановкиСверено</field>
+			<appearance>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Формат</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ДФ=dd.MM.yyyy</dcscor:value>
+				</dcscor:item>
+			</appearance>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	АктСверкиВзаиморасчетов.Контрагент КАК Контрагент,
+	АктСверкиВзаиморасчетов.Контрагент.ОсновнойБухгалтерПокупателя КАК КонтрагентОсновнойБухгалтерПокупателя,
+	АктСверкиВзаиморасчетов.Ссылка КАК Акт,
+	АктСверкиВзаиморасчетов.Комментарий,
+	АктСверкиВзаиморасчетов.ДатаНачала,
+	АктСверкиВзаиморасчетов.ДатаОкончания,
+	АктСверкиВзаиморасчетов.ДатаУстановкиСверено
+ИЗ
+	Документ.АктСверкиВзаиморасчетов КАК АктСверкиВзаиморасчетов
+ГДЕ
+	(АктСверкиВзаиморасчетов.ДатаНачала МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+			ИЛИ АктСверкиВзаиморасчетов.ДатаОкончания МЕЖДУ &amp;ДатаНачДата И &amp;ДатаКонДата
+			ИЛИ &amp;ДатаНачДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания
+			ИЛИ &amp;ДатаКонДата МЕЖДУ АктСверкиВзаиморасчетов.ДатаНачала И АктСверкиВзаиморасчетов.ДатаОкончания)
+	И АктСверкиВзаиморасчетов.ПометкаУдаления = ЛОЖЬ</query>
+	</dataSet>
+	<dataSetLink>
+		<sourceDataSet>НаборДанных1</sourceDataSet>
+		<destinationDataSet>НаборДанных2</destinationDataSet>
+		<sourceExpression>Контрагент</sourceExpression>
+		<destinationExpression>Контрагент</destinationExpression>
+	</dataSetLink>
+	<dataSetLink>
+		<sourceDataSet>НаборДанных1</sourceDataSet>
+		<destinationDataSet>НаборДанных2</destinationDataSet>
+		<sourceExpression>Бухгалтер</sourceExpression>
+		<destinationExpression>КонтрагентОсновнойБухгалтерПокупателя</destinationExpression>
+	</dataSetLink>
+	<calculatedField>
+		<dataPath>ПроцентУтвержденных</dataPath>
+		<expression>КолвоУтверждено * 100 / КолвоКонтрагентов</expression>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Процент утвержденных</v8:content>
+			</v8:item>
+		</title>
+		<appearance>
+			<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+				<dcscor:parameter>Формат</dcscor:parameter>
+				<dcscor:value xsi:type="xs:string">ЧДЦ=2</dcscor:value>
+			</dcscor:item>
+		</appearance>
+	</calculatedField>
+	<totalField>
+		<dataPath>Сальдо</dataPath>
+		<expression>Сумма(Сальдо)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>СвереноСБухгалтерией</dataPath>
+		<expression>Максимум(СвереноСБухгалтерией)</expression>
+		<group>Контрагент</group>
+	</totalField>
+	<totalField>
+		<dataPath>СверкаСогласована</dataPath>
+		<expression>Максимум(СверкаСогласована)</expression>
+		<group>Контрагент</group>
+	</totalField>
+	<totalField>
+		<dataPath>ЕстьВложения</dataPath>
+		<expression>Максимум(ЕстьВложения)</expression>
+		<group>Контрагент</group>
+	</totalField>
+	<totalField>
+		<dataPath>ПроцентУтвержденных</dataPath>
+		<expression>Максимум(ПроцентУтвержденных)</expression>
+		<group>Бухгалтер</group>
+	</totalField>
+	<totalField>
+		<dataPath>ПроцентУтвержденных</dataPath>
+		<expression>ВЫЧИСЛИТЬ("Сумма(КолвоУтверждено)", "ОбщийИтог") * 100 / ВЫЧИСЛИТЬ("Сумма(КолвоКонтрагентов)", "ОбщийИтог")</expression>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>КолвоУтверждено</dataPath>
+		<expression>Сумма(КолвоУтверждено)</expression>
+		<group>Бухгалтер</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>КолвоКонтрагентов</dataPath>
+		<expression>Сумма(КолвоКонтрагентов)</expression>
+		<group>Бухгалтер</group>
+		<group>ОбщийИтог</group>
+	</totalField>
+	<totalField>
+		<dataPath>ЕстьВложения</dataPath>
+		<expression>Выбор когда ВЫЧИСЛИТЬВыражение("Количество(ЕстьВложения)", "Бухгалтер") = 0 тогда "Нет актов."  Иначе Выразить(ВЫЧИСЛИТЬВыражение("Сумма(Выбор когда ЕстьВложения тогда 1 иначе 0 конец)", "Бухгалтер")*100/ВЫЧИСЛИТЬВыражение("Количество(ЕстьВложения)", "Бухгалтер"),"Число(15,2)") конец</expression>
+		<group>Бухгалтер</group>
+	</totalField>
+	<parameter>
+		<name>ДатаКон</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата кон</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Субконто</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Субконто</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:ChartOfCharacteristicTypesRef.ВидыСубконто</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">ПланВидовХарактеристик.ВидыСубконто.Контрагенты</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Счета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Счета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:ChartOfAccountsRef.Финансовый</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.РасчетыСПоставщикамиИПодрядчиками</value>
+		<value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.РасчетыСПокупателями</value>
+		<value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.РасчетыСПрочимиДебиторамиИКредиторами</value>
+		<useRestriction>false</useRestriction>
+		<valueListAllowed>true</valueListAllowed>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>ДатаКонДата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата кон дата</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>ДатаНачДата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата нач дата</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>КонПредДня</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Кон пред дня</v8:content>
+			</v8:item>
+		</title>
+		<value xsi:nil="true"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>КонТекДня</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Кон тек дня</v8:content>
+			</v8:item>
+		</title>
+		<value xsi:nil="true"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>НачПредДня</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Нач пред дня</v8:content>
+			</v8:item>
+		</title>
+		<value xsi:nil="true"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>НачТекДня</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Нач тек дня</v8:content>
+			</v8:item>
+		</title>
+		<value xsi:nil="true"/>
+		<useRestriction>true</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Бухгалтер</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Контрагент</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЕстьВложения</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СвереноСБухгалтерией</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СверкаСогласована</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПроцентУтвержденных</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сальдо</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Субконто</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DesignTimeValue">ПланВидовХарактеристик.ВидыСубконто.Контрагенты</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>Счета</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.РасчетыСПоставщикамиИПодрядчиками</dcscor:value>
+					<dcscor:value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.РасчетыСПокупателями</dcscor:value>
+					<dcscor:value xsi:type="dcscor:DesignTimeValue">ПланСчетов.Финансовый.РасчетыСПрочимиДебиторамиИКредиторами</dcscor:value>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:conditionalAppearance>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>ДатаУстановкиСверено</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ДатаУстановкиСверено</dcsset:left>
+							<dcsset:comparisonType>GreaterOrEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:Field">НачТекДня</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ДатаУстановкиСверено</dcsset:left>
+							<dcsset:comparisonType>LessOrEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:Field">КонТекДня</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#C8FFC8</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+				<dcsset:item>
+					<dcsset:selection>
+						<dcsset:item>
+							<dcsset:field>ДатаУстановкиСверено</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:filter>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ДатаУстановкиСверено</dcsset:left>
+							<dcsset:comparisonType>GreaterOrEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:Field">НачПредДня</dcsset:right>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:FilterItemComparison">
+							<dcsset:left xsi:type="dcscor:Field">ДатаУстановкиСверено</dcsset:left>
+							<dcsset:comparisonType>LessOrEqual</dcsset:comparisonType>
+							<dcsset:right xsi:type="dcscor:Field">КонПредДня</dcsset:right>
+						</dcsset:item>
+					</dcsset:filter>
+					<dcsset:appearance>
+						<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+							<dcscor:parameter>ЦветФона</dcscor:parameter>
+							<dcscor:value xsi:type="v8ui:Color">#EEFF3F</dcscor:value>
+						</dcscor:item>
+					</dcsset:appearance>
+				</dcsset:item>
+			</dcsset:conditionalAppearance>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьПараметрыДанных</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">Output</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьОтбор</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">Output</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Бухгалтер</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+						<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+						<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+					</dcsset:item>
+				</dcsset:groupItems>
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>Бухгалтер</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ЕстьВложения</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>ПроцентУтвержденных</dcsset:field>
+					</dcsset:item>
+					<dcsset:item xsi:type="dcsset:SelectedItemField">
+						<dcsset:field>Сальдо</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:conditionalAppearance>
+					<dcsset:item>
+						<dcsset:selection>
+							<dcsset:item>
+								<dcsset:field>ЕстьВложения</dcsset:field>
+							</dcsset:item>
+						</dcsset:selection>
+						<dcsset:filter/>
+						<dcsset:appearance>
+							<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+								<dcscor:parameter>ГоризонтальноеПоложение</dcscor:parameter>
+								<dcscor:value xsi:type="v8ui:HorizontalAlign">Right</dcscor:value>
+							</dcscor:item>
+							<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+								<dcscor:parameter>Формат</dcscor:parameter>
+								<dcscor:value xsi:type="v8:LocalStringType">
+									<v8:item>
+										<v8:lang>ru</v8:lang>
+										<v8:content>ЧДЦ=2; ЧН=</v8:content>
+									</v8:item>
+								</dcscor:value>
+							</dcscor:item>
+						</dcsset:appearance>
+					</dcsset:item>
+				</dcsset:conditionalAppearance>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:groupItems>
+						<dcsset:item xsi:type="dcsset:GroupItemField">
+							<dcsset:field>Контрагент</dcsset:field>
+							<dcsset:groupType>Items</dcsset:groupType>
+							<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+							<dcsset:periodAdditionBegin xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionBegin>
+							<dcsset:periodAdditionEnd xsi:type="xs:dateTime">0001-01-01T00:00:00</dcsset:periodAdditionEnd>
+						</dcsset:item>
+					</dcsset:groupItems>
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>Контрагент</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>ЕстьВложения</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>СвереноСБухгалтерией</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>СверкаСогласована</dcsset:field>
+						</dcsset:item>
+						<dcsset:item xsi:type="dcsset:SelectedItemField">
+							<dcsset:field>Сальдо</dcsset:field>
+						</dcsset:item>
+					</dcsset:selection>
+					<dcsset:item xsi:type="dcsset:StructureItemGroup">
+						<dcsset:order>
+							<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+						</dcsset:order>
+						<dcsset:selection>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>Акт</dcsset:field>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>Комментарий</dcsset:field>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>ДатаНачала</dcsset:field>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>ДатаОкончания</dcsset:field>
+							</dcsset:item>
+							<dcsset:item xsi:type="dcsset:SelectedItemField">
+								<dcsset:field>ДатаУстановкиСверено</dcsset:field>
+							</dcsset:item>
+						</dcsset:selection>
+					</dcsset:item>
+				</dcsset:item>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>

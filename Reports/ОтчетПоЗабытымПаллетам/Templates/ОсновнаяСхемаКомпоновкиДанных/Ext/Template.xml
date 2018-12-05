@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>Выручка</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ВремяВыходаВРейс</dataPath>
+			<field>ВремяВыходаВРейс</field>
+			<inputParameters>
+				<dcscor:item>
+					<dcscor:parameter>ФорматРедактирования</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">ДФ=HH:mm</dcscor:value>
+				</dcscor:item>
+			</inputParameters>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Документ</dataPath>
+			<field>Документ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДокументСклад</dataPath>
+			<field>ДокументСклад</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Склад</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КолвоСетокВПоставке</dataPath>
+			<field>КолвоСетокВПоставке</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сетки</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Маршрут</dataPath>
+			<field>Маршрут</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Маршрут</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Паллет</dataPath>
+			<field>Паллет</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Период</dataPath>
+			<field>Период</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сборщик</dataPath>
+			<field>Сборщик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Статус</dataPath>
+			<field>Статус</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СтруктурнаяЕдиница</dataPath>
+			<field>СтруктурнаяЕдиница</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Кладовщик</dataPath>
+			<field>Кладовщик</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЗабыто</dataPath>
+			<field>КоличествоЗабыто</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ПаллетИД</dataPath>
+			<field>ПаллетИД</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут,
+	МаршрутныйЛистРасходныеОрдера.Документ.Получатель КАК СтруктурнаяЕдиница,
+	МаршрутныйЛистТорговыеТочки.ПоставкаВСетках КАК КолвоСетокВПоставке,
+	МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут.ПланируемоеВремяВыездаПоМаршруту КАК ВремяВыходаВРейс,
+	МаршрутныйЛистРасходныеОрдера.Документ КАК Документ,
+	МаршрутныйЛистРасходныеОрдера.Документ.Сборщик КАК Сборщик,
+	МаршрутныйЛистРасходныеОрдера.Документ.Склад,
+	СоставПаллеты.Ссылка КАК Паллет
+ПОМЕСТИТЬ втДоки
+ИЗ
+	Документ.МаршрутныйЛист.РасходныеОрдера КАК МаршрутныйЛистРасходныеОрдера
+		ЛЕВОЕ СОЕДИНЕНИЕ Справочник.Маршруты.ТорговыеТочки КАК МаршрутныйЛистТорговыеТочки
+		ПО МаршрутныйЛистРасходныеОрдера.Ссылка.Маршрут = МаршрутныйЛистТорговыеТочки.Ссылка
+			И МаршрутныйЛистРасходныеОрдера.Документ.Получатель = МаршрутныйЛистТорговыеТочки.СтруктурнаяЕдиница
+		ЛЕВОЕ СОЕДИНЕНИЕ Справочник.СоставПаллеты КАК СоставПаллеты
+		ПО МаршрутныйЛистРасходныеОрдера.Документ = СоставПаллеты.РасходныйОрдер
+ГДЕ
+	МаршрутныйЛистРасходныеОрдера.Ссылка.ПометкаУдаления = ЛОЖЬ
+	И МаршрутныйЛистРасходныеОрдера.Ссылка.Дата МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
+	И МаршрутныйЛистРасходныеОрдера.Документ.Статус &lt;&gt; ЗНАЧЕНИЕ(Перечисление.СтатусыРасходныхОрдеров.Отменен)
+	И МаршрутныйЛистРасходныеОрдера.Документ.Склад.Владелец = &amp;Склад
+	И (МаршрутныйЛистРасходныеОрдера.Документ.Получатель = &amp;ТТ
+			ИЛИ &amp;ТТ = ЗНАЧЕНИЕ(Справочник.СтруктурныеЕдиницы.ПустаяСсылка)
+			ИЛИ &amp;ТТ = НЕОПРЕДЕЛЕНО)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	СканированныеПаллеты.Ордер,
+	СканированныеПаллеты.Статус,
+	МАКСИМУМ(СканированныеПаллеты.Период) КАК Период,
+	ЕСТЬNULL(СканированныеПаллеты1.ФизЛицо, СканированныеПаллеты2.ФизЛицо) КАК ФизЛицо
+ПОМЕСТИТЬ втСтатусыРасходников
+ИЗ
+	РегистрСведений.СканированныеПаллеты КАК СканированныеПаллеты
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СканированныеПаллеты КАК СканированныеПаллеты1
+		ПО СканированныеПаллеты.Ордер = СканированныеПаллеты1.Ордер
+			И (СканированныеПаллеты1.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.НаДебаркадере))
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.СканированныеПаллеты КАК СканированныеПаллеты2
+		ПО СканированныеПаллеты.Ордер = СканированныеПаллеты2.Ордер
+			И (СканированныеПаллеты1.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.ВодительПринял))
+ГДЕ
+	СканированныеПаллеты.Паллет В
+			(ВЫБРАТЬ
+				втДоки.Паллет
+			ИЗ
+				втДоки)
+
+СГРУППИРОВАТЬ ПО
+	СканированныеПаллеты.Ордер,
+	СканированныеПаллеты.Статус,
+	ЕСТЬNULL(СканированныеПаллеты1.ФизЛицо, СканированныеПаллеты2.ФизЛицо)
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	втДоки.Маршрут,
+	втДоки.СтруктурнаяЕдиница КАК СтруктурнаяЕдиница,
+	втДоки.КолвоСетокВПоставке,
+	втДоки.ВремяВыходаВРейс КАК ВремяВыходаВРейс,
+	втДоки.Документ КАК Документ,
+	втДоки.Сборщик,
+	втДоки.ДокументСклад КАК ДокументСклад,
+	ЕСТЬNULL(втСтатусыРасходников.Статус, ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.ВСборке)) КАК Статус,
+	втСтатусыРасходников.Период КАК Период,
+	втСтатусыРасходников.ФизЛицо КАК Кладовщик,
+	СУММА(СканированныеПаллетыСрезПоследних.КоличествоЗабыто) КАК КоличествоЗабыто,
+	СканированныеПаллетыСрезПоследних.Паллет КАК Паллет,
+	СканированныеПаллетыСрезПоследних.Паллет.ИД
+ИЗ
+	втДоки КАК втДоки
+		ЛЕВОЕ СОЕДИНЕНИЕ втСтатусыРасходников КАК втСтатусыРасходников
+		ПО втДоки.Документ = втСтатусыРасходников.Ордер
+		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрСведений.СканированныеПаллеты.СрезПоследних(
+				&amp;КонецПериода,
+				Паллет В
+					(ВЫБРАТЬ
+						втДоки.Паллет
+					ИЗ
+						втДоки)) КАК СканированныеПаллетыСрезПоследних
+		ПО втДоки.Паллет = СканированныеПаллетыСрезПоследних.Паллет
+			И (СканированныеПаллетыСрезПоследних.Статус = ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.НаДебаркадере))
+			И (СканированныеПаллетыСрезПоследних.КоличествоЗабыто &gt; 0)
+
+СГРУППИРОВАТЬ ПО
+	втДоки.Маршрут,
+	втДоки.СтруктурнаяЕдиница,
+	втДоки.КолвоСетокВПоставке,
+	втДоки.ВремяВыходаВРейс,
+	втДоки.Документ,
+	втДоки.Сборщик,
+	втДоки.ДокументСклад,
+	втДоки.Паллет.ИД,
+	ЕСТЬNULL(втСтатусыРасходников.Статус, ЗНАЧЕНИЕ(Перечисление.СтатусПаллета.ВСборке)),
+	втСтатусыРасходников.ФизЛицо,
+	СканированныеПаллетыСрезПоследних.Паллет,
+	втСтатусыРасходников.Период
+
+УПОРЯДОЧИТЬ ПО
+	ВремяВыходаВРейс,
+	СтруктурнаяЕдиница,
+	ДокументСклад,
+	Документ</query>
+	</dataSet>
+	<totalField>
+		<dataPath>КоличествоЗабыто</dataPath>
+		<expression>Сумма(КоличествоЗабыто)</expression>
+	</totalField>
+	<parameter>
+		<name>НачалоПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начало периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>КонецПериода</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Конец периода</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+		<expression>КонецПериода(&amp;КонецПериода,"День")</expression>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Склад</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Склад</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>ТТ</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>ТТ</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+		<use>Always</use>
+	</parameter>
+	<parameter>
+		<name>Период</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Период</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Маршрут</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СтруктурнаяЕдиница</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДокументСклад</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Документ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Паллет</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПаллетИД</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоЗабыто</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>НачалоПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>cb342724-8a78-4d8b-a94b-54cb97ff8445</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="xs:string">НачалоПериода</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>КонецПериода</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>671b4970-273d-482f-9a8b-0a868568dbbb</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="xs:string">КонецПериода</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Склад</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>62c7046d-9ef8-4b51-9177-1dbb3f53a247</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="xs:string">Склад</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ТТ</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string"/>
+					<dcsset:userSettingID>9fc468ab-0496-4358-98e0-ae48057bb5c4</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ТТ</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>РасположениеРеквизитов</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionAttributesPlacement">Separately</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ГоризонтальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВертикальноеРасположениеОбщихИтогов</dcscor:parameter>
+					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьПараметрыДанных</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">DontOutput</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>ВыводитьОтбор</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionTextOutputType">DontOutput</dcscor:value>
+				</dcscor:item>
+			</dcsset:outputParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>
