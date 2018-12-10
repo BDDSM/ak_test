@@ -1131,7 +1131,6 @@
 			|AND Email not in (SELECT number FROM [srv-sql03].Telegram.dbo.outbox_MP with (nolock)
 			|WHERE type_distribusion = " + ПараметрКоманды.ТипРассылкиЧислом + " and date_message > DATEADD(day, -" + Строка(ПараметрКоманды.Частота) +  ", GETDATE())
 			|GROUP by number)";
-
 		КонецЕсли;
 		
 		Если ПараметрКоманды.Свойство("ТипРассылки") и (ЗначениеЗаполнено(ПараметрКоманды.ТипРассылки))тогда
@@ -1139,7 +1138,6 @@
 			"
 			|AND Email IN (select number as НомерКарты
 			|FROM [srv-sql03].[vv03].[dbo].[Cards_Settings] with (nolock) where " + ПараметрКоманды.ТипРассылки + " = 1)";
-
 		КонецЕсли;			
 		
 		ЗапросSQL = ЗапросSQL + УсловиеБота;
@@ -1266,7 +1264,7 @@
 				|	DiscountCard.DiscountCardUID,
 				|	DiscountCard.Number
 				|FROM
-				|	[Loyalty].[dbo].[DiscountCard] AS DiscountCard
+				|	[Loyalty].[dbo].[DiscountCard] AS DiscountCard with (nolock)
 				|WHERE
 				|	DiscountCard.Number IN(" + СписокНомеровКартДляSQLЗапроса + ")
 				|";
@@ -2736,7 +2734,7 @@
 					|	Buyers.Фамилия AS Фамилия,
 					|	Buyers.SMS_karta_no AS НеРассылатьПокупкуПоКарте,
 					|	Buyers.MobilCarta AS УслугаМобильнаяКартаВключена
-					|FROM [Loyalty].[dbo].[Customer] AS Buyers
+					|FROM [Loyalty].[dbo].[Customer] AS Buyers WITH(NOLOCK)
 					|";
 		
 		ЗапросSQL = ЗапросSQL + СтрокаУсловий;
@@ -2767,7 +2765,7 @@
 					|	dbo_CheckLine.CashCheckLineNo AS НомерСтроки,
 					|	dbo_CheckLine.ManufacturerID AS ИД_Производитель,
 					|	dbo_Checks.BONUSCARD AS НомерКарты
-					|FROM [SMS_Izbenka].[dbo].[Checks] AS dbo_Checks FULL JOIN [SMS_Izbenka].[dbo].[CheckLine] AS dbo_CheckLine
+					|FROM [SMS_Izbenka].[dbo].[Checks] AS dbo_Checks WITH(NOLOCK) FULL JOIN [SMS_Izbenka].[dbo].[CheckLine] AS dbo_CheckLine WITH(NOLOCK)
 					|	ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 					|";
 		
@@ -2791,7 +2789,7 @@
 					|	dbo_CheckLine.Discount AS СуммаСкидкиПоСтроке,
 					|	dbo_CheckLine.CashCheckLineNo AS НомерСтроки,
 					|	dbo_Checks.BONUSCARD AS НомерКарты
-					|FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks FULL JOIN [SMS_Union].[dbo].[CheckLine] AS dbo_CheckLine
+					|FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks WITH(NOLOCK) FULL JOIN [SMS_Union].[dbo].[CheckLine] AS dbo_CheckLine WITH(NOLOCK)
 					|	ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 					|";
 		
@@ -2826,7 +2824,7 @@
 		|	dbo_CheckLine.CashCheckLineNo AS НомерСтроки,
 		|	dbo_CheckLine.ManufacturerID AS ИД_Производитель,
 		|	dbo_Checks.BONUSCARD AS НомерКарты
-		|FROM [SMS_Izbenka].[dbo].[Checks] AS dbo_Checks FULL JOIN [SMS_Izbenka].[dbo].[CheckLine] AS dbo_CheckLine
+		|FROM [SMS_Izbenka].[dbo].[Checks] AS dbo_Checks (nolock)  FULL JOIN [SMS_Izbenka].[dbo].[CheckLine] AS dbo_CheckLine (nolock) 
 		|	ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 		|WHERE dbo_Checks.OperationType = 1
 		|		AND ISNULL(dbo_Checks.BONUSCARD, '') <> ''
@@ -2849,7 +2847,7 @@
 		|	dbo_CheckLine.CashCheckLineNo AS НомерСтроки,
 		|	dbo_CheckLine.id_kontr AS ИД_Производитель,
 		|	dbo_Checks.BONUSCARD AS НомерКарты
-		|FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks FULL JOIN [SMS_Union].[dbo].[CheckLine] AS dbo_CheckLine
+		|FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks (nolock)  FULL JOIN [SMS_Union].[dbo].[CheckLine AS dbo_CheckLine (nolock) 
 		|	ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 		|WHERE ISNULL(dbo_Checks.BONUSCARD, '') <> ''
 		|		AND dbo_Checks.OpenDate BETWEEN " + "'" + Формат(НачПериода, "ДФ=гггг-ММ-дд") + "T" + Формат(НачПериода, "ДФ=ЧЧ:мм:сс") + "'" + " AND " +
@@ -4561,7 +4559,7 @@
 	|SUM(dbo_Checks.BaseSum) AS СуммаОплатыВсегоПоЧеку,
 	|SUM(dbo_CheckLine.BaseSum) AS СуммаВсегоПоСтроке,
 	|dbo_Checks.BONUSCARD AS НомерКарты
-	|FROM [SMS_Union].[dbo].[Checks] (nolock) AS dbo_Checks FULL JOIN [SMS_Union].[dbo].[CheckLine](nolock) AS dbo_CheckLine
+	|FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks (nolock) FULL JOIN [SMS_Union].[dbo].[CheckLine] AS dbo_CheckLine (nolock) 
 	|ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 	|WHERE ISNULL(dbo_Checks.BONUSCARD, '') <> ''
     |		AND dbo_Checks.OpenDate BETWEEN " + "'" + Формат(НачПериода, "ДФ=гггг-ММ-дд") + "T" + Формат(НачПериода, "ДФ=ЧЧ:мм:сс") + "'" + " AND " +
@@ -4733,7 +4731,7 @@
 	|		dbo_Checks.BONUSCARD AS НомерКарты, 
 	|		SUM(dbo_Checks.BaseSum) AS СуммаВсего,
 	|		0 AS СуммаПоРегиону
-	|	FROM [SMS_Union].[dbo].[Checks] (nolock) AS dbo_Checks FULL JOIN [SMS_Union].[dbo].[CheckLine](nolock) AS dbo_CheckLine
+	|	FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks with (nolock) FULL JOIN [SMS_Union].[dbo].[CheckLine] AS dbo_CheckLine with (nolock) 
 	|		ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 	|WHERE ISNULL(dbo_Checks.BONUSCARD, '') <> ''
     |		AND dbo_Checks.OpenDate BETWEEN " + "'" + Формат(НачПериода, "ДФ=гггг-ММ-дд") + "T" + Формат(НачПериода, "ДФ=ЧЧ:мм:сс") + "'" + " AND " +
@@ -4746,7 +4744,7 @@
 	|		dbo_Checks.BONUSCARD AS НомерКарты,
 	|		0 AS СуммаВсего, 
 	|		SUM(dbo_Checks.BaseSum) AS СуммаПоРегиону
-	|	FROM [SMS_Union].[dbo].[Checks] (nolock) AS dbo_Checks FULL JOIN [SMS_Union].[dbo].[CheckLine](nolock) AS dbo_CheckLine
+	|	FROM [SMS_Union].[dbo].[Checks] AS dbo_Checks with (nolock) FULL JOIN [SMS_Union].[dbo].[CheckLine] AS dbo_CheckLine with (nolock)
 	|		ON dbo_Checks.CheckUID = dbo_CheckLine.CheckUID
 	|WHERE ISNULL(dbo_Checks.BONUSCARD, '') <> ''
     |		AND dbo_Checks.OpenDate BETWEEN " + "'" + Формат(НачПериода, "ДФ=гггг-ММ-дд") + "T" + Формат(НачПериода, "ДФ=ЧЧ:мм:сс") + "'" + " AND " +
