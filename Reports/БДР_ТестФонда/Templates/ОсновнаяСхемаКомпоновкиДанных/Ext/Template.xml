@@ -9,6 +9,12 @@
 		<field xsi:type="DataSetFieldField">
 			<dataPath>Счет</dataPath>
 			<field>Счет</field>
+			<useRestriction>
+				<condition>true</condition>
+			</useRestriction>
+			<attributeUseRestriction>
+				<condition>true</condition>
+			</attributeUseRestriction>
 		</field>
 		<field xsi:type="DataSetFieldField">
 			<dataPath>КорСчет</dataPath>
@@ -19029,7 +19035,13 @@
 			ТОГДА ИСТИНА
 		ИНАЧЕ ЛОЖЬ
 	КОНЕЦ,
-	ИСТИНА
+	ВЫБОР
+		КОГДА Таблица.Субконто2.Код = "31020"
+				ИЛИ Таблица.Субконто2.Код = "31021"
+				ИЛИ Таблица.Субконто2.Код = "31022"
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ
 ИЗ
 	РегистрБухгалтерии.Финансовый.Обороты(
 			&amp;НачалоПериода,
@@ -19212,6 +19224,13 @@
 		КОГДА Таблица.Субконто2.Родитель = &amp;СтатьиДР_ГруппаСебестоимость
 			ТОГДА ИСТИНА
 		ИНАЧЕ ЛОЖЬ
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА Таблица.Субконто2.Код = "31020"
+				ИЛИ Таблица.Субконто2.Код = "31021"
+				ИЛИ Таблица.Субконто2.Код = "31022"
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
 	КОНЕЦ
 
 ОБЪЕДИНИТЬ ВСЕ
@@ -19280,7 +19299,13 @@
 			ТОГДА ИСТИНА
 		ИНАЧЕ ЛОЖЬ
 	КОНЕЦ,
-	ИСТИНА
+	ВЫБОР
+		КОГДА Таблица.Субконто2.Код = "31020"
+				ИЛИ Таблица.Субконто2.Код = "31021"
+				ИЛИ Таблица.Субконто2.Код = "31022"
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
+	КОНЕЦ
 ИЗ
 	РегистрБухгалтерии.Финансовый.Обороты(
 			&amp;НачалоПериода,
@@ -19379,6 +19404,13 @@
 		КОГДА Таблица.Субконто2.Родитель = &amp;СтатьиДР_ГруппаСебестоимость
 			ТОГДА ИСТИНА
 		ИНАЧЕ ЛОЖЬ
+	КОНЕЦ,
+	ВЫБОР
+		КОГДА Таблица.Субконто2.Код = "31020"
+				ИЛИ Таблица.Субконто2.Код = "31021"
+				ИЛИ Таблица.Субконто2.Код = "31022"
+			ТОГДА ЛОЖЬ
+		ИНАЧЕ ИСТИНА
 	КОНЕЦ
 
 ОБЪЕДИНИТЬ ВСЕ
@@ -23037,7 +23069,10 @@
 	(ТЗ.Статья_ДляСоединения = &amp;СтатьиДР_РасходыНаДисконтирование
 			ИЛИ ТЗ.Статья_ДляСоединения = &amp;СтатьиДР_ПроцентыУплаченные
 			ИЛИ ТЗ.Статья_ДляСоединения = &amp;СтатьиДР_ПроцентыПолученные
-			ИЛИ ТЗ.Статья_ДляСоединения = &amp;СтатьиДР_ДоходыОтНачислениеПроцентовНаДисконтированиеДепозитов)
+			ИЛИ ТЗ.Статья_ДляСоединения = &amp;СтатьиДР_ДоходыОтНачислениеПроцентовНаДисконтированиеДепозитов
+			ИЛИ ТЗ.Статья_ДляСоединения.Код = "31020"
+			ИЛИ ТЗ.Статья_ДляСоединения.Код = "31021"
+			ИЛИ ТЗ.Статья_ДляСоединения.Код = "31022")
 {ГДЕ
 	("13") КАК Код,
 	("EBITDA") КАК ГруппаУр1,
@@ -23384,12 +23419,11 @@
 			<title xsi:type="v8:LocalStringType">
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Счет_</v8:content>
+					<v8:content>Счет</v8:content>
 				</v8:item>
 			</title>
 			<useRestriction>
 				<field>true</field>
-				<condition>true</condition>
 				<group>true</group>
 				<order>true</order>
 			</useRestriction>
@@ -23423,6 +23457,12 @@
 		<field xsi:type="DataSetFieldField">
 			<dataPath>Счет</dataPath>
 			<field>Счет</field>
+			<useRestriction>
+				<condition>true</condition>
+			</useRestriction>
+			<attributeUseRestriction>
+				<condition>true</condition>
+			</attributeUseRestriction>
 		</field>
 		<field xsi:type="DataSetFieldField">
 			<dataPath>КорСчет</dataPath>
@@ -24174,6 +24214,12 @@
 		<field xsi:type="DataSetFieldField">
 			<dataPath>Счет</dataPath>
 			<field>Счет</field>
+			<useRestriction>
+				<condition>true</condition>
+			</useRestriction>
+			<attributeUseRestriction>
+				<condition>true</condition>
+			</attributeUseRestriction>
 		</field>
 		<field xsi:type="DataSetFieldField">
 			<dataPath>КорСчет</dataPath>
