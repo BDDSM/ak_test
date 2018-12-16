@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Номенклатура</dataPath>
+			<field>Номенклатура</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоОжидаемоеПоступление</dataPath>
+			<field>КоличествоОжидаемоеПоступление</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Количество ожидаемое поступление</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоРезерв</dataPath>
+			<field>КоличествоРезерв</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Количество резерв</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоОстаток</dataPath>
+			<field>КоличествоОстаток</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоЗаказ</dataPath>
+			<field>КоличествоЗаказ</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Количество заказ</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоПлан</dataPath>
+			<field>КоличествоПлан</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Количество план</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Ок</dataPath>
+			<field>Ок</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Проверка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>PLU</dataPath>
+			<field>PLU</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>PLU</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>КоличествоРО</dataPath>
+			<field>КоличествоРО</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Количество РО</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	ПланыПродажПоДнямНедели.Номенклатура,
+	ПланыПродажПоДнямНедели.Количество КАК КоличествоПлан,
+	0 КАК КоличествоРезерв,
+	0 КАК КоличествоОжидаемоеПоступление,
+	0 КАК КоличествоЗаказ,
+	0 КАК КоличествоОстаток,
+	0 КАК КоличествоРО
+ПОМЕСТИТЬ ВТ
+ИЗ
+	РегистрСведений.ПланыПродажПоДнямНедели КАК ПланыПродажПоДнямНедели
+ГДЕ
+	ПланыПродажПоДнямНедели.Дата = НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(&amp;Дата, ДЕНЬ, 1), ДЕНЬ)
+	И ПланыПродажПоДнямНедели.ТорговаяТочка = &amp;ТорговаяТочка
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ТоварыНаСкладахОстатки.Номенклатура,
+	0,
+	ТоварыНаСкладахОстатки.КоличествоОстаток,
+	0,
+	0,
+	0,
+	0
+ИЗ
+	РегистрНакопления.ТоварыНаСкладах.Остатки(КОНЕЦПЕРИОДА(&amp;Дата, ДЕНЬ), Склад = &amp;СкладРезерва) КАК ТоварыНаСкладахОстатки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ПриходныйОрдерСкладТовары.Номенклатура,
+	0,
+	0,
+	ПриходныйОрдерСкладТовары.Количество,
+	0,
+	0,
+	0
+ИЗ
+	Документ.ПриходныйОрдерСклад.Товары КАК ПриходныйОрдерСкладТовары
+ГДЕ
+	ПриходныйОрдерСкладТовары.Ссылка.Дата МЕЖДУ НАЧАЛОПЕРИОДА(&amp;Дата, ДЕНЬ) И КОНЕЦПЕРИОДА(&amp;Дата, ДЕНЬ)
+	И ПриходныйОрдерСкладТовары.Ссылка.ОжидаемыйПриход = ИСТИНА
+	И ПриходныйОрдерСкладТовары.Ссылка.Проведен = ИСТИНА
+	И ПриходныйОрдерСкладТовары.Ссылка.Склад = &amp;Склад
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ВебЗаказПокупателяТовары.Номенклатура,
+	0,
+	0,
+	0,
+	ВебЗаказПокупателяТовары.Количество,
+	0,
+	0
+ИЗ
+	Документ.ВебЗаказПокупателя.Товары КАК ВебЗаказПокупателяТовары
+ГДЕ
+	ВебЗаказПокупателяТовары.Ссылка.Дата МЕЖДУ НАЧАЛОПЕРИОДА(&amp;Дата, ДЕНЬ) И КОНЕЦПЕРИОДА(&amp;Дата, ДЕНЬ)
+	И ВебЗаказПокупателяТовары.Ссылка.ТорговаяТочка = &amp;ТорговаяТочка
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	ТоварыНаСкладахОстатки.Номенклатура,
+	0,
+	0,
+	0,
+	0,
+	ТоварыНаСкладахОстатки.КоличествоОстаток,
+	0
+ИЗ
+	РегистрНакопления.ТоварыНаСкладах.Остатки(КОНЕЦПЕРИОДА(&amp;Дата, ДЕНЬ), Склад = &amp;Склад) КАК ТоварыНаСкладахОстатки
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	РасходныйОрдерСкладТовары.Номенклатура,
+	0,
+	0,
+	0,
+	0,
+	0,
+	РасходныйОрдерСкладТовары.Количество
+ИЗ
+	Документ.РасходныйОрдерСклад.Товары КАК РасходныйОрдерСкладТовары
+ГДЕ
+	РасходныйОрдерСкладТовары.Ссылка.Дата МЕЖДУ НАЧАЛОПЕРИОДА(ДОБАВИТЬКДАТЕ(&amp;Дата, ДЕНЬ, 1), ДЕНЬ) И КОНЕЦПЕРИОДА(ДОБАВИТЬКДАТЕ(&amp;Дата, ДЕНЬ, 1), ДЕНЬ)
+	И РасходныйОрдерСкладТовары.Ссылка.Проведен = ИСТИНА
+	И РасходныйОрдерСкладТовары.Ссылка.Получатель = &amp;ТорговаяТочка
+;
+
+////////////////////////////////////////////////////////////////////////////////
+ВЫБРАТЬ
+	ВТ.Номенклатура КАК Номенклатура,
+	СУММА(ВТ.КоличествоПлан) КАК КоличествоПлан,
+	СУММА(ВТ.КоличествоРезерв) КАК КоличествоРезерв,
+	СУММА(ВТ.КоличествоОжидаемоеПоступление) КАК КоличествоОжидаемоеПоступление,
+	СУММА(ВТ.КоличествоЗаказ) КАК КоличествоЗаказ,
+	СУММА(ВТ.КоличествоОстаток) КАК КоличествоОстаток,
+	СУММА(ВТ.КоличествоРО) КАК КоличествоРО,
+	МАКСИМУМ(ЕСТЬNULL(ВТ.КоличествоЗаказ, 0) &lt;= ЕСТЬNULL(ВТ.КоличествоРезерв, 0)
+			И НЕ ВТ.КоличествоЗаказ ЕСТЬ NULL) КАК Ок,
+	МАКСИМУМ(КонтурEDI_СоответствияТоваров.КодТовараПартнера) КАК PLU
+{ВЫБРАТЬ
+	Номенклатура.*,
+	КоличествоПлан,
+	КоличествоРезерв,
+	КоличествоОжидаемоеПоступление,
+	КоличествоЗаказ,
+	КоличествоОстаток,
+	КоличествоРО,
+	Ок,
+	PLU}
+ИЗ
+	ВТ КАК ВТ
+		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.КонтурEDI_СоответствияТоваров КАК КонтурEDI_СоответствияТоваров
+		ПО ВТ.Номенклатура = КонтурEDI_СоответствияТоваров.Номенклатура
+ГДЕ
+	КонтурEDI_СоответствияТоваров.ХарактеристикаНоменклатуры.Неактивная = ЛОЖЬ
+
+СГРУППИРОВАТЬ ПО
+	ВТ.Номенклатура</query>
+		<autoFillFields>false</autoFillFields>
+	</dataSet>
+	<parameter>
+		<name>Дата</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Дата</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type>xs:dateTime</v8:Type>
+			<v8:DateQualifiers>
+				<v8:DateFractions>DateTime</v8:DateFractions>
+			</v8:DateQualifiers>
+		</valueType>
+		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>СкладРезерва</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Склад резерва</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.Склады</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ТорговаяТочка</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Торговая точка</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<parameter>
+		<name>Склад</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Склад</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.Склады</v8:Type>
+		</valueType>
+		<value xsi:nil="true"/>
+		<useRestriction>false</useRestriction>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:userFields>
+				<dcsset:item xsi:type="dcsset:UserFieldExpression">
+					<dcsset:dataPath>ПользовательскиеПоля.Поле1</dcsset:dataPath>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Проверка</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+					<dcsset:detailExpression>Выбор
+	Когда КоличествоРезерв &gt;= КоличествоЗаказ
+		Тогда "ОК"
+	Иначе "-"
+Конец</dcsset:detailExpression>
+					<dcsset:detailExpressionPresentation>Выбор
+	Когда [Количество резерв] &gt;= [Количество заказ]
+		Тогда "ОК"
+	Иначе "-"
+Конец</dcsset:detailExpressionPresentation>
+					<dcsset:totalExpression/>
+					<dcsset:totalExpressionPresentation/>
+				</dcsset:item>
+			</dcsset:userFields>
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Номенклатура</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>PLU</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ПользовательскиеПоля.Поле1</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоПлан</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоРезерв</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоОжидаемоеПоступление</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоЗаказ</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоОстаток</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>КоличествоРО</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:dataParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Дата</dcscor:parameter>
+					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
+					<dcsset:userSettingID>5d6bb24b-7bf5-419a-8d79-7afc3001959b</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>СкладРезерва</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>d70b6b83-eda7-42f6-b5ec-856308ccb4c7</dcsset:userSettingID>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>ТорговаяТочка</dcscor:parameter>
+					<dcscor:value xsi:nil="true"/>
+					<dcsset:userSettingID>0ee1b7bc-d09c-409d-a3f0-cb650095d5f8</dcsset:userSettingID>
+				</dcscor:item>
+			</dcsset:dataParameters>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>
