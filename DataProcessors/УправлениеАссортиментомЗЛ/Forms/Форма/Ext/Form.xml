@@ -59,6 +59,18 @@
 								</Picture>
 								<ExtendedTooltip name="МагазиныОчиститьВыборМагазиновРасширеннаяПодсказка" id="93"/>
 							</Button>
+							<Button name="МагазиныСортироватьСписокПоВозрастанию" id="101">
+								<Type>CommandBarButton</Type>
+								<OnlyInAllActions>true</OnlyInAllActions>
+								<CommandName>Form.Item.Магазины.StandardCommand.SortListAsc</CommandName>
+								<ExtendedTooltip name="МагазиныСортироватьСписокПоВозрастаниюРасширеннаяПодсказка" id="102"/>
+							</Button>
+							<Button name="МагазиныСортироватьСписокПоУбыванию" id="103">
+								<Type>CommandBarButton</Type>
+								<OnlyInAllActions>true</OnlyInAllActions>
+								<CommandName>Form.Item.Магазины.StandardCommand.SortListDesc</CommandName>
+								<ExtendedTooltip name="МагазиныСортироватьСписокПоУбываниюРасширеннаяПодсказка" id="104"/>
+							</Button>
 							<Popup name="ТипРозничнойТочки" id="70">
 								<Title>
 									<v8:item>
@@ -199,7 +211,27 @@
 					<DataPath>Объект.Товары</DataPath>
 					<RowFilter xsi:nil="true"/>
 					<ContextMenu name="ТоварыКонтекстноеМеню" id="39"/>
-					<AutoCommandBar name="ТоварыКоманднаяПанель" id="40"/>
+					<AutoCommandBar name="ТоварыКоманднаяПанель" id="40">
+						<ChildItems>
+							<Button name="ТоварыУстановитьПериод" id="105">
+								<Type>CommandBarButton</Type>
+								<CommandName>Form.Command.УстановитьПериод</CommandName>
+								<ExtendedTooltip name="ТоварыУстановитьПериодРасширеннаяПодсказка" id="106"/>
+							</Button>
+							<Button name="ТоварыКопироватьАссортимент" id="107">
+								<Type>CommandBarButton</Type>
+								<OnlyInAllActions>true</OnlyInAllActions>
+								<CommandName>Form.Command.КопироватьАссортимент</CommandName>
+								<ExtendedTooltip name="ТоварыКопироватьАссортиментРасширеннаяПодсказка" id="108"/>
+							</Button>
+							<Button name="ТоварыЗаполнитьПоФормату" id="109">
+								<Type>CommandBarButton</Type>
+								<OnlyInAllActions>true</OnlyInAllActions>
+								<CommandName>Form.Command.ЗаполнитьПоФормату</CommandName>
+								<ExtendedTooltip name="ТоварыЗаполнитьПоФорматуРасширеннаяПодсказка" id="110"/>
+							</Button>
+						</ChildItems>
+					</AutoCommandBar>
 					<ExtendedTooltip name="ТоварыРасширеннаяПодсказка" id="41"/>
 					<SearchStringAddition name="ТоварыСтрокаПоиска" id="42">
 						<AdditionSource>
@@ -249,11 +281,18 @@
 										<Value xsi:type="xs:boolean">false</Value>
 									</app:value>
 								</app:item>
+								<app:item name="Отбор.ВидНоменклатуры">
+									<app:value xsi:type="FormChoiceListDesTimeValue">
+										<Presentation/>
+										<Value xsi:type="xr:DesignTimeRef">Enum.ВидыНоменклатуры.EnumValue.Товар</Value>
+									</app:value>
+								</app:item>
 							</ChoiceParameters>
 							<ContextMenu name="ТоварыНоменклатураКонтекстноеМеню" id="55"/>
 							<ExtendedTooltip name="ТоварыНоменклатураРасширеннаяПодсказка" id="56"/>
 							<Events>
 								<Event name="OnChange">ТоварыНоменклатураПриИзменении</Event>
+								<Event name="StartChoice">ТоварыНоменклатураНачалоВыбора</Event>
 							</Events>
 						</InputField>
 						<InputField name="ТоварыХарактеристика" id="84">
@@ -444,6 +483,51 @@
 					<v8:content>Все форматы</v8:content>
 				</v8:item>
 			</ToolTip>
+		</Command>
+		<Command name="УстановитьПериод" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить период</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Установить период</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>УстановитьПериод</Action>
+		</Command>
+		<Command name="КопироватьАссортимент" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Копировать ассортимент</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Копировать ассортимент</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>КопироватьАссортимент</Action>
+		</Command>
+		<Command name="ЗаполнитьПоФормату" id="12">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить по формату</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить по формату</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗаполнитьПоФормату</Action>
 		</Command>
 	</Commands>
 </Form>
