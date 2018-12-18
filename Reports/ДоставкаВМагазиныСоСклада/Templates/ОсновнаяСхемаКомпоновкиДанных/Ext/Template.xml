@@ -149,28 +149,20 @@
 					<v8:content>Склад</v8:content>
 				</v8:item>
 			</title>
-			<valueType>
-				<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
-			</valueType>
-			<inputParameters>
-				<dcscor:item>
-					<dcscor:parameter>ФормаВыбора</dcscor:parameter>
-					<dcscor:value xsi:type="xs:string">Справочник.СтруктурныеЕдиницы.Форма.ФормаВыбораСкладов</dcscor:value>
-				</dcscor:item>
-			</inputParameters>
 		</field>
 		<field xsi:type="DataSetFieldField">
 			<dataPath>ЦФО</dataPath>
 			<field>ЦФО</field>
-			<valueType>
-				<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
-			</valueType>
-			<inputParameters>
-				<dcscor:item>
-					<dcscor:parameter>ФормаВыбора</dcscor:parameter>
-					<dcscor:value xsi:type="xs:string">Справочник.СтруктурныеЕдиницы.Форма.ФормаВыбораЦФО</dcscor:value>
-				</dcscor:item>
-			</inputParameters>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаЗавершенияПогрузки</dataPath>
+			<field>ДатаЗавершенияПогрузки</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дата завершения погрузки</v8:content>
+				</v8:item>
+			</title>
 		</field>
 		<dataSource>ИсточникДанных1</dataSource>
 		<query>ВЫБРАТЬ
@@ -709,7 +701,8 @@
 	КОНЕЦ КАК ПоздноВышлаПоследняяПаллета,
 	втИтог.МаршЛист0 КАК МаршЛист,
 	втИтог.МаршЛист0.СтруктурноеПодразделение КАК Склад,
-	ЦФОСтруктурныхЕдиницСрезПоследних.ЦФО
+	ЦФОСтруктурныхЕдиницСрезПоследних.ЦФО,
+	втИтог.МаршЛист0.ДатаЗавершенияПогрузки ДатаЗавершенияПогрузки
 ИЗ
 	втИтог КАК втИтог
 		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ЦФОСтруктурныхЕдиниц.СрезПоследних(&amp;КонецПериода, ) КАК ЦФОСтруктурныхЕдиницСрезПоследних
@@ -728,7 +721,7 @@
 		<title xsi:type="v8:LocalStringType">
 			<v8:item>
 				<v8:lang>ru</v8:lang>
-				<v8:content>Начало периода</v8:content>
+				<v8:content>День</v8:content>
 			</v8:item>
 		</title>
 		<valueType>
@@ -738,7 +731,8 @@
 			</v8:DateQualifiers>
 		</valueType>
 		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
-		<useRestriction>false</useRestriction>
+		<useRestriction>true</useRestriction>
+		<expression>&amp;Период.ДатаНачала</expression>
 		<use>Always</use>
 	</parameter>
 	<parameter>
@@ -756,8 +750,8 @@
 			</v8:DateQualifiers>
 		</valueType>
 		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
-		<useRestriction>false</useRestriction>
-		<expression>КонецПериода(&amp;КонецПериода,"День")</expression>
+		<useRestriction>true</useRestriction>
+		<expression>КонецПериода(&amp;Период.ДатаОкончания,"День")</expression>
 		<use>Always</use>
 	</parameter>
 	<parameter>
@@ -769,13 +763,14 @@
 			</v8:item>
 		</title>
 		<valueType>
-			<v8:Type>xs:dateTime</v8:Type>
-			<v8:DateQualifiers>
-				<v8:DateFractions>DateTime</v8:DateFractions>
-			</v8:DateQualifiers>
+			<v8:Type>v8:StandardPeriod</v8:Type>
 		</valueType>
-		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
-		<useRestriction>true</useRestriction>
+		<value xsi:type="v8:StandardPeriod">
+			<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+			<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+			<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+		</value>
+		<useRestriction>false</useRestriction>
 	</parameter>
 	<parameter>
 		<name>Пользователь</name>
@@ -805,21 +800,6 @@
 		<value xsi:type="xs:boolean">false</value>
 		<useRestriction>true</useRestriction>
 	</parameter>
-	<parameter>
-		<name>ТипСтрЕд</name>
-		<title xsi:type="v8:LocalStringType">
-			<v8:item>
-				<v8:lang>ru</v8:lang>
-				<v8:content>Тип стр ед</v8:content>
-			</v8:item>
-		</title>
-		<valueType>
-			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:EnumRef.ТипыСтруктурныхЕдиниц</v8:Type>
-		</valueType>
-		<value xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыСтруктурныхЕдиниц.Подразделение</value>
-		<useRestriction>true</useRestriction>
-		<use>Always</use>
-	</parameter>
 	<settingsVariant>
 		<dcsset:name>Основной</dcsset:name>
 		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
@@ -845,6 +825,9 @@
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
 					<dcsset:field>ПериодПередачиПоследнейПаллеты</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ДатаЗавершенияПогрузки</dcsset:field>
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
 					<dcsset:field>ПериодВыездаСоСклада</dcsset:field>
@@ -943,7 +926,7 @@
 					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Начало периода</v8:content>
+							<v8:content>Дата</v8:content>
 						</v8:item>
 					</dcsset:userSettingPresentation>
 				</dcscor:item>
@@ -952,12 +935,17 @@
 					<dcscor:parameter>КонецПериода</dcscor:parameter>
 					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
 					<dcsset:userSettingID>671b4970-273d-482f-9a8b-0a868568dbbb</dcsset:userSettingID>
-					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Конец периода</v8:content>
-						</v8:item>
-					</dcsset:userSettingPresentation>
+					<dcsset:userSettingPresentation xsi:type="xs:string">КонецПериода</dcsset:userSettingPresentation>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:use>false</dcscor:use>
+					<dcscor:parameter>Период</dcscor:parameter>
+					<dcscor:value xsi:type="v8:StandardPeriod">
+						<v8:variant xsi:type="v8:StandardPeriodVariant">Custom</v8:variant>
+						<v8:startDate>0001-01-01T00:00:00</v8:startDate>
+						<v8:endDate>0001-01-01T00:00:00</v8:endDate>
+					</dcscor:value>
+					<dcsset:userSettingID>9533ffc2-2177-4ea0-8ff1-05571d953dbf</dcsset:userSettingID>
 				</dcscor:item>
 			</dcsset:dataParameters>
 			<dcsset:order>
