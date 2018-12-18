@@ -149,10 +149,28 @@
 					<v8:content>Склад</v8:content>
 				</v8:item>
 			</title>
+			<valueType>
+				<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</valueType>
+			<inputParameters>
+				<dcscor:item>
+					<dcscor:parameter>ФормаВыбора</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">Справочник.СтруктурныеЕдиницы.Форма.ФормаВыбораСкладов</dcscor:value>
+				</dcscor:item>
+			</inputParameters>
 		</field>
 		<field xsi:type="DataSetFieldField">
 			<dataPath>ЦФО</dataPath>
 			<field>ЦФО</field>
+			<valueType>
+				<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:CatalogRef.СтруктурныеЕдиницы</v8:Type>
+			</valueType>
+			<inputParameters>
+				<dcscor:item>
+					<dcscor:parameter>ФормаВыбора</dcscor:parameter>
+					<dcscor:value xsi:type="xs:string">Справочник.СтруктурныеЕдиницы.Форма.ФормаВыбораЦФО</dcscor:value>
+				</dcscor:item>
+			</inputParameters>
 		</field>
 		<dataSource>ИсточникДанных1</dataSource>
 		<query>ВЫБРАТЬ
@@ -710,7 +728,7 @@
 		<title xsi:type="v8:LocalStringType">
 			<v8:item>
 				<v8:lang>ru</v8:lang>
-				<v8:content>День</v8:content>
+				<v8:content>Начало периода</v8:content>
 			</v8:item>
 		</title>
 		<valueType>
@@ -738,8 +756,8 @@
 			</v8:DateQualifiers>
 		</valueType>
 		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
-		<useRestriction>true</useRestriction>
-		<expression>КонецПериода(&amp;НачалоПериода,"День")</expression>
+		<useRestriction>false</useRestriction>
+		<expression>КонецПериода(&amp;КонецПериода,"День")</expression>
 		<use>Always</use>
 	</parameter>
 	<parameter>
@@ -786,6 +804,21 @@
 		</valueType>
 		<value xsi:type="xs:boolean">false</value>
 		<useRestriction>true</useRestriction>
+	</parameter>
+	<parameter>
+		<name>ТипСтрЕд</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Тип стр ед</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:EnumRef.ТипыСтруктурныхЕдиниц</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">Перечисление.ТипыСтруктурныхЕдиниц.Подразделение</value>
+		<useRestriction>true</useRestriction>
+		<use>Always</use>
 	</parameter>
 	<settingsVariant>
 		<dcsset:name>Основной</dcsset:name>
@@ -910,7 +943,7 @@
 					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Дата</v8:content>
+							<v8:content>Начало периода</v8:content>
 						</v8:item>
 					</dcsset:userSettingPresentation>
 				</dcscor:item>
@@ -919,7 +952,12 @@
 					<dcscor:parameter>КонецПериода</dcscor:parameter>
 					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
 					<dcsset:userSettingID>671b4970-273d-482f-9a8b-0a868568dbbb</dcsset:userSettingID>
-					<dcsset:userSettingPresentation xsi:type="xs:string">КонецПериода</dcsset:userSettingPresentation>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Конец периода</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
 				</dcscor:item>
 			</dcsset:dataParameters>
 			<dcsset:order>
