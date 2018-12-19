@@ -81,14 +81,15 @@
 		|	tt.N AS ShopNo,
 		|	ar.id_tov,
 		|	ar.id_kontr,
-		|	ar.q_zakaz AS Пришло
+		|	ar.q_raspr AS Пришло
 		|FROM [M2].[dbo].[archive_rasp] ar (NOLOCK)
 		|	INNER JOIN M2..Raspr_zadanie AS rz With (NOLOCK)
 		|	ON ar.number_r = rz.Number_r
 		|	INNER JOIN M2..tt tt (NOLOCK)
 		|	ON ar.id_tt = tt.id_TT
 		|where
-		|	isNULL([q_zakaz], 0) > 0
+		|	isNULL(ar.q_zakaz, 0) > 0
+		|	AND isNULL(ar.q_raspr, 0) > 0
 		|	" + УсловиеОтбораSQL2 + "
 		|	" + СтрЗаменить(УсловиеОтбораSQL, "Date_proizv", "rz.Date_r") + "
 		|";
