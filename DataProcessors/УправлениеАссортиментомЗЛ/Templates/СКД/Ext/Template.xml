@@ -128,6 +128,43 @@
 		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
 		<useRestriction>true</useRestriction>
 	</parameter>
+	<template>
+		<name>Макет1</name>
+		<template xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template" xsi:type="dcsat:AreaTemplate">
+			<dcsat:item xsi:type="dcsat:TableRow">
+				<dcsat:tableCell>
+					<dcsat:item xsi:type="dcsat:Field">
+						<dcsat:value xsi:type="dcscor:Parameter">Статус</dcsat:value>
+					</dcsat:item>
+					<dcsat:appearance>
+						<dcscor:item>
+							<dcscor:parameter>Расшифровка</dcscor:parameter>
+							<dcscor:value xsi:type="dcscor:Parameter">СтрРасш</dcscor:value>
+						</dcscor:item>
+					</dcsat:appearance>
+				</dcsat:tableCell>
+			</dcsat:item>
+		</template>
+		<parameter xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template" xsi:type="dcsat:ExpressionAreaTemplateParameter">
+			<dcsat:name>Статус</dcsat:name>
+			<dcsat:expression>Статус</dcsat:expression>
+		</parameter>
+		<parameter xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template" xsi:type="dcsat:DetailsAreaTemplateParameter">
+			<dcsat:name>СтрРасш</dcsat:name>
+			<dcsat:fieldExpression>
+				<dcsat:field>Магазин</dcsat:field>
+				<dcsat:expression>Магазин</dcsat:expression>
+			</dcsat:fieldExpression>
+			<dcsat:fieldExpression>
+				<dcsat:field>Номенклатура</dcsat:field>
+				<dcsat:expression>Номенклатура</dcsat:expression>
+			</dcsat:fieldExpression>
+		</parameter>
+	</template>
+	<fieldTemplate>
+		<field>Статус</field>
+		<template>Макет1</template>
+	</fieldTemplate>
 	<settingsVariant>
 		<dcsset:name>Основной</dcsset:name>
 		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
@@ -135,6 +172,33 @@
 			<dcsset:selection>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
 					<dcsset:field>Магазин</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Магазин.СтатусТорговойТочки</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Статус</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Магазин.ТипРозничнойТочки</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Магазин.ФорматРозничнойТочки</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Формат</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
 					<dcsset:field>Номенклатура</dcsset:field>
@@ -155,6 +219,18 @@
 					<dcsset:left xsi:type="dcscor:Field">Номенклатура</dcsset:left>
 					<dcsset:comparisonType>Equal</dcsset:comparisonType>
 					<dcsset:userSettingID>f140ca21-b1b2-4f87-af67-aa2a96d9295e</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Магазин.ФорматРозничнойТочки</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>6807f796-c5d3-45ee-a29b-a878cb2b7ca7</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Магазин.СтатусТорговойТочки</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>744465ae-b4be-4ec3-bb6e-0a29bfc22cc3</dcsset:userSettingID>
 				</dcsset:item>
 			</dcsset:filter>
 			<dcsset:dataParameters>
@@ -234,6 +310,14 @@
 				</dcsset:item>
 			</dcsset:conditionalAppearance>
 			<dcsset:outputParameters>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>РасположениеПолейГруппировки</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionGroupFieldsPlacement">Separately</dcscor:value>
+				</dcscor:item>
+				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+					<dcscor:parameter>РасположениеРеквизитов</dcscor:parameter>
+					<dcscor:value xsi:type="dcsset:DataCompositionAttributesPlacement">Separately</dcscor:value>
+				</dcscor:item>
 				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
 					<dcscor:parameter>ГоризонтальноеРасположениеОбщихИтогов</dcscor:parameter>
 					<dcscor:value xsi:type="dcscor:DataCompositionTotalPlacement">None</dcscor:value>
