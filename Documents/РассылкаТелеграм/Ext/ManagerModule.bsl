@@ -217,7 +217,7 @@
 	|	INNER JOIN SMS_UNION..Checks AS ch WITH (NOLOCK)
 	|		ON ch.CheckUID = cd.CheckUID
 	|WHERE ch.CloseDate BETWEEN CONVERT(date, DATEADD(DAY, -1, GETDATE())) AND CONVERT(date, GETDATE())
-	|	AND ch.BONUSCARD <> 0   
+	|	AND ch.BONUSCARD <> ''   
 	|	AND cd.OperatorDeliveryID IN (1,2,4)  /*1(H) - Инстамарт, 2(S) - Сейвтайм, 4(G) - Го Лама Го*/)Orders
 	|
 	|SELECT 
