@@ -36,6 +36,10 @@
 				</v8:item>
 			</title>
 		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Характеристика</dataPath>
+			<field>Характеристика</field>
+		</field>
 		<dataSource>ИсточникДанных1</dataSource>
 		<query>ВЫБРАТЬ
 	Номенклатура.Ссылка
@@ -73,17 +77,19 @@
 ВЫБРАТЬ
 	ВТ_НоменклатураМагазинов.Номенклатура,
 	ВТ_НоменклатураМагазинов.Магазин,
-	ВЫБОР КОГДА ТоварныйАссортиментТочекСрезПоследних.Выведена ЕСТЬ NULL ТОГДА
-		"Нет записи в регистре"
-	КОГДА ТоварныйАссортиментТочекСрезПоследних.Запрещена = ИСТИНА ТОГДА
-		"Запрещена"
-	КОГДА ТоварныйАссортиментТочекСрезПоследних.Выведена = ИСТИНА ТОГДА
-		"Выведена"
-	КОГДА ТоварныйАссортиментТочекСрезПоследних.Выведена = ЛОЖЬ И ТоварныйАссортиментТочекСрезПоследних.Запрещена = ЛОЖЬ ТОГДА	
-		"Заведена"
-	ИНАЧЕ
-		"Прочее"	
-	КОНЕЦ КАК Статус
+	ВЫБОР
+		КОГДА ТоварныйАссортиментТочекСрезПоследних.Выведена ЕСТЬ NULL
+			ТОГДА "Нет записи в регистре"
+		КОГДА ТоварныйАссортиментТочекСрезПоследних.Запрещена = ИСТИНА
+			ТОГДА "Запрещена"
+		КОГДА ТоварныйАссортиментТочекСрезПоследних.Выведена = ИСТИНА
+			ТОГДА "Выведена"
+		КОГДА ТоварныйАссортиментТочекСрезПоследних.Выведена = ЛОЖЬ
+				И ТоварныйАссортиментТочекСрезПоследних.Запрещена = ЛОЖЬ
+			ТОГДА "Заведена"
+		ИНАЧЕ "Прочее"
+	КОНЕЦ КАК Статус,
+	ТоварныйАссортиментТочекСрезПоследних.Характеристика
 ИЗ
 	ВТ_НоменклатураМагазинов КАК ВТ_НоменклатураМагазинов
 		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.ТоварныйАссортиментТочек.СрезПоследних(&amp;ДатаОтчета, ) КАК ТоварныйАссортиментТочекСрезПоследних
@@ -93,6 +99,10 @@
 	<totalField>
 		<dataPath>Статус</dataPath>
 		<expression>Максимум(Статус)</expression>
+	</totalField>
+	<totalField>
+		<dataPath>Характеристика</dataPath>
+		<expression>Максимум(Характеристика)</expression>
 	</totalField>
 	<parameter>
 		<name>Период</name>
@@ -161,9 +171,46 @@
 			</dcsat:fieldExpression>
 		</parameter>
 	</template>
+	<template>
+		<name>Макет2</name>
+		<template xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template" xsi:type="dcsat:AreaTemplate">
+			<dcsat:item xsi:type="dcsat:TableRow">
+				<dcsat:tableCell>
+					<dcsat:item xsi:type="dcsat:Field">
+						<dcsat:value xsi:type="dcscor:Parameter">Характеристика</dcsat:value>
+					</dcsat:item>
+					<dcsat:appearance>
+						<dcscor:item>
+							<dcscor:parameter>Расшифровка</dcscor:parameter>
+							<dcscor:value xsi:type="dcscor:Parameter">СтрРасш</dcscor:value>
+						</dcscor:item>
+					</dcsat:appearance>
+				</dcsat:tableCell>
+			</dcsat:item>
+		</template>
+		<parameter xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template" xsi:type="dcsat:ExpressionAreaTemplateParameter">
+			<dcsat:name>Характеристика</dcsat:name>
+			<dcsat:expression>Представление(Характеристика)</dcsat:expression>
+		</parameter>
+		<parameter xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template" xsi:type="dcsat:DetailsAreaTemplateParameter">
+			<dcsat:name>СтрРасш</dcsat:name>
+			<dcsat:fieldExpression>
+				<dcsat:field>Магазин</dcsat:field>
+				<dcsat:expression>Магазин</dcsat:expression>
+			</dcsat:fieldExpression>
+			<dcsat:fieldExpression>
+				<dcsat:field>Номенклатура</dcsat:field>
+				<dcsat:expression>Номенклатура</dcsat:expression>
+			</dcsat:fieldExpression>
+		</parameter>
+	</template>
 	<fieldTemplate>
 		<field>Статус</field>
 		<template>Макет1</template>
+	</fieldTemplate>
+	<fieldTemplate>
+		<field>Характеристика</field>
+		<template>Макет2</template>
 	</fieldTemplate>
 	<settingsVariant>
 		<dcsset:name>Основной</dcsset:name>
@@ -205,6 +252,9 @@
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
 					<dcsset:field>Статус</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Характеристика</dcsset:field>
 				</dcsset:item>
 			</dcsset:selection>
 			<dcsset:filter>
@@ -253,6 +303,25 @@
 						<v8:item>
 							<v8:lang>ru</v8:lang>
 							<v8:content>Тип</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Характеристика</dcsset:left>
+					<dcsset:comparisonType>Equal</dcsset:comparisonType>
+					<dcsset:userSettingID>f53cf482-d80c-4c56-8bb9-6b4abd076452</dcsset:userSettingID>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:FilterItemComparison">
+					<dcsset:use>false</dcsset:use>
+					<dcsset:left xsi:type="dcscor:Field">Статус</dcsset:left>
+					<dcsset:comparisonType>Contains</dcsset:comparisonType>
+					<dcsset:right xsi:type="xs:string"/>
+					<dcsset:userSettingID>8f059a76-065e-4de2-9dcd-5493f0ca9679</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Статус номенклатуры</v8:content>
 						</v8:item>
 					</dcsset:userSettingPresentation>
 				</dcsset:item>
